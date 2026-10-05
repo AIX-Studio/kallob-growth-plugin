@@ -1,8 +1,8 @@
 {
   "id": "image-studio",
-  "version": "1.0.2",
-  "buildId": "89da6fd-muvctsxy",
-  "requiresCore": ">=1.1.0 <2",
+  "version": "1.1.0",
+  "buildId": "f900ed0-muvk1qcz",
+  "requiresCore": ">=2.0.0 <3",
   "exports": {},
   "requires": {},
   "client": {

@@ -1,6 +1,6 @@
 {
   "name": "kallob-business-ai-engine-packs",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "Run Kallob Business AI engines from the Kallob Cloud engine library on your own local workspace.",
   "author": {
     "name": "AIX Studio / Kallob"

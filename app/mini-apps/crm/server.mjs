@@ -9,13 +9,18 @@ function defineMiniApp(module) {
 // src/mini-apps/crm/manifest.ts
 var manifest = {
   id: "crm",
-  version: "1.1.0",
-  requiresCore: ">=1.4.0 <2",
+  version: "1.2.0",
+  requiresCore: ">=2.0.0 <3",
   exports: { "crm.customers": "1.0" }
 };
 
 // src/mini-apps/crm/release-notes.json
 var release_notes_default = [
+  {
+    version: "1.2.0",
+    vi: "Ch\u1EA1y tr\xEAn Growth Studio 0.21: \u0111\u01B0\u1EE3c c\xE0i c\xF9ng l\xFAc khi Growth Studio c\u1EADp nh\u1EADt, kh\xF4ng ph\u1EA3i ch\u1EDD t\u1EA3i th\xEAm.",
+    en: "Runs on Growth Studio 0.21: installed together with Growth Studio updates, with no extra download afterwards."
+  },
   {
     version: "1.1.0",
     vi: "Mini CRM gi\u1EDD l\xE0 m\u1ED9t mini-app ri\xEAng, t\u1EF1 c\u1EADp nh\u1EADt m\xE0 kh\xF4ng c\u1EA7n c\u1EADp nh\u1EADt c\u1EA3 Growth Studio. M\u1EE5c S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5 m\u1EDF th\u1EB3ng Brand Profile.",

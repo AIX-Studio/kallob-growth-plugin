@@ -9,12 +9,17 @@ function defineMiniApp(module) {
 // src/mini-apps/image-studio/manifest.ts
 var manifest = {
   id: "image-studio",
-  version: "1.0.2",
-  requiresCore: ">=1.1.0 <2"
+  version: "1.1.0",
+  requiresCore: ">=2.0.0 <3"
 };
 
 // src/mini-apps/image-studio/release-notes.json
 var release_notes_default = [
+  {
+    version: "1.1.0",
+    vi: "Ch\u1EA1y tr\xEAn Growth Studio 0.21: \u0111\u01B0\u1EE3c c\xE0i c\xF9ng l\xFAc khi Growth Studio c\u1EADp nh\u1EADt, kh\xF4ng ph\u1EA3i ch\u1EDD t\u1EA3i th\xEAm.",
+    en: "Runs on Growth Studio 0.21: installed together with Growth Studio updates, with no extra download afterwards."
+  },
   {
     version: "1.0.2",
     vi: "Sau m\u1ED7i l\u1EA7n Image Studio c\u1EADp nh\u1EADt, Studio cho b\u1EA1n bi\u1EBFt c\xF3 g\xEC m\u1EDBi.",

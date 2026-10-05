@@ -15237,11 +15237,11 @@ var require_mime_types = __commonJS({
       }
       return exts[0];
     }
-    function lookup(path13) {
-      if (!path13 || typeof path13 !== "string") {
+    function lookup(path14) {
+      if (!path14 || typeof path14 !== "string") {
         return false;
       }
-      var extension3 = extname("x." + path13).toLowerCase().slice(1);
+      var extension3 = extname("x." + path14).toLowerCase().slice(1);
       if (!extension3) {
         return false;
       }
@@ -18928,13 +18928,13 @@ var require_view = __commonJS({
   "node_modules/express/lib/view.js"(exports, module) {
     "use strict";
     var debug = require_src()("express:view");
-    var path13 = __require("node:path");
+    var path14 = __require("node:path");
     var fs11 = __require("node:fs");
-    var dirname = path13.dirname;
-    var basename = path13.basename;
-    var extname = path13.extname;
-    var join = path13.join;
-    var resolve = path13.resolve;
+    var dirname = path14.dirname;
+    var basename = path14.basename;
+    var extname = path14.extname;
+    var join = path14.join;
+    var resolve = path14.resolve;
     module.exports = View;
     function View(name, options) {
       var opts = options || {};
@@ -18963,17 +18963,17 @@ var require_view = __commonJS({
       this.path = this.lookup(fileName);
     }
     View.prototype.lookup = function lookup(name) {
-      var path14;
+      var path15;
       var roots = [].concat(this.root);
       debug('lookup "%s"', name);
-      for (var i = 0; i < roots.length && !path14; i++) {
+      for (var i = 0; i < roots.length && !path15; i++) {
         var root = roots[i];
         var loc = resolve(root, name);
         var dir = dirname(loc);
         var file = basename(loc);
-        path14 = this.resolve(dir, file);
+        path15 = this.resolve(dir, file);
       }
-      return path14;
+      return path15;
     };
     View.prototype.render = function render(options, callback) {
       var sync = true;
@@ -18995,21 +18995,21 @@ var require_view = __commonJS({
     };
     View.prototype.resolve = function resolve2(dir, file) {
       var ext = this.ext;
-      var path14 = join(dir, file);
-      var stat = tryStat(path14);
+      var path15 = join(dir, file);
+      var stat = tryStat(path15);
       if (stat && stat.isFile()) {
-        return path14;
+        return path15;
       }
-      path14 = join(dir, basename(file, ext), "index" + ext);
-      stat = tryStat(path14);
+      path15 = join(dir, basename(file, ext), "index" + ext);
+      stat = tryStat(path15);
       if (stat && stat.isFile()) {
-        return path14;
+        return path15;
       }
     };
-    function tryStat(path14) {
-      debug('stat "%s"', path14);
+    function tryStat(path15) {
+      debug('stat "%s"', path15);
       try {
-        return fs11.statSync(path14);
+        return fs11.statSync(path15);
       } catch (e) {
         return void 0;
       }
@@ -20265,15 +20265,15 @@ var require_dist3 = __commonJS({
       let index = 0;
       function consumeUntil(end) {
         const output = [];
-        let path13 = "";
+        let path14 = "";
         function writePath() {
-          if (!path13)
+          if (!path14)
             return;
           output.push({
             type: "text",
-            value: encodePath(path13)
+            value: encodePath(path14)
           });
-          path13 = "";
+          path14 = "";
         }
         while (index < chars.length) {
           const value = chars[index++];
@@ -20285,7 +20285,7 @@ var require_dist3 = __commonJS({
             if (index === chars.length) {
               throw new PathError(`Unexpected end after \\ at index ${index}`, str);
             }
-            path13 += chars[index++];
+            path14 += chars[index++];
             continue;
           }
           if (value === ":" || value === "*") {
@@ -20329,7 +20329,7 @@ var require_dist3 = __commonJS({
           if (value === "}" || value === "(" || value === ")" || value === "[" || value === "]" || value === "+" || value === "?" || value === "!") {
             throw new PathError(`Unexpected ${value} at index ${index - 1}`, str);
           }
-          path13 += value;
+          path14 += value;
         }
         if (end) {
           throw new PathError(`Unexpected end at index ${index}, expected ${end}`, str);
@@ -20339,17 +20339,17 @@ var require_dist3 = __commonJS({
       }
       return new TokenData(consumeUntil(""), str);
     }
-    function compile(path13, options = {}) {
+    function compile(path14, options = {}) {
       const { encode: encode2 = encodeURIComponent, delimiter = DEFAULT_DELIMITER } = options;
-      const data = typeof path13 === "object" ? path13 : parse(path13, options);
+      const data = typeof path14 === "object" ? path14 : parse(path14, options);
       const fn = tokensToFunction(data.tokens, delimiter, encode2);
-      return function path14(params = {}) {
+      return function path15(params = {}) {
         const missing = [];
-        const path15 = fn(params, missing);
+        const path16 = fn(params, missing);
         if (missing.length) {
           throw new TypeError(`Missing parameters: ${missing.join(", ")}`);
         }
-        return path15;
+        return path16;
       };
     }
     function tokensToFunction(tokens, delimiter, encode2) {
@@ -20411,9 +20411,9 @@ var require_dist3 = __commonJS({
         return encodeValue(value);
       };
     }
-    function match(path13, options = {}) {
+    function match(path14, options = {}) {
       const { decode = decodeURIComponent, delimiter = DEFAULT_DELIMITER } = options;
-      const { regexp, keys } = pathToRegexp(path13, options);
+      const { regexp, keys } = pathToRegexp(path14, options);
       const decoders = keys.map((key) => {
         if (decode === false)
           return NOOP_VALUE;
@@ -20425,7 +20425,7 @@ var require_dist3 = __commonJS({
         const m = regexp.exec(input);
         if (!m)
           return false;
-        const path14 = m[0];
+        const path15 = m[0];
         const params = /* @__PURE__ */ Object.create(null);
         for (let i = 1; i < m.length; i++) {
           if (m[i] === void 0)
@@ -20434,21 +20434,21 @@ var require_dist3 = __commonJS({
           const decoder = decoders[i - 1];
           params[key.name] = decoder(m[i]);
         }
-        return { path: path14, params };
+        return { path: path15, params };
       };
     }
-    function pathToRegexp(path13, options = {}) {
+    function pathToRegexp(path14, options = {}) {
       const { delimiter = DEFAULT_DELIMITER, end = true, sensitive = false, trailing = true } = options;
       const keys = [];
       let source = "";
       let combinations = 0;
-      function process2(path14) {
-        if (Array.isArray(path14)) {
-          for (const p of path14)
+      function process2(path15) {
+        if (Array.isArray(path15)) {
+          for (const p of path15)
             process2(p);
           return;
         }
-        const data = typeof path14 === "object" ? path14 : parse(path14, options);
+        const data = typeof path15 === "object" ? path15 : parse(path15, options);
         flatten(data.tokens, 0, [], (tokens) => {
           if (combinations >= 256) {
             throw new PathError("Too many path combinations", data.originalPath);
@@ -20459,7 +20459,7 @@ var require_dist3 = __commonJS({
           combinations++;
         });
       }
-      process2(path13);
+      process2(path14);
       let pattern = `^(?:${source})`;
       if (trailing)
         pattern += "(?:" + escape2(delimiter) + "$)?";
@@ -20599,18 +20599,18 @@ var require_layer = __commonJS({
     var TRAILING_SLASH_REGEXP = /\/+$/;
     var MATCHING_GROUP_REGEXP = /\((?:\?<(.*?)>)?(?!\?)/g;
     module.exports = Layer;
-    function Layer(path13, options, fn) {
+    function Layer(path14, options, fn) {
       if (!(this instanceof Layer)) {
-        return new Layer(path13, options, fn);
+        return new Layer(path14, options, fn);
       }
-      debug("new %o", path13);
+      debug("new %o", path14);
       const opts = options || {};
       this.handle = fn;
       this.keys = [];
       this.name = fn.name || "<anonymous>";
       this.params = void 0;
       this.path = void 0;
-      this.slash = path13 === "/" && opts.end === false;
+      this.slash = path14 === "/" && opts.end === false;
       function matcher(_path) {
         if (_path instanceof RegExp) {
           const keys = [];
@@ -20649,7 +20649,7 @@ var require_layer = __commonJS({
           decode: decodeParam
         });
       }
-      this.matchers = Array.isArray(path13) ? path13.map(matcher) : [matcher(path13)];
+      this.matchers = Array.isArray(path14) ? path14.map(matcher) : [matcher(path14)];
     }
     Layer.prototype.handleError = function handleError(error, req, res, next) {
       const fn = this.handle;
@@ -20689,9 +20689,9 @@ var require_layer = __commonJS({
         next(err2);
       }
     };
-    Layer.prototype.match = function match(path13) {
+    Layer.prototype.match = function match(path14) {
       let match2;
-      if (path13 != null) {
+      if (path14 != null) {
         if (this.slash) {
           this.params = {};
           this.path = "";
@@ -20699,7 +20699,7 @@ var require_layer = __commonJS({
         }
         let i = 0;
         while (!match2 && i < this.matchers.length) {
-          match2 = this.matchers[i](path13);
+          match2 = this.matchers[i](path14);
           i++;
         }
       }
@@ -20727,13 +20727,13 @@ var require_layer = __commonJS({
         throw err2;
       }
     }
-    function loosen(path13) {
-      if (path13 instanceof RegExp || path13 === "/") {
-        return path13;
+    function loosen(path14) {
+      if (path14 instanceof RegExp || path14 === "/") {
+        return path14;
       }
-      return Array.isArray(path13) ? path13.map(function(p) {
+      return Array.isArray(path14) ? path14.map(function(p) {
         return loosen(p);
-      }) : String(path13).replace(TRAILING_SLASH_REGEXP, "");
+      }) : String(path14).replace(TRAILING_SLASH_REGEXP, "");
     }
   }
 });
@@ -20749,9 +20749,9 @@ var require_route = __commonJS({
     var flatten = Array.prototype.flat;
     var methods = METHODS.map((method) => method.toLowerCase());
     module.exports = Route;
-    function Route(path13) {
-      debug("new %o", path13);
-      this.path = path13;
+    function Route(path14) {
+      debug("new %o", path14);
+      this.path = path14;
       this.stack = [];
       this.methods = /* @__PURE__ */ Object.create(null);
     }
@@ -20959,8 +20959,8 @@ var require_router = __commonJS({
         if (++sync > 100) {
           return setImmediate(next, err2);
         }
-        const path13 = getPathname(req);
-        if (path13 == null) {
+        const path14 = getPathname(req);
+        if (path14 == null) {
           return done(layerError);
         }
         let layer;
@@ -20968,7 +20968,7 @@ var require_router = __commonJS({
         let route;
         while (match !== true && idx < stack.length) {
           layer = stack[idx++];
-          match = matchLayer(layer, path13);
+          match = matchLayer(layer, path14);
           route = layer.route;
           if (typeof match !== "boolean") {
             layerError = layerError || match;
@@ -21006,18 +21006,18 @@ var require_router = __commonJS({
           } else if (route) {
             layer.handleRequest(req, res, next);
           } else {
-            trimPrefix(layer, layerError, layerPath, path13);
+            trimPrefix(layer, layerError, layerPath, path14);
           }
           sync = 0;
         });
       }
-      function trimPrefix(layer, layerError, layerPath, path13) {
+      function trimPrefix(layer, layerError, layerPath, path14) {
         if (layerPath.length !== 0) {
-          if (layerPath !== path13.substring(0, layerPath.length)) {
+          if (layerPath !== path14.substring(0, layerPath.length)) {
             next(layerError);
             return;
           }
-          const c = path13[layerPath.length];
+          const c = path14[layerPath.length];
           if (c && c !== "/") {
             next(layerError);
             return;
@@ -21041,7 +21041,7 @@ var require_router = __commonJS({
     };
     Router2.prototype.use = function use(handler) {
       let offset = 0;
-      let path13 = "/";
+      let path14 = "/";
       if (typeof handler !== "function") {
         let arg = handler;
         while (Array.isArray(arg) && arg.length !== 0) {
@@ -21049,7 +21049,7 @@ var require_router = __commonJS({
         }
         if (typeof arg !== "function") {
           offset = 1;
-          path13 = handler;
+          path14 = handler;
         }
       }
       const callbacks = flatten.call(slice.call(arguments, offset), Infinity);
@@ -21061,8 +21061,8 @@ var require_router = __commonJS({
         if (typeof fn !== "function") {
           throw new TypeError("argument handler must be a function");
         }
-        debug("use %o %s", path13, fn.name || "<anonymous>");
-        const layer = new Layer(path13, {
+        debug("use %o %s", path14, fn.name || "<anonymous>");
+        const layer = new Layer(path14, {
           sensitive: this.caseSensitive,
           strict: false,
           end: false
@@ -21072,9 +21072,9 @@ var require_router = __commonJS({
       }
       return this;
     };
-    Router2.prototype.route = function route(path13) {
-      const route2 = new Route(path13);
-      const layer = new Layer(path13, {
+    Router2.prototype.route = function route(path14) {
+      const route2 = new Route(path14);
+      const layer = new Layer(path14, {
         sensitive: this.caseSensitive,
         strict: this.strict,
         end: true
@@ -21087,8 +21087,8 @@ var require_router = __commonJS({
       return route2;
     };
     methods.concat("all").forEach(function(method) {
-      Router2.prototype[method] = function(path13) {
-        const route = this.route(path13);
+      Router2.prototype[method] = function(path14) {
+        const route = this.route(path14);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
       };
@@ -21117,9 +21117,9 @@ var require_router = __commonJS({
       const fqdnIndex = url.substring(0, pathLength).indexOf("://");
       return fqdnIndex !== -1 ? url.substring(0, url.indexOf("/", 3 + fqdnIndex)) : void 0;
     }
-    function matchLayer(layer, path13) {
+    function matchLayer(layer, path14) {
       try {
-        return layer.match(path13);
+        return layer.match(path14);
       } catch (err2) {
         return err2;
       }
@@ -21347,7 +21347,7 @@ var require_application = __commonJS({
     };
     app2.use = function use(fn) {
       var offset = 0;
-      var path13 = "/";
+      var path14 = "/";
       if (typeof fn !== "function") {
         var arg = fn;
         while (Array.isArray(arg) && arg.length !== 0) {
@@ -21355,7 +21355,7 @@ var require_application = __commonJS({
         }
         if (typeof arg !== "function") {
           offset = 1;
-          path13 = fn;
+          path14 = fn;
         }
       }
       var fns = flatten.call(slice.call(arguments, offset), Infinity);
@@ -21365,12 +21365,12 @@ var require_application = __commonJS({
       var router = this.router;
       fns.forEach(function(fn2) {
         if (!fn2 || !fn2.handle || !fn2.set) {
-          return router.use(path13, fn2);
+          return router.use(path14, fn2);
         }
-        debug(".use app under %s", path13);
-        fn2.mountpath = path13;
+        debug(".use app under %s", path14);
+        fn2.mountpath = path14;
         fn2.parent = this;
-        router.use(path13, function mounted_app(req, res, next) {
+        router.use(path14, function mounted_app(req, res, next) {
           var orig = req.app;
           fn2.handle(req, res, function(err2) {
             Object.setPrototypeOf(req, orig.request);
@@ -21382,8 +21382,8 @@ var require_application = __commonJS({
       }, this);
       return this;
     };
-    app2.route = function route(path13) {
-      return this.router.route(path13);
+    app2.route = function route(path14) {
+      return this.router.route(path14);
     };
     app2.engine = function engine(ext, fn) {
       if (typeof fn !== "function") {
@@ -21426,7 +21426,7 @@ var require_application = __commonJS({
       }
       return this;
     };
-    app2.path = function path13() {
+    app2.path = function path14() {
       return this.parent ? this.parent.path() + this.mountpath : "";
     };
     app2.enabled = function enabled(setting) {
@@ -21442,17 +21442,17 @@ var require_application = __commonJS({
       return this.set(setting, false);
     };
     methods.forEach(function(method) {
-      app2[method] = function(path13) {
+      app2[method] = function(path14) {
         if (method === "get" && arguments.length === 1) {
-          return this.set(path13);
+          return this.set(path14);
         }
-        var route = this.route(path13);
+        var route = this.route(path14);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
       };
     });
-    app2.all = function all(path13) {
-      var route = this.route(path13);
+    app2.all = function all(path14) {
+      var route = this.route(path14);
       var args = slice.call(arguments, 1);
       for (var i = 0; i < methods.length; i++) {
         route[methods[i]].apply(route, args);
@@ -22437,7 +22437,7 @@ var require_request = __commonJS({
       var subdomains2 = !isIP(hostname) ? hostname.split(".").reverse() : [hostname];
       return subdomains2.slice(offset);
     });
-    defineGetter(req, "path", function path13() {
+    defineGetter(req, "path", function path14() {
       return parse(this).pathname;
     });
     defineGetter(req, "host", function host() {
@@ -22648,8 +22648,8 @@ var require_content_disposition = __commonJS({
       this.type = type;
       this.parameters = parameters;
     }
-    function basename(path13) {
-      const normalized = path13.replaceAll("\\", "/");
+    function basename(path14) {
+      const normalized = path14.replaceAll("\\", "/");
       let end = normalized.length;
       while (end > 0 && normalized[end - 1] === "/") {
         end--;
@@ -22895,27 +22895,27 @@ var require_send = __commonJS({
     var ms = require_ms();
     var onFinished = require_on_finished();
     var parseRange = require_range_parser();
-    var path13 = __require("path");
+    var path14 = __require("path");
     var statuses = require_statuses();
     var Stream = __require("stream");
     var util2 = __require("util");
-    var extname = path13.extname;
-    var join = path13.join;
-    var normalize = path13.normalize;
-    var resolve = path13.resolve;
-    var sep = path13.sep;
+    var extname = path14.extname;
+    var join = path14.join;
+    var normalize = path14.normalize;
+    var resolve = path14.resolve;
+    var sep = path14.sep;
     var BYTES_RANGE_REGEXP = /^ *bytes=/;
     var MAX_MAXAGE = 60 * 60 * 24 * 365 * 1e3;
     var UP_PATH_REGEXP = /(?:^|[\\/])\.\.(?:[\\/]|$)/;
     module.exports = send;
-    function send(req, path14, options) {
-      return new SendStream(req, path14, options);
+    function send(req, path15, options) {
+      return new SendStream(req, path15, options);
     }
-    function SendStream(req, path14, options) {
+    function SendStream(req, path15, options) {
       Stream.call(this);
       var opts = options || {};
       this.options = opts;
-      this.path = path14;
+      this.path = path15;
       this.req = req;
       this._acceptRanges = opts.acceptRanges !== void 0 ? Boolean(opts.acceptRanges) : true;
       this._cacheControl = opts.cacheControl !== void 0 ? Boolean(opts.cacheControl) : true;
@@ -23029,10 +23029,10 @@ var require_send = __commonJS({
       var lastModified = this.res.getHeader("Last-Modified");
       return parseHttpDate(lastModified) <= parseHttpDate(ifRange);
     };
-    SendStream.prototype.redirect = function redirect(path14) {
+    SendStream.prototype.redirect = function redirect(path15) {
       var res = this.res;
       if (hasListeners(this, "directory")) {
-        this.emit("directory", res, path14);
+        this.emit("directory", res, path15);
         return;
       }
       if (this.hasTrailingSlash()) {
@@ -23052,38 +23052,38 @@ var require_send = __commonJS({
     SendStream.prototype.pipe = function pipe(res) {
       var root = this._root;
       this.res = res;
-      var path14 = decode(this.path);
-      if (path14 === -1) {
+      var path15 = decode(this.path);
+      if (path15 === -1) {
         this.error(400);
         return res;
       }
-      if (~path14.indexOf("\0")) {
+      if (~path15.indexOf("\0")) {
         this.error(400);
         return res;
       }
       var parts2;
       if (root !== null) {
-        if (path14) {
-          path14 = normalize("." + sep + path14);
+        if (path15) {
+          path15 = normalize("." + sep + path15);
         }
-        if (UP_PATH_REGEXP.test(path14)) {
-          debug('malicious path "%s"', path14);
+        if (UP_PATH_REGEXP.test(path15)) {
+          debug('malicious path "%s"', path15);
           this.error(403);
           return res;
         }
-        parts2 = path14.split(sep);
-        path14 = normalize(join(root, path14));
+        parts2 = path15.split(sep);
+        path15 = normalize(join(root, path15));
       } else {
-        if (UP_PATH_REGEXP.test(path14)) {
-          debug('malicious path "%s"', path14);
+        if (UP_PATH_REGEXP.test(path15)) {
+          debug('malicious path "%s"', path15);
           this.error(403);
           return res;
         }
-        parts2 = normalize(path14).split(sep);
-        path14 = resolve(path14);
+        parts2 = normalize(path15).split(sep);
+        path15 = resolve(path15);
       }
       if (containsDotFile(parts2)) {
-        debug('%s dotfile "%s"', this._dotfiles, path14);
+        debug('%s dotfile "%s"', this._dotfiles, path15);
         switch (this._dotfiles) {
           case "allow":
             break;
@@ -23097,13 +23097,13 @@ var require_send = __commonJS({
         }
       }
       if (this._index.length && this.hasTrailingSlash()) {
-        this.sendIndex(path14);
+        this.sendIndex(path15);
         return res;
       }
-      this.sendFile(path14);
+      this.sendFile(path15);
       return res;
     };
-    SendStream.prototype.send = function send2(path14, stat) {
+    SendStream.prototype.send = function send2(path15, stat) {
       var len = stat.size;
       var options = this.options;
       var opts = {};
@@ -23115,9 +23115,9 @@ var require_send = __commonJS({
         this.headersAlreadySent();
         return;
       }
-      debug('pipe "%s"', path14);
-      this.setHeader(path14, stat);
-      this.type(path14);
+      debug('pipe "%s"', path15);
+      this.setHeader(path15, stat);
+      this.type(path15);
       if (this.isConditionalGET()) {
         if (this.isPreconditionFailure()) {
           this.error(412);
@@ -23166,28 +23166,28 @@ var require_send = __commonJS({
         res.end();
         return;
       }
-      this.stream(path14, opts);
+      this.stream(path15, opts);
     };
-    SendStream.prototype.sendFile = function sendFile(path14) {
+    SendStream.prototype.sendFile = function sendFile(path15) {
       var i = 0;
       var self2 = this;
-      debug('stat "%s"', path14);
-      fs11.stat(path14, function onstat(err2, stat) {
-        var pathEndsWithSep = path14[path14.length - 1] === sep;
-        if (err2 && err2.code === "ENOENT" && !extname(path14) && !pathEndsWithSep) {
+      debug('stat "%s"', path15);
+      fs11.stat(path15, function onstat(err2, stat) {
+        var pathEndsWithSep = path15[path15.length - 1] === sep;
+        if (err2 && err2.code === "ENOENT" && !extname(path15) && !pathEndsWithSep) {
           return next(err2);
         }
         if (err2) return self2.onStatError(err2);
-        if (stat.isDirectory()) return self2.redirect(path14);
+        if (stat.isDirectory()) return self2.redirect(path15);
         if (pathEndsWithSep) return self2.error(404);
-        self2.emit("file", path14, stat);
-        self2.send(path14, stat);
+        self2.emit("file", path15, stat);
+        self2.send(path15, stat);
       });
       function next(err2) {
         if (self2._extensions.length <= i) {
           return err2 ? self2.onStatError(err2) : self2.error(404);
         }
-        var p = path14 + "." + self2._extensions[i++];
+        var p = path15 + "." + self2._extensions[i++];
         debug('stat "%s"', p);
         fs11.stat(p, function(err3, stat) {
           if (err3) return next(err3);
@@ -23197,7 +23197,7 @@ var require_send = __commonJS({
         });
       }
     };
-    SendStream.prototype.sendIndex = function sendIndex(path14) {
+    SendStream.prototype.sendIndex = function sendIndex(path15) {
       var i = -1;
       var self2 = this;
       function next(err2) {
@@ -23205,7 +23205,7 @@ var require_send = __commonJS({
           if (err2) return self2.onStatError(err2);
           return self2.error(404);
         }
-        var p = join(path14, self2._index[i]);
+        var p = join(path15, self2._index[i]);
         debug('stat "%s"', p);
         fs11.stat(p, function(err3, stat) {
           if (err3) return next(err3);
@@ -23216,10 +23216,10 @@ var require_send = __commonJS({
       }
       next();
     };
-    SendStream.prototype.stream = function stream(path14, options) {
+    SendStream.prototype.stream = function stream(path15, options) {
       var self2 = this;
       var res = this.res;
-      var stream2 = fs11.createReadStream(path14, options);
+      var stream2 = fs11.createReadStream(path15, options);
       this.emit("stream", stream2);
       stream2.pipe(res);
       function cleanup() {
@@ -23234,17 +23234,17 @@ var require_send = __commonJS({
         self2.emit("end");
       });
     };
-    SendStream.prototype.type = function type(path14) {
+    SendStream.prototype.type = function type(path15) {
       var res = this.res;
       if (res.getHeader("Content-Type")) return;
-      var ext = extname(path14);
+      var ext = extname(path15);
       var type2 = mime.contentType(ext) || "application/octet-stream";
       debug("content-type %s", type2);
       res.setHeader("Content-Type", type2);
     };
-    SendStream.prototype.setHeader = function setHeader(path14, stat) {
+    SendStream.prototype.setHeader = function setHeader(path15, stat) {
       var res = this.res;
-      this.emit("headers", res, path14, stat);
+      this.emit("headers", res, path15, stat);
       if (this._acceptRanges && !res.getHeader("Accept-Ranges")) {
         debug("accept ranges");
         res.setHeader("Accept-Ranges", "bytes");
@@ -23302,9 +23302,9 @@ var require_send = __commonJS({
       }
       return err2 instanceof Error ? createError(status, err2, { expose: false }) : createError(status, err2);
     }
-    function decode(path14) {
+    function decode(path15) {
       try {
-        return decodeURIComponent(path14);
+        return decodeURIComponent(path15);
       } catch (err2) {
         return -1;
       }
@@ -23448,7 +23448,7 @@ var require_response = __commonJS({
     var http = __require("node:http");
     var onFinished = require_on_finished();
     var mime = require_mime_types();
-    var path13 = __require("node:path");
+    var path14 = __require("node:path");
     var pathIsAbsolute = __require("node:path").isAbsolute;
     var statuses = require_statuses();
     var sign = require_cookie_signature().sign;
@@ -23457,8 +23457,8 @@ var require_response = __commonJS({
     var setCharset = require_utils3().setCharset;
     var cookie = require_cookie();
     var send = require_send();
-    var extname = path13.extname;
-    var resolve = path13.resolve;
+    var extname = path14.extname;
+    var resolve = path14.resolve;
     var vary = require_vary();
     var { Buffer: Buffer2 } = __require("node:buffer");
     var res = Object.create(http.ServerResponse.prototype);
@@ -23604,26 +23604,26 @@ var require_response = __commonJS({
       this.type("txt");
       return this.send(body);
     };
-    res.sendFile = function sendFile(path14, options, callback) {
+    res.sendFile = function sendFile(path15, options, callback) {
       var done = callback;
       var req = this.req;
       var res2 = this;
       var next = req.next;
       var opts = options || {};
-      if (!path14) {
+      if (!path15) {
         throw new TypeError("path argument is required to res.sendFile");
       }
-      if (typeof path14 !== "string") {
+      if (typeof path15 !== "string") {
         throw new TypeError("path must be a string to res.sendFile");
       }
       if (typeof options === "function") {
         done = options;
         opts = {};
       }
-      if (!opts.root && !pathIsAbsolute(path14)) {
+      if (!opts.root && !pathIsAbsolute(path15)) {
         throw new TypeError("path must be absolute or specify root to res.sendFile");
       }
-      var pathname = encodeURI(path14);
+      var pathname = encodeURI(path15);
       opts.etag = this.app.enabled("etag");
       var file = send(req, pathname, opts);
       sendfile(res2, file, opts, function(err2) {
@@ -23634,7 +23634,7 @@ var require_response = __commonJS({
         }
       });
     };
-    res.download = function download2(path14, filename, options, callback) {
+    res.download = function download2(path15, filename, options, callback) {
       var done = callback;
       var name = filename;
       var opts = options || null;
@@ -23651,7 +23651,7 @@ var require_response = __commonJS({
         opts = filename;
       }
       var headers = {
-        "Content-Disposition": contentDisposition(name || path14)
+        "Content-Disposition": contentDisposition(name || path15)
       };
       if (opts && opts.headers) {
         var keys = Object.keys(opts.headers);
@@ -23664,7 +23664,7 @@ var require_response = __commonJS({
       }
       opts = Object.create(opts);
       opts.headers = headers;
-      var fullPath = !opts.root ? resolve(path14) : path14;
+      var fullPath = !opts.root ? resolve(path15) : path15;
       return this.sendFile(fullPath, opts, done);
     };
     res.contentType = res.type = function contentType(type) {
@@ -23947,11 +23947,11 @@ var require_serve_static = __commonJS({
         }
         var forwardError = !fallthrough;
         var originalUrl = parseUrl.original(req);
-        var path13 = parseUrl(req).pathname;
-        if (path13 === "/" && originalUrl.pathname.substr(-1) !== "/") {
-          path13 = "";
+        var path14 = parseUrl(req).pathname;
+        if (path14 === "/" && originalUrl.pathname.substr(-1) !== "/") {
+          path14 = "";
         }
-        var stream = send(req, path13, opts);
+        var stream = send(req, path14, opts);
         stream.on("directory", onDirectory);
         if (setHeaders) {
           stream.on("headers", setHeaders);
@@ -24777,18 +24777,18 @@ var require_memstore = __commonJS({
       /**
        * @internal No doc because this is an overload that supports the implementation
        */
-      findCookie(domain, path13, key, callback) {
+      findCookie(domain, path14, key, callback) {
         const promiseCallback = (0, utils_1.createPromiseCallback)(callback);
-        if (domain == null || path13 == null || key == null) {
+        if (domain == null || path14 == null || key == null) {
           return promiseCallback.resolve(void 0);
         }
-        const result = this.idx[domain]?.[path13]?.[key];
+        const result = this.idx[domain]?.[path14]?.[key];
         return promiseCallback.resolve(result);
       }
       /**
        * @internal No doc because this is an overload that supports the implementation
        */
-      findCookies(domain, path13, allowSpecialUseDomain = false, callback) {
+      findCookies(domain, path14, allowSpecialUseDomain = false, callback) {
         if (typeof allowSpecialUseDomain === "function") {
           callback = allowSpecialUseDomain;
           allowSpecialUseDomain = true;
@@ -24799,7 +24799,7 @@ var require_memstore = __commonJS({
           return promiseCallback.resolve([]);
         }
         let pathMatcher;
-        if (!path13) {
+        if (!path14) {
           pathMatcher = function matchAll(domainIndex) {
             for (const curPath in domainIndex) {
               const pathIndex = domainIndex[curPath];
@@ -24814,7 +24814,7 @@ var require_memstore = __commonJS({
         } else {
           pathMatcher = function matchRFC(domainIndex) {
             for (const cookiePath in domainIndex) {
-              if ((0, pathMatch_1.pathMatch)(path13, cookiePath)) {
+              if ((0, pathMatch_1.pathMatch)(path14, cookiePath)) {
                 const pathIndex = domainIndex[cookiePath];
                 for (const key in pathIndex) {
                   const value = pathIndex[key];
@@ -24842,14 +24842,14 @@ var require_memstore = __commonJS({
        */
       putCookie(cookie, callback) {
         const promiseCallback = (0, utils_1.createPromiseCallback)(callback);
-        const { domain, path: path13, key } = cookie;
-        if (domain == null || path13 == null || key == null) {
+        const { domain, path: path14, key } = cookie;
+        if (domain == null || path14 == null || key == null) {
           return promiseCallback.resolve(void 0);
         }
         const domainEntry = this.idx[domain] ?? /* @__PURE__ */ Object.create(null);
         this.idx[domain] = domainEntry;
-        const pathEntry = domainEntry[path13] ?? /* @__PURE__ */ Object.create(null);
-        domainEntry[path13] = pathEntry;
+        const pathEntry = domainEntry[path14] ?? /* @__PURE__ */ Object.create(null);
+        domainEntry[path14] = pathEntry;
         pathEntry[key] = cookie;
         return promiseCallback.resolve(void 0);
       }
@@ -24865,20 +24865,20 @@ var require_memstore = __commonJS({
       /**
        * @internal No doc because this is an overload that supports the implementation
        */
-      removeCookie(domain, path13, key, callback) {
+      removeCookie(domain, path14, key, callback) {
         const promiseCallback = (0, utils_1.createPromiseCallback)(callback);
-        delete this.idx[domain]?.[path13]?.[key];
+        delete this.idx[domain]?.[path14]?.[key];
         return promiseCallback.resolve(void 0);
       }
       /**
        * @internal No doc because this is an overload that supports the implementation
        */
-      removeCookies(domain, path13, callback) {
+      removeCookies(domain, path14, callback) {
         const promiseCallback = (0, utils_1.createPromiseCallback)(callback);
         const domainEntry = this.idx[domain];
         if (domainEntry) {
-          if (path13) {
-            delete domainEntry[path13];
+          if (path14) {
+            delete domainEntry[path14];
           } else {
             delete this.idx[domain];
           }
@@ -24904,8 +24904,8 @@ var require_memstore = __commonJS({
         domains.forEach((domain) => {
           const domainEntry = idx[domain] ?? {};
           const paths = Object.keys(domainEntry);
-          paths.forEach((path13) => {
-            const pathEntry = domainEntry[path13] ?? {};
+          paths.forEach((path14) => {
+            const pathEntry = domainEntry[path14] ?? {};
             const keys = Object.keys(pathEntry);
             keys.forEach((key) => {
               const keyEntry = pathEntry[key];
@@ -25923,18 +25923,18 @@ var require_defaultPath = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.defaultPath = defaultPath;
-    function defaultPath(path13) {
-      if (!path13 || path13.slice(0, 1) !== "/") {
+    function defaultPath(path14) {
+      if (!path14 || path14.slice(0, 1) !== "/") {
         return "/";
       }
-      if (path13 === "/") {
-        return path13;
+      if (path14 === "/") {
+        return path14;
       }
-      const rightSlash = path13.lastIndexOf("/");
+      const rightSlash = path14.lastIndexOf("/");
       if (rightSlash === 0) {
         return "/";
       }
-      return path13.slice(0, rightSlash);
+      return path14.slice(0, rightSlash);
     }
   }
 });
@@ -26328,7 +26328,7 @@ var require_cookieJar = __commonJS({
           return promiseCallback.reject(parameterError);
         }
         const host = (0, canonicalDomain_1.canonicalDomain)(context.hostname);
-        const path13 = context.pathname || "/";
+        const path14 = context.pathname || "/";
         const secure = context.protocol && (context.protocol == "https:" || context.protocol == "wss:");
         let sameSiteLevel = 0;
         if (options.sameSiteContext) {
@@ -26356,7 +26356,7 @@ var require_cookieJar = __commonJS({
               return false;
             }
           }
-          if (!allPaths && typeof c.path === "string" && !(0, pathMatch_1.pathMatch)(path13, c.path)) {
+          if (!allPaths && typeof c.path === "string" && !(0, pathMatch_1.pathMatch)(path14, c.path)) {
             return false;
           }
           if (c.secure && !secure) {
@@ -26386,7 +26386,7 @@ var require_cookieJar = __commonJS({
           }
           return true;
         }
-        store2.findCookies(host, allPaths ? null : path13, this.allowSpecialUseDomain, (err2, cookies) => {
+        store2.findCookies(host, allPaths ? null : path14, this.allowSpecialUseDomain, (err2, cookies) => {
           if (err2) {
             cb(err2);
             return;
@@ -26821,18 +26821,18 @@ var require_permutePath = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.permutePath = permutePath;
-    function permutePath(path13) {
-      if (path13 === "/") {
+    function permutePath(path14) {
+      if (path14 === "/") {
         return ["/"];
       }
-      const permutations = [path13];
-      while (path13.length > 1) {
-        const lindex = path13.lastIndexOf("/");
+      const permutations = [path14];
+      while (path14.length > 1) {
+        const lindex = path14.lastIndexOf("/");
         if (lindex === 0) {
           break;
         }
-        path13 = path13.slice(0, lindex);
-        permutations.push(path13);
+        path14 = path14.slice(0, lindex);
+        permutations.push(path14);
       }
       permutations.push("/");
       return permutations;
@@ -50194,11 +50194,11 @@ var require_mime_types2 = __commonJS({
       }
       return exts[0];
     }
-    function lookup(path13) {
-      if (!path13 || typeof path13 !== "string") {
+    function lookup(path14) {
+      if (!path14 || typeof path14 !== "string") {
         return false;
       }
-      var extension3 = extname("x." + path13).toLowerCase().substr(1);
+      var extension3 = extname("x." + path14).toLowerCase().substr(1);
       if (!extension3) {
         return false;
       }
@@ -50500,7 +50500,7 @@ var require_form_data = __commonJS({
     "use strict";
     var CombinedStream = require_combined_stream();
     var util2 = __require("util");
-    var path13 = __require("path");
+    var path14 = __require("path");
     var http = __require("http");
     var https = __require("https");
     var parseUrl = __require("url").parse;
@@ -50631,11 +50631,11 @@ var require_form_data = __commonJS({
     FormData6.prototype._getContentDisposition = function(value, options) {
       var filename;
       if (typeof options.filepath === "string") {
-        filename = path13.normalize(options.filepath).replace(/\\/g, "/");
+        filename = path14.normalize(options.filepath).replace(/\\/g, "/");
       } else if (options.filename || value && (value.name || value.path)) {
-        filename = path13.basename(options.filename || value && (value.name || value.path));
+        filename = path14.basename(options.filename || value && (value.name || value.path));
       } else if (value && value.readable && hasOwn2(value, "httpVersion")) {
-        filename = path13.basename(value.client._httpMessage.path || "");
+        filename = path14.basename(value.client._httpMessage.path || "");
       }
       if (filename) {
         return 'filename="' + escapeHeaderParam(filename) + '"';
@@ -50819,7 +50819,7 @@ var require_form_data = __commonJS({
 // src/server/index.ts
 var import_express2 = __toESM(require_express2(), 1);
 import { mkdirSync as mkdirSync5 } from "node:fs";
-import path12 from "node:path";
+import path13 from "node:path";
 
 // src/server/runtime.ts
 import os from "node:os";
@@ -50832,8 +50832,8 @@ var staticRoot = path.join(appRoot, pluginBundle ? "public" : "dist");
 var projectRoot = path.resolve(process.env.KGS_ROOT ?? (pluginBundle ? path.join(os.homedir(), ".kallob-growth") : path.join(appRoot, "dev")));
 var port = Number(process.env.PORT ?? (pluginBundle ? 8795 : 8790));
 var production = pluginBundle || process.env.KGS_MODE === "production";
-var buildId = true ? "89da6fd-muvctr9e" : "source";
-var studioVersion = true ? "0.20.0" : "source";
+var buildId = true ? "f900ed0-muvk1odi" : "source";
+var studioVersion = true ? "0.21.0" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/server/integrations/keychain.ts
@@ -51083,19 +51083,58 @@ var GoogleDriveConnector = class {
 };
 
 // src/server/kernel/product-kernel.ts
-import path5 from "node:path";
+import path6 from "node:path";
 import fs8 from "node:fs/promises";
 import { createHash as createHash4, randomUUID as randomUUID2 } from "node:crypto";
 
 // src/server/codex-desktop/bridge.ts
-import { execFileSync, spawn } from "node:child_process";
+import { execFileSync } from "node:child_process";
+
+// src/server/codex-desktop/codex-exec.ts
+import { spawn } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
+import path2 from "node:path";
+function spawnCli(binary, args, options = {}) {
+  const viaShell = process.platform === "win32" && (/\.(cmd|bat)$/i.test(binary) || !path2.extname(binary));
+  if (!viaShell) return spawn(binary, [...args], { windowsHide: true, ...options });
+  const script = shimScript(path2.extname(binary) ? binary : findOnPath(binary) ?? binary);
+  if (script) return spawn(process.execPath, [script, ...args], { windowsHide: true, ...options });
+  const quote = (value) => /[\s"&|<>^%]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+  return spawn(quote(binary), args.map(quote), { windowsHide: true, ...options, shell: true });
+}
+function findOnPath(name, env = process.env) {
+  const extensions = (env.PATHEXT ?? ".COM;.EXE;.BAT;.CMD").split(";").filter(Boolean);
+  for (const folder of (env.PATH ?? env.Path ?? "").split(path2.delimiter).filter(Boolean)) {
+    for (const extension2 of extensions) {
+      const candidate = path2.join(folder, `${name}${extension2.toLowerCase()}`);
+      if (existsSync(candidate)) return candidate;
+    }
+  }
+  return null;
+}
+function shimScript(binary) {
+  const shim = /\.(cmd|bat)$/i.test(binary) ? binary : null;
+  if (!shim) return null;
+  let text = "";
+  try {
+    text = readFileSync(shim, "utf8");
+  } catch {
+    return null;
+  }
+  const match = /"%~?dp0%?\\?([^"%]+?\.[cm]?js)"/i.exec(text);
+  if (!match) return null;
+  const script = path2.join(path2.dirname(shim), match[1].replace(/\\/g, path2.sep));
+  return existsSync(script) ? script : null;
+}
+
+// src/server/codex-desktop/bridge.ts
 import { randomUUID } from "node:crypto";
 import { chmod, mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
-import { closeSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import { closeSync, existsSync as existsSync2, mkdirSync, openSync, readdirSync, readFileSync as readFileSync2, renameSync, rmSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
-import path2 from "node:path";
+import path3 from "node:path";
 import readline from "node:readline";
-var DEFAULT_REGISTRY = path2.join(homedir(), ".kallob", "codex-desktop-bridge", "tasks.json");
+var DEFAULT_REGISTRY = path3.join(homedir(), ".kallob", "codex-desktop-bridge", "tasks.json");
 var BUNDLED_CODEX_CANDIDATES = [
   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
   "/Applications/Codex.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
@@ -51108,7 +51147,7 @@ function turnResult(logPath, exitCode, failure) {
   if (failure) return { ok: false, detail: failure.message };
   let text = "";
   try {
-    text = readFileSync(logPath, "utf8");
+    text = readFileSync2(logPath, "utf8");
   } catch {
   }
   let failed = null;
@@ -51134,12 +51173,12 @@ function codexTaskName(text) {
   return line.length > 100 ? `${line.slice(0, 99).trimEnd()}\u2026` : line;
 }
 function projectRootFor(cwd, roots) {
-  const target = path2.resolve(cwd);
+  const target = path3.resolve(cwd);
   let best = null;
   for (const raw of roots) {
-    if (!raw || !path2.isAbsolute(raw)) continue;
-    const root = path2.resolve(raw);
-    const inside = target === root || target.startsWith(root.endsWith(path2.sep) ? root : `${root}${path2.sep}`);
+    if (!raw || !path3.isAbsolute(raw)) continue;
+    const root = path3.resolve(raw);
+    const inside = target === root || target.startsWith(root.endsWith(path3.sep) ? root : `${root}${path3.sep}`);
     if (inside && (!best || root.length > best.length)) best = root;
   }
   return best;
@@ -51181,7 +51220,7 @@ async function runProcess(command, args, options) {
     let stdout = "";
     let stderr = "";
     let settled = false;
-    const child = spawn(command, args, { env: options.env ?? process.env, stdio: ["pipe", "pipe", "pipe"] });
+    const child = spawnCli(command, args, { env: options.env ?? process.env, stdio: ["pipe", "pipe", "pipe"] });
     const timer = setTimeout(() => {
       if (settled) return;
       child.kill("SIGTERM");
@@ -51225,7 +51264,7 @@ var AppServer = class {
   pending = /* @__PURE__ */ new Map();
   async start() {
     try {
-      this.process = spawn(this.binary, ["app-server", "--stdio"], { stdio: ["pipe", "pipe", "pipe"] });
+      this.process = spawnCli(this.binary, ["app-server", "--stdio"], { stdio: ["pipe", "pipe", "pipe"] });
     } catch (error) {
       throw new CodexDesktopError("Kh\xF4ng kh\u1EDFi \u0111\u1ED9ng \u0111\u01B0\u1EE3c Codex App Server.", { cause: error });
     }
@@ -51370,14 +51409,14 @@ var CodexDesktopBridge = class {
     return [...this.turns.keys()];
   }
   journalDirectory() {
-    return path2.join(path2.dirname(this.registryPath), "codex-turns", "journal");
+    return path3.join(path3.dirname(this.registryPath), "codex-turns", "journal");
   }
   journalPath(threadId) {
-    return path2.join(this.journalDirectory(), `${threadId}.json`);
+    return path3.join(this.journalDirectory(), `${threadId}.json`);
   }
   readJournal(threadId) {
     try {
-      const value = JSON.parse(readFileSync(this.journalPath(threadId), "utf8"));
+      const value = JSON.parse(readFileSync2(this.journalPath(threadId), "utf8"));
       return value.version === 1 && value.threadId === threadId ? value : null;
     } catch {
       return null;
@@ -51482,7 +51521,7 @@ var CodexDesktopBridge = class {
   configOverrides;
   enableSearch;
   constructor(options = {}) {
-    this.registryPath = path2.resolve(options.registryPath ?? process.env.CODEX_DESKTOP_BRIDGE_REGISTRY ?? DEFAULT_REGISTRY);
+    this.registryPath = path3.resolve(options.registryPath ?? process.env.CODEX_DESKTOP_BRIDGE_REGISTRY ?? DEFAULT_REGISTRY);
     this.binary = options.binary;
     this.timeoutMs = options.timeoutMs ?? 2e4;
     this.bootstrapTimeoutMs = options.bootstrapTimeoutMs ?? 18e4;
@@ -51497,19 +51536,21 @@ var CodexDesktopBridge = class {
   resolveCodexBinary() {
     const configured = process.env.CODEX_DESKTOP_CLI?.trim() || process.env.KALLOB_CODEX_DESKTOP_CLI?.trim();
     if (configured) {
-      if (existsSync(configured)) return configured;
+      if (existsSync2(configured)) return configured;
       throw new CodexDesktopError("Kh\xF4ng t\xECm th\u1EA5y Codex desktop binary \u0111\xE3 c\u1EA5u h\xECnh.");
     }
     if (this.binary) {
-      if (existsSync(this.binary)) return this.binary;
+      if (existsSync2(this.binary)) return this.binary;
       throw new CodexDesktopError("Kh\xF4ng t\xECm th\u1EA5y Codex desktop binary \u0111\xE3 c\u1EA5u h\xECnh.");
     }
-    const bundled = BUNDLED_CODEX_CANDIDATES.find(existsSync);
+    const bundled = BUNDLED_CODEX_CANDIDATES.find(existsSync2);
     if (bundled) return bundled;
-    for (const folder of (process.env.PATH ?? "").split(path2.delimiter)) {
-      const candidate = path2.join(folder, "codex");
-      if (existsSync(candidate)) return candidate;
+    for (const folder of (process.env.PATH ?? "").split(path3.delimiter)) {
+      const candidate = path3.join(folder, "codex");
+      if (existsSync2(candidate)) return candidate;
     }
+    const shim = process.platform === "win32" ? findOnPath("codex") : null;
+    if (shim) return shim;
     throw new CodexDesktopError("Kh\xF4ng t\xECm th\u1EA5y Codex desktop tr\xEAn m\xE1y n\xE0y.");
   }
   async withRegistryLock(action) {
@@ -51536,9 +51577,9 @@ var CodexDesktopBridge = class {
     }
   }
   async writeRegistry(value) {
-    const parent = path2.dirname(this.registryPath);
+    const parent = path3.dirname(this.registryPath);
     await mkdir(parent, { recursive: true, mode: 448 });
-    const temporary = path2.join(parent, `.tasks-${process.pid}-${randomUUID()}.json`);
+    const temporary = path3.join(parent, `.tasks-${process.pid}-${randomUUID()}.json`);
     try {
       await writeFile(temporary, `${JSON.stringify(value, null, 2)}
 `, { encoding: "utf8", mode: 384 });
@@ -51552,8 +51593,8 @@ var CodexDesktopBridge = class {
   validateTask(taskKey, taskName, cwd) {
     if (!TASK_KEY_PATTERN.test(taskKey)) throw new CodexDesktopError("taskKey ch\u1EC9 \u0111\u01B0\u1EE3c d\xF9ng ch\u1EEF th\u01B0\u1EDDng, s\u1ED1, d\u1EA5u ch\u1EA5m, g\u1EA1ch d\u01B0\u1EDBi ho\u1EB7c g\u1EA1ch ngang.");
     if (!taskName) throw new CodexDesktopError("T\xEAn task tr\u1ED1ng.");
-    const resolved = path2.resolve(cwd);
-    if (!existsSync(resolved)) throw new CodexDesktopError("Th\u01B0 m\u1EE5c l\xE0m vi\u1EC7c c\u1EE7a task kh\xF4ng t\u1ED3n t\u1EA1i.");
+    const resolved = path3.resolve(cwd);
+    if (!existsSync2(resolved)) throw new CodexDesktopError("Th\u01B0 m\u1EE5c l\xE0m vi\u1EC7c c\u1EE7a task kh\xF4ng t\u1ED3n t\u1EA1i.");
     return resolved;
   }
   async withAppServer(binary, action) {
@@ -51645,7 +51686,7 @@ var CodexDesktopBridge = class {
         const cwd = await server2.threadCwd(threadId);
         if (!cwd) return null;
         const root = projectRootFor(cwd, await server2.projectRoots());
-        return root && existsSync(root) ? root : null;
+        return root && existsSync2(root) ? root : null;
       });
     } catch {
       return null;
@@ -51682,9 +51723,9 @@ var CodexDesktopBridge = class {
     if (!message2.trim() || message2.length > 1e5) throw new CodexDesktopError("N\u1ED9i dung g\u1EEDi v\xE0o task tr\u1ED1ng ho\u1EB7c qu\xE1 d\xE0i.");
     const binary = this.resolveCodexBinary();
     const saved = await this.withRegistryLock(async () => Object.values((await this.readRegistry()).tasks).find((task) => task.thread_id === validId));
-    const cwd = saved?.cwd && existsSync(saved.cwd) ? saved.cwd : await this.withAppServer(binary, (server2) => server2.threadCwd(validId)).catch(() => null);
-    if (!cwd || !existsSync(cwd)) throw new CodexDesktopError("Task Codex kh\xF4ng c\xF2n kh\u1EA3 d\u1EE5ng tr\xEAn m\xE1y n\xE0y.");
-    const writableRoots = (saved?.writable_roots ?? []).filter((root) => existsSync(root));
+    const cwd = saved?.cwd && existsSync2(saved.cwd) ? saved.cwd : await this.withAppServer(binary, (server2) => server2.threadCwd(validId)).catch(() => null);
+    if (!cwd || !existsSync2(cwd)) throw new CodexDesktopError("Task Codex kh\xF4ng c\xF2n kh\u1EA3 d\u1EE5ng tr\xEAn m\xE1y n\xE0y.");
+    const writableRoots = (saved?.writable_roots ?? []).filter((root) => existsSync2(root));
     const messageId = randomUUID();
     const queuedAt = (/* @__PURE__ */ new Date()).toISOString();
     const base = { cwd, writableRoots };
@@ -51720,9 +51761,9 @@ var CodexDesktopBridge = class {
   /** Resolves when the background turn ends; its output goes to a log next to the registry. */
   runTurn(binary, threadId, cwd, writableRoots, message2, messageId, base) {
     return new Promise((resolve) => {
-      const logDirectory = path2.join(path2.dirname(this.registryPath), "codex-turns");
+      const logDirectory = path3.join(path3.dirname(this.registryPath), "codex-turns");
       mkdirSync(logDirectory, { recursive: true });
-      const logPath = path2.join(logDirectory, `${threadId}-${messageId}.jsonl`);
+      const logPath = path3.join(logDirectory, `${threadId}-${messageId}.jsonl`);
       const log = openSync(logPath, "a");
       const finish = () => this.updateJournal(threadId, base, (journal) => {
         if (journal.running?.messageId === messageId) journal.running = null;
@@ -51730,7 +51771,7 @@ var CodexDesktopBridge = class {
       });
       let child;
       try {
-        child = spawn(binary, [
+        child = spawnCli(binary, [
           ...this.configArgs(),
           ...this.enableSearch ? ["--search"] : [],
           "exec",
@@ -52086,7 +52127,7 @@ var ConnectorRegistry = class {
 
 // src/server/integrations/local-folder.ts
 import fs from "node:fs/promises";
-import path3 from "node:path";
+import path4 from "node:path";
 import os2 from "node:os";
 import { createHash as createHash2 } from "node:crypto";
 var supportedExtensions = /* @__PURE__ */ new Map([
@@ -52103,8 +52144,8 @@ var skippedDirectories = /* @__PURE__ */ new Set([".git", ".growth-studio", "nod
 var maxFileSize = 5 * 1024 * 1024;
 async function validateLocalFolder(inputPath) {
   if (!inputPath.trim()) throw new Error("Folder path is required");
-  const resolved = await fs.realpath(path3.resolve(inputPath.trim()));
-  const forbidden = /* @__PURE__ */ new Set([path3.parse(resolved).root, await fs.realpath(os2.homedir())]);
+  const resolved = await fs.realpath(path4.resolve(inputPath.trim()));
+  const forbidden = /* @__PURE__ */ new Set([path4.parse(resolved).root, await fs.realpath(os2.homedir())]);
   if (forbidden.has(resolved)) throw new Error("Choose a specific project folder, not a drive root or home folder");
   const stat = await fs.stat(resolved);
   if (!stat.isDirectory()) throw new Error("Selected path is not a folder");
@@ -52114,18 +52155,18 @@ async function walk(root, current, records) {
   const entries = await fs.readdir(current, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.name.startsWith(".") || entry.isDirectory() && skippedDirectories.has(entry.name)) continue;
-    const absolute = path3.join(current, entry.name);
+    const absolute = path4.join(current, entry.name);
     if (entry.isSymbolicLink()) continue;
     if (entry.isDirectory()) {
       await walk(root, absolute, records);
       continue;
     }
-    const mimeType = supportedExtensions.get(path3.extname(entry.name).toLocaleLowerCase());
+    const mimeType = supportedExtensions.get(path4.extname(entry.name).toLocaleLowerCase());
     if (!mimeType) continue;
     const stat = await fs.stat(absolute);
     if (stat.size > maxFileSize) continue;
     const content = await fs.readFile(absolute, "utf8");
-    const relative = path3.relative(root, absolute);
+    const relative = path4.relative(root, absolute);
     records.push({
       externalId: relative,
       name: entry.name,
@@ -52726,7 +52767,7 @@ import { writeFile as writeFile2 } from "node:fs/promises";
 var import_crypto_js = __toESM(require_crypto_js(), 1);
 import crypto2 from "node:crypto";
 import fs2 from "node:fs";
-import path4 from "node:path";
+import path5 from "node:path";
 
 // node_modules/pako/dist/pako.esm.mjs
 var Z_FIXED$1 = 4;
@@ -57276,7 +57317,7 @@ async function getGifMetaData(ctx, filePath) {
   if (!gifData) {
     throw new ZaloApiError("Failed to get gif metadata");
   }
-  const fileName = path4.basename(filePath);
+  const fileName = path5.basename(filePath);
   return {
     fileName,
     totalSize: gifData.size,
@@ -57419,10 +57460,10 @@ function getFullTimeFromMillisecond(e) {
   return strPadLeft(t.getHours(), "0", 2) + ":" + strPadLeft(t.getMinutes(), "0", 2) + " " + strPadLeft(t.getDate(), "0", 2) + "/" + strPadLeft(t.getMonth() + 1, "0", 2) + "/" + t.getFullYear();
 }
 function getFileExtension(e) {
-  return path4.extname(e).slice(1);
+  return path5.extname(e).slice(1);
 }
 function getFileName(e) {
-  return path4.basename(e);
+  return path5.basename(e);
 }
 function removeUndefinedKeys(e) {
   for (const t in e)
@@ -64399,7 +64440,7 @@ function missingContextFolders(folders) {
   return folders.reduce((total, folder) => total + (folder.exists === false ? 1 : 0) + (folder.children?.filter((child) => child.exists === false).length ?? 0), 0);
 }
 var ProductKernel = class {
-  constructor(store2, googleDrive2, codexDesktop2 = new CodexDesktopBridge(), projectRoot2 = path5.resolve(process.env.KGS_ROOT ?? process.cwd()), composio = new ComposioConnector(new CredentialVault()), scrapeCreators = new ScrapeCreatorsConnector(new CredentialVault()), zaloZca2 = new ZaloZcaConnector(new CredentialVault()), prompts = new MethodPrompts(null)) {
+  constructor(store2, googleDrive2, codexDesktop2 = new CodexDesktopBridge(), projectRoot2 = path6.resolve(process.env.KGS_ROOT ?? process.cwd()), composio = new ComposioConnector(new CredentialVault()), scrapeCreators = new ScrapeCreatorsConnector(new CredentialVault()), zaloZca2 = new ZaloZcaConnector(new CredentialVault()), prompts = new MethodPrompts(null)) {
     this.store = store2;
     this.googleDrive = googleDrive2;
     this.codexDesktop = codexDesktop2;
@@ -64477,12 +64518,12 @@ var ProductKernel = class {
     const connection = this.store.getConnection(record.connectionId);
     if (!connection?.scope.rootPath) return record;
     const root = await validateLocalFolder(connection.scope.rootPath);
-    const candidate = path5.resolve(root, record.externalId);
-    const relative = path5.relative(root, candidate);
-    if (!relative || relative.startsWith("..") || path5.isAbsolute(relative)) throw new Error("The indexed file is outside its connected folder");
+    const candidate = path6.resolve(root, record.externalId);
+    const relative = path6.relative(root, candidate);
+    if (!relative || relative.startsWith("..") || path6.isAbsolute(relative)) throw new Error("The indexed file is outside its connected folder");
     const resolved = await fs8.realpath(candidate);
-    const resolvedRelative = path5.relative(root, resolved);
-    if (resolvedRelative.startsWith("..") || path5.isAbsolute(resolvedRelative)) throw new Error("The indexed file is outside its connected folder");
+    const resolvedRelative = path6.relative(root, resolved);
+    if (resolvedRelative.startsWith("..") || path6.isAbsolute(resolvedRelative)) throw new Error("The indexed file is outside its connected folder");
     const [content, stat] = await Promise.all([fs8.readFile(resolved, "utf8"), fs8.stat(resolved)]);
     return {
       ...record,
@@ -65147,7 +65188,7 @@ var ProductKernel = class {
   async createLocalFolder(input) {
     const rootPath = await validateLocalFolder(input.rootPath);
     const connection = this.store.createConnection({
-      name: input.name?.trim() || path5.basename(rootPath),
+      name: input.name?.trim() || path6.basename(rootPath),
       provider: "local-folder",
       scope: { rootPath }
     });
@@ -65217,7 +65258,7 @@ var ProductKernel = class {
           withFileTypes: true
         });
         const directories = new Set(entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name));
-        const functionDirectories = directories.has("02-functions") ? new Set((await fs8.readdir(path5.join(root.scope.rootPath, "02-functions"), { withFileTypes: true })).filter((entry) => entry.isDirectory()).map((entry) => entry.name)) : /* @__PURE__ */ new Set();
+        const functionDirectories = directories.has("02-functions") ? new Set((await fs8.readdir(path6.join(root.scope.rootPath, "02-functions"), { withFileTypes: true })).filter((entry) => entry.isDirectory()).map((entry) => entry.name)) : /* @__PURE__ */ new Set();
         const folders = contextFoldersWithState(directories, functionDirectories);
         const missing = missingContextFolders(folders);
         return {
@@ -65278,7 +65319,7 @@ var ProductKernel = class {
   async createDefaultContextWorkspace() {
     const current = await this.contextWorkspace();
     if (current.root) return current;
-    const rootPath = path5.join(this.projectRoot, "workspace", "business-context");
+    const rootPath = path6.join(this.projectRoot, "workspace", "business-context");
     await fs8.mkdir(rootPath, { recursive: true });
     const resolved = await validateLocalFolder(rootPath);
     const existing = this.store.listConnections().find((connection2) => connection2.status !== "archived" && connection2.provider === "local-folder" && connection2.scope.rootPath === resolved);
@@ -65319,12 +65360,12 @@ var ProductKernel = class {
     await fs8.mkdir(current.root.scope.rootPath, { recursive: true });
     await Promise.all(
       contextFolderConvention.map(
-        (folder) => fs8.mkdir(path5.join(current.root.scope.rootPath, folder.name), {
+        (folder) => fs8.mkdir(path6.join(current.root.scope.rootPath, folder.name), {
           recursive: true
         })
       )
     );
-    await Promise.all(functionFolderConvention.map((folder) => fs8.mkdir(path5.join(current.root.scope.rootPath, "02-functions", folder.name), { recursive: true })));
+    await Promise.all(functionFolderConvention.map((folder) => fs8.mkdir(path6.join(current.root.scope.rootPath, "02-functions", folder.name), { recursive: true })));
     const connection = this.store.getConnection(current.root.id);
     this.store.updateConnection(connection.id, {
       scope: {
@@ -65378,8 +65419,8 @@ var ProductKernel = class {
     if (!workspace.root) throw new Error("Configure the Business Context storage before asking Codex to review it");
     const rootLocation = workspace.root.provider === "local-folder" ? workspace.root.scope.rootPath : workspace.root.scope.folderName || workspace.root.scope.folderHint || workspace.root.name;
     let review = this.store.createContextReview(scopes);
-    const resultDirectory = path5.join(this.projectRoot, ".growth-studio", "context-review-results");
-    const resultPath = path5.join(resultDirectory, `${review.id}.json`);
+    const resultDirectory = path6.join(this.projectRoot, ".growth-studio", "context-review-results");
+    const resultPath = path6.join(resultDirectory, `${review.id}.json`);
     const temporaryResultPath = `${resultPath}.tmp`;
     await fs8.mkdir(resultDirectory, { recursive: true });
     const scopeDescriptions = scopes.flatMap((scope) => {
@@ -65426,7 +65467,7 @@ var ProductKernel = class {
     }
   }
   async reconcileContextReviewResults() {
-    const resultDirectory = path5.join(this.projectRoot, ".growth-studio", "context-review-results");
+    const resultDirectory = path6.join(this.projectRoot, ".growth-studio", "context-review-results");
     let entries;
     try {
       entries = (await fs8.readdir(resultDirectory)).filter((entry) => entry.endsWith(".json"));
@@ -65437,7 +65478,7 @@ var ProductKernel = class {
     for (const entry of entries) {
       const reviewId = entry.slice(0, -".json".length);
       const review = this.store.getContextReview(reviewId);
-      const resultPath = path5.join(resultDirectory, entry);
+      const resultPath = path6.join(resultDirectory, entry);
       if (!review || !["queued", "running"].includes(review.status)) {
         await fs8.unlink(resultPath).catch(() => void 0);
         continue;
@@ -65703,7 +65744,7 @@ var ProductKernel = class {
     if (expectedRevision !== void 0 && current.revision !== expectedRevision) throw new Error("Result changed since it was opened");
     const task = this.store.getTask(current.taskId);
     if (!task) throw new Error("Source task not found");
-    const resultPath = path5.join(this.projectRoot, ".growth-studio", "task-results", `${current.taskId}.json`);
+    const resultPath = path6.join(this.projectRoot, ".growth-studio", "task-results", `${current.taskId}.json`);
     const temporaryResultPath = `${resultPath}.tmp`;
     const contentLimit = 6e4;
     const currentContent = current.content.length > contentLimit ? `${current.content.slice(0, contentLimit)}
@@ -65776,7 +65817,7 @@ var ProductKernel = class {
    * folder) and how to ask the founder through Studio.
    */
   studioChannel(taskId) {
-    const workspace = path5.join(this.projectRoot, "business-ai-engine-workspace");
+    const workspace = path6.join(this.projectRoot, "business-ai-engine-workspace");
     return `
 
 GROWTH STUDIO CHANNEL
@@ -65858,7 +65899,7 @@ Continue the task.`;
     return this.reconciling;
   }
   async importTaskResults() {
-    const resultDirectory = path5.join(this.projectRoot, ".growth-studio", "task-results");
+    const resultDirectory = path6.join(this.projectRoot, ".growth-studio", "task-results");
     let entries;
     try {
       entries = (await fs8.readdir(resultDirectory)).filter((entry) => entry.endsWith(".json"));
@@ -65868,7 +65909,7 @@ Continue the task.`;
     }
     for (const entry of entries) {
       const taskId = entry.slice(0, -".json".length);
-      const resultPath = path5.join(resultDirectory, entry);
+      const resultPath = path6.join(resultDirectory, entry);
       const owner = this.store.getTask(taskId)?.source.type;
       if (owner && PACKAGED_RESULT_TYPES.has(owner) && !this.taskKinds.has(owner)) continue;
       try {
@@ -65930,8 +65971,8 @@ Continue the task.`;
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
         this.store.addEvent({ level: "failed", eventType: "result.import_failed", title: "Could not import a Codex result", detail: reason });
-        const rejected = path5.join(resultDirectory, "rejected", `${taskId}-${Date.now()}.json`);
-        await fs8.mkdir(path5.dirname(rejected), { recursive: true }).catch(() => void 0);
+        const rejected = path6.join(resultDirectory, "rejected", `${taskId}-${Date.now()}.json`);
+        await fs8.mkdir(path6.dirname(rejected), { recursive: true }).catch(() => void 0);
         await fs8.rename(resultPath, rejected).catch(() => void 0);
         await this.reportRejectedResult(taskId, reason, resultPath);
       } finally {
@@ -65982,11 +66023,11 @@ Fix it and write the result JSON again to ${JSON.stringify(`${resultPath}.tmp`)}
     let contentPath = null;
     if (input.contentPath) {
       const requested = String(input.contentPath).trim();
-      const absolute = path5.resolve(this.projectRoot, requested);
-      const relative = path5.relative(this.projectRoot, absolute);
-      if (!requested || relative.startsWith("..") || path5.isAbsolute(relative)) throw new Error("Result contentPath must stay inside the Growth Studio project");
+      const absolute = path6.resolve(this.projectRoot, requested);
+      const relative = path6.relative(this.projectRoot, absolute);
+      if (!requested || relative.startsWith("..") || path6.isAbsolute(relative)) throw new Error("Result contentPath must stay inside the Growth Studio project");
       content = (await fs8.readFile(absolute, "utf8")).trim();
-      contentPath = relative.split(path5.sep).join("/");
+      contentPath = relative.split(path6.sep).join("/");
     }
     if (!content || content.length > 75e4) throw new Error("Result content is required and must stay under 750 KB");
     const sections = Array.isArray(input.sections) && input.sections.length ? input.sections.map((section) => ({
@@ -66040,8 +66081,8 @@ Fix it and write the result JSON again to ${JSON.stringify(`${resultPath}.tmp`)}
       return current;
     }
     const source = current.source.type === "context-review" ? `AI context review ${current.source.reviewId}; finding ${current.source.findingId}; evidence: ${current.source.evidence.join(", ") || "none recorded"}` : "Manually created in Growth Studio";
-    const resultDirectory = path5.join(this.projectRoot, ".growth-studio", "task-results");
-    const resultPath = path5.join(resultDirectory, `${current.id}.json`);
+    const resultDirectory = path6.join(this.projectRoot, ".growth-studio", "task-results");
+    const resultPath = path6.join(resultDirectory, `${current.id}.json`);
     const temporaryResultPath = `${resultPath}.tmp`;
     await fs8.mkdir(resultDirectory, { recursive: true });
     const prompt = await this.prompts.kernel("task-assign", {
@@ -66626,7 +66667,7 @@ Fix it and write the result JSON again to ${JSON.stringify(`${resultPath}.tmp`)}
 
 // src/server/kernel/store.ts
 import fs10 from "node:fs";
-import path7 from "node:path";
+import path8 from "node:path";
 import { randomUUID as randomUUID3 } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 
@@ -66670,7 +66711,7 @@ function taskChangeEvents(before, after) {
 
 // src/server/kernel/migrations/runner.ts
 import fs9 from "node:fs";
-import path6 from "node:path";
+import path7 from "node:path";
 var DatabaseFromNewerVersionError = class extends Error {
   constructor(module, unknownMigrations) {
     super(`This Growth Studio database was upgraded by a newer version (${module}: ${unknownMigrations.join(", ")}). Update Growth Studio to open it.`);
@@ -66777,16 +66818,16 @@ function runMigrations(db, modules, options = {}) {
 function backupDatabase(db, directory, keep = 5) {
   fs9.mkdirSync(directory, { recursive: true });
   const stamp = (/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-");
-  let file = path6.join(directory, `growth-studio-${stamp}.db`);
-  for (let attempt = 1; fs9.existsSync(file); attempt += 1) file = path6.join(directory, `growth-studio-${stamp}-${attempt}.db`);
+  let file = path7.join(directory, `growth-studio-${stamp}.db`);
+  for (let attempt = 1; fs9.existsSync(file); attempt += 1) file = path7.join(directory, `growth-studio-${stamp}-${attempt}.db`);
   db.exec(`VACUUM INTO '${file.replace(/'/g, "''")}'`);
   const copies = fs9.readdirSync(directory).filter((name) => /^growth-studio-.*\.db$/.test(name)).sort();
-  for (const old of copies.slice(0, Math.max(0, copies.length - keep))) fs9.rmSync(path6.join(directory, old), { force: true });
+  for (const old of copies.slice(0, Math.max(0, copies.length - keep))) fs9.rmSync(path7.join(directory, old), { force: true });
   return file;
 }
 
 // src/server/kernel/manifest.ts
-var kernelManifest = { id: "kernel", version: "1.10.0" };
+var kernelManifest = { id: "kernel", version: "2.0.0" };
 
 // src/server/kernel/migrations/0001-baseline.ts
 var baseline = {
@@ -67078,10 +67119,10 @@ var StudioStore = class {
    * A database that needs migrating is copied to `backupDirectory` first.
    */
   constructor(databasePath2, options = {}) {
-    if (databasePath2 !== ":memory:") fs10.mkdirSync(path7.dirname(databasePath2), { recursive: true });
+    if (databasePath2 !== ":memory:") fs10.mkdirSync(path8.dirname(databasePath2), { recursive: true });
     this.db = new DatabaseSync(databasePath2);
     this.db.exec("PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;");
-    const backupDirectory = options.backupDirectory ?? (databasePath2 === ":memory:" ? null : path7.join(path7.dirname(databasePath2), "backups"));
+    const backupDirectory = options.backupDirectory ?? (databasePath2 === ":memory:" ? null : path8.join(path8.dirname(databasePath2), "backups"));
     this.migrations = runMigrations(this.db, studioSchemaModules(), {
       backup: backupDirectory ? (db) => backupDatabase(db, backupDirectory) : null,
       appVersion: options.appVersion ?? null
@@ -68244,8 +68285,8 @@ function getErrorMap() {
 
 // node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path13, errorMaps, issueData } = params;
-  const fullPath = [...path13, ...issueData.path || []];
+  const { data, path: path14, errorMaps, issueData } = params;
+  const fullPath = [...path14, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -68361,11 +68402,11 @@ var errorUtil;
 
 // node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path13, key) {
+  constructor(parent, value, path14, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path13;
+    this._path = path14;
     this._key = key;
   }
   get path() {
@@ -72136,13 +72177,17 @@ function createMiniAppHost(input) {
     miniApps: miniApps2,
     states: () => apps.map((app2) => states.get(app2.module.manifest.id)),
     /**
-     * Adds a mini-app installed while this Studio runs (one it did not have;
-     * a new version of a running one needs a restart). It runs when the core
-     * and the interfaces it requires are there, and starts its background work.
+     * Adds a mini-app installed while this Studio runs: one it did not have,
+     * or a new version of one it turned away (its core or interfaces did not
+     * fit); a new version of a running one needs a restart. It runs when the
+     * core and the interfaces it requires are there, and starts its background work.
      */
     async add(app2) {
       const { id, version, requiresCore, requires } = app2.module.manifest;
-      if (states.has(id)) throw new Error(`Mini-app ${id} is already loaded`);
+      if (states.get(id)?.state === "running") throw new Error(`Mini-app ${id} is already loaded`);
+      const index = apps.findIndex((existing) => existing.module.manifest.id === id);
+      if (index >= 0) apps.splice(index, 1);
+      states.delete(id);
       apps.push(app2);
       const missing = Object.entries(requires ?? {}).find(([name, range]) => !(provided.get(name) ?? []).some((entry) => satisfies(entry.version, range)));
       const reason = requiresCore && !satisfies(input.coreVersion, requiresCore) ? `needs core ${requiresCore}, this Studio has ${input.coreVersion}` : missing ? `needs ${missing[0]} ${missing[1]}` : null;
@@ -72184,25 +72229,25 @@ function createMiniAppHost(input) {
 }
 
 // src/server/mini-app-packages.ts
-import { existsSync as existsSync5, readdirSync as readdirSync4, readFileSync as readFileSync4 } from "node:fs";
-import path11 from "node:path";
+import { existsSync as existsSync6, readdirSync as readdirSync4, readFileSync as readFileSync5 } from "node:fs";
+import path12 from "node:path";
 import { fileURLToPath as fileURLToPath3, pathToFileURL as pathToFileURL2 } from "node:url";
 
 // src/mini-apps/packages.json
 var packages_default = ["image-studio", "offers", "crm", "quick-visual", "quick-content", "personal-brand", "research", "brand-profile", "zalo-chatbot"];
 
 // src/plugin/app-versions.ts
-import { cpSync, existsSync as existsSync2, mkdirSync as mkdirSync2, readdirSync as readdirSync2, readFileSync as readFileSync2, renameSync as renameSync2, rmSync as rmSync2, statSync, writeFileSync as writeFileSync2 } from "node:fs";
-import path8 from "node:path";
-var appHome = (dataRoot) => path8.join(dataRoot, "app");
+import { cpSync, existsSync as existsSync3, mkdirSync as mkdirSync2, readdirSync as readdirSync2, readFileSync as readFileSync3, renameSync as renameSync2, rmSync as rmSync2, statSync, writeFileSync as writeFileSync2 } from "node:fs";
+import path9 from "node:path";
+var appHome = (dataRoot) => path9.join(dataRoot, "app");
 function packageHome(dataRoot, pkg) {
   if (pkg === void 0) return appHome(dataRoot);
   if (!/^[a-z0-9][a-z0-9-]{0,63}$/.test(pkg)) throw new Error(`Not a mini-app package id: ${pkg}`);
-  return path8.join(appHome(dataRoot), "mini-apps", pkg);
+  return path9.join(appHome(dataRoot), "mini-apps", pkg);
 }
-var versionsDirectory = (dataRoot, pkg) => path8.join(packageHome(dataRoot, pkg), "versions");
-var versionDirectory = (dataRoot, version, pkg) => path8.join(versionsDirectory(dataRoot, pkg), version);
-var pointerFile = (dataRoot, pkg) => path8.join(packageHome(dataRoot, pkg), "current.json");
+var versionsDirectory = (dataRoot, pkg) => path9.join(packageHome(dataRoot, pkg), "versions");
+var versionDirectory = (dataRoot, version, pkg) => path9.join(versionsDirectory(dataRoot, pkg), version);
+var pointerFile = (dataRoot, pkg) => path9.join(packageHome(dataRoot, pkg), "current.json");
 var VERSION2 = /^\d+\.\d+\.\d+$/;
 function compareVersions(a, b) {
   const left = a.split(".").map(Number);
@@ -72215,9 +72260,9 @@ function compareVersions(a, b) {
 }
 function readVersionInfo(directory) {
   try {
-    const info = JSON.parse(readFileSync2(path8.join(directory, "VERSION.json"), "utf8"));
+    const info = JSON.parse(readFileSync3(path9.join(directory, "VERSION.json"), "utf8"));
     if (!VERSION2.test(info.version) || typeof info.buildId !== "string" || !info.buildId) return null;
-    if (!existsSync2(path8.join(directory, "server.mjs"))) return null;
+    if (!existsSync3(path9.join(directory, "server.mjs"))) return null;
     return info;
   } catch {
     return null;
@@ -72225,7 +72270,7 @@ function readVersionInfo(directory) {
 }
 function readCurrent(dataRoot, pkg) {
   try {
-    const pointer = JSON.parse(readFileSync2(pointerFile(dataRoot, pkg), "utf8"));
+    const pointer = JSON.parse(readFileSync3(pointerFile(dataRoot, pkg), "utf8"));
     if (!VERSION2.test(pointer.current)) return null;
     return { current: pointer.current, previous: pointer.previous && VERSION2.test(pointer.previous) ? pointer.previous : null };
   } catch {
@@ -72254,7 +72299,7 @@ function installFromDirectory(dataRoot, source, pkg) {
   if (existing?.buildId === info.buildId) return { version: info.version, directory: target, info: existing };
   mkdirSync2(versionsDirectory(dataRoot, pkg), { recursive: true });
   const staging = `${target}.${process.pid}-${Date.now().toString(36)}.staging`;
-  cpSync(source, staging, { recursive: true, filter: (from) => path8.basename(from) !== ".DS_Store" });
+  cpSync(source, staging, { recursive: true, filter: (from) => path9.basename(from) !== ".DS_Store" });
   if (existing) {
     const replaced = `${target}.${process.pid}-${Date.now().toString(36)}.replaced`;
     renameSync2(target, replaced);
@@ -72285,7 +72330,7 @@ function resolveApp(dataRoot, seedDirectory, pkg) {
   if (installed) return installed;
   throw new Error("Growth Studio is not installed: the plugin has no seed app and nothing is installed yet");
 }
-var noticeFile = (dataRoot) => path8.join(appHome(dataRoot), "update-notice.json");
+var noticeFile = (dataRoot) => path9.join(appHome(dataRoot), "update-notice.json");
 function addUpdateNotice(dataRoot, items) {
   if (!items.length) return;
   const merged = new Map((readUpdateNotice(dataRoot)?.items ?? []).map((item) => [item.id, item]));
@@ -72302,7 +72347,7 @@ function writeUpdateNotice(dataRoot, notice) {
 }
 function readUpdateNotice(dataRoot) {
   try {
-    const raw = JSON.parse(readFileSync2(noticeFile(dataRoot), "utf8"));
+    const raw = JSON.parse(readFileSync3(noticeFile(dataRoot), "utf8"));
     const items = Array.isArray(raw.items) ? raw.items : raw.from && raw.to ? [{ id: "core", from: raw.from, to: raw.to }] : [];
     const valid = items.filter((item) => typeof item?.id === "string" && VERSION2.test(item.to) && (item.from === null || VERSION2.test(item.from)));
     return valid.length ? { items: valid, at: raw.at ?? (/* @__PURE__ */ new Date()).toISOString() } : null;
@@ -72313,10 +72358,10 @@ function readUpdateNotice(dataRoot) {
 function clearUpdateNotice(dataRoot) {
   rmSync2(noticeFile(dataRoot), { force: true });
 }
-var startedFile = (dataRoot) => path8.join(appHome(dataRoot), "last-started.json");
+var startedFile = (dataRoot) => path9.join(appHome(dataRoot), "last-started.json");
 function readLastStarted(dataRoot) {
   try {
-    return JSON.parse(readFileSync2(startedFile(dataRoot), "utf8"));
+    return JSON.parse(readFileSync3(startedFile(dataRoot), "utf8"));
   } catch {
     return null;
   }
@@ -72366,7 +72411,7 @@ function pruneVersions(dataRoot, pkg) {
   const now2 = Date.now();
   for (const entry of entries) {
     if (keep.has(entry)) continue;
-    const full = path8.join(versionsDirectory(dataRoot, pkg), entry);
+    const full = path9.join(versionsDirectory(dataRoot, pkg), entry);
     if (VERSION2.test(entry)) {
       if (compareVersions(entry, pointer.current) < 0) rmSync2(full, { recursive: true, force: true });
       continue;
@@ -72381,7 +72426,7 @@ function pruneInstalledVersions(dataRoot) {
   pruneVersions(dataRoot);
   let packages2 = [];
   try {
-    packages2 = readdirSync2(path8.join(appHome(dataRoot), "mini-apps"));
+    packages2 = readdirSync2(path9.join(appHome(dataRoot), "mini-apps"));
   } catch {
     return;
   }
@@ -72392,14 +72437,14 @@ function pruneInstalledVersions(dataRoot) {
 }
 
 // src/server/updater/updater.ts
-import { spawn as spawn2 } from "node:child_process";
-import { copyFileSync, existsSync as existsSync4, mkdirSync as mkdirSync4, openSync as openSync2, readFileSync as readFileSync3, rmSync as rmSync4, writeFileSync as writeFileSync3 } from "node:fs";
-import path10 from "node:path";
+import { spawn as spawn3 } from "node:child_process";
+import { copyFileSync, existsSync as existsSync5, mkdirSync as mkdirSync4, openSync as openSync2, readFileSync as readFileSync4, rmSync as rmSync4, writeFileSync as writeFileSync3 } from "node:fs";
+import path11 from "node:path";
 
 // src/server/updater/installer.ts
 import { execFile as execFile2 } from "node:child_process";
-import { createWriteStream, existsSync as existsSync3, lstatSync, mkdirSync as mkdirSync3, readdirSync as readdirSync3, rmSync as rmSync3, statSync as statSync2 } from "node:fs";
-import path9 from "node:path";
+import { createWriteStream, existsSync as existsSync4, lstatSync, mkdirSync as mkdirSync3, readdirSync as readdirSync3, rmSync as rmSync3, statSync as statSync2 } from "node:fs";
+import path10 from "node:path";
 import { Readable, Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { fileURLToPath as fileURLToPath2, pathToFileURL } from "node:url";
@@ -72473,24 +72518,24 @@ async function installRelease(dataRoot, release, options = {}) {
   const existing = readVersionInfo(versionDirectory(dataRoot, release.version, pkg));
   if (existing?.buildId === release.buildId) return { version: release.version, directory: versionDirectory(dataRoot, release.version, pkg), info: existing };
   if (!verifyReleaseSignature(release, options.publicKey)) throw new ReleaseRejectedError(`${label} is not signed by Kallob`);
-  const work = path9.join(appHome(dataRoot), "downloads", `${pkg ?? "core"}-${release.version}-${process.pid}-${Date.now().toString(36)}`);
+  const work = path10.join(appHome(dataRoot), "downloads", `${pkg ?? "core"}-${release.version}-${process.pid}-${Date.now().toString(36)}`);
   mkdirSync3(work, { recursive: true });
   try {
-    const archive = path9.join(work, "package.tgz");
+    const archive = path10.join(work, "package.tgz");
     await download(release, label, archive, options.fetchImpl ?? fetch);
     const size = statSync2(archive).size;
     if (size !== release.size) throw new ReleaseRejectedError(`${label} download is ${size} bytes, expected ${release.size}`);
     if (await fileDigest(archive) !== release.sha256) throw new ReleaseRejectedError(`${label} download does not match its digest`);
-    const unpacked = path9.join(work, "unpacked");
+    const unpacked = path10.join(work, "unpacked");
     mkdirSync3(unpacked);
     await extract(archive, unpacked, label, pkg ? MINI_APP_ENTRIES : CORE_ENTRIES);
-    if (!pkg && !existsSync3(path9.join(unpacked, "public", "index.html"))) throw new ReleaseRejectedError(`${label} package has no UI`);
+    if (!pkg && !existsSync4(path10.join(unpacked, "public", "index.html"))) throw new ReleaseRejectedError(`${label} package has no UI`);
     const info = readVersionInfo(unpacked);
     if (!info || info.version !== release.version || info.buildId !== release.buildId || pkg && info.id !== pkg) {
       throw new ReleaseRejectedError(`${label} package declares ${info ? `${pkg ? `${String(info.id)} ` : ""}${info.version} (${info.buildId})` : "no version"}`);
     }
-    if (pkg) await selfCheckMiniApp(path9.join(unpacked, "server.mjs"), pkg, release, label, options.nodePath ?? process.execPath);
-    else await selfCheck(path9.join(unpacked, "server.mjs"), release, options.nodePath ?? process.execPath);
+    if (pkg) await selfCheckMiniApp(path10.join(unpacked, "server.mjs"), pkg, release, label, options.nodePath ?? process.execPath);
+    else await selfCheck(path10.join(unpacked, "server.mjs"), release, options.nodePath ?? process.execPath);
     return installFromDirectory(dataRoot, unpacked, pkg);
   } finally {
     rmSync3(work, { recursive: true, force: true });
@@ -72529,9 +72574,9 @@ async function extract(archive, target, label, entries) {
   await run("tar", ["-xzf", archive, "-C", target]);
   const walk2 = (directory) => {
     for (const name of readdirSync3(directory)) {
-      const full = path9.join(directory, name);
+      const full = path10.join(directory, name);
       const stat = lstatSync(full);
-      if (stat.isSymbolicLink()) throw new ReleaseRejectedError(`${label} package contains a link: ${path9.relative(target, full)}`);
+      if (stat.isSymbolicLink()) throw new ReleaseRejectedError(`${label} package contains a link: ${path10.relative(target, full)}`);
       if (stat.isDirectory()) walk2(full);
     }
   };
@@ -72580,15 +72625,19 @@ function parseAnnouncement(body) {
   if (listed && typeof listed === "object") {
     for (const [id, version] of Object.entries(listed)) if (typeof version === "string" && SEMVER.test(version)) miniApps2[id] = version;
   }
+  const packages2 = parsePackages(value.packages);
+  const upcoming = value.upcoming && typeof value.upcoming === "object" ? parsePackages(value.upcoming.packages) : {};
+  return { release, packages: packages2, required: { studio, miniApps: miniApps2 }, ...Object.keys(upcoming).length ? { upcoming } : {} };
+}
+function parsePackages(input) {
   const packages2 = {};
-  if (value.packages && typeof value.packages === "object") {
-    for (const [id, announced] of Object.entries(value.packages)) {
-      const parsed = parseMiniAppRelease(announced, id);
-      const requiresCore = announced.requiresCore;
-      if (parsed) packages2[id] = { ...parsed, requiresCore: typeof requiresCore === "string" && requiresCore ? requiresCore : null };
-    }
+  if (!input || typeof input !== "object") return packages2;
+  for (const [id, announced] of Object.entries(input)) {
+    const parsed = parseMiniAppRelease(announced, id);
+    const requiresCore = announced?.requiresCore;
+    if (parsed) packages2[id] = { ...parsed, requiresCore: typeof requiresCore === "string" && requiresCore ? requiresCore : null };
   }
-  return { release, packages: packages2, required: { studio, miniApps: miniApps2 } };
+  return packages2;
 }
 var FeedReleaseSource = class {
   constructor(url) {
@@ -72596,12 +72645,12 @@ var FeedReleaseSource = class {
   }
   url;
   async latest() {
-    const body = this.url.startsWith("file://") ? JSON.parse(readFileSync3(new URL(this.url), "utf8")) : await (await fetch(this.url, { signal: AbortSignal.timeout(15e3) })).json();
+    const body = this.url.startsWith("file://") ? JSON.parse(readFileSync4(new URL(this.url), "utf8")) : await (await fetch(this.url, { signal: AbortSignal.timeout(15e3) })).json();
     return parseAnnouncement(body);
   }
 };
-var lastMigrationFile = (dataRoot, pkg) => path10.join(packageHome(dataRoot, pkg), "last-migration.json");
-var failedFile = (dataRoot) => path10.join(appHome(dataRoot), "failed.json");
+var lastMigrationFile = (dataRoot, pkg) => path11.join(packageHome(dataRoot, pkg), "last-migration.json");
+var failedFile = (dataRoot) => path11.join(appHome(dataRoot), "failed.json");
 var failedKey = (release) => release.id ? `${release.id}@${release.version}` : release.version;
 var StudioUpdater = class {
   constructor(options) {
@@ -72611,6 +72660,8 @@ var StudioUpdater = class {
   phase = "idle";
   available = null;
   availablePackages = [];
+  /** Packages built for the newer core on offer, installed with it. */
+  upcomingPackages = [];
   installed = null;
   readyPackages = /* @__PURE__ */ new Map();
   checkedAt = null;
@@ -72660,10 +72711,12 @@ var StudioUpdater = class {
       this.checkedAt = new Date(this.checkedAtMs).toISOString();
       const newer = release && compareVersions(release.version, this.options.version) > 0 && !this.failedBefore(release) ? release : null;
       this.available = newer;
-      this.availablePackages = Object.values(announcement.packages).filter((candidate) => {
+      const wanted = (candidate) => {
         const local = readCurrent(this.options.dataRoot, candidate.id)?.current ?? null;
         return (!local || compareVersions(candidate.version, local) > 0) && !this.failedBefore(candidate);
-      });
+      };
+      this.availablePackages = Object.values(announcement.packages).filter(wanted);
+      this.upcomingPackages = newer ? Object.values(announcement.upcoming ?? {}).filter(wanted) : [];
       if (this.phase === "checking") this.phase = "idle";
       return newer;
     } catch (error) {
@@ -72699,14 +72752,22 @@ var StudioUpdater = class {
         if (core) this.installed = core;
       }
       const kernel2 = core ? kernelOf(core) ?? this.options.kernelVersion : this.options.kernelVersion;
-      for (const candidate of this.availablePackages) {
+      const candidates = /* @__PURE__ */ new Map();
+      for (const candidate of [...this.availablePackages, ...core ? this.upcomingPackages : []]) {
+        if (candidate.requiresCore && kernel2 && !satisfies(kernel2, candidate.requiresCore)) continue;
+        const known = candidates.get(candidate.id);
+        if (!known || compareVersions(candidate.version, known.version) > 0) candidates.set(candidate.id, candidate);
+      }
+      for (const candidate of candidates.values()) {
         if (this.readyPackages.get(candidate.id)?.info.buildId === candidate.buildId) continue;
         if (candidate.requiresCore && kernel2 && !satisfies(kernel2, candidate.requiresCore)) continue;
         const app2 = await this.install(candidate, () => installRelease(this.options.dataRoot, candidate, this.installOptions()));
         if (!app2) continue;
         const runsNow = !candidate.requiresCore || !this.options.kernelVersion || satisfies(this.options.kernelVersion, candidate.requiresCore);
-        if (!readCurrent(this.options.dataRoot, candidate.id) && this.options.addMiniApp && runsNow) {
-          writeCurrent(this.options.dataRoot, { current: app2.version, previous: null }, candidate.id);
+        const pointer = readCurrent(this.options.dataRoot, candidate.id);
+        const notRunning = !pointer || this.options.miniAppRuns?.(candidate.id) === false;
+        if (notRunning && this.options.addMiniApp && runsNow) {
+          writeCurrent(this.options.dataRoot, { current: app2.version, previous: pointer && pointer.current !== app2.version ? pointer.current : pointer?.previous ?? null }, candidate.id);
           this.availablePackages = this.availablePackages.filter((item) => item.id !== candidate.id);
           const runs = await this.options.addMiniApp(candidate.id).catch((error) => {
             console.error(`Mini-app ${candidate.id} did not load`, error);
@@ -72750,13 +72811,14 @@ var StudioUpdater = class {
    */
   async plan(scope = {}) {
     const ready = await this.prepare();
-    const packages2 = scope.miniApp ? ready.packages.filter((app2) => app2.id === scope.miniApp) : ready.packages;
+    const scoped = scope.miniApp ? ready.packages.filter((app2) => app2.id === scope.miniApp) : ready.packages;
     const studioRequired = Boolean(this.required.studio && compareVersions(this.options.version, this.required.studio) < 0);
-    const packageNeedsCore = packages2.some((app2) => {
+    const packageNeedsCore = scoped.some((app2) => {
       const requiresCore = app2.info.requiresCore;
       return typeof requiresCore === "string" && this.options.kernelVersion !== void 0 && !satisfies(this.options.kernelVersion, requiresCore);
     });
-    return { core: scope.miniApp && !studioRequired && !packageNeedsCore ? null : ready.core, packages: packages2 };
+    const core = scope.miniApp && !studioRequired && !packageNeedsCore ? null : ready.core;
+    return { core, packages: core ? ready.packages : scoped };
   }
   /**
    * Switches to what `plan(scope)` names. Resolves `false` when there is
@@ -72786,7 +72848,7 @@ var StudioUpdater = class {
       writeCurrent(dataRoot, { current: app2.version, previous: pointer && pointer.current !== app2.version ? pointer.current : pointer?.previous ?? null }, app2.id);
     }
     await this.options.stop();
-    const entry = path10.join(plan.core ? plan.core.directory : versionDirectory(dataRoot, previous), "server.mjs");
+    const entry = path11.join(plan.core ? plan.core.directory : versionDirectory(dataRoot, previous), "server.mjs");
     const child = this.spawnServer(entry);
     let exited = false;
     child.once("exit", () => {
@@ -72810,21 +72872,21 @@ var StudioUpdater = class {
     for (const app2 of plan.packages) {
       const pointer = packagePointers.get(app2.id);
       if (pointer) writeCurrent(dataRoot, pointer, app2.id);
-      else rmSync4(path10.join(packageHome(dataRoot, app2.id), "current.json"), { force: true });
+      else rmSync4(path11.join(packageHome(dataRoot, app2.id), "current.json"), { force: true });
     }
     const broken = outcome.notRunning.length ? plan.packages.filter((app2) => outcome.notRunning.includes(app2.id)) : [...plan.core ? [plan.core] : [], ...plan.packages];
     for (const app2 of broken) {
       const id = "id" in app2 ? app2.id : void 0;
       this.markFailed({ id, version: app2.version, buildId: app2.info.buildId }, new Error(id ? `Mini-app ${id} ${app2.version} did not run` : `Studio ${app2.version} did not start on port ${port2}`));
     }
-    this.spawnServer(path10.join(versionDirectory(dataRoot, previous), "server.mjs"));
+    this.spawnServer(path11.join(versionDirectory(dataRoot, previous), "server.mjs"));
     exit(0);
   }
   spawnServer(entry) {
-    const state = path10.join(this.options.dataRoot, ".growth-studio");
+    const state = path11.join(this.options.dataRoot, ".growth-studio");
     mkdirSync4(state, { recursive: true });
-    const log = openSync2(path10.join(state, "server.log"), "a");
-    const child = spawn2(this.options.nodePath ?? process.execPath, [entry], {
+    const log = openSync2(path11.join(state, "server.log"), "a");
+    const child = spawn3(this.options.nodePath ?? process.execPath, [entry], {
       cwd: this.options.dataRoot,
       env: { ...process.env, KGS_ROOT: this.options.dataRoot, PORT: String(this.options.port) },
       detached: true,
@@ -72832,7 +72894,7 @@ var StudioUpdater = class {
       stdio: ["ignore", log, log]
     });
     child.unref();
-    if (child.pid) writeFileSync3(path10.join(state, "server.pid"), String(child.pid));
+    if (child.pid) writeFileSync3(path11.join(state, "server.pid"), String(child.pid));
     return child;
   }
   /**
@@ -72867,8 +72929,8 @@ var StudioUpdater = class {
     ];
     const copies = targets.flatMap((target) => {
       try {
-        const record = JSON.parse(readFileSync3(lastMigrationFile(this.options.dataRoot, target.pkg), "utf8"));
-        return record.buildId === target.buildId && record.at >= startedAt && record.backupPath && existsSync4(record.backupPath) ? [record] : [];
+        const record = JSON.parse(readFileSync4(lastMigrationFile(this.options.dataRoot, target.pkg), "utf8"));
+        return record.buildId === target.buildId && record.at >= startedAt && record.backupPath && existsSync5(record.backupPath) ? [record] : [];
       } catch {
         return [];
       }
@@ -72881,7 +72943,7 @@ var StudioUpdater = class {
   }
   failedBefore(release) {
     try {
-      const failed = JSON.parse(readFileSync3(failedFile(this.options.dataRoot), "utf8"));
+      const failed = JSON.parse(readFileSync4(failedFile(this.options.dataRoot), "utf8"));
       return failed[failedKey(release)]?.buildId === release.buildId;
     } catch {
       return false;
@@ -72890,7 +72952,7 @@ var StudioUpdater = class {
   markFailed(release, error) {
     let failed = {};
     try {
-      failed = JSON.parse(readFileSync3(failedFile(this.options.dataRoot), "utf8"));
+      failed = JSON.parse(readFileSync4(failedFile(this.options.dataRoot), "utf8"));
     } catch {
     }
     failed[failedKey(release)] = { buildId: release.buildId, reason: error instanceof Error ? error.message : String(error), at: (/* @__PURE__ */ new Date()).toISOString() };
@@ -72933,23 +72995,23 @@ async function loadMiniAppPackage(input, id) {
   const { module, files } = input.pluginBundle ? await importInstalled(input, id) : { module: await importSource(id), files: void 0 };
   if (module.manifest.id !== id) throw new Error(`the package declares ${module.manifest.id}`);
   const migrated = runMigrations(input.db, [module.schema], {
-    backup: input.databasePath === ":memory:" ? null : (db) => backupDatabase(db, path11.join(path11.dirname(input.databasePath), "backups")),
+    backup: input.databasePath === ":memory:" ? null : (db) => backupDatabase(db, path12.join(path12.dirname(input.databasePath), "backups")),
     appVersion: input.appVersion
   });
   if (input.pluginBundle && migrated.applied.length && files) {
-    const info = JSON.parse(readFileSync4(path11.join(files.directory, "VERSION.json"), "utf8"));
+    const info = JSON.parse(readFileSync5(path12.join(files.directory, "VERSION.json"), "utf8"));
     recordMigration(input.dataRoot, { version: info.version, buildId: info.buildId, backupPath: migrated.backupPath, at: (/* @__PURE__ */ new Date()).toISOString() }, id);
   }
   return { module, source: "package", ...files ? { files } : {} };
 }
 function installedOrSeeded(dataRoot, appRoot2) {
-  const list = (directory) => existsSync5(directory) ? readdirSync4(directory).filter((name) => /^[a-z0-9][a-z0-9-]*$/.test(name)) : [];
-  return [.../* @__PURE__ */ new Set([...list(path11.join(appHome(dataRoot), "mini-apps")), ...list(path11.join(appRoot2, "mini-apps"))])].sort();
+  const list = (directory) => existsSync6(directory) ? readdirSync4(directory).filter((name) => /^[a-z0-9][a-z0-9-]*$/.test(name)) : [];
+  return [.../* @__PURE__ */ new Set([...list(path12.join(appHome(dataRoot), "mini-apps")), ...list(path12.join(appRoot2, "mini-apps"))])].sort();
 }
 async function importInstalled(input, id) {
-  const seed = path11.join(input.appRoot, "mini-apps", id);
-  const installed = resolveApp(input.dataRoot, existsSync5(seed) ? seed : null, id);
-  const loaded = await import(pathToFileURL2(path11.join(installed.directory, "server.mjs")).href);
+  const seed = path12.join(input.appRoot, "mini-apps", id);
+  const installed = resolveApp(input.dataRoot, existsSync6(seed) ? seed : null, id);
+  const loaded = await import(pathToFileURL2(path12.join(installed.directory, "server.mjs")).href);
   if (!loaded.default?.manifest || typeof loaded.default.register !== "function") throw new Error("server.mjs has no defineMiniApp default export");
   const client = installed.info.client;
   const files = {
@@ -72959,7 +73021,7 @@ async function importInstalled(input, id) {
   return { module: loaded.default, files };
 }
 async function importSource(id) {
-  const entry = path11.join(path11.dirname(fileURLToPath3(import.meta.url)), "..", "mini-apps", id, "server", "index.ts");
+  const entry = path12.join(path12.dirname(fileURLToPath3(import.meta.url)), "..", "mini-apps", id, "server", "index.ts");
   return (await import(pathToFileURL2(entry).href)).default;
 }
 
@@ -73097,6 +73159,11 @@ var CloudReleaseSource = class {
 // src/server/release-notes.json
 var release_notes_default = [
   {
+    version: "0.21.0",
+    vi: "Khi Growth Studio c\u1EADp nh\u1EADt, c\xE1c mini-app cho b\u1EA3n m\u1EDBi \u0111\u01B0\u1EE3c c\xE0i c\xF9ng l\xFAc n\xEAn m\u1EDF ra l\xE0 d\xF9ng \u0111\u01B0\u1EE3c ngay. Codex ch\u1EA1y \u0111\u01B0\u1EE3c tr\xEAn Windows.",
+    en: "When Growth Studio updates, the mini-apps for the new version are installed together, so they work right away. Codex runs on Windows."
+  },
+  {
     version: "0.20.0",
     vi: "Zalo Chatbot gi\u1EDD l\xE0 m\u1ED9t mini-app ri\xEAng, c\u1EADp nh\u1EADt \u0111\u1ED9c l\u1EADp; t\u1EEB nay m\u1ECDi mini-app \u0111\u1EC1u t\u1EF1 c\u1EADp nh\u1EADt m\xE0 kh\xF4ng c\u1EA7n c\u1EADp nh\u1EADt c\u1EA3 Growth Studio. Chatbot, li\xEAn h\u1EC7 \u0111\u01B0\u1EE3c ph\xE9p, h\u1ED9i tho\u1EA1i v\xE0 b\u1EA3n nh\xE1p c\u1EE7a b\u1EA1n \u0111\u01B0\u1EE3c gi\u1EEF nguy\xEAn; k\u1EBFt n\u1ED1i Zalo v\u1EABn n\u1EB1m trong K\u1EBFt n\u1ED1i nh\u01B0 tr\u01B0\u1EDBc.",
     en: "Zalo Chatbot is now its own mini-app and updates on its own; from now on every mini-app updates without updating all of Growth Studio. Your chatbots, allowed contacts, conversations and drafts stay as they are; the Zalo connection stays under Connections as before."
@@ -73193,7 +73260,7 @@ if (process.argv.includes("--self-check")) {
 mkdirSync5(projectRoot, { recursive: true });
 process.chdir(projectRoot);
 var app = (0, import_express2.default)();
-var databasePath = process.env.KGS_DB_PATH ?? path12.join(projectRoot, ".growth-studio", "growth-studio.db");
+var databasePath = process.env.KGS_DB_PATH ?? path13.join(projectRoot, ".growth-studio", "growth-studio.db");
 var store = new StudioStore(databasePath, { appVersion: buildId });
 if (store.migrations.applied.length) {
   if (pluginBundle) recordMigration(projectRoot, { version: studioVersion, buildId, backupPath: store.migrations.backupPath, at: (/* @__PURE__ */ new Date()).toISOString() });
@@ -73206,14 +73273,14 @@ var credentials2 = new CredentialVault();
 var googleDrive = new GoogleDriveConnector(credentials2, `http://127.0.0.1:${port}/api/integrations/google-drive/callback`);
 var sourceGrowthMcpOverrides = pluginBundle ? [] : [
   `mcp_servers.kallob-growth.command=${JSON.stringify(process.execPath)}`,
-  `mcp_servers.kallob-growth.args=${JSON.stringify(["--import", "tsx", path12.join(appRoot, "src", "plugin", "launcher.ts")])}`,
+  `mcp_servers.kallob-growth.args=${JSON.stringify(["--import", "tsx", path13.join(appRoot, "src", "plugin", "launcher.ts")])}`,
   `mcp_servers.kallob-growth.cwd=${JSON.stringify(appRoot)}`,
   `mcp_servers.kallob-growth.env.PORT=${JSON.stringify(String(port))}`,
   `mcp_servers.kallob-growth.env.KGS_ROOT=${JSON.stringify(projectRoot)}`,
   `mcp_servers.kallob-growth.env.KALLOB_CLOUD_API_ORIGIN=${JSON.stringify(cloudApiOrigin)}`
 ];
 var codexDesktop = new CodexDesktopBridge({
-  registryPath: path12.join(projectRoot, ".growth-studio", "codex-desktop-tasks.json"),
+  registryPath: path13.join(projectRoot, ".growth-studio", "codex-desktop-tasks.json"),
   // Source checkouts do not have the packaged plugin's MCP manifest. Give every
   // durable Codex task the same local kallob-growth launcher explicitly.
   configOverrides: sourceGrowthMcpOverrides,
@@ -73238,7 +73305,8 @@ var updater = new StudioUpdater({
   databasePath,
   source: () => process.env.KGS_UPDATE_FEED ? new FeedReleaseSource(process.env.KGS_UPDATE_FEED) : new CloudReleaseSource(kallobCloud),
   stop: () => stopServing(),
-  addMiniApp: (id) => addInstalledMiniApp(id)
+  addMiniApp: (id) => addInstalledMiniApp(id),
+  miniAppRuns: (id) => miniApps.states().some((state) => state.id === id && state.state === "running")
 });
 var forcedUpdate = null;
 function forceUpdate() {
@@ -73258,7 +73326,6 @@ var miniApps = createMiniAppHost({
   sdkFor: (module) => ({
     manifest: module.manifest,
     db: store.database,
-    store,
     kernel,
     // A mini-app's tasks remember which app and version made them (an update waits for its running work).
     tasks: {
@@ -73268,7 +73335,7 @@ var miniApps = createMiniAppHost({
       findTasks: (filter) => store.findTasks(filter),
       updateTask: (id, patch, expectedRevision) => store.updateTask(id, patch, expectedRevision)
     },
-    events: store,
+    events: { addEvent: (input) => store.addEvent(input) },
     results: { getResultByTaskId: (taskId) => store.getResultByTaskId(taskId) },
     connections: { getConnection: (id) => store.getConnection(id) },
     codex: codexDesktop,
@@ -73277,7 +73344,6 @@ var miniApps = createMiniAppHost({
     reconcileResults: () => kernel.reconcileTaskResults(),
     integrations: { zaloZca },
     dataRoot: projectRoot,
-    databasePath,
     port,
     router: () => import_express2.default.Router(),
     launcherOnly: launcherOnly(port)
@@ -74047,7 +74113,7 @@ app.use((error, _request, response, _next) => {
   response.status(status).json({ error: message2 });
 });
 await googleDrive.initialize();
-await kernel.ensureStarterConnection(path12.resolve(projectRoot, "..", "program-resources"));
+await kernel.ensureStarterConnection(path13.resolve(projectRoot, "..", "program-resources"));
 if (pluginBundle) await kernel.ensureFirstRunContextWorkspace();
 await kernel.startLocalFolderLifecycle();
 notifications.reconcileKernel();
