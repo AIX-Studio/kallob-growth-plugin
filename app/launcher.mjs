@@ -18,16 +18,21 @@ var staticRoot = path.join(appRoot, pluginBundle ? "public" : "dist");
 var projectRoot = path.resolve(process.env.KGS_ROOT ?? (pluginBundle ? path.join(os.homedir(), ".kallob-growth") : path.join(appRoot, "dev")));
 var port = Number(process.env.PORT ?? (pluginBundle ? 8795 : 8790));
 var production = pluginBundle || process.env.KGS_MODE === "production";
-var buildId = true ? "d5aa4a5-muv169k7" : "source";
+var buildId = true ? "c08fb25-muv5kkkr" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/plugin/app-versions.ts
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path2 from "node:path";
 var appHome = (dataRoot) => path2.join(dataRoot, "app");
-var versionsDirectory = (dataRoot) => path2.join(appHome(dataRoot), "versions");
-var versionDirectory = (dataRoot, version) => path2.join(versionsDirectory(dataRoot), version);
-var pointerFile = (dataRoot) => path2.join(appHome(dataRoot), "current.json");
+function packageHome(dataRoot, pkg) {
+  if (pkg === void 0) return appHome(dataRoot);
+  if (!/^[a-z0-9][a-z0-9-]{0,63}$/.test(pkg)) throw new Error(`Not a mini-app package id: ${pkg}`);
+  return path2.join(appHome(dataRoot), "mini-apps", pkg);
+}
+var versionsDirectory = (dataRoot, pkg) => path2.join(packageHome(dataRoot, pkg), "versions");
+var versionDirectory = (dataRoot, version, pkg) => path2.join(versionsDirectory(dataRoot, pkg), version);
+var pointerFile = (dataRoot, pkg) => path2.join(packageHome(dataRoot, pkg), "current.json");
 var VERSION = /^\d+\.\d+\.\d+$/;
 function compareVersions(a, b) {
   const left = a.split(".").map(Number);
@@ -48,36 +53,36 @@ function readVersionInfo(directory) {
     return null;
   }
 }
-function readCurrent(dataRoot) {
+function readCurrent(dataRoot, pkg) {
   try {
-    const pointer = JSON.parse(readFileSync(pointerFile(dataRoot), "utf8"));
+    const pointer = JSON.parse(readFileSync(pointerFile(dataRoot, pkg), "utf8"));
     if (!VERSION.test(pointer.current)) return null;
     return { current: pointer.current, previous: pointer.previous && VERSION.test(pointer.previous) ? pointer.previous : null };
   } catch {
     return null;
   }
 }
-function writeCurrent(dataRoot, pointer) {
-  mkdirSync(appHome(dataRoot), { recursive: true });
-  const temporary = `${pointerFile(dataRoot)}.${process.pid}.tmp`;
+function writeCurrent(dataRoot, pointer, pkg) {
+  mkdirSync(packageHome(dataRoot, pkg), { recursive: true });
+  const temporary = `${pointerFile(dataRoot, pkg)}.${process.pid}.tmp`;
   writeFileSync(temporary, `${JSON.stringify(pointer, null, 2)}
 `);
-  renameSync(temporary, pointerFile(dataRoot));
+  renameSync(temporary, pointerFile(dataRoot, pkg));
 }
-function currentApp(dataRoot) {
-  const pointer = readCurrent(dataRoot);
+function currentApp(dataRoot, pkg) {
+  const pointer = readCurrent(dataRoot, pkg);
   if (!pointer) return null;
-  const directory = versionDirectory(dataRoot, pointer.current);
+  const directory = versionDirectory(dataRoot, pointer.current, pkg);
   const info = readVersionInfo(directory);
   return info && info.version === pointer.current ? { version: info.version, directory, info } : null;
 }
-function installFromDirectory(dataRoot, source) {
+function installFromDirectory(dataRoot, source, pkg) {
   const info = readVersionInfo(source);
   if (!info) throw new Error(`${source} is not a built Growth Studio (VERSION.json and server.mjs are required)`);
-  const target = versionDirectory(dataRoot, info.version);
+  const target = versionDirectory(dataRoot, info.version, pkg);
   const existing = readVersionInfo(target);
   if (existing?.buildId === info.buildId) return { version: info.version, directory: target, info: existing };
-  mkdirSync(versionsDirectory(dataRoot), { recursive: true });
+  mkdirSync(versionsDirectory(dataRoot, pkg), { recursive: true });
   const staging = `${target}.${process.pid}-${Date.now().toString(36)}.staging`;
   cpSync(source, staging, { recursive: true, filter: (from) => path2.basename(from) !== ".DS_Store" });
   if (existing) {
@@ -95,34 +100,41 @@ function installFromDirectory(dataRoot, source) {
   }
   return { version: info.version, directory: target, info };
 }
-function resolveApp(dataRoot, seedDirectory) {
-  const installed = currentApp(dataRoot);
+function resolveApp(dataRoot, seedDirectory, pkg) {
+  const installed = currentApp(dataRoot, pkg);
   const seed = seedDirectory ? readVersionInfo(seedDirectory) : null;
   const adoptSeed = seed && (!installed || compareVersions(seed.version, installed.version) > 0 || seed.version === installed.version && seed.buildId !== installed.info.buildId);
   if (adoptSeed) {
-    const app = installFromDirectory(dataRoot, seedDirectory);
-    const pointer = readCurrent(dataRoot);
-    writeCurrent(dataRoot, { current: app.version, previous: pointer && pointer.current !== app.version ? pointer.current : pointer?.previous ?? null });
-    pruneVersions(dataRoot);
+    const app = installFromDirectory(dataRoot, seedDirectory, pkg);
+    const pointer = readCurrent(dataRoot, pkg);
+    writeCurrent(dataRoot, { current: app.version, previous: pointer && pointer.current !== app.version ? pointer.current : pointer?.previous ?? null }, pkg);
+    if (pkg === void 0 && pointer && pointer.current !== app.version) writeUpdateNotice(dataRoot, { from: pointer.current, to: app.version });
+    pruneVersions(dataRoot, pkg);
     return app;
   }
   if (installed) return installed;
   throw new Error("Growth Studio is not installed: the plugin has no seed app and nothing is installed yet");
 }
-function pruneVersions(dataRoot) {
-  const pointer = readCurrent(dataRoot);
+var noticeFile = (dataRoot) => path2.join(appHome(dataRoot), "update-notice.json");
+function writeUpdateNotice(dataRoot, notice) {
+  mkdirSync(appHome(dataRoot), { recursive: true });
+  writeFileSync(noticeFile(dataRoot), `${JSON.stringify({ ...notice, at: (/* @__PURE__ */ new Date()).toISOString() }, null, 2)}
+`);
+}
+function pruneVersions(dataRoot, pkg) {
+  const pointer = readCurrent(dataRoot, pkg);
   if (!pointer) return;
   const keep = new Set([pointer.current, pointer.previous].filter(Boolean));
   let entries = [];
   try {
-    entries = readdirSync(versionsDirectory(dataRoot));
+    entries = readdirSync(versionsDirectory(dataRoot, pkg));
   } catch {
     return;
   }
   const now = Date.now();
   for (const entry of entries) {
     if (keep.has(entry)) continue;
-    const full = path2.join(versionsDirectory(dataRoot), entry);
+    const full = path2.join(versionsDirectory(dataRoot, pkg), entry);
     if (VERSION.test(entry)) {
       rmSync(full, { recursive: true, force: true });
       continue;
@@ -179,6 +191,10 @@ var cloudTools = [
 var cloudToolNames = new Set(cloudTools.map((tool) => tool.name));
 var NOT_CONNECTED_HINT = 'Kallob engines need a Kallob connection. Call growth_studio_open with view "settings", open the url, and ask the person to click Connect Kallob; then try again.';
 function toMcpResult(status, body) {
+  const toolResult = status >= 200 && status < 300 && body && typeof body === "object" ? body.toolResult : void 0;
+  if (toolResult && typeof toolResult.text === "string") {
+    return { content: [{ type: "text", text: toolResult.text }], ...toolResult.structured === void 0 ? {} : { structuredContent: toolResult.structured } };
+  }
   if (status >= 200 && status < 300) {
     return { content: [{ type: "text", text: JSON.stringify(body) }], structuredContent: body };
   }
@@ -194,6 +210,7 @@ var stateDir = path3.join(projectRoot, ".growth-studio");
 var pidFile = path3.join(stateDir, "server.pid");
 var VIEWS = ["overview", "work", "results", "mini-apps", "engines", "knowledge", "settings"];
 var MINI_APPS = ["offers", "image-studio", "brand-profile", "research", "quick-content", "quick-visual", "personal-brand", "crm", "zalo-chatbot"];
+var MINI_APP_ID = /^[a-z0-9][a-z0-9-]{0,63}$/;
 function targetApp() {
   const here2 = path3.dirname(fileURLToPath2(import.meta.url));
   if (!pluginBundle) return { serverEntry: path3.join(here2, "server.mjs"), buildId };
@@ -307,7 +324,7 @@ var tools = [
       type: "object",
       properties: {
         view: { type: "string", enum: [...VIEWS], description: "Page to open; defaults to overview." },
-        mini_app: { type: "string", enum: [...MINI_APPS], description: "Opens that mini-app directly; view is then ignored." }
+        mini_app: { type: "string", pattern: MINI_APP_ID.source, description: `Opens that mini-app directly (its id, e.g. ${MINI_APPS.join(", ")}); view is then ignored.` }
       },
       additionalProperties: false
     },
@@ -333,34 +350,6 @@ var tools = [
         kind: { type: "string", enum: ["question", "action"], description: '"action" when the founder must do something outside Studio (sign in, approve, a real-world step).' }
       },
       required: ["task_id", "question"],
-      additionalProperties: false
-    },
-    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
-  },
-  {
-    name: "image_asset_save",
-    title: "Save image options to Growth Studio",
-    description: "For an Image Studio task: hand the images you generated to Growth Studio, where the founder picks, revises or approves them. Pass the absolute path of each generated file (PNG, JPEG or WebP) and a short caption. Studio copies the files; leave the originals in place. After calling, end your turn.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        task_id: { type: "string", description: "Growth Studio task id from the task prompt." },
-        images: {
-          type: "array",
-          minItems: 1,
-          maxItems: 6,
-          items: {
-            type: "object",
-            properties: {
-              path: { type: "string", description: "Absolute path of the generated image file." },
-              caption: { type: "string", description: "One short line on what makes this option different, in the founder's language." }
-            },
-            required: ["path"],
-            additionalProperties: false
-          }
-        }
-      },
-      required: ["task_id", "images"],
       additionalProperties: false
     },
     annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
@@ -399,21 +388,12 @@ async function callTool(name, args, meta) {
     if (!response.ok) return { isError: true, content: [{ type: "text", text: `${body.error ?? `Growth Studio answered ${response.status}.`} Ask the founder in this conversation instead.` }] };
     return { content: [{ type: "text", text: "The question is shown to the founder in Growth Studio. End your turn now and do nothing else; the answer will arrive as the next message." }] };
   }
-  if (name === "image_asset_save") {
-    await ensureServer();
-    const taskId = String(args.task_id ?? "").trim();
-    if (!taskId) return { isError: true, content: [{ type: "text", text: "task_id is required." }] };
-    const response = await studioPost(`/api/image-studio/requests/${encodeURIComponent(taskId)}/images`, { images: args.images });
-    const body = await response.json().catch(() => ({}));
-    if (!response.ok) return { isError: true, content: [{ type: "text", text: `${body.error ?? `Growth Studio answered ${response.status}.`} Fix this and call image_asset_save again.` }] };
-    return { content: [{ type: "text", text: `Saved ${body.images?.length ?? 0} images to Growth Studio as round ${body.round}. The founder chooses there. End your turn now; a change request will arrive as the next message.` }] };
-  }
   if (name === "growth_studio_open") {
     const server = await ensureServer();
     const threadId = callingThreadId(meta);
     if (threadId) await studioPost("/api/codex/origin", { threadId }).catch(() => void 0);
     const url = new URL(origin);
-    const miniApp = MINI_APPS.includes(String(args.mini_app)) ? String(args.mini_app) : null;
+    const miniApp = MINI_APP_ID.test(String(args.mini_app ?? "")) ? String(args.mini_app) : null;
     const view = typeof args.view === "string" && VIEWS.includes(args.view) ? args.view : "overview";
     if (miniApp) url.pathname = `/mini-apps/${miniApp}`;
     else if (view === "mini-apps") url.pathname = "/mini-apps";

@@ -1,0 +1,12 @@
+{
+  "id": "image-studio",
+  "version": "1.0.0",
+  "buildId": "c08fb25-muv5kmgh",
+  "requiresCore": ">=1.1.0 <2",
+  "exports": {},
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

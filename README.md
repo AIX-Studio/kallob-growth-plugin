@@ -1,4 +1,4 @@
-# Kallob Engine Router 0.10.0
+# Kallob Engine Router 0.11.0
 
 Kallob Growth Studio for Codex: run Kallob's business engines on your own machine. Your work stays on this machine; the engine library and method prompts come from Kallob Cloud after you sign in.
 
@@ -13,4 +13,4 @@ Quit and reopen Codex, then ask it to "open Growth Studio". Growth Studio needs 
 
 Growth Studio updates itself from Kallob Cloud. Your data lives in `~/.kallob-growth`.
 
-Package 0.10.0, seed Studio 0.10.0 (d5aa4a5-muv169k7), built from `d5aa4a5` of the private kallob-growth-studio repository by `scripts/release-plugin.mjs`. Do not edit this repository by hand.
+Package 0.11.0, seed Studio 0.11.0 (c08fb25-muv5kkkr), built from `c08fb25` of the private kallob-growth-studio repository by `scripts/release-plugin.mjs`. Do not edit this repository by hand.

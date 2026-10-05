@@ -15237,24 +15237,24 @@ var require_mime_types = __commonJS({
       }
       return exts[0];
     }
-    function lookup2(path22) {
-      if (!path22 || typeof path22 !== "string") {
+    function lookup2(path21) {
+      if (!path21 || typeof path21 !== "string") {
         return false;
       }
-      var extension3 = extname("x." + path22).toLowerCase().slice(1);
+      var extension3 = extname("x." + path21).toLowerCase().slice(1);
       if (!extension3) {
         return false;
       }
       return exports.types[extension3] || false;
     }
-    function populateMaps(extensions2, types) {
+    function populateMaps(extensions, types) {
       Object.keys(db).forEach(function forEachMimeType(type) {
         var mime = db[type];
         var exts = mime.extensions;
         if (!exts || !exts.length) {
           return;
         }
-        extensions2[type] = exts;
+        extensions[type] = exts;
         for (var i = 0; i < exts.length; i++) {
           var extension3 = exts[i];
           types[extension3] = _preferredType(extension3, types[extension3], type);
@@ -16114,14 +16114,14 @@ var require_object_inspect = __commonJS({
         return "[ " + $join.call(xs, ", ") + " ]";
       }
       if (isError(obj)) {
-        var parts = arrObjKeys(obj, inspect);
+        var parts2 = arrObjKeys(obj, inspect);
         if (!("cause" in Error.prototype) && "cause" in obj && !isEnumerable.call(obj, "cause")) {
-          return "{ [" + String(obj) + "] " + $join.call($concat.call("[cause]: " + inspect(obj.cause), parts), ", ") + " }";
+          return "{ [" + String(obj) + "] " + $join.call($concat.call("[cause]: " + inspect(obj.cause), parts2), ", ") + " }";
         }
-        if (parts.length === 0) {
+        if (parts2.length === 0) {
           return "[" + String(obj) + "]";
         }
-        return "{ [" + String(obj) + "] " + $join.call(parts, ", ") + " }";
+        return "{ [" + String(obj) + "] " + $join.call(parts2, ", ") + " }";
       }
       if (typeof obj === "object" && customInspect) {
         if (inspectSymbol && typeof obj[inspectSymbol] === "function" && utilInspect) {
@@ -17308,8 +17308,8 @@ var require_get_intrinsic = __commonJS({
       if ($exec(/^%?[^%]*%?$/, name) === null) {
         throw new $SyntaxError("`%` may not be present anywhere but at the beginning and end of the intrinsic name");
       }
-      var parts = stringToPath(name);
-      var intrinsicBaseName = parts.length > 0 ? parts[0] : "";
+      var parts2 = stringToPath(name);
+      var intrinsicBaseName = parts2.length > 0 ? parts2[0] : "";
       var intrinsic = getBaseIntrinsic("%" + intrinsicBaseName + "%", allowMissing);
       var intrinsicRealName = intrinsic.name;
       var value = intrinsic.value;
@@ -17317,10 +17317,10 @@ var require_get_intrinsic = __commonJS({
       var alias = intrinsic.alias;
       if (alias) {
         intrinsicBaseName = alias[0];
-        $spliceApply(parts, $concat([0, 1], alias));
+        $spliceApply(parts2, $concat([0, 1], alias));
       }
-      for (var i = 1, isOwn = true; i < parts.length; i += 1) {
-        var part = parts[i];
+      for (var i = 1, isOwn = true; i < parts2.length; i += 1) {
+        var part = parts2[i];
         var first = $strSlice(part, 0, 1);
         var last = $strSlice(part, -1);
         if ((first === '"' || first === "'" || first === "`" || (last === '"' || last === "'" || last === "`")) && first !== last) {
@@ -17340,7 +17340,7 @@ var require_get_intrinsic = __commonJS({
             }
             return void undefined2;
           }
-          if ($gOPD && i + 1 >= parts.length) {
+          if ($gOPD && i + 1 >= parts2.length) {
             var desc = $gOPD(value, part);
             isOwn = !!desc;
             if (isOwn && "get" in desc && !("originalValue" in desc.get)) {
@@ -18246,34 +18246,34 @@ var require_parse = __commonJS({
       var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, "") : str;
       cleanStr = cleanStr.replace(/%5B/gi, "[").replace(/%5D/gi, "]");
       var limit2 = options.parameterLimit === Infinity ? void 0 : options.parameterLimit;
-      var parts = cleanStr.split(
+      var parts2 = cleanStr.split(
         options.delimiter,
         options.throwOnLimitExceeded && typeof limit2 !== "undefined" ? limit2 + 1 : limit2
       );
-      if (options.throwOnLimitExceeded && typeof limit2 !== "undefined" && parts.length > limit2) {
+      if (options.throwOnLimitExceeded && typeof limit2 !== "undefined" && parts2.length > limit2) {
         throw new RangeError("Parameter limit exceeded. Only " + limit2 + " parameter" + (limit2 === 1 ? "" : "s") + " allowed.");
       }
       var skipIndex = -1;
       var i;
       var charset = options.charset;
       if (options.charsetSentinel) {
-        for (i = 0; i < parts.length; ++i) {
-          if (parts[i].indexOf("utf8=") === 0) {
-            if (parts[i] === charsetSentinel) {
+        for (i = 0; i < parts2.length; ++i) {
+          if (parts2[i].indexOf("utf8=") === 0) {
+            if (parts2[i] === charsetSentinel) {
               charset = "utf-8";
-            } else if (parts[i] === isoSentinel) {
+            } else if (parts2[i] === isoSentinel) {
               charset = "iso-8859-1";
             }
             skipIndex = i;
-            i = parts.length;
+            i = parts2.length;
           }
         }
       }
-      for (i = 0; i < parts.length; ++i) {
+      for (i = 0; i < parts2.length; ++i) {
         if (i === skipIndex) {
           continue;
         }
-        var part = parts[i];
+        var part = parts2[i];
         var bracketEqualsPos = part.indexOf("]=");
         var pos = bracketEqualsPos === -1 ? part.indexOf("=") : bracketEqualsPos + 1;
         var key;
@@ -18928,13 +18928,13 @@ var require_view = __commonJS({
   "node_modules/express/lib/view.js"(exports, module) {
     "use strict";
     var debug = require_src()("express:view");
-    var path22 = __require("node:path");
-    var fs17 = __require("node:fs");
-    var dirname = path22.dirname;
-    var basename = path22.basename;
-    var extname = path22.extname;
-    var join = path22.join;
-    var resolve = path22.resolve;
+    var path21 = __require("node:path");
+    var fs16 = __require("node:fs");
+    var dirname = path21.dirname;
+    var basename = path21.basename;
+    var extname = path21.extname;
+    var join = path21.join;
+    var resolve = path21.resolve;
     module.exports = View;
     function View(name, options) {
       var opts = options || {};
@@ -18963,17 +18963,17 @@ var require_view = __commonJS({
       this.path = this.lookup(fileName);
     }
     View.prototype.lookup = function lookup2(name) {
-      var path23;
+      var path22;
       var roots = [].concat(this.root);
       debug('lookup "%s"', name);
-      for (var i = 0; i < roots.length && !path23; i++) {
+      for (var i = 0; i < roots.length && !path22; i++) {
         var root = roots[i];
         var loc = resolve(root, name);
         var dir = dirname(loc);
         var file = basename(loc);
-        path23 = this.resolve(dir, file);
+        path22 = this.resolve(dir, file);
       }
-      return path23;
+      return path22;
     };
     View.prototype.render = function render(options, callback) {
       var sync = true;
@@ -18995,21 +18995,21 @@ var require_view = __commonJS({
     };
     View.prototype.resolve = function resolve2(dir, file) {
       var ext = this.ext;
-      var path23 = join(dir, file);
-      var stat = tryStat(path23);
+      var path22 = join(dir, file);
+      var stat = tryStat(path22);
       if (stat && stat.isFile()) {
-        return path23;
+        return path22;
       }
-      path23 = join(dir, basename(file, ext), "index" + ext);
-      stat = tryStat(path23);
+      path22 = join(dir, basename(file, ext), "index" + ext);
+      stat = tryStat(path22);
       if (stat && stat.isFile()) {
-        return path23;
+        return path22;
       }
     };
-    function tryStat(path23) {
-      debug('stat "%s"', path23);
+    function tryStat(path22) {
+      debug('stat "%s"', path22);
       try {
-        return fs17.statSync(path23);
+        return fs16.statSync(path22);
       } catch (e) {
         return void 0;
       }
@@ -19391,15 +19391,15 @@ var require_ipaddr = __commonJS({
         }
       };
       ipaddr.IPv6 = (function() {
-        function IPv6(parts, zoneId) {
+        function IPv6(parts2, zoneId) {
           var i, k, l, len, part, ref;
-          if (parts.length === 16) {
+          if (parts2.length === 16) {
             this.parts = [];
             for (i = k = 0; k <= 14; i = k += 2) {
-              this.parts.push(parts[i] << 8 | parts[i + 1]);
+              this.parts.push(parts2[i] << 8 | parts2[i + 1]);
             }
-          } else if (parts.length === 8) {
-            this.parts = parts;
+          } else if (parts2.length === 8) {
+            this.parts = parts2;
           } else {
             throw new Error("ipaddr: ipv6 part count should be 8 or 16");
           }
@@ -19570,7 +19570,7 @@ var require_ipaddr = __commonJS({
         "native": new RegExp("^(::)?(" + ipv6Part + ")?([0-9a-f]+)?(::)?(" + zoneIndex + ")?$", "i"),
         transitional: new RegExp("^((?:" + ipv6Part + ")|(?:::)(?:" + ipv6Part + ")?)" + (ipv4Part + "\\." + ipv4Part + "\\." + ipv4Part + "\\." + ipv4Part) + ("(" + zoneIndex + ")?$"), "i")
       };
-      expandIPv6 = function(string, parts) {
+      expandIPv6 = function(string, parts2) {
         var colonCount, lastColon, part, replacement, replacementCount, zoneId;
         if (string.indexOf("::") !== string.lastIndexOf("::")) {
           return null;
@@ -19591,10 +19591,10 @@ var require_ipaddr = __commonJS({
         if (string.substr(-2, 2) === "::") {
           colonCount--;
         }
-        if (colonCount > parts) {
+        if (colonCount > parts2) {
           return null;
         }
-        replacementCount = parts - colonCount;
+        replacementCount = parts2 - colonCount;
         replacement = ":";
         while (replacementCount--) {
           replacement += "0:";
@@ -19606,7 +19606,7 @@ var require_ipaddr = __commonJS({
         if (string[string.length - 1] === ":") {
           string = string.slice(0, -1);
         }
-        parts = (function() {
+        parts2 = (function() {
           var k, len, ref, results;
           ref = string.split(":");
           results = [];
@@ -19617,7 +19617,7 @@ var require_ipaddr = __commonJS({
           return results;
         })();
         return {
-          parts,
+          parts: parts2,
           zoneId
         };
       };
@@ -19681,12 +19681,12 @@ var require_ipaddr = __commonJS({
         }
       };
       ipaddr.IPv4.parse = function(string) {
-        var parts;
-        parts = this.parser(string);
-        if (parts === null) {
+        var parts2;
+        parts2 = this.parser(string);
+        if (parts2 === null) {
           throw new Error("ipaddr: string is not formatted like ip address");
         }
-        return new this(parts);
+        return new this(parts2);
       };
       ipaddr.IPv6.parse = function(string) {
         var addr;
@@ -20265,15 +20265,15 @@ var require_dist3 = __commonJS({
       let index = 0;
       function consumeUntil(end) {
         const output = [];
-        let path22 = "";
+        let path21 = "";
         function writePath() {
-          if (!path22)
+          if (!path21)
             return;
           output.push({
             type: "text",
-            value: encodePath(path22)
+            value: encodePath(path21)
           });
-          path22 = "";
+          path21 = "";
         }
         while (index < chars.length) {
           const value = chars[index++];
@@ -20285,7 +20285,7 @@ var require_dist3 = __commonJS({
             if (index === chars.length) {
               throw new PathError(`Unexpected end after \\ at index ${index}`, str);
             }
-            path22 += chars[index++];
+            path21 += chars[index++];
             continue;
           }
           if (value === ":" || value === "*") {
@@ -20329,7 +20329,7 @@ var require_dist3 = __commonJS({
           if (value === "}" || value === "(" || value === ")" || value === "[" || value === "]" || value === "+" || value === "?" || value === "!") {
             throw new PathError(`Unexpected ${value} at index ${index - 1}`, str);
           }
-          path22 += value;
+          path21 += value;
         }
         if (end) {
           throw new PathError(`Unexpected end at index ${index}, expected ${end}`, str);
@@ -20339,17 +20339,17 @@ var require_dist3 = __commonJS({
       }
       return new TokenData(consumeUntil(""), str);
     }
-    function compile(path22, options = {}) {
+    function compile(path21, options = {}) {
       const { encode: encode2 = encodeURIComponent, delimiter = DEFAULT_DELIMITER } = options;
-      const data = typeof path22 === "object" ? path22 : parse(path22, options);
+      const data = typeof path21 === "object" ? path21 : parse(path21, options);
       const fn = tokensToFunction(data.tokens, delimiter, encode2);
-      return function path23(params = {}) {
+      return function path22(params = {}) {
         const missing = [];
-        const path24 = fn(params, missing);
+        const path23 = fn(params, missing);
         if (missing.length) {
           throw new TypeError(`Missing parameters: ${missing.join(", ")}`);
         }
-        return path24;
+        return path23;
       };
     }
     function tokensToFunction(tokens, delimiter, encode2) {
@@ -20411,9 +20411,9 @@ var require_dist3 = __commonJS({
         return encodeValue(value);
       };
     }
-    function match(path22, options = {}) {
+    function match(path21, options = {}) {
       const { decode = decodeURIComponent, delimiter = DEFAULT_DELIMITER } = options;
-      const { regexp, keys } = pathToRegexp(path22, options);
+      const { regexp, keys } = pathToRegexp(path21, options);
       const decoders = keys.map((key) => {
         if (decode === false)
           return NOOP_VALUE;
@@ -20425,7 +20425,7 @@ var require_dist3 = __commonJS({
         const m = regexp.exec(input);
         if (!m)
           return false;
-        const path23 = m[0];
+        const path22 = m[0];
         const params = /* @__PURE__ */ Object.create(null);
         for (let i = 1; i < m.length; i++) {
           if (m[i] === void 0)
@@ -20434,21 +20434,21 @@ var require_dist3 = __commonJS({
           const decoder = decoders[i - 1];
           params[key.name] = decoder(m[i]);
         }
-        return { path: path23, params };
+        return { path: path22, params };
       };
     }
-    function pathToRegexp(path22, options = {}) {
+    function pathToRegexp(path21, options = {}) {
       const { delimiter = DEFAULT_DELIMITER, end = true, sensitive = false, trailing = true } = options;
       const keys = [];
       let source = "";
       let combinations = 0;
-      function process2(path23) {
-        if (Array.isArray(path23)) {
-          for (const p of path23)
+      function process2(path22) {
+        if (Array.isArray(path22)) {
+          for (const p of path22)
             process2(p);
           return;
         }
-        const data = typeof path23 === "object" ? path23 : parse(path23, options);
+        const data = typeof path22 === "object" ? path22 : parse(path22, options);
         flatten(data.tokens, 0, [], (tokens) => {
           if (combinations >= 256) {
             throw new PathError("Too many path combinations", data.originalPath);
@@ -20459,7 +20459,7 @@ var require_dist3 = __commonJS({
           combinations++;
         });
       }
-      process2(path22);
+      process2(path21);
       let pattern = `^(?:${source})`;
       if (trailing)
         pattern += "(?:" + escape2(delimiter) + "$)?";
@@ -20599,18 +20599,18 @@ var require_layer = __commonJS({
     var TRAILING_SLASH_REGEXP = /\/+$/;
     var MATCHING_GROUP_REGEXP = /\((?:\?<(.*?)>)?(?!\?)/g;
     module.exports = Layer;
-    function Layer(path22, options, fn) {
+    function Layer(path21, options, fn) {
       if (!(this instanceof Layer)) {
-        return new Layer(path22, options, fn);
+        return new Layer(path21, options, fn);
       }
-      debug("new %o", path22);
+      debug("new %o", path21);
       const opts = options || {};
       this.handle = fn;
       this.keys = [];
       this.name = fn.name || "<anonymous>";
       this.params = void 0;
       this.path = void 0;
-      this.slash = path22 === "/" && opts.end === false;
+      this.slash = path21 === "/" && opts.end === false;
       function matcher(_path) {
         if (_path instanceof RegExp) {
           const keys = [];
@@ -20649,7 +20649,7 @@ var require_layer = __commonJS({
           decode: decodeParam
         });
       }
-      this.matchers = Array.isArray(path22) ? path22.map(matcher) : [matcher(path22)];
+      this.matchers = Array.isArray(path21) ? path21.map(matcher) : [matcher(path21)];
     }
     Layer.prototype.handleError = function handleError(error, req, res, next) {
       const fn = this.handle;
@@ -20689,9 +20689,9 @@ var require_layer = __commonJS({
         next(err2);
       }
     };
-    Layer.prototype.match = function match(path22) {
+    Layer.prototype.match = function match(path21) {
       let match2;
-      if (path22 != null) {
+      if (path21 != null) {
         if (this.slash) {
           this.params = {};
           this.path = "";
@@ -20699,7 +20699,7 @@ var require_layer = __commonJS({
         }
         let i = 0;
         while (!match2 && i < this.matchers.length) {
-          match2 = this.matchers[i](path22);
+          match2 = this.matchers[i](path21);
           i++;
         }
       }
@@ -20727,13 +20727,13 @@ var require_layer = __commonJS({
         throw err2;
       }
     }
-    function loosen(path22) {
-      if (path22 instanceof RegExp || path22 === "/") {
-        return path22;
+    function loosen(path21) {
+      if (path21 instanceof RegExp || path21 === "/") {
+        return path21;
       }
-      return Array.isArray(path22) ? path22.map(function(p) {
+      return Array.isArray(path21) ? path21.map(function(p) {
         return loosen(p);
-      }) : String(path22).replace(TRAILING_SLASH_REGEXP, "");
+      }) : String(path21).replace(TRAILING_SLASH_REGEXP, "");
     }
   }
 });
@@ -20749,9 +20749,9 @@ var require_route = __commonJS({
     var flatten = Array.prototype.flat;
     var methods = METHODS.map((method) => method.toLowerCase());
     module.exports = Route;
-    function Route(path22) {
-      debug("new %o", path22);
-      this.path = path22;
+    function Route(path21) {
+      debug("new %o", path21);
+      this.path = path21;
       this.stack = [];
       this.methods = /* @__PURE__ */ Object.create(null);
     }
@@ -20872,11 +20872,11 @@ var require_router = __commonJS({
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var methods = METHODS.map((method) => method.toLowerCase());
-    module.exports = Router11;
+    module.exports = Router10;
     module.exports.Route = Route;
-    function Router11(options) {
-      if (!(this instanceof Router11)) {
-        return new Router11(options);
+    function Router10(options) {
+      if (!(this instanceof Router10)) {
+        return new Router10(options);
       }
       const opts = options || {};
       function router(req, res, next) {
@@ -20890,9 +20890,9 @@ var require_router = __commonJS({
       router.stack = [];
       return router;
     }
-    Router11.prototype = function() {
+    Router10.prototype = function() {
     };
-    Router11.prototype.param = function param(name, fn) {
+    Router10.prototype.param = function param(name, fn) {
       if (!name) {
         throw new TypeError("argument name is required");
       }
@@ -20912,7 +20912,7 @@ var require_router = __commonJS({
       params.push(fn);
       return this;
     };
-    Router11.prototype.handle = function handle(req, res, callback) {
+    Router10.prototype.handle = function handle(req, res, callback) {
       if (!callback) {
         throw new TypeError("argument callback is required");
       }
@@ -20959,8 +20959,8 @@ var require_router = __commonJS({
         if (++sync > 100) {
           return setImmediate(next, err2);
         }
-        const path22 = getPathname(req);
-        if (path22 == null) {
+        const path21 = getPathname(req);
+        if (path21 == null) {
           return done(layerError);
         }
         let layer;
@@ -20968,7 +20968,7 @@ var require_router = __commonJS({
         let route;
         while (match !== true && idx < stack.length) {
           layer = stack[idx++];
-          match = matchLayer(layer, path22);
+          match = matchLayer(layer, path21);
           route = layer.route;
           if (typeof match !== "boolean") {
             layerError = layerError || match;
@@ -21006,18 +21006,18 @@ var require_router = __commonJS({
           } else if (route) {
             layer.handleRequest(req, res, next);
           } else {
-            trimPrefix(layer, layerError, layerPath, path22);
+            trimPrefix(layer, layerError, layerPath, path21);
           }
           sync = 0;
         });
       }
-      function trimPrefix(layer, layerError, layerPath, path22) {
+      function trimPrefix(layer, layerError, layerPath, path21) {
         if (layerPath.length !== 0) {
-          if (layerPath !== path22.substring(0, layerPath.length)) {
+          if (layerPath !== path21.substring(0, layerPath.length)) {
             next(layerError);
             return;
           }
-          const c = path22[layerPath.length];
+          const c = path21[layerPath.length];
           if (c && c !== "/") {
             next(layerError);
             return;
@@ -21039,9 +21039,9 @@ var require_router = __commonJS({
         }
       }
     };
-    Router11.prototype.use = function use(handler) {
+    Router10.prototype.use = function use(handler) {
       let offset = 0;
-      let path22 = "/";
+      let path21 = "/";
       if (typeof handler !== "function") {
         let arg = handler;
         while (Array.isArray(arg) && arg.length !== 0) {
@@ -21049,7 +21049,7 @@ var require_router = __commonJS({
         }
         if (typeof arg !== "function") {
           offset = 1;
-          path22 = handler;
+          path21 = handler;
         }
       }
       const callbacks = flatten.call(slice.call(arguments, offset), Infinity);
@@ -21061,8 +21061,8 @@ var require_router = __commonJS({
         if (typeof fn !== "function") {
           throw new TypeError("argument handler must be a function");
         }
-        debug("use %o %s", path22, fn.name || "<anonymous>");
-        const layer = new Layer(path22, {
+        debug("use %o %s", path21, fn.name || "<anonymous>");
+        const layer = new Layer(path21, {
           sensitive: this.caseSensitive,
           strict: false,
           end: false
@@ -21072,9 +21072,9 @@ var require_router = __commonJS({
       }
       return this;
     };
-    Router11.prototype.route = function route(path22) {
-      const route2 = new Route(path22);
-      const layer = new Layer(path22, {
+    Router10.prototype.route = function route(path21) {
+      const route2 = new Route(path21);
+      const layer = new Layer(path21, {
         sensitive: this.caseSensitive,
         strict: this.strict,
         end: true
@@ -21087,8 +21087,8 @@ var require_router = __commonJS({
       return route2;
     };
     methods.concat("all").forEach(function(method) {
-      Router11.prototype[method] = function(path22) {
-        const route = this.route(path22);
+      Router10.prototype[method] = function(path21) {
+        const route = this.route(path21);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
       };
@@ -21117,9 +21117,9 @@ var require_router = __commonJS({
       const fqdnIndex = url.substring(0, pathLength).indexOf("://");
       return fqdnIndex !== -1 ? url.substring(0, url.indexOf("/", 3 + fqdnIndex)) : void 0;
     }
-    function matchLayer(layer, path22) {
+    function matchLayer(layer, path21) {
       try {
-        return layer.match(path22);
+        return layer.match(path21);
       } catch (err2) {
         return err2;
       }
@@ -21270,7 +21270,7 @@ var require_application = __commonJS({
     var compileTrust = require_utils3().compileTrust;
     var resolve = __require("node:path").resolve;
     var once = require_once();
-    var Router11 = require_router();
+    var Router10 = require_router();
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var app2 = exports = module.exports = {};
@@ -21286,7 +21286,7 @@ var require_application = __commonJS({
         enumerable: true,
         get: function getrouter() {
           if (router === null) {
-            router = new Router11({
+            router = new Router10({
               caseSensitive: this.enabled("case sensitive routing"),
               strict: this.enabled("strict routing")
             });
@@ -21347,7 +21347,7 @@ var require_application = __commonJS({
     };
     app2.use = function use(fn) {
       var offset = 0;
-      var path22 = "/";
+      var path21 = "/";
       if (typeof fn !== "function") {
         var arg = fn;
         while (Array.isArray(arg) && arg.length !== 0) {
@@ -21355,7 +21355,7 @@ var require_application = __commonJS({
         }
         if (typeof arg !== "function") {
           offset = 1;
-          path22 = fn;
+          path21 = fn;
         }
       }
       var fns = flatten.call(slice.call(arguments, offset), Infinity);
@@ -21365,12 +21365,12 @@ var require_application = __commonJS({
       var router = this.router;
       fns.forEach(function(fn2) {
         if (!fn2 || !fn2.handle || !fn2.set) {
-          return router.use(path22, fn2);
+          return router.use(path21, fn2);
         }
-        debug(".use app under %s", path22);
-        fn2.mountpath = path22;
+        debug(".use app under %s", path21);
+        fn2.mountpath = path21;
         fn2.parent = this;
-        router.use(path22, function mounted_app(req, res, next) {
+        router.use(path21, function mounted_app(req, res, next) {
           var orig = req.app;
           fn2.handle(req, res, function(err2) {
             Object.setPrototypeOf(req, orig.request);
@@ -21382,8 +21382,8 @@ var require_application = __commonJS({
       }, this);
       return this;
     };
-    app2.route = function route(path22) {
-      return this.router.route(path22);
+    app2.route = function route(path21) {
+      return this.router.route(path21);
     };
     app2.engine = function engine(ext, fn) {
       if (typeof fn !== "function") {
@@ -21426,7 +21426,7 @@ var require_application = __commonJS({
       }
       return this;
     };
-    app2.path = function path22() {
+    app2.path = function path21() {
       return this.parent ? this.parent.path() + this.mountpath : "";
     };
     app2.enabled = function enabled(setting) {
@@ -21442,17 +21442,17 @@ var require_application = __commonJS({
       return this.set(setting, false);
     };
     methods.forEach(function(method) {
-      app2[method] = function(path22) {
+      app2[method] = function(path21) {
         if (method === "get" && arguments.length === 1) {
-          return this.set(path22);
+          return this.set(path21);
         }
-        var route = this.route(path22);
+        var route = this.route(path21);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
       };
     });
-    app2.all = function all(path22) {
-      var route = this.route(path22);
+    app2.all = function all(path21) {
+      var route = this.route(path21);
       var args = slice.call(arguments, 1);
       for (var i = 0; i < methods.length; i++) {
         route[methods[i]].apply(route, args);
@@ -22437,7 +22437,7 @@ var require_request = __commonJS({
       var subdomains2 = !isIP2(hostname) ? hostname.split(".").reverse() : [hostname];
       return subdomains2.slice(offset);
     });
-    defineGetter(req, "path", function path22() {
+    defineGetter(req, "path", function path21() {
       return parse(this).pathname;
     });
     defineGetter(req, "host", function host() {
@@ -22648,8 +22648,8 @@ var require_content_disposition = __commonJS({
       this.type = type;
       this.parameters = parameters;
     }
-    function basename(path22) {
-      const normalized = path22.replaceAll("\\", "/");
+    function basename(path21) {
+      const normalized = path21.replaceAll("\\", "/");
       let end = normalized.length;
       while (end > 0 && normalized[end - 1] === "/") {
         end--;
@@ -22890,32 +22890,32 @@ var require_send = __commonJS({
     var escapeHtml = require_escape_html();
     var etag = require_etag();
     var fresh = require_fresh();
-    var fs17 = __require("fs");
+    var fs16 = __require("fs");
     var mime = require_mime_types();
     var ms = require_ms();
     var onFinished = require_on_finished();
     var parseRange = require_range_parser();
-    var path22 = __require("path");
+    var path21 = __require("path");
     var statuses = require_statuses();
     var Stream = __require("stream");
     var util2 = __require("util");
-    var extname = path22.extname;
-    var join = path22.join;
-    var normalize = path22.normalize;
-    var resolve = path22.resolve;
-    var sep = path22.sep;
+    var extname = path21.extname;
+    var join = path21.join;
+    var normalize = path21.normalize;
+    var resolve = path21.resolve;
+    var sep = path21.sep;
     var BYTES_RANGE_REGEXP = /^ *bytes=/;
     var MAX_MAXAGE = 60 * 60 * 24 * 365 * 1e3;
     var UP_PATH_REGEXP = /(?:^|[\\/])\.\.(?:[\\/]|$)/;
     module.exports = send;
-    function send(req, path23, options) {
-      return new SendStream(req, path23, options);
+    function send(req, path22, options) {
+      return new SendStream(req, path22, options);
     }
-    function SendStream(req, path23, options) {
+    function SendStream(req, path22, options) {
       Stream.call(this);
       var opts = options || {};
       this.options = opts;
-      this.path = path23;
+      this.path = path22;
       this.req = req;
       this._acceptRanges = opts.acceptRanges !== void 0 ? Boolean(opts.acceptRanges) : true;
       this._cacheControl = opts.cacheControl !== void 0 ? Boolean(opts.cacheControl) : true;
@@ -23029,10 +23029,10 @@ var require_send = __commonJS({
       var lastModified = this.res.getHeader("Last-Modified");
       return parseHttpDate(lastModified) <= parseHttpDate(ifRange);
     };
-    SendStream.prototype.redirect = function redirect(path23) {
+    SendStream.prototype.redirect = function redirect(path22) {
       var res = this.res;
       if (hasListeners(this, "directory")) {
-        this.emit("directory", res, path23);
+        this.emit("directory", res, path22);
         return;
       }
       if (this.hasTrailingSlash()) {
@@ -23052,38 +23052,38 @@ var require_send = __commonJS({
     SendStream.prototype.pipe = function pipe(res) {
       var root = this._root;
       this.res = res;
-      var path23 = decode(this.path);
-      if (path23 === -1) {
+      var path22 = decode(this.path);
+      if (path22 === -1) {
         this.error(400);
         return res;
       }
-      if (~path23.indexOf("\0")) {
+      if (~path22.indexOf("\0")) {
         this.error(400);
         return res;
       }
-      var parts;
+      var parts2;
       if (root !== null) {
-        if (path23) {
-          path23 = normalize("." + sep + path23);
+        if (path22) {
+          path22 = normalize("." + sep + path22);
         }
-        if (UP_PATH_REGEXP.test(path23)) {
-          debug('malicious path "%s"', path23);
+        if (UP_PATH_REGEXP.test(path22)) {
+          debug('malicious path "%s"', path22);
           this.error(403);
           return res;
         }
-        parts = path23.split(sep);
-        path23 = normalize(join(root, path23));
+        parts2 = path22.split(sep);
+        path22 = normalize(join(root, path22));
       } else {
-        if (UP_PATH_REGEXP.test(path23)) {
-          debug('malicious path "%s"', path23);
+        if (UP_PATH_REGEXP.test(path22)) {
+          debug('malicious path "%s"', path22);
           this.error(403);
           return res;
         }
-        parts = normalize(path23).split(sep);
-        path23 = resolve(path23);
+        parts2 = normalize(path22).split(sep);
+        path22 = resolve(path22);
       }
-      if (containsDotFile(parts)) {
-        debug('%s dotfile "%s"', this._dotfiles, path23);
+      if (containsDotFile(parts2)) {
+        debug('%s dotfile "%s"', this._dotfiles, path22);
         switch (this._dotfiles) {
           case "allow":
             break;
@@ -23097,13 +23097,13 @@ var require_send = __commonJS({
         }
       }
       if (this._index.length && this.hasTrailingSlash()) {
-        this.sendIndex(path23);
+        this.sendIndex(path22);
         return res;
       }
-      this.sendFile(path23);
+      this.sendFile(path22);
       return res;
     };
-    SendStream.prototype.send = function send2(path23, stat) {
+    SendStream.prototype.send = function send2(path22, stat) {
       var len = stat.size;
       var options = this.options;
       var opts = {};
@@ -23115,9 +23115,9 @@ var require_send = __commonJS({
         this.headersAlreadySent();
         return;
       }
-      debug('pipe "%s"', path23);
-      this.setHeader(path23, stat);
-      this.type(path23);
+      debug('pipe "%s"', path22);
+      this.setHeader(path22, stat);
+      this.type(path22);
       if (this.isConditionalGET()) {
         if (this.isPreconditionFailure()) {
           this.error(412);
@@ -23166,30 +23166,30 @@ var require_send = __commonJS({
         res.end();
         return;
       }
-      this.stream(path23, opts);
+      this.stream(path22, opts);
     };
-    SendStream.prototype.sendFile = function sendFile(path23) {
+    SendStream.prototype.sendFile = function sendFile(path22) {
       var i = 0;
       var self2 = this;
-      debug('stat "%s"', path23);
-      fs17.stat(path23, function onstat(err2, stat) {
-        var pathEndsWithSep = path23[path23.length - 1] === sep;
-        if (err2 && err2.code === "ENOENT" && !extname(path23) && !pathEndsWithSep) {
+      debug('stat "%s"', path22);
+      fs16.stat(path22, function onstat(err2, stat) {
+        var pathEndsWithSep = path22[path22.length - 1] === sep;
+        if (err2 && err2.code === "ENOENT" && !extname(path22) && !pathEndsWithSep) {
           return next(err2);
         }
         if (err2) return self2.onStatError(err2);
-        if (stat.isDirectory()) return self2.redirect(path23);
+        if (stat.isDirectory()) return self2.redirect(path22);
         if (pathEndsWithSep) return self2.error(404);
-        self2.emit("file", path23, stat);
-        self2.send(path23, stat);
+        self2.emit("file", path22, stat);
+        self2.send(path22, stat);
       });
       function next(err2) {
         if (self2._extensions.length <= i) {
           return err2 ? self2.onStatError(err2) : self2.error(404);
         }
-        var p = path23 + "." + self2._extensions[i++];
+        var p = path22 + "." + self2._extensions[i++];
         debug('stat "%s"', p);
-        fs17.stat(p, function(err3, stat) {
+        fs16.stat(p, function(err3, stat) {
           if (err3) return next(err3);
           if (stat.isDirectory()) return next();
           self2.emit("file", p, stat);
@@ -23197,7 +23197,7 @@ var require_send = __commonJS({
         });
       }
     };
-    SendStream.prototype.sendIndex = function sendIndex(path23) {
+    SendStream.prototype.sendIndex = function sendIndex(path22) {
       var i = -1;
       var self2 = this;
       function next(err2) {
@@ -23205,9 +23205,9 @@ var require_send = __commonJS({
           if (err2) return self2.onStatError(err2);
           return self2.error(404);
         }
-        var p = join(path23, self2._index[i]);
+        var p = join(path22, self2._index[i]);
         debug('stat "%s"', p);
-        fs17.stat(p, function(err3, stat) {
+        fs16.stat(p, function(err3, stat) {
           if (err3) return next(err3);
           if (stat.isDirectory()) return next();
           self2.emit("file", p, stat);
@@ -23216,10 +23216,10 @@ var require_send = __commonJS({
       }
       next();
     };
-    SendStream.prototype.stream = function stream(path23, options) {
+    SendStream.prototype.stream = function stream(path22, options) {
       var self2 = this;
       var res = this.res;
-      var stream2 = fs17.createReadStream(path23, options);
+      var stream2 = fs16.createReadStream(path22, options);
       this.emit("stream", stream2);
       stream2.pipe(res);
       function cleanup() {
@@ -23234,17 +23234,17 @@ var require_send = __commonJS({
         self2.emit("end");
       });
     };
-    SendStream.prototype.type = function type(path23) {
+    SendStream.prototype.type = function type(path22) {
       var res = this.res;
       if (res.getHeader("Content-Type")) return;
-      var ext = extname(path23);
+      var ext = extname(path22);
       var type2 = mime.contentType(ext) || "application/octet-stream";
       debug("content-type %s", type2);
       res.setHeader("Content-Type", type2);
     };
-    SendStream.prototype.setHeader = function setHeader(path23, stat) {
+    SendStream.prototype.setHeader = function setHeader(path22, stat) {
       var res = this.res;
-      this.emit("headers", res, path23, stat);
+      this.emit("headers", res, path22, stat);
       if (this._acceptRanges && !res.getHeader("Accept-Ranges")) {
         debug("accept ranges");
         res.setHeader("Accept-Ranges", "bytes");
@@ -23281,9 +23281,9 @@ var require_send = __commonJS({
       }
       return i > 1 ? "/" + str.substr(i) : str;
     }
-    function containsDotFile(parts) {
-      for (var i = 0; i < parts.length; i++) {
-        var part = parts[i];
+    function containsDotFile(parts2) {
+      for (var i = 0; i < parts2.length; i++) {
+        var part = parts2[i];
         if (part.length > 1 && part[0] === ".") {
           return true;
         }
@@ -23302,9 +23302,9 @@ var require_send = __commonJS({
       }
       return err2 instanceof Error ? createError(status, err2, { expose: false }) : createError(status, err2);
     }
-    function decode(path23) {
+    function decode(path22) {
       try {
-        return decodeURIComponent(path23);
+        return decodeURIComponent(path22);
       } catch (err2) {
         return -1;
       }
@@ -23448,7 +23448,7 @@ var require_response = __commonJS({
     var http = __require("node:http");
     var onFinished = require_on_finished();
     var mime = require_mime_types();
-    var path22 = __require("node:path");
+    var path21 = __require("node:path");
     var pathIsAbsolute = __require("node:path").isAbsolute;
     var statuses = require_statuses();
     var sign = require_cookie_signature().sign;
@@ -23457,8 +23457,8 @@ var require_response = __commonJS({
     var setCharset = require_utils3().setCharset;
     var cookie = require_cookie();
     var send = require_send();
-    var extname = path22.extname;
-    var resolve = path22.resolve;
+    var extname = path21.extname;
+    var resolve = path21.resolve;
     var vary = require_vary();
     var { Buffer: Buffer2 } = __require("node:buffer");
     var res = Object.create(http.ServerResponse.prototype);
@@ -23604,26 +23604,26 @@ var require_response = __commonJS({
       this.type("txt");
       return this.send(body);
     };
-    res.sendFile = function sendFile(path23, options, callback) {
+    res.sendFile = function sendFile(path22, options, callback) {
       var done = callback;
       var req = this.req;
       var res2 = this;
       var next = req.next;
       var opts = options || {};
-      if (!path23) {
+      if (!path22) {
         throw new TypeError("path argument is required to res.sendFile");
       }
-      if (typeof path23 !== "string") {
+      if (typeof path22 !== "string") {
         throw new TypeError("path must be a string to res.sendFile");
       }
       if (typeof options === "function") {
         done = options;
         opts = {};
       }
-      if (!opts.root && !pathIsAbsolute(path23)) {
+      if (!opts.root && !pathIsAbsolute(path22)) {
         throw new TypeError("path must be absolute or specify root to res.sendFile");
       }
-      var pathname = encodeURI(path23);
+      var pathname = encodeURI(path22);
       opts.etag = this.app.enabled("etag");
       var file = send(req, pathname, opts);
       sendfile(res2, file, opts, function(err2) {
@@ -23634,7 +23634,7 @@ var require_response = __commonJS({
         }
       });
     };
-    res.download = function download2(path23, filename, options, callback) {
+    res.download = function download2(path22, filename, options, callback) {
       var done = callback;
       var name = filename;
       var opts = options || null;
@@ -23651,7 +23651,7 @@ var require_response = __commonJS({
         opts = filename;
       }
       var headers = {
-        "Content-Disposition": contentDisposition(name || path23)
+        "Content-Disposition": contentDisposition(name || path22)
       };
       if (opts && opts.headers) {
         var keys = Object.keys(opts.headers);
@@ -23664,7 +23664,7 @@ var require_response = __commonJS({
       }
       opts = Object.create(opts);
       opts.headers = headers;
-      var fullPath = !opts.root ? resolve(path23) : path23;
+      var fullPath = !opts.root ? resolve(path22) : path22;
       return this.sendFile(fullPath, opts, done);
     };
     res.contentType = res.type = function contentType(type) {
@@ -23947,11 +23947,11 @@ var require_serve_static = __commonJS({
         }
         var forwardError = !fallthrough;
         var originalUrl = parseUrl.original(req);
-        var path22 = parseUrl(req).pathname;
-        if (path22 === "/" && originalUrl.pathname.substr(-1) !== "/") {
-          path22 = "";
+        var path21 = parseUrl(req).pathname;
+        if (path21 === "/" && originalUrl.pathname.substr(-1) !== "/") {
+          path21 = "";
         }
-        var stream = send(req, path22, opts);
+        var stream = send(req, path21, opts);
         stream.on("directory", onDirectory);
         if (setHeaders) {
           stream.on("headers", setHeaders);
@@ -24018,7 +24018,7 @@ var require_express = __commonJS({
     var EventEmitter2 = __require("node:events").EventEmitter;
     var mixin = require_merge_descriptors();
     var proto = require_application();
-    var Router11 = require_router();
+    var Router10 = require_router();
     var req = require_request();
     var res = require_response();
     exports = module.exports = createApplication;
@@ -24040,8 +24040,8 @@ var require_express = __commonJS({
     exports.application = proto;
     exports.request = req;
     exports.response = res;
-    exports.Route = Router11.Route;
-    exports.Router = Router11;
+    exports.Route = Router10.Route;
+    exports.Router = Router10;
     exports.json = bodyParser.json;
     exports.raw = bodyParser.raw;
     exports.static = require_serve_static();
@@ -24456,7 +24456,7 @@ var require_cjs = __commonJS({
       const rules2 = [0, { "ac": [1, { "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "drr": _4, "feedback": _4, "forms": _4 }], "ad": _3, "ae": [1, { "ac": _3, "co": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "sch": _3 }], "aero": [1, { "airline": _3, "airport": _3, "accident-investigation": _3, "accident-prevention": _3, "aerobatic": _3, "aeroclub": _3, "aerodrome": _3, "agents": _3, "air-surveillance": _3, "air-traffic-control": _3, "aircraft": _3, "airtraffic": _3, "ambulance": _3, "association": _3, "author": _3, "ballooning": _3, "broker": _3, "caa": _3, "cargo": _3, "catering": _3, "certification": _3, "championship": _3, "charter": _3, "civilaviation": _3, "club": _3, "conference": _3, "consultant": _3, "consulting": _3, "control": _3, "council": _3, "crew": _3, "design": _3, "dgca": _3, "educator": _3, "emergency": _3, "engine": _3, "engineer": _3, "entertainment": _3, "equipment": _3, "exchange": _3, "express": _3, "federation": _3, "flight": _3, "freight": _3, "fuel": _3, "gliding": _3, "government": _3, "groundhandling": _3, "group": _3, "hanggliding": _3, "homebuilt": _3, "insurance": _3, "journal": _3, "journalist": _3, "leasing": _3, "logistics": _3, "magazine": _3, "maintenance": _3, "marketplace": _3, "media": _3, "microlight": _3, "modelling": _3, "navigation": _3, "parachuting": _3, "paragliding": _3, "passenger-association": _3, "pilot": _3, "press": _3, "production": _3, "recreation": _3, "repbody": _3, "res": _3, "research": _3, "rotorcraft": _3, "safety": _3, "scientist": _3, "services": _3, "show": _3, "skydiving": _3, "software": _3, "student": _3, "taxi": _3, "trader": _3, "trading": _3, "trainer": _3, "union": _3, "workinggroup": _3, "works": _3 }], "af": _5, "ag": [1, { "co": _3, "com": _3, "net": _3, "nom": _3, "org": _3, "obj": _4 }], "ai": [1, { "com": _3, "net": _3, "off": _3, "org": _3, "uwu": _4, "framer": _4 }], "al": _6, "am": [1, { "co": _3, "com": _3, "commune": _3, "net": _3, "org": _3, "radio": _4 }], "ao": [1, { "co": _3, "ed": _3, "edu": _3, "gov": _3, "gv": _3, "it": _3, "og": _3, "org": _3, "pb": _3 }], "aq": _3, "ar": [1, { "bet": _3, "com": _3, "coop": _3, "edu": _3, "gob": _3, "gov": _3, "int": _3, "mil": _3, "musica": _3, "mutual": _3, "net": _3, "org": _3, "seg": _3, "senasa": _3, "tur": _3 }], "arpa": [1, { "e164": _3, "home": _3, "in-addr": _3, "ip6": _3, "iris": _3, "uri": _3, "urn": _3 }], "as": _11, "asia": [1, { "cloudns": _4, "daemon": _4, "dix": _4 }], "at": [1, { "ac": [1, { "sth": _3 }], "co": _3, "gv": _3, "or": _3, "funkfeuer": [0, { "wien": _4 }], "futurecms": [0, { "*": _4, "ex": _7, "in": _7 }], "futurehosting": _4, "futuremailing": _4, "ortsinfo": [0, { "ex": _7, "kunden": _7 }], "biz": _4, "info": _4, "123webseite": _4, "priv": _4, "myspreadshop": _4, "12hp": _4, "2ix": _4, "4lima": _4, "lima-city": _4 }], "au": [1, { "asn": _3, "com": [1, { "cloudlets": [0, { "mel": _4 }], "myspreadshop": _4 }], "edu": [1, { "act": _3, "catholic": _3, "nsw": [1, { "schools": _3 }], "nt": _3, "qld": _3, "sa": _3, "tas": _3, "vic": _3, "wa": _3 }], "gov": [1, { "qld": _3, "sa": _3, "tas": _3, "vic": _3, "wa": _3 }], "id": _3, "net": _3, "org": _3, "conf": _3, "oz": _3, "act": _3, "nsw": _3, "nt": _3, "qld": _3, "sa": _3, "tas": _3, "vic": _3, "wa": _3 }], "aw": [1, { "com": _3 }], "ax": _3, "az": [1, { "biz": _3, "co": _3, "com": _3, "edu": _3, "gov": _3, "info": _3, "int": _3, "mil": _3, "name": _3, "net": _3, "org": _3, "pp": _3, "pro": _3 }], "ba": [1, { "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "rs": _4 }], "bb": [1, { "biz": _3, "co": _3, "com": _3, "edu": _3, "gov": _3, "info": _3, "net": _3, "org": _3, "store": _3, "tv": _3 }], "bd": _18, "be": [1, { "ac": _3, "cloudns": _4, "webhosting": _4, "interhostsolutions": [0, { "cloud": _4 }], "kuleuven": [0, { "ezproxy": _4 }], "123website": _4, "myspreadshop": _4, "transurl": _7 }], "bf": _11, "bg": [1, { "0": _3, "1": _3, "2": _3, "3": _3, "4": _3, "5": _3, "6": _3, "7": _3, "8": _3, "9": _3, "a": _3, "b": _3, "c": _3, "d": _3, "e": _3, "f": _3, "g": _3, "h": _3, "i": _3, "j": _3, "k": _3, "l": _3, "m": _3, "n": _3, "o": _3, "p": _3, "q": _3, "r": _3, "s": _3, "t": _3, "u": _3, "v": _3, "w": _3, "x": _3, "y": _3, "z": _3, "barsy": _4 }], "bh": _5, "bi": [1, { "co": _3, "com": _3, "edu": _3, "or": _3, "org": _3 }], "biz": [1, { "activetrail": _4, "cloud-ip": _4, "cloudns": _4, "jozi": _4, "dyndns": _4, "for-better": _4, "for-more": _4, "for-some": _4, "for-the": _4, "selfip": _4, "webhop": _4, "orx": _4, "mmafan": _4, "myftp": _4, "no-ip": _4, "dscloud": _4 }], "bj": [1, { "africa": _3, "agro": _3, "architectes": _3, "assur": _3, "avocats": _3, "co": _3, "com": _3, "eco": _3, "econo": _3, "edu": _3, "info": _3, "loisirs": _3, "money": _3, "net": _3, "org": _3, "ote": _3, "restaurant": _3, "resto": _3, "tourism": _3, "univ": _3 }], "bm": _5, "bn": [1, { "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "co": _4 }], "bo": [1, { "com": _3, "edu": _3, "gob": _3, "int": _3, "mil": _3, "net": _3, "org": _3, "tv": _3, "web": _3, "academia": _3, "agro": _3, "arte": _3, "blog": _3, "bolivia": _3, "ciencia": _3, "cooperativa": _3, "democracia": _3, "deporte": _3, "ecologia": _3, "economia": _3, "empresa": _3, "indigena": _3, "industria": _3, "info": _3, "medicina": _3, "movimiento": _3, "musica": _3, "natural": _3, "nombre": _3, "noticias": _3, "patria": _3, "plurinacional": _3, "politica": _3, "profesional": _3, "pueblo": _3, "revista": _3, "salud": _3, "tecnologia": _3, "tksat": _3, "transporte": _3, "wiki": _3 }], "br": [1, { "9guacu": _3, "abc": _3, "adm": _3, "adv": _3, "agr": _3, "aju": _3, "am": _3, "anani": _3, "aparecida": _3, "app": _3, "arq": _3, "art": _3, "ato": _3, "b": _3, "barueri": _3, "belem": _3, "bet": _3, "bhz": _3, "bib": _3, "bio": _3, "blog": _3, "bmd": _3, "boavista": _3, "bsb": _3, "campinagrande": _3, "campinas": _3, "caxias": _3, "cim": _3, "cng": _3, "cnt": _3, "com": [1, { "simplesite": _4 }], "contagem": _3, "coop": _3, "coz": _3, "cri": _3, "cuiaba": _3, "curitiba": _3, "def": _3, "des": _3, "det": _3, "dev": _3, "ecn": _3, "eco": _3, "edu": _3, "emp": _3, "enf": _3, "eng": _3, "esp": _3, "etc": _3, "eti": _3, "far": _3, "feira": _3, "flog": _3, "floripa": _3, "fm": _3, "fnd": _3, "fortal": _3, "fot": _3, "foz": _3, "fst": _3, "g12": _3, "geo": _3, "ggf": _3, "goiania": _3, "gov": [1, { "ac": _3, "al": _3, "am": _3, "ap": _3, "ba": _3, "ce": _3, "df": _3, "es": _3, "go": _3, "ma": _3, "mg": _3, "ms": _3, "mt": _3, "pa": _3, "pb": _3, "pe": _3, "pi": _3, "pr": _3, "rj": _3, "rn": _3, "ro": _3, "rr": _3, "rs": _3, "sc": _3, "se": _3, "sp": _3, "to": _3 }], "gru": _3, "imb": _3, "ind": _3, "inf": _3, "jab": _3, "jampa": _3, "jdf": _3, "joinville": _3, "jor": _3, "jus": _3, "leg": [1, { "ac": _4, "al": _4, "am": _4, "ap": _4, "ba": _4, "ce": _4, "df": _4, "es": _4, "go": _4, "ma": _4, "mg": _4, "ms": _4, "mt": _4, "pa": _4, "pb": _4, "pe": _4, "pi": _4, "pr": _4, "rj": _4, "rn": _4, "ro": _4, "rr": _4, "rs": _4, "sc": _4, "se": _4, "sp": _4, "to": _4 }], "leilao": _3, "lel": _3, "log": _3, "londrina": _3, "macapa": _3, "maceio": _3, "manaus": _3, "maringa": _3, "mat": _3, "med": _3, "mil": _3, "morena": _3, "mp": _3, "mus": _3, "natal": _3, "net": _3, "niteroi": _3, "nom": _18, "not": _3, "ntr": _3, "odo": _3, "ong": _3, "org": _3, "osasco": _3, "palmas": _3, "poa": _3, "ppg": _3, "pro": _3, "psc": _3, "psi": _3, "pvh": _3, "qsl": _3, "radio": _3, "rec": _3, "recife": _3, "rep": _3, "ribeirao": _3, "rio": _3, "riobranco": _3, "riopreto": _3, "salvador": _3, "sampa": _3, "santamaria": _3, "santoandre": _3, "saobernardo": _3, "saogonca": _3, "seg": _3, "sjc": _3, "slg": _3, "slz": _3, "sorocaba": _3, "srv": _3, "taxi": _3, "tc": _3, "tec": _3, "teo": _3, "the": _3, "tmp": _3, "trd": _3, "tur": _3, "tv": _3, "udi": _3, "vet": _3, "vix": _3, "vlog": _3, "wiki": _3, "zlg": _3 }], "bs": [1, { "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "we": _4 }], "bt": _5, "bv": _3, "bw": [1, { "ac": _3, "co": _3, "gov": _3, "net": _3, "org": _3 }], "by": [1, { "gov": _3, "mil": _3, "com": _3, "of": _3, "mediatech": _4 }], "bz": [1, { "co": _3, "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "za": _4, "mydns": _4, "gsj": _4 }], "ca": [1, { "ab": _3, "bc": _3, "mb": _3, "nb": _3, "nf": _3, "nl": _3, "ns": _3, "nt": _3, "nu": _3, "on": _3, "pe": _3, "qc": _3, "sk": _3, "yk": _3, "gc": _3, "barsy": _4, "awdev": _7, "co": _4, "no-ip": _4, "myspreadshop": _4, "box": _4 }], "cat": _3, "cc": [1, { "cleverapps": _4, "cloudns": _4, "ftpaccess": _4, "game-server": _4, "myphotos": _4, "scrapping": _4, "twmail": _4, "csx": _4, "fantasyleague": _4, "spawn": [0, { "instances": _4 }] }], "cd": _11, "cf": _3, "cg": _3, "ch": [1, { "square7": _4, "cloudns": _4, "cloudscale": [0, { "cust": _4, "lpg": _20, "rma": _20 }], "flow": [0, { "ae": [0, { "alp1": _4 }], "appengine": _4 }], "linkyard-cloud": _4, "gotdns": _4, "dnsking": _4, "123website": _4, "myspreadshop": _4, "firenet": [0, { "*": _4, "svc": _7 }], "12hp": _4, "2ix": _4, "4lima": _4, "lima-city": _4 }], "ci": [1, { "ac": _3, "xn--aroport-bya": _3, "a\xE9roport": _3, "asso": _3, "co": _3, "com": _3, "ed": _3, "edu": _3, "go": _3, "gouv": _3, "int": _3, "net": _3, "or": _3, "org": _3 }], "ck": _18, "cl": [1, { "co": _3, "gob": _3, "gov": _3, "mil": _3, "cloudns": _4 }], "cm": [1, { "co": _3, "com": _3, "gov": _3, "net": _3 }], "cn": [1, { "ac": _3, "com": [1, { "amazonaws": [0, { "cn-north-1": [0, { "execute-api": _4, "emrappui-prod": _4, "emrnotebooks-prod": _4, "emrstudio-prod": _4, "dualstack": _23, "s3": _4, "s3-accesspoint": _4, "s3-deprecated": _4, "s3-object-lambda": _4, "s3-website": _4 }], "cn-northwest-1": [0, { "execute-api": _4, "emrappui-prod": _4, "emrnotebooks-prod": _4, "emrstudio-prod": _4, "dualstack": _24, "s3": _4, "s3-accesspoint": _4, "s3-object-lambda": _4, "s3-website": _4 }], "compute": _7, "airflow": [0, { "cn-north-1": _7, "cn-northwest-1": _7 }], "eb": [0, { "cn-north-1": _4, "cn-northwest-1": _4 }], "elb": _7 }], "sagemaker": [0, { "cn-north-1": _13, "cn-northwest-1": _13 }] }], "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "xn--55qx5d": _3, "\u516C\u53F8": _3, "xn--od0alg": _3, "\u7DB2\u7D61": _3, "xn--io0a7i": _3, "\u7F51\u7EDC": _3, "ah": _3, "bj": _3, "cq": _3, "fj": _3, "gd": _3, "gs": _3, "gx": _3, "gz": _3, "ha": _3, "hb": _3, "he": _3, "hi": _3, "hk": _3, "hl": _3, "hn": _3, "jl": _3, "js": _3, "jx": _3, "ln": _3, "mo": _3, "nm": _3, "nx": _3, "qh": _3, "sc": _3, "sd": _3, "sh": [1, { "as": _4 }], "sn": _3, "sx": _3, "tj": _3, "tw": _3, "xj": _3, "xz": _3, "yn": _3, "zj": _3, "canva-apps": _4, "canvasite": _22, "myqnapcloud": _4, "quickconnect": _25 }], "co": [1, { "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "nom": _3, "org": _3, "carrd": _4, "crd": _4, "otap": _7, "leadpages": _4, "lpages": _4, "mypi": _4, "xmit": _7, "firewalledreplit": _10, "repl": _10, "supabase": _4 }], "com": [1, { "a2hosted": _4, "cpserver": _4, "adobeaemcloud": [2, { "dev": _7 }], "africa": _4, "airkitapps": _4, "airkitapps-au": _4, "aivencloud": _4, "alibabacloudcs": _4, "kasserver": _4, "amazonaws": [0, { "af-south-1": _28, "ap-east-1": _29, "ap-northeast-1": _30, "ap-northeast-2": _30, "ap-northeast-3": _28, "ap-south-1": _30, "ap-south-2": _31, "ap-southeast-1": _30, "ap-southeast-2": _30, "ap-southeast-3": _31, "ap-southeast-4": _31, "ap-southeast-5": [0, { "execute-api": _4, "dualstack": _23, "s3": _4, "s3-accesspoint": _4, "s3-deprecated": _4, "s3-object-lambda": _4, "s3-website": _4 }], "ca-central-1": _33, "ca-west-1": [0, { "execute-api": _4, "emrappui-prod": _4, "emrnotebooks-prod": _4, "emrstudio-prod": _4, "dualstack": _32, "s3": _4, "s3-accesspoint": _4, "s3-accesspoint-fips": _4, "s3-fips": _4, "s3-object-lambda": _4, "s3-website": _4 }], "eu-central-1": _30, "eu-central-2": _31, "eu-north-1": _29, "eu-south-1": _28, "eu-south-2": _31, "eu-west-1": [0, { "execute-api": _4, "emrappui-prod": _4, "emrnotebooks-prod": _4, "emrstudio-prod": _4, "dualstack": _23, "s3": _4, "s3-accesspoint": _4, "s3-deprecated": _4, "s3-object-lambda": _4, "s3-website": _4, "analytics-gateway": _4, "aws-cloud9": _26, "cloud9": _27 }], "eu-west-2": _29, "eu-west-3": _28, "il-central-1": [0, { "execute-api": _4, "emrappui-prod": _4, "emrnotebooks-prod": _4, "emrstudio-prod": _4, "dualstack": _23, "s3": _4, "s3-accesspoint": _4, "s3-object-lambda": _4, "s3-website": _4, "aws-cloud9": _26, "cloud9": [0, { "vfs": _4 }] }], "me-central-1": _31, "me-south-1": _29, "sa-east-1": _28, "us-east-1": [2, { "execute-api": _4, "emrappui-prod": _4, "emrnotebooks-prod": _4, "emrstudio-prod": _4, "dualstack": _32, "s3": _4, "s3-accesspoint": _4, "s3-accesspoint-fips": _4, "s3-deprecated": _4, "s3-fips": _4, "s3-object-lambda": _4, "s3-website": _4, "analytics-gateway": _4, "aws-cloud9": _26, "cloud9": _27 }], "us-east-2": _34, "us-gov-east-1": _36, "us-gov-west-1": _36, "us-west-1": _33, "us-west-2": _34, "compute": _7, "compute-1": _7, "airflow": [0, { "af-south-1": _7, "ap-east-1": _7, "ap-northeast-1": _7, "ap-northeast-2": _7, "ap-northeast-3": _7, "ap-south-1": _7, "ap-south-2": _7, "ap-southeast-1": _7, "ap-southeast-2": _7, "ap-southeast-3": _7, "ap-southeast-4": _7, "ca-central-1": _7, "ca-west-1": _7, "eu-central-1": _7, "eu-central-2": _7, "eu-north-1": _7, "eu-south-1": _7, "eu-south-2": _7, "eu-west-1": _7, "eu-west-2": _7, "eu-west-3": _7, "il-central-1": _7, "me-central-1": _7, "me-south-1": _7, "sa-east-1": _7, "us-east-1": _7, "us-east-2": _7, "us-west-1": _7, "us-west-2": _7 }], "s3": _4, "s3-1": _4, "s3-ap-east-1": _4, "s3-ap-northeast-1": _4, "s3-ap-northeast-2": _4, "s3-ap-northeast-3": _4, "s3-ap-south-1": _4, "s3-ap-southeast-1": _4, "s3-ap-southeast-2": _4, "s3-ca-central-1": _4, "s3-eu-central-1": _4, "s3-eu-north-1": _4, "s3-eu-west-1": _4, "s3-eu-west-2": _4, "s3-eu-west-3": _4, "s3-external-1": _4, "s3-fips-us-gov-east-1": _4, "s3-fips-us-gov-west-1": _4, "s3-global": [0, { "accesspoint": [0, { "mrap": _4 }] }], "s3-me-south-1": _4, "s3-sa-east-1": _4, "s3-us-east-2": _4, "s3-us-gov-east-1": _4, "s3-us-gov-west-1": _4, "s3-us-west-1": _4, "s3-us-west-2": _4, "s3-website-ap-northeast-1": _4, "s3-website-ap-southeast-1": _4, "s3-website-ap-southeast-2": _4, "s3-website-eu-west-1": _4, "s3-website-sa-east-1": _4, "s3-website-us-east-1": _4, "s3-website-us-gov-west-1": _4, "s3-website-us-west-1": _4, "s3-website-us-west-2": _4, "elb": _7 }], "amazoncognito": [0, { "af-south-1": _37, "ap-east-1": _37, "ap-northeast-1": _37, "ap-northeast-2": _37, "ap-northeast-3": _37, "ap-south-1": _37, "ap-south-2": _37, "ap-southeast-1": _37, "ap-southeast-2": _37, "ap-southeast-3": _37, "ap-southeast-4": _37, "ap-southeast-5": _37, "ca-central-1": _37, "ca-west-1": _37, "eu-central-1": _37, "eu-central-2": _37, "eu-north-1": _37, "eu-south-1": _37, "eu-south-2": _37, "eu-west-1": _37, "eu-west-2": _37, "eu-west-3": _37, "il-central-1": _37, "me-central-1": _37, "me-south-1": _37, "sa-east-1": _37, "us-east-1": _38, "us-east-2": _38, "us-gov-east-1": _39, "us-gov-west-1": _39, "us-west-1": _38, "us-west-2": _38 }], "amplifyapp": _4, "awsapprunner": _7, "awsapps": _4, "elasticbeanstalk": [2, { "af-south-1": _4, "ap-east-1": _4, "ap-northeast-1": _4, "ap-northeast-2": _4, "ap-northeast-3": _4, "ap-south-1": _4, "ap-southeast-1": _4, "ap-southeast-2": _4, "ap-southeast-3": _4, "ca-central-1": _4, "eu-central-1": _4, "eu-north-1": _4, "eu-south-1": _4, "eu-west-1": _4, "eu-west-2": _4, "eu-west-3": _4, "il-central-1": _4, "me-south-1": _4, "sa-east-1": _4, "us-east-1": _4, "us-east-2": _4, "us-gov-east-1": _4, "us-gov-west-1": _4, "us-west-1": _4, "us-west-2": _4 }], "awsglobalaccelerator": _4, "siiites": _4, "appspacehosted": _4, "appspaceusercontent": _4, "on-aptible": _4, "myasustor": _4, "balena-devices": _4, "boutir": _4, "bplaced": _4, "cafjs": _4, "canva-apps": _4, "cdn77-storage": _4, "br": _4, "cn": _4, "de": _4, "eu": _4, "jpn": _4, "mex": _4, "ru": _4, "sa": _4, "uk": _4, "us": _4, "za": _4, "clever-cloud": [0, { "services": _7 }], "dnsabr": _4, "ip-ddns": _4, "jdevcloud": _4, "wpdevcloud": _4, "cf-ipfs": _4, "cloudflare-ipfs": _4, "trycloudflare": _4, "co": _4, "devinapps": _7, "builtwithdark": _4, "datadetect": [0, { "demo": _4, "instance": _4 }], "dattolocal": _4, "dattorelay": _4, "dattoweb": _4, "mydatto": _4, "digitaloceanspaces": _7, "discordsays": _4, "discordsez": _4, "drayddns": _4, "dreamhosters": _4, "durumis": _4, "mydrobo": _4, "blogdns": _4, "cechire": _4, "dnsalias": _4, "dnsdojo": _4, "doesntexist": _4, "dontexist": _4, "doomdns": _4, "dyn-o-saur": _4, "dynalias": _4, "dyndns-at-home": _4, "dyndns-at-work": _4, "dyndns-blog": _4, "dyndns-free": _4, "dyndns-home": _4, "dyndns-ip": _4, "dyndns-mail": _4, "dyndns-office": _4, "dyndns-pics": _4, "dyndns-remote": _4, "dyndns-server": _4, "dyndns-web": _4, "dyndns-wiki": _4, "dyndns-work": _4, "est-a-la-maison": _4, "est-a-la-masion": _4, "est-le-patron": _4, "est-mon-blogueur": _4, "from-ak": _4, "from-al": _4, "from-ar": _4, "from-ca": _4, "from-ct": _4, "from-dc": _4, "from-de": _4, "from-fl": _4, "from-ga": _4, "from-hi": _4, "from-ia": _4, "from-id": _4, "from-il": _4, "from-in": _4, "from-ks": _4, "from-ky": _4, "from-ma": _4, "from-md": _4, "from-mi": _4, "from-mn": _4, "from-mo": _4, "from-ms": _4, "from-mt": _4, "from-nc": _4, "from-nd": _4, "from-ne": _4, "from-nh": _4, "from-nj": _4, "from-nm": _4, "from-nv": _4, "from-oh": _4, "from-ok": _4, "from-or": _4, "from-pa": _4, "from-pr": _4, "from-ri": _4, "from-sc": _4, "from-sd": _4, "from-tn": _4, "from-tx": _4, "from-ut": _4, "from-va": _4, "from-vt": _4, "from-wa": _4, "from-wi": _4, "from-wv": _4, "from-wy": _4, "getmyip": _4, "gotdns": _4, "hobby-site": _4, "homelinux": _4, "homeunix": _4, "iamallama": _4, "is-a-anarchist": _4, "is-a-blogger": _4, "is-a-bookkeeper": _4, "is-a-bulls-fan": _4, "is-a-caterer": _4, "is-a-chef": _4, "is-a-conservative": _4, "is-a-cpa": _4, "is-a-cubicle-slave": _4, "is-a-democrat": _4, "is-a-designer": _4, "is-a-doctor": _4, "is-a-financialadvisor": _4, "is-a-geek": _4, "is-a-green": _4, "is-a-guru": _4, "is-a-hard-worker": _4, "is-a-hunter": _4, "is-a-landscaper": _4, "is-a-lawyer": _4, "is-a-liberal": _4, "is-a-libertarian": _4, "is-a-llama": _4, "is-a-musician": _4, "is-a-nascarfan": _4, "is-a-nurse": _4, "is-a-painter": _4, "is-a-personaltrainer": _4, "is-a-photographer": _4, "is-a-player": _4, "is-a-republican": _4, "is-a-rockstar": _4, "is-a-socialist": _4, "is-a-student": _4, "is-a-teacher": _4, "is-a-techie": _4, "is-a-therapist": _4, "is-an-accountant": _4, "is-an-actor": _4, "is-an-actress": _4, "is-an-anarchist": _4, "is-an-artist": _4, "is-an-engineer": _4, "is-an-entertainer": _4, "is-certified": _4, "is-gone": _4, "is-into-anime": _4, "is-into-cars": _4, "is-into-cartoons": _4, "is-into-games": _4, "is-leet": _4, "is-not-certified": _4, "is-slick": _4, "is-uberleet": _4, "is-with-theband": _4, "isa-geek": _4, "isa-hockeynut": _4, "issmarterthanyou": _4, "likes-pie": _4, "likescandy": _4, "neat-url": _4, "saves-the-whales": _4, "selfip": _4, "sells-for-less": _4, "sells-for-u": _4, "servebbs": _4, "simple-url": _4, "space-to-rent": _4, "teaches-yoga": _4, "writesthisblog": _4, "ddnsfree": _4, "ddnsgeek": _4, "giize": _4, "gleeze": _4, "kozow": _4, "loseyourip": _4, "ooguy": _4, "theworkpc": _4, "mytuleap": _4, "tuleap-partners": _4, "encoreapi": _4, "evennode": [0, { "eu-1": _4, "eu-2": _4, "eu-3": _4, "eu-4": _4, "us-1": _4, "us-2": _4, "us-3": _4, "us-4": _4 }], "onfabrica": _4, "fastly-edge": _4, "fastly-terrarium": _4, "fastvps-server": _4, "mydobiss": _4, "firebaseapp": _4, "fldrv": _4, "forgeblocks": _4, "framercanvas": _4, "freebox-os": _4, "freeboxos": _4, "freemyip": _4, "aliases121": _4, "gentapps": _4, "gentlentapis": _4, "githubusercontent": _4, "0emm": _7, "appspot": [2, { "r": _7 }], "blogspot": _4, "codespot": _4, "googleapis": _4, "googlecode": _4, "pagespeedmobilizer": _4, "withgoogle": _4, "withyoutube": _4, "grayjayleagues": _4, "hatenablog": _4, "hatenadiary": _4, "herokuapp": _4, "gr": _4, "smushcdn": _4, "wphostedmail": _4, "wpmucdn": _4, "pixolino": _4, "apps-1and1": _4, "live-website": _4, "dopaas": _4, "hosted-by-previder": _41, "hosteur": [0, { "rag-cloud": _4, "rag-cloud-ch": _4 }], "ik-server": [0, { "jcloud": _4, "jcloud-ver-jpc": _4 }], "jelastic": [0, { "demo": _4 }], "massivegrid": _41, "wafaicloud": [0, { "jed": _4, "ryd": _4 }], "webadorsite": _4, "joyent": [0, { "cns": _7 }], "lpusercontent": _4, "linode": [0, { "members": _4, "nodebalancer": _7 }], "linodeobjects": _7, "linodeusercontent": [0, { "ip": _4 }], "localtonet": _4, "lovableproject": _4, "barsycenter": _4, "barsyonline": _4, "modelscape": _4, "mwcloudnonprod": _4, "polyspace": _4, "mazeplay": _4, "miniserver": _4, "atmeta": _4, "fbsbx": _40, "meteorapp": _42, "routingthecloud": _4, "mydbserver": _4, "hostedpi": _4, "mythic-beasts": [0, { "caracal": _4, "customer": _4, "fentiger": _4, "lynx": _4, "ocelot": _4, "oncilla": _4, "onza": _4, "sphinx": _4, "vs": _4, "x": _4, "yali": _4 }], "nospamproxy": [0, { "cloud": [2, { "o365": _4 }] }], "4u": _4, "nfshost": _4, "3utilities": _4, "blogsyte": _4, "ciscofreak": _4, "damnserver": _4, "ddnsking": _4, "ditchyourip": _4, "dnsiskinky": _4, "dynns": _4, "geekgalaxy": _4, "health-carereform": _4, "homesecuritymac": _4, "homesecuritypc": _4, "myactivedirectory": _4, "mysecuritycamera": _4, "myvnc": _4, "net-freaks": _4, "onthewifi": _4, "point2this": _4, "quicksytes": _4, "securitytactics": _4, "servebeer": _4, "servecounterstrike": _4, "serveexchange": _4, "serveftp": _4, "servegame": _4, "servehalflife": _4, "servehttp": _4, "servehumour": _4, "serveirc": _4, "servemp3": _4, "servep2p": _4, "servepics": _4, "servequake": _4, "servesarcasm": _4, "stufftoread": _4, "unusualperson": _4, "workisboring": _4, "myiphost": _4, "observableusercontent": [0, { "static": _4 }], "simplesite": _4, "orsites": _4, "operaunite": _4, "customer-oci": [0, { "*": _4, "oci": _7, "ocp": _7, "ocs": _7 }], "oraclecloudapps": _7, "oraclegovcloudapps": _7, "authgear-staging": _4, "authgearapps": _4, "skygearapp": _4, "outsystemscloud": _4, "ownprovider": _4, "pgfog": _4, "pagexl": _4, "gotpantheon": _4, "paywhirl": _7, "upsunapp": _4, "postman-echo": _4, "prgmr": [0, { "xen": _4 }], "pythonanywhere": _42, "qa2": _4, "alpha-myqnapcloud": _4, "dev-myqnapcloud": _4, "mycloudnas": _4, "mynascloud": _4, "myqnapcloud": _4, "qualifioapp": _4, "ladesk": _4, "qbuser": _4, "quipelements": _7, "rackmaze": _4, "readthedocs-hosted": _4, "rhcloud": _4, "onrender": _4, "render": _43, "subsc-pay": _4, "180r": _4, "dojin": _4, "sakuratan": _4, "sakuraweb": _4, "x0": _4, "code": [0, { "builder": _7, "dev-builder": _7, "stg-builder": _7 }], "salesforce": [0, { "platform": [0, { "code-builder-stg": [0, { "test": [0, { "001": _7 }] }] }] }], "logoip": _4, "scrysec": _4, "firewall-gateway": _4, "myshopblocks": _4, "myshopify": _4, "shopitsite": _4, "1kapp": _4, "appchizi": _4, "applinzi": _4, "sinaapp": _4, "vipsinaapp": _4, "streamlitapp": _4, "try-snowplow": _4, "playstation-cloud": _4, "myspreadshop": _4, "w-corp-staticblitz": _4, "w-credentialless-staticblitz": _4, "w-staticblitz": _4, "stackhero-network": _4, "stdlib": [0, { "api": _4 }], "strapiapp": [2, { "media": _4 }], "streak-link": _4, "streaklinks": _4, "streakusercontent": _4, "temp-dns": _4, "dsmynas": _4, "familyds": _4, "mytabit": _4, "taveusercontent": _4, "tb-hosting": _44, "reservd": _4, "thingdustdata": _4, "townnews-staging": _4, "typeform": [0, { "pro": _4 }], "hk": _4, "it": _4, "deus-canvas": _4, "vultrobjects": _7, "wafflecell": _4, "hotelwithflight": _4, "reserve-online": _4, "cprapid": _4, "pleskns": _4, "remotewd": _4, "wiardweb": [0, { "pages": _4 }], "wixsite": _4, "wixstudio": _4, "messwithdns": _4, "woltlab-demo": _4, "wpenginepowered": [2, { "js": _4 }], "xnbay": [2, { "u2": _4, "u2-local": _4 }], "yolasite": _4 }], "coop": _3, "cr": [1, { "ac": _3, "co": _3, "ed": _3, "fi": _3, "go": _3, "or": _3, "sa": _3 }], "cu": [1, { "com": _3, "edu": _3, "gob": _3, "inf": _3, "nat": _3, "net": _3, "org": _3 }], "cv": [1, { "com": _3, "edu": _3, "id": _3, "int": _3, "net": _3, "nome": _3, "org": _3, "publ": _3 }], "cw": _45, "cx": [1, { "gov": _3, "cloudns": _4, "ath": _4, "info": _4, "assessments": _4, "calculators": _4, "funnels": _4, "paynow": _4, "quizzes": _4, "researched": _4, "tests": _4 }], "cy": [1, { "ac": _3, "biz": _3, "com": [1, { "scaleforce": _46 }], "ekloges": _3, "gov": _3, "ltd": _3, "mil": _3, "net": _3, "org": _3, "press": _3, "pro": _3, "tm": _3 }], "cz": [1, { "contentproxy9": [0, { "rsc": _4 }], "realm": _4, "e4": _4, "co": _4, "metacentrum": [0, { "cloud": _7, "custom": _4 }], "muni": [0, { "cloud": [0, { "flt": _4, "usr": _4 }] }] }], "de": [1, { "bplaced": _4, "square7": _4, "com": _4, "cosidns": _47, "dnsupdater": _4, "dynamisches-dns": _4, "internet-dns": _4, "l-o-g-i-n": _4, "ddnss": [2, { "dyn": _4, "dyndns": _4 }], "dyn-ip24": _4, "dyndns1": _4, "home-webserver": [2, { "dyn": _4 }], "myhome-server": _4, "dnshome": _4, "fuettertdasnetz": _4, "isteingeek": _4, "istmein": _4, "lebtimnetz": _4, "leitungsen": _4, "traeumtgerade": _4, "frusky": _7, "goip": _4, "xn--gnstigbestellen-zvb": _4, "g\xFCnstigbestellen": _4, "xn--gnstigliefern-wob": _4, "g\xFCnstigliefern": _4, "hs-heilbronn": [0, { "it": [0, { "pages": _4, "pages-research": _4 }] }], "dyn-berlin": _4, "in-berlin": _4, "in-brb": _4, "in-butter": _4, "in-dsl": _4, "in-vpn": _4, "iservschule": _4, "mein-iserv": _4, "schulplattform": _4, "schulserver": _4, "test-iserv": _4, "keymachine": _4, "git-repos": _4, "lcube-server": _4, "svn-repos": _4, "barsy": _4, "webspaceconfig": _4, "123webseite": _4, "rub": _4, "ruhr-uni-bochum": [2, { "noc": [0, { "io": _4 }] }], "logoip": _4, "firewall-gateway": _4, "my-gateway": _4, "my-router": _4, "spdns": _4, "speedpartner": [0, { "customer": _4 }], "myspreadshop": _4, "taifun-dns": _4, "12hp": _4, "2ix": _4, "4lima": _4, "lima-city": _4, "dd-dns": _4, "dray-dns": _4, "draydns": _4, "dyn-vpn": _4, "dynvpn": _4, "mein-vigor": _4, "my-vigor": _4, "my-wan": _4, "syno-ds": _4, "synology-diskstation": _4, "synology-ds": _4, "uberspace": _7, "virtual-user": _4, "virtualuser": _4, "community-pro": _4, "diskussionsbereich": _4 }], "dj": _3, "dk": [1, { "biz": _4, "co": _4, "firm": _4, "reg": _4, "store": _4, "123hjemmeside": _4, "myspreadshop": _4 }], "dm": _48, "do": [1, { "art": _3, "com": _3, "edu": _3, "gob": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "sld": _3, "web": _3 }], "dz": [1, { "art": _3, "asso": _3, "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "pol": _3, "soc": _3, "tm": _3 }], "ec": [1, { "com": _3, "edu": _3, "fin": _3, "gob": _3, "gov": _3, "info": _3, "k12": _3, "med": _3, "mil": _3, "net": _3, "org": _3, "pro": _3, "base": _4, "official": _4 }], "edu": [1, { "rit": [0, { "git-pages": _4 }] }], "ee": [1, { "aip": _3, "com": _3, "edu": _3, "fie": _3, "gov": _3, "lib": _3, "med": _3, "org": _3, "pri": _3, "riik": _3 }], "eg": [1, { "ac": _3, "com": _3, "edu": _3, "eun": _3, "gov": _3, "info": _3, "me": _3, "mil": _3, "name": _3, "net": _3, "org": _3, "sci": _3, "sport": _3, "tv": _3 }], "er": _18, "es": [1, { "com": _3, "edu": _3, "gob": _3, "nom": _3, "org": _3, "123miweb": _4, "myspreadshop": _4 }], "et": [1, { "biz": _3, "com": _3, "edu": _3, "gov": _3, "info": _3, "name": _3, "net": _3, "org": _3 }], "eu": [1, { "airkitapps": _4, "cloudns": _4, "dogado": [0, { "jelastic": _4 }], "barsy": _4, "spdns": _4, "transurl": _7, "diskstation": _4 }], "fi": [1, { "aland": _3, "dy": _4, "xn--hkkinen-5wa": _4, "h\xE4kkinen": _4, "iki": _4, "cloudplatform": [0, { "fi": _4 }], "datacenter": [0, { "demo": _4, "paas": _4 }], "kapsi": _4, "123kotisivu": _4, "myspreadshop": _4 }], "fj": [1, { "ac": _3, "biz": _3, "com": _3, "gov": _3, "info": _3, "mil": _3, "name": _3, "net": _3, "org": _3, "pro": _3 }], "fk": _18, "fm": [1, { "com": _3, "edu": _3, "net": _3, "org": _3, "radio": _4, "user": _7 }], "fo": _3, "fr": [1, { "asso": _3, "com": _3, "gouv": _3, "nom": _3, "prd": _3, "tm": _3, "avoues": _3, "cci": _3, "greta": _3, "huissier-justice": _3, "en-root": _4, "fbx-os": _4, "fbxos": _4, "freebox-os": _4, "freeboxos": _4, "goupile": _4, "123siteweb": _4, "on-web": _4, "chirurgiens-dentistes-en-france": _4, "dedibox": _4, "aeroport": _4, "avocat": _4, "chambagri": _4, "chirurgiens-dentistes": _4, "experts-comptables": _4, "medecin": _4, "notaires": _4, "pharmacien": _4, "port": _4, "veterinaire": _4, "myspreadshop": _4, "ynh": _4 }], "ga": _3, "gb": _3, "gd": [1, { "edu": _3, "gov": _3 }], "ge": [1, { "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "pvt": _3, "school": _3 }], "gf": _3, "gg": [1, { "co": _3, "net": _3, "org": _3, "botdash": _4, "kaas": _4, "stackit": _4, "panel": [2, { "daemon": _4 }] }], "gh": [1, { "com": _3, "edu": _3, "gov": _3, "mil": _3, "org": _3 }], "gi": [1, { "com": _3, "edu": _3, "gov": _3, "ltd": _3, "mod": _3, "org": _3 }], "gl": [1, { "co": _3, "com": _3, "edu": _3, "net": _3, "org": _3, "biz": _4 }], "gm": _3, "gn": [1, { "ac": _3, "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3 }], "gov": _3, "gp": [1, { "asso": _3, "com": _3, "edu": _3, "mobi": _3, "net": _3, "org": _3 }], "gq": _3, "gr": [1, { "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "barsy": _4, "simplesite": _4 }], "gs": _3, "gt": [1, { "com": _3, "edu": _3, "gob": _3, "ind": _3, "mil": _3, "net": _3, "org": _3 }], "gu": [1, { "com": _3, "edu": _3, "gov": _3, "guam": _3, "info": _3, "net": _3, "org": _3, "web": _3 }], "gw": _3, "gy": _48, "hk": [1, { "com": _3, "edu": _3, "gov": _3, "idv": _3, "net": _3, "org": _3, "xn--ciqpn": _3, "\u4E2A\u4EBA": _3, "xn--gmqw5a": _3, "\u500B\u4EBA": _3, "xn--55qx5d": _3, "\u516C\u53F8": _3, "xn--mxtq1m": _3, "\u653F\u5E9C": _3, "xn--lcvr32d": _3, "\u654E\u80B2": _3, "xn--wcvs22d": _3, "\u6559\u80B2": _3, "xn--gmq050i": _3, "\u7B87\u4EBA": _3, "xn--uc0atv": _3, "\u7D44\u7E54": _3, "xn--uc0ay4a": _3, "\u7D44\u7EC7": _3, "xn--od0alg": _3, "\u7DB2\u7D61": _3, "xn--zf0avx": _3, "\u7DB2\u7EDC": _3, "xn--mk0axi": _3, "\u7EC4\u7E54": _3, "xn--tn0ag": _3, "\u7EC4\u7EC7": _3, "xn--od0aq3b": _3, "\u7F51\u7D61": _3, "xn--io0a7i": _3, "\u7F51\u7EDC": _3, "inc": _4, "ltd": _4 }], "hm": _3, "hn": [1, { "com": _3, "edu": _3, "gob": _3, "mil": _3, "net": _3, "org": _3 }], "hr": [1, { "com": _3, "from": _3, "iz": _3, "name": _3, "brendly": _51 }], "ht": [1, { "adult": _3, "art": _3, "asso": _3, "com": _3, "coop": _3, "edu": _3, "firm": _3, "gouv": _3, "info": _3, "med": _3, "net": _3, "org": _3, "perso": _3, "pol": _3, "pro": _3, "rel": _3, "shop": _3, "rt": _4 }], "hu": [1, { "2000": _3, "agrar": _3, "bolt": _3, "casino": _3, "city": _3, "co": _3, "erotica": _3, "erotika": _3, "film": _3, "forum": _3, "games": _3, "hotel": _3, "info": _3, "ingatlan": _3, "jogasz": _3, "konyvelo": _3, "lakas": _3, "media": _3, "news": _3, "org": _3, "priv": _3, "reklam": _3, "sex": _3, "shop": _3, "sport": _3, "suli": _3, "szex": _3, "tm": _3, "tozsde": _3, "utazas": _3, "video": _3 }], "id": [1, { "ac": _3, "biz": _3, "co": _3, "desa": _3, "go": _3, "mil": _3, "my": _3, "net": _3, "or": _3, "ponpes": _3, "sch": _3, "web": _3, "zone": _4 }], "ie": [1, { "gov": _3, "myspreadshop": _4 }], "il": [1, { "ac": _3, "co": [1, { "ravpage": _4, "mytabit": _4, "tabitorder": _4 }], "gov": _3, "idf": _3, "k12": _3, "muni": _3, "net": _3, "org": _3 }], "xn--4dbrk0ce": [1, { "xn--4dbgdty6c": _3, "xn--5dbhl8d": _3, "xn--8dbq2a": _3, "xn--hebda8b": _3 }], "\u05D9\u05E9\u05E8\u05D0\u05DC": [1, { "\u05D0\u05E7\u05D3\u05DE\u05D9\u05D4": _3, "\u05D9\u05E9\u05D5\u05D1": _3, "\u05E6\u05D4\u05DC": _3, "\u05DE\u05DE\u05E9\u05DC": _3 }], "im": [1, { "ac": _3, "co": [1, { "ltd": _3, "plc": _3 }], "com": _3, "net": _3, "org": _3, "tt": _3, "tv": _3 }], "in": [1, { "5g": _3, "6g": _3, "ac": _3, "ai": _3, "am": _3, "bihar": _3, "biz": _3, "business": _3, "ca": _3, "cn": _3, "co": _3, "com": _3, "coop": _3, "cs": _3, "delhi": _3, "dr": _3, "edu": _3, "er": _3, "firm": _3, "gen": _3, "gov": _3, "gujarat": _3, "ind": _3, "info": _3, "int": _3, "internet": _3, "io": _3, "me": _3, "mil": _3, "net": _3, "nic": _3, "org": _3, "pg": _3, "post": _3, "pro": _3, "res": _3, "travel": _3, "tv": _3, "uk": _3, "up": _3, "us": _3, "cloudns": _4, "barsy": _4, "web": _4, "supabase": _4 }], "info": [1, { "cloudns": _4, "dynamic-dns": _4, "barrel-of-knowledge": _4, "barrell-of-knowledge": _4, "dyndns": _4, "for-our": _4, "groks-the": _4, "groks-this": _4, "here-for-more": _4, "knowsitall": _4, "selfip": _4, "webhop": _4, "barsy": _4, "mayfirst": _4, "mittwald": _4, "mittwaldserver": _4, "typo3server": _4, "dvrcam": _4, "ilovecollege": _4, "no-ip": _4, "forumz": _4, "nsupdate": _4, "dnsupdate": _4, "v-info": _4 }], "int": [1, { "eu": _3 }], "io": [1, { "2038": _4, "co": _3, "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "nom": _3, "org": _3, "on-acorn": _7, "myaddr": _4, "apigee": _4, "b-data": _4, "beagleboard": _4, "bitbucket": _4, "bluebite": _4, "boxfuse": _4, "brave": _8, "browsersafetymark": _4, "bubble": _52, "bubbleapps": _4, "bigv": [0, { "uk0": _4 }], "cleverapps": _4, "cloudbeesusercontent": _4, "dappnode": [0, { "dyndns": _4 }], "darklang": _4, "definima": _4, "dedyn": _4, "fh-muenster": _4, "shw": _4, "forgerock": [0, { "id": _4 }], "github": _4, "gitlab": _4, "lolipop": _4, "hasura-app": _4, "hostyhosting": _4, "hypernode": _4, "moonscale": _7, "beebyte": _41, "beebyteapp": [0, { "sekd1": _4 }], "jele": _4, "webthings": _4, "loginline": _4, "barsy": _4, "azurecontainer": _7, "ngrok": [2, { "ap": _4, "au": _4, "eu": _4, "in": _4, "jp": _4, "sa": _4, "us": _4 }], "nodeart": [0, { "stage": _4 }], "pantheonsite": _4, "pstmn": [2, { "mock": _4 }], "protonet": _4, "qcx": [2, { "sys": _7 }], "qoto": _4, "vaporcloud": _4, "myrdbx": _4, "rb-hosting": _44, "on-k3s": _7, "on-rio": _7, "readthedocs": _4, "resindevice": _4, "resinstaging": [0, { "devices": _4 }], "hzc": _4, "sandcats": _4, "scrypted": [0, { "client": _4 }], "mo-siemens": _4, "lair": _40, "stolos": _7, "musician": _4, "utwente": _4, "edugit": _4, "telebit": _4, "thingdust": [0, { "dev": _53, "disrec": _53, "prod": _54, "testing": _53 }], "tickets": _4, "webflow": _4, "webflowtest": _4, "editorx": _4, "wixstudio": _4, "basicserver": _4, "virtualserver": _4 }], "iq": _6, "ir": [1, { "ac": _3, "co": _3, "gov": _3, "id": _3, "net": _3, "org": _3, "sch": _3, "xn--mgba3a4f16a": _3, "\u0627\u06CC\u0631\u0627\u0646": _3, "xn--mgba3a4fra": _3, "\u0627\u064A\u0631\u0627\u0646": _3, "arvanedge": _4 }], "is": _3, "it": [1, { "edu": _3, "gov": _3, "abr": _3, "abruzzo": _3, "aosta-valley": _3, "aostavalley": _3, "bas": _3, "basilicata": _3, "cal": _3, "calabria": _3, "cam": _3, "campania": _3, "emilia-romagna": _3, "emiliaromagna": _3, "emr": _3, "friuli-v-giulia": _3, "friuli-ve-giulia": _3, "friuli-vegiulia": _3, "friuli-venezia-giulia": _3, "friuli-veneziagiulia": _3, "friuli-vgiulia": _3, "friuliv-giulia": _3, "friulive-giulia": _3, "friulivegiulia": _3, "friulivenezia-giulia": _3, "friuliveneziagiulia": _3, "friulivgiulia": _3, "fvg": _3, "laz": _3, "lazio": _3, "lig": _3, "liguria": _3, "lom": _3, "lombardia": _3, "lombardy": _3, "lucania": _3, "mar": _3, "marche": _3, "mol": _3, "molise": _3, "piedmont": _3, "piemonte": _3, "pmn": _3, "pug": _3, "puglia": _3, "sar": _3, "sardegna": _3, "sardinia": _3, "sic": _3, "sicilia": _3, "sicily": _3, "taa": _3, "tos": _3, "toscana": _3, "trentin-sud-tirol": _3, "xn--trentin-sd-tirol-rzb": _3, "trentin-s\xFCd-tirol": _3, "trentin-sudtirol": _3, "xn--trentin-sdtirol-7vb": _3, "trentin-s\xFCdtirol": _3, "trentin-sued-tirol": _3, "trentin-suedtirol": _3, "trentino": _3, "trentino-a-adige": _3, "trentino-aadige": _3, "trentino-alto-adige": _3, "trentino-altoadige": _3, "trentino-s-tirol": _3, "trentino-stirol": _3, "trentino-sud-tirol": _3, "xn--trentino-sd-tirol-c3b": _3, "trentino-s\xFCd-tirol": _3, "trentino-sudtirol": _3, "xn--trentino-sdtirol-szb": _3, "trentino-s\xFCdtirol": _3, "trentino-sued-tirol": _3, "trentino-suedtirol": _3, "trentinoa-adige": _3, "trentinoaadige": _3, "trentinoalto-adige": _3, "trentinoaltoadige": _3, "trentinos-tirol": _3, "trentinostirol": _3, "trentinosud-tirol": _3, "xn--trentinosd-tirol-rzb": _3, "trentinos\xFCd-tirol": _3, "trentinosudtirol": _3, "xn--trentinosdtirol-7vb": _3, "trentinos\xFCdtirol": _3, "trentinosued-tirol": _3, "trentinosuedtirol": _3, "trentinsud-tirol": _3, "xn--trentinsd-tirol-6vb": _3, "trentins\xFCd-tirol": _3, "trentinsudtirol": _3, "xn--trentinsdtirol-nsb": _3, "trentins\xFCdtirol": _3, "trentinsued-tirol": _3, "trentinsuedtirol": _3, "tuscany": _3, "umb": _3, "umbria": _3, "val-d-aosta": _3, "val-daosta": _3, "vald-aosta": _3, "valdaosta": _3, "valle-aosta": _3, "valle-d-aosta": _3, "valle-daosta": _3, "valleaosta": _3, "valled-aosta": _3, "valledaosta": _3, "vallee-aoste": _3, "xn--valle-aoste-ebb": _3, "vall\xE9e-aoste": _3, "vallee-d-aoste": _3, "xn--valle-d-aoste-ehb": _3, "vall\xE9e-d-aoste": _3, "valleeaoste": _3, "xn--valleaoste-e7a": _3, "vall\xE9eaoste": _3, "valleedaoste": _3, "xn--valledaoste-ebb": _3, "vall\xE9edaoste": _3, "vao": _3, "vda": _3, "ven": _3, "veneto": _3, "ag": _3, "agrigento": _3, "al": _3, "alessandria": _3, "alto-adige": _3, "altoadige": _3, "an": _3, "ancona": _3, "andria-barletta-trani": _3, "andria-trani-barletta": _3, "andriabarlettatrani": _3, "andriatranibarletta": _3, "ao": _3, "aosta": _3, "aoste": _3, "ap": _3, "aq": _3, "aquila": _3, "ar": _3, "arezzo": _3, "ascoli-piceno": _3, "ascolipiceno": _3, "asti": _3, "at": _3, "av": _3, "avellino": _3, "ba": _3, "balsan": _3, "balsan-sudtirol": _3, "xn--balsan-sdtirol-nsb": _3, "balsan-s\xFCdtirol": _3, "balsan-suedtirol": _3, "bari": _3, "barletta-trani-andria": _3, "barlettatraniandria": _3, "belluno": _3, "benevento": _3, "bergamo": _3, "bg": _3, "bi": _3, "biella": _3, "bl": _3, "bn": _3, "bo": _3, "bologna": _3, "bolzano": _3, "bolzano-altoadige": _3, "bozen": _3, "bozen-sudtirol": _3, "xn--bozen-sdtirol-2ob": _3, "bozen-s\xFCdtirol": _3, "bozen-suedtirol": _3, "br": _3, "brescia": _3, "brindisi": _3, "bs": _3, "bt": _3, "bulsan": _3, "bulsan-sudtirol": _3, "xn--bulsan-sdtirol-nsb": _3, "bulsan-s\xFCdtirol": _3, "bulsan-suedtirol": _3, "bz": _3, "ca": _3, "cagliari": _3, "caltanissetta": _3, "campidano-medio": _3, "campidanomedio": _3, "campobasso": _3, "carbonia-iglesias": _3, "carboniaiglesias": _3, "carrara-massa": _3, "carraramassa": _3, "caserta": _3, "catania": _3, "catanzaro": _3, "cb": _3, "ce": _3, "cesena-forli": _3, "xn--cesena-forl-mcb": _3, "cesena-forl\xEC": _3, "cesenaforli": _3, "xn--cesenaforl-i8a": _3, "cesenaforl\xEC": _3, "ch": _3, "chieti": _3, "ci": _3, "cl": _3, "cn": _3, "co": _3, "como": _3, "cosenza": _3, "cr": _3, "cremona": _3, "crotone": _3, "cs": _3, "ct": _3, "cuneo": _3, "cz": _3, "dell-ogliastra": _3, "dellogliastra": _3, "en": _3, "enna": _3, "fc": _3, "fe": _3, "fermo": _3, "ferrara": _3, "fg": _3, "fi": _3, "firenze": _3, "florence": _3, "fm": _3, "foggia": _3, "forli-cesena": _3, "xn--forl-cesena-fcb": _3, "forl\xEC-cesena": _3, "forlicesena": _3, "xn--forlcesena-c8a": _3, "forl\xECcesena": _3, "fr": _3, "frosinone": _3, "ge": _3, "genoa": _3, "genova": _3, "go": _3, "gorizia": _3, "gr": _3, "grosseto": _3, "iglesias-carbonia": _3, "iglesiascarbonia": _3, "im": _3, "imperia": _3, "is": _3, "isernia": _3, "kr": _3, "la-spezia": _3, "laquila": _3, "laspezia": _3, "latina": _3, "lc": _3, "le": _3, "lecce": _3, "lecco": _3, "li": _3, "livorno": _3, "lo": _3, "lodi": _3, "lt": _3, "lu": _3, "lucca": _3, "macerata": _3, "mantova": _3, "massa-carrara": _3, "massacarrara": _3, "matera": _3, "mb": _3, "mc": _3, "me": _3, "medio-campidano": _3, "mediocampidano": _3, "messina": _3, "mi": _3, "milan": _3, "milano": _3, "mn": _3, "mo": _3, "modena": _3, "monza": _3, "monza-brianza": _3, "monza-e-della-brianza": _3, "monzabrianza": _3, "monzaebrianza": _3, "monzaedellabrianza": _3, "ms": _3, "mt": _3, "na": _3, "naples": _3, "napoli": _3, "no": _3, "novara": _3, "nu": _3, "nuoro": _3, "og": _3, "ogliastra": _3, "olbia-tempio": _3, "olbiatempio": _3, "or": _3, "oristano": _3, "ot": _3, "pa": _3, "padova": _3, "padua": _3, "palermo": _3, "parma": _3, "pavia": _3, "pc": _3, "pd": _3, "pe": _3, "perugia": _3, "pesaro-urbino": _3, "pesarourbino": _3, "pescara": _3, "pg": _3, "pi": _3, "piacenza": _3, "pisa": _3, "pistoia": _3, "pn": _3, "po": _3, "pordenone": _3, "potenza": _3, "pr": _3, "prato": _3, "pt": _3, "pu": _3, "pv": _3, "pz": _3, "ra": _3, "ragusa": _3, "ravenna": _3, "rc": _3, "re": _3, "reggio-calabria": _3, "reggio-emilia": _3, "reggiocalabria": _3, "reggioemilia": _3, "rg": _3, "ri": _3, "rieti": _3, "rimini": _3, "rm": _3, "rn": _3, "ro": _3, "roma": _3, "rome": _3, "rovigo": _3, "sa": _3, "salerno": _3, "sassari": _3, "savona": _3, "si": _3, "siena": _3, "siracusa": _3, "so": _3, "sondrio": _3, "sp": _3, "sr": _3, "ss": _3, "xn--sdtirol-n2a": _3, "s\xFCdtirol": _3, "suedtirol": _3, "sv": _3, "ta": _3, "taranto": _3, "te": _3, "tempio-olbia": _3, "tempioolbia": _3, "teramo": _3, "terni": _3, "tn": _3, "to": _3, "torino": _3, "tp": _3, "tr": _3, "trani-andria-barletta": _3, "trani-barletta-andria": _3, "traniandriabarletta": _3, "tranibarlettaandria": _3, "trapani": _3, "trento": _3, "treviso": _3, "trieste": _3, "ts": _3, "turin": _3, "tv": _3, "ud": _3, "udine": _3, "urbino-pesaro": _3, "urbinopesaro": _3, "va": _3, "varese": _3, "vb": _3, "vc": _3, "ve": _3, "venezia": _3, "venice": _3, "verbania": _3, "vercelli": _3, "verona": _3, "vi": _3, "vibo-valentia": _3, "vibovalentia": _3, "vicenza": _3, "viterbo": _3, "vr": _3, "vs": _3, "vt": _3, "vv": _3, "12chars": _4, "ibxos": _4, "iliadboxos": _4, "neen": [0, { "jc": _4 }], "123homepage": _4, "16-b": _4, "32-b": _4, "64-b": _4, "myspreadshop": _4, "syncloud": _4 }], "je": [1, { "co": _3, "net": _3, "org": _3, "of": _4 }], "jm": _18, "jo": [1, { "agri": _3, "ai": _3, "com": _3, "edu": _3, "eng": _3, "fm": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "per": _3, "phd": _3, "sch": _3, "tv": _3 }], "jobs": _3, "jp": [1, { "ac": _3, "ad": _3, "co": _3, "ed": _3, "go": _3, "gr": _3, "lg": _3, "ne": [1, { "aseinet": _50, "gehirn": _4, "ivory": _4, "mail-box": _4, "mints": _4, "mokuren": _4, "opal": _4, "sakura": _4, "sumomo": _4, "topaz": _4 }], "or": _3, "aichi": [1, { "aisai": _3, "ama": _3, "anjo": _3, "asuke": _3, "chiryu": _3, "chita": _3, "fuso": _3, "gamagori": _3, "handa": _3, "hazu": _3, "hekinan": _3, "higashiura": _3, "ichinomiya": _3, "inazawa": _3, "inuyama": _3, "isshiki": _3, "iwakura": _3, "kanie": _3, "kariya": _3, "kasugai": _3, "kira": _3, "kiyosu": _3, "komaki": _3, "konan": _3, "kota": _3, "mihama": _3, "miyoshi": _3, "nishio": _3, "nisshin": _3, "obu": _3, "oguchi": _3, "oharu": _3, "okazaki": _3, "owariasahi": _3, "seto": _3, "shikatsu": _3, "shinshiro": _3, "shitara": _3, "tahara": _3, "takahama": _3, "tobishima": _3, "toei": _3, "togo": _3, "tokai": _3, "tokoname": _3, "toyoake": _3, "toyohashi": _3, "toyokawa": _3, "toyone": _3, "toyota": _3, "tsushima": _3, "yatomi": _3 }], "akita": [1, { "akita": _3, "daisen": _3, "fujisato": _3, "gojome": _3, "hachirogata": _3, "happou": _3, "higashinaruse": _3, "honjo": _3, "honjyo": _3, "ikawa": _3, "kamikoani": _3, "kamioka": _3, "katagami": _3, "kazuno": _3, "kitaakita": _3, "kosaka": _3, "kyowa": _3, "misato": _3, "mitane": _3, "moriyoshi": _3, "nikaho": _3, "noshiro": _3, "odate": _3, "oga": _3, "ogata": _3, "semboku": _3, "yokote": _3, "yurihonjo": _3 }], "aomori": [1, { "aomori": _3, "gonohe": _3, "hachinohe": _3, "hashikami": _3, "hiranai": _3, "hirosaki": _3, "itayanagi": _3, "kuroishi": _3, "misawa": _3, "mutsu": _3, "nakadomari": _3, "noheji": _3, "oirase": _3, "owani": _3, "rokunohe": _3, "sannohe": _3, "shichinohe": _3, "shingo": _3, "takko": _3, "towada": _3, "tsugaru": _3, "tsuruta": _3 }], "chiba": [1, { "abiko": _3, "asahi": _3, "chonan": _3, "chosei": _3, "choshi": _3, "chuo": _3, "funabashi": _3, "futtsu": _3, "hanamigawa": _3, "ichihara": _3, "ichikawa": _3, "ichinomiya": _3, "inzai": _3, "isumi": _3, "kamagaya": _3, "kamogawa": _3, "kashiwa": _3, "katori": _3, "katsuura": _3, "kimitsu": _3, "kisarazu": _3, "kozaki": _3, "kujukuri": _3, "kyonan": _3, "matsudo": _3, "midori": _3, "mihama": _3, "minamiboso": _3, "mobara": _3, "mutsuzawa": _3, "nagara": _3, "nagareyama": _3, "narashino": _3, "narita": _3, "noda": _3, "oamishirasato": _3, "omigawa": _3, "onjuku": _3, "otaki": _3, "sakae": _3, "sakura": _3, "shimofusa": _3, "shirako": _3, "shiroi": _3, "shisui": _3, "sodegaura": _3, "sosa": _3, "tako": _3, "tateyama": _3, "togane": _3, "tohnosho": _3, "tomisato": _3, "urayasu": _3, "yachimata": _3, "yachiyo": _3, "yokaichiba": _3, "yokoshibahikari": _3, "yotsukaido": _3 }], "ehime": [1, { "ainan": _3, "honai": _3, "ikata": _3, "imabari": _3, "iyo": _3, "kamijima": _3, "kihoku": _3, "kumakogen": _3, "masaki": _3, "matsuno": _3, "matsuyama": _3, "namikata": _3, "niihama": _3, "ozu": _3, "saijo": _3, "seiyo": _3, "shikokuchuo": _3, "tobe": _3, "toon": _3, "uchiko": _3, "uwajima": _3, "yawatahama": _3 }], "fukui": [1, { "echizen": _3, "eiheiji": _3, "fukui": _3, "ikeda": _3, "katsuyama": _3, "mihama": _3, "minamiechizen": _3, "obama": _3, "ohi": _3, "ono": _3, "sabae": _3, "sakai": _3, "takahama": _3, "tsuruga": _3, "wakasa": _3 }], "fukuoka": [1, { "ashiya": _3, "buzen": _3, "chikugo": _3, "chikuho": _3, "chikujo": _3, "chikushino": _3, "chikuzen": _3, "chuo": _3, "dazaifu": _3, "fukuchi": _3, "hakata": _3, "higashi": _3, "hirokawa": _3, "hisayama": _3, "iizuka": _3, "inatsuki": _3, "kaho": _3, "kasuga": _3, "kasuya": _3, "kawara": _3, "keisen": _3, "koga": _3, "kurate": _3, "kurogi": _3, "kurume": _3, "minami": _3, "miyako": _3, "miyama": _3, "miyawaka": _3, "mizumaki": _3, "munakata": _3, "nakagawa": _3, "nakama": _3, "nishi": _3, "nogata": _3, "ogori": _3, "okagaki": _3, "okawa": _3, "oki": _3, "omuta": _3, "onga": _3, "onojo": _3, "oto": _3, "saigawa": _3, "sasaguri": _3, "shingu": _3, "shinyoshitomi": _3, "shonai": _3, "soeda": _3, "sue": _3, "tachiarai": _3, "tagawa": _3, "takata": _3, "toho": _3, "toyotsu": _3, "tsuiki": _3, "ukiha": _3, "umi": _3, "usui": _3, "yamada": _3, "yame": _3, "yanagawa": _3, "yukuhashi": _3 }], "fukushima": [1, { "aizubange": _3, "aizumisato": _3, "aizuwakamatsu": _3, "asakawa": _3, "bandai": _3, "date": _3, "fukushima": _3, "furudono": _3, "futaba": _3, "hanawa": _3, "higashi": _3, "hirata": _3, "hirono": _3, "iitate": _3, "inawashiro": _3, "ishikawa": _3, "iwaki": _3, "izumizaki": _3, "kagamiishi": _3, "kaneyama": _3, "kawamata": _3, "kitakata": _3, "kitashiobara": _3, "koori": _3, "koriyama": _3, "kunimi": _3, "miharu": _3, "mishima": _3, "namie": _3, "nango": _3, "nishiaizu": _3, "nishigo": _3, "okuma": _3, "omotego": _3, "ono": _3, "otama": _3, "samegawa": _3, "shimogo": _3, "shirakawa": _3, "showa": _3, "soma": _3, "sukagawa": _3, "taishin": _3, "tamakawa": _3, "tanagura": _3, "tenei": _3, "yabuki": _3, "yamato": _3, "yamatsuri": _3, "yanaizu": _3, "yugawa": _3 }], "gifu": [1, { "anpachi": _3, "ena": _3, "gifu": _3, "ginan": _3, "godo": _3, "gujo": _3, "hashima": _3, "hichiso": _3, "hida": _3, "higashishirakawa": _3, "ibigawa": _3, "ikeda": _3, "kakamigahara": _3, "kani": _3, "kasahara": _3, "kasamatsu": _3, "kawaue": _3, "kitagata": _3, "mino": _3, "minokamo": _3, "mitake": _3, "mizunami": _3, "motosu": _3, "nakatsugawa": _3, "ogaki": _3, "sakahogi": _3, "seki": _3, "sekigahara": _3, "shirakawa": _3, "tajimi": _3, "takayama": _3, "tarui": _3, "toki": _3, "tomika": _3, "wanouchi": _3, "yamagata": _3, "yaotsu": _3, "yoro": _3 }], "gunma": [1, { "annaka": _3, "chiyoda": _3, "fujioka": _3, "higashiagatsuma": _3, "isesaki": _3, "itakura": _3, "kanna": _3, "kanra": _3, "katashina": _3, "kawaba": _3, "kiryu": _3, "kusatsu": _3, "maebashi": _3, "meiwa": _3, "midori": _3, "minakami": _3, "naganohara": _3, "nakanojo": _3, "nanmoku": _3, "numata": _3, "oizumi": _3, "ora": _3, "ota": _3, "shibukawa": _3, "shimonita": _3, "shinto": _3, "showa": _3, "takasaki": _3, "takayama": _3, "tamamura": _3, "tatebayashi": _3, "tomioka": _3, "tsukiyono": _3, "tsumagoi": _3, "ueno": _3, "yoshioka": _3 }], "hiroshima": [1, { "asaminami": _3, "daiwa": _3, "etajima": _3, "fuchu": _3, "fukuyama": _3, "hatsukaichi": _3, "higashihiroshima": _3, "hongo": _3, "jinsekikogen": _3, "kaita": _3, "kui": _3, "kumano": _3, "kure": _3, "mihara": _3, "miyoshi": _3, "naka": _3, "onomichi": _3, "osakikamijima": _3, "otake": _3, "saka": _3, "sera": _3, "seranishi": _3, "shinichi": _3, "shobara": _3, "takehara": _3 }], "hokkaido": [1, { "abashiri": _3, "abira": _3, "aibetsu": _3, "akabira": _3, "akkeshi": _3, "asahikawa": _3, "ashibetsu": _3, "ashoro": _3, "assabu": _3, "atsuma": _3, "bibai": _3, "biei": _3, "bifuka": _3, "bihoro": _3, "biratori": _3, "chippubetsu": _3, "chitose": _3, "date": _3, "ebetsu": _3, "embetsu": _3, "eniwa": _3, "erimo": _3, "esan": _3, "esashi": _3, "fukagawa": _3, "fukushima": _3, "furano": _3, "furubira": _3, "haboro": _3, "hakodate": _3, "hamatonbetsu": _3, "hidaka": _3, "higashikagura": _3, "higashikawa": _3, "hiroo": _3, "hokuryu": _3, "hokuto": _3, "honbetsu": _3, "horokanai": _3, "horonobe": _3, "ikeda": _3, "imakane": _3, "ishikari": _3, "iwamizawa": _3, "iwanai": _3, "kamifurano": _3, "kamikawa": _3, "kamishihoro": _3, "kamisunagawa": _3, "kamoenai": _3, "kayabe": _3, "kembuchi": _3, "kikonai": _3, "kimobetsu": _3, "kitahiroshima": _3, "kitami": _3, "kiyosato": _3, "koshimizu": _3, "kunneppu": _3, "kuriyama": _3, "kuromatsunai": _3, "kushiro": _3, "kutchan": _3, "kyowa": _3, "mashike": _3, "matsumae": _3, "mikasa": _3, "minamifurano": _3, "mombetsu": _3, "moseushi": _3, "mukawa": _3, "muroran": _3, "naie": _3, "nakagawa": _3, "nakasatsunai": _3, "nakatombetsu": _3, "nanae": _3, "nanporo": _3, "nayoro": _3, "nemuro": _3, "niikappu": _3, "niki": _3, "nishiokoppe": _3, "noboribetsu": _3, "numata": _3, "obihiro": _3, "obira": _3, "oketo": _3, "okoppe": _3, "otaru": _3, "otobe": _3, "otofuke": _3, "otoineppu": _3, "oumu": _3, "ozora": _3, "pippu": _3, "rankoshi": _3, "rebun": _3, "rikubetsu": _3, "rishiri": _3, "rishirifuji": _3, "saroma": _3, "sarufutsu": _3, "shakotan": _3, "shari": _3, "shibecha": _3, "shibetsu": _3, "shikabe": _3, "shikaoi": _3, "shimamaki": _3, "shimizu": _3, "shimokawa": _3, "shinshinotsu": _3, "shintoku": _3, "shiranuka": _3, "shiraoi": _3, "shiriuchi": _3, "sobetsu": _3, "sunagawa": _3, "taiki": _3, "takasu": _3, "takikawa": _3, "takinoue": _3, "teshikaga": _3, "tobetsu": _3, "tohma": _3, "tomakomai": _3, "tomari": _3, "toya": _3, "toyako": _3, "toyotomi": _3, "toyoura": _3, "tsubetsu": _3, "tsukigata": _3, "urakawa": _3, "urausu": _3, "uryu": _3, "utashinai": _3, "wakkanai": _3, "wassamu": _3, "yakumo": _3, "yoichi": _3 }], "hyogo": [1, { "aioi": _3, "akashi": _3, "ako": _3, "amagasaki": _3, "aogaki": _3, "asago": _3, "ashiya": _3, "awaji": _3, "fukusaki": _3, "goshiki": _3, "harima": _3, "himeji": _3, "ichikawa": _3, "inagawa": _3, "itami": _3, "kakogawa": _3, "kamigori": _3, "kamikawa": _3, "kasai": _3, "kasuga": _3, "kawanishi": _3, "miki": _3, "minamiawaji": _3, "nishinomiya": _3, "nishiwaki": _3, "ono": _3, "sanda": _3, "sannan": _3, "sasayama": _3, "sayo": _3, "shingu": _3, "shinonsen": _3, "shiso": _3, "sumoto": _3, "taishi": _3, "taka": _3, "takarazuka": _3, "takasago": _3, "takino": _3, "tamba": _3, "tatsuno": _3, "toyooka": _3, "yabu": _3, "yashiro": _3, "yoka": _3, "yokawa": _3 }], "ibaraki": [1, { "ami": _3, "asahi": _3, "bando": _3, "chikusei": _3, "daigo": _3, "fujishiro": _3, "hitachi": _3, "hitachinaka": _3, "hitachiomiya": _3, "hitachiota": _3, "ibaraki": _3, "ina": _3, "inashiki": _3, "itako": _3, "iwama": _3, "joso": _3, "kamisu": _3, "kasama": _3, "kashima": _3, "kasumigaura": _3, "koga": _3, "miho": _3, "mito": _3, "moriya": _3, "naka": _3, "namegata": _3, "oarai": _3, "ogawa": _3, "omitama": _3, "ryugasaki": _3, "sakai": _3, "sakuragawa": _3, "shimodate": _3, "shimotsuma": _3, "shirosato": _3, "sowa": _3, "suifu": _3, "takahagi": _3, "tamatsukuri": _3, "tokai": _3, "tomobe": _3, "tone": _3, "toride": _3, "tsuchiura": _3, "tsukuba": _3, "uchihara": _3, "ushiku": _3, "yachiyo": _3, "yamagata": _3, "yawara": _3, "yuki": _3 }], "ishikawa": [1, { "anamizu": _3, "hakui": _3, "hakusan": _3, "kaga": _3, "kahoku": _3, "kanazawa": _3, "kawakita": _3, "komatsu": _3, "nakanoto": _3, "nanao": _3, "nomi": _3, "nonoichi": _3, "noto": _3, "shika": _3, "suzu": _3, "tsubata": _3, "tsurugi": _3, "uchinada": _3, "wajima": _3 }], "iwate": [1, { "fudai": _3, "fujisawa": _3, "hanamaki": _3, "hiraizumi": _3, "hirono": _3, "ichinohe": _3, "ichinoseki": _3, "iwaizumi": _3, "iwate": _3, "joboji": _3, "kamaishi": _3, "kanegasaki": _3, "karumai": _3, "kawai": _3, "kitakami": _3, "kuji": _3, "kunohe": _3, "kuzumaki": _3, "miyako": _3, "mizusawa": _3, "morioka": _3, "ninohe": _3, "noda": _3, "ofunato": _3, "oshu": _3, "otsuchi": _3, "rikuzentakata": _3, "shiwa": _3, "shizukuishi": _3, "sumita": _3, "tanohata": _3, "tono": _3, "yahaba": _3, "yamada": _3 }], "kagawa": [1, { "ayagawa": _3, "higashikagawa": _3, "kanonji": _3, "kotohira": _3, "manno": _3, "marugame": _3, "mitoyo": _3, "naoshima": _3, "sanuki": _3, "tadotsu": _3, "takamatsu": _3, "tonosho": _3, "uchinomi": _3, "utazu": _3, "zentsuji": _3 }], "kagoshima": [1, { "akune": _3, "amami": _3, "hioki": _3, "isa": _3, "isen": _3, "izumi": _3, "kagoshima": _3, "kanoya": _3, "kawanabe": _3, "kinko": _3, "kouyama": _3, "makurazaki": _3, "matsumoto": _3, "minamitane": _3, "nakatane": _3, "nishinoomote": _3, "satsumasendai": _3, "soo": _3, "tarumizu": _3, "yusui": _3 }], "kanagawa": [1, { "aikawa": _3, "atsugi": _3, "ayase": _3, "chigasaki": _3, "ebina": _3, "fujisawa": _3, "hadano": _3, "hakone": _3, "hiratsuka": _3, "isehara": _3, "kaisei": _3, "kamakura": _3, "kiyokawa": _3, "matsuda": _3, "minamiashigara": _3, "miura": _3, "nakai": _3, "ninomiya": _3, "odawara": _3, "oi": _3, "oiso": _3, "sagamihara": _3, "samukawa": _3, "tsukui": _3, "yamakita": _3, "yamato": _3, "yokosuka": _3, "yugawara": _3, "zama": _3, "zushi": _3 }], "kochi": [1, { "aki": _3, "geisei": _3, "hidaka": _3, "higashitsuno": _3, "ino": _3, "kagami": _3, "kami": _3, "kitagawa": _3, "kochi": _3, "mihara": _3, "motoyama": _3, "muroto": _3, "nahari": _3, "nakamura": _3, "nankoku": _3, "nishitosa": _3, "niyodogawa": _3, "ochi": _3, "okawa": _3, "otoyo": _3, "otsuki": _3, "sakawa": _3, "sukumo": _3, "susaki": _3, "tosa": _3, "tosashimizu": _3, "toyo": _3, "tsuno": _3, "umaji": _3, "yasuda": _3, "yusuhara": _3 }], "kumamoto": [1, { "amakusa": _3, "arao": _3, "aso": _3, "choyo": _3, "gyokuto": _3, "kamiamakusa": _3, "kikuchi": _3, "kumamoto": _3, "mashiki": _3, "mifune": _3, "minamata": _3, "minamioguni": _3, "nagasu": _3, "nishihara": _3, "oguni": _3, "ozu": _3, "sumoto": _3, "takamori": _3, "uki": _3, "uto": _3, "yamaga": _3, "yamato": _3, "yatsushiro": _3 }], "kyoto": [1, { "ayabe": _3, "fukuchiyama": _3, "higashiyama": _3, "ide": _3, "ine": _3, "joyo": _3, "kameoka": _3, "kamo": _3, "kita": _3, "kizu": _3, "kumiyama": _3, "kyotamba": _3, "kyotanabe": _3, "kyotango": _3, "maizuru": _3, "minami": _3, "minamiyamashiro": _3, "miyazu": _3, "muko": _3, "nagaokakyo": _3, "nakagyo": _3, "nantan": _3, "oyamazaki": _3, "sakyo": _3, "seika": _3, "tanabe": _3, "uji": _3, "ujitawara": _3, "wazuka": _3, "yamashina": _3, "yawata": _3 }], "mie": [1, { "asahi": _3, "inabe": _3, "ise": _3, "kameyama": _3, "kawagoe": _3, "kiho": _3, "kisosaki": _3, "kiwa": _3, "komono": _3, "kumano": _3, "kuwana": _3, "matsusaka": _3, "meiwa": _3, "mihama": _3, "minamiise": _3, "misugi": _3, "miyama": _3, "nabari": _3, "shima": _3, "suzuka": _3, "tado": _3, "taiki": _3, "taki": _3, "tamaki": _3, "toba": _3, "tsu": _3, "udono": _3, "ureshino": _3, "watarai": _3, "yokkaichi": _3 }], "miyagi": [1, { "furukawa": _3, "higashimatsushima": _3, "ishinomaki": _3, "iwanuma": _3, "kakuda": _3, "kami": _3, "kawasaki": _3, "marumori": _3, "matsushima": _3, "minamisanriku": _3, "misato": _3, "murata": _3, "natori": _3, "ogawara": _3, "ohira": _3, "onagawa": _3, "osaki": _3, "rifu": _3, "semine": _3, "shibata": _3, "shichikashuku": _3, "shikama": _3, "shiogama": _3, "shiroishi": _3, "tagajo": _3, "taiwa": _3, "tome": _3, "tomiya": _3, "wakuya": _3, "watari": _3, "yamamoto": _3, "zao": _3 }], "miyazaki": [1, { "aya": _3, "ebino": _3, "gokase": _3, "hyuga": _3, "kadogawa": _3, "kawaminami": _3, "kijo": _3, "kitagawa": _3, "kitakata": _3, "kitaura": _3, "kobayashi": _3, "kunitomi": _3, "kushima": _3, "mimata": _3, "miyakonojo": _3, "miyazaki": _3, "morotsuka": _3, "nichinan": _3, "nishimera": _3, "nobeoka": _3, "saito": _3, "shiiba": _3, "shintomi": _3, "takaharu": _3, "takanabe": _3, "takazaki": _3, "tsuno": _3 }], "nagano": [1, { "achi": _3, "agematsu": _3, "anan": _3, "aoki": _3, "asahi": _3, "azumino": _3, "chikuhoku": _3, "chikuma": _3, "chino": _3, "fujimi": _3, "hakuba": _3, "hara": _3, "hiraya": _3, "iida": _3, "iijima": _3, "iiyama": _3, "iizuna": _3, "ikeda": _3, "ikusaka": _3, "ina": _3, "karuizawa": _3, "kawakami": _3, "kiso": _3, "kisofukushima": _3, "kitaaiki": _3, "komagane": _3, "komoro": _3, "matsukawa": _3, "matsumoto": _3, "miasa": _3, "minamiaiki": _3, "minamimaki": _3, "minamiminowa": _3, "minowa": _3, "miyada": _3, "miyota": _3, "mochizuki": _3, "nagano": _3, "nagawa": _3, "nagiso": _3, "nakagawa": _3, "nakano": _3, "nozawaonsen": _3, "obuse": _3, "ogawa": _3, "okaya": _3, "omachi": _3, "omi": _3, "ookuwa": _3, "ooshika": _3, "otaki": _3, "otari": _3, "sakae": _3, "sakaki": _3, "saku": _3, "sakuho": _3, "shimosuwa": _3, "shinanomachi": _3, "shiojiri": _3, "suwa": _3, "suzaka": _3, "takagi": _3, "takamori": _3, "takayama": _3, "tateshina": _3, "tatsuno": _3, "togakushi": _3, "togura": _3, "tomi": _3, "ueda": _3, "wada": _3, "yamagata": _3, "yamanouchi": _3, "yasaka": _3, "yasuoka": _3 }], "nagasaki": [1, { "chijiwa": _3, "futsu": _3, "goto": _3, "hasami": _3, "hirado": _3, "iki": _3, "isahaya": _3, "kawatana": _3, "kuchinotsu": _3, "matsuura": _3, "nagasaki": _3, "obama": _3, "omura": _3, "oseto": _3, "saikai": _3, "sasebo": _3, "seihi": _3, "shimabara": _3, "shinkamigoto": _3, "togitsu": _3, "tsushima": _3, "unzen": _3 }], "nara": [1, { "ando": _3, "gose": _3, "heguri": _3, "higashiyoshino": _3, "ikaruga": _3, "ikoma": _3, "kamikitayama": _3, "kanmaki": _3, "kashiba": _3, "kashihara": _3, "katsuragi": _3, "kawai": _3, "kawakami": _3, "kawanishi": _3, "koryo": _3, "kurotaki": _3, "mitsue": _3, "miyake": _3, "nara": _3, "nosegawa": _3, "oji": _3, "ouda": _3, "oyodo": _3, "sakurai": _3, "sango": _3, "shimoichi": _3, "shimokitayama": _3, "shinjo": _3, "soni": _3, "takatori": _3, "tawaramoto": _3, "tenkawa": _3, "tenri": _3, "uda": _3, "yamatokoriyama": _3, "yamatotakada": _3, "yamazoe": _3, "yoshino": _3 }], "niigata": [1, { "aga": _3, "agano": _3, "gosen": _3, "itoigawa": _3, "izumozaki": _3, "joetsu": _3, "kamo": _3, "kariwa": _3, "kashiwazaki": _3, "minamiuonuma": _3, "mitsuke": _3, "muika": _3, "murakami": _3, "myoko": _3, "nagaoka": _3, "niigata": _3, "ojiya": _3, "omi": _3, "sado": _3, "sanjo": _3, "seiro": _3, "seirou": _3, "sekikawa": _3, "shibata": _3, "tagami": _3, "tainai": _3, "tochio": _3, "tokamachi": _3, "tsubame": _3, "tsunan": _3, "uonuma": _3, "yahiko": _3, "yoita": _3, "yuzawa": _3 }], "oita": [1, { "beppu": _3, "bungoono": _3, "bungotakada": _3, "hasama": _3, "hiji": _3, "himeshima": _3, "hita": _3, "kamitsue": _3, "kokonoe": _3, "kuju": _3, "kunisaki": _3, "kusu": _3, "oita": _3, "saiki": _3, "taketa": _3, "tsukumi": _3, "usa": _3, "usuki": _3, "yufu": _3 }], "okayama": [1, { "akaiwa": _3, "asakuchi": _3, "bizen": _3, "hayashima": _3, "ibara": _3, "kagamino": _3, "kasaoka": _3, "kibichuo": _3, "kumenan": _3, "kurashiki": _3, "maniwa": _3, "misaki": _3, "nagi": _3, "niimi": _3, "nishiawakura": _3, "okayama": _3, "satosho": _3, "setouchi": _3, "shinjo": _3, "shoo": _3, "soja": _3, "takahashi": _3, "tamano": _3, "tsuyama": _3, "wake": _3, "yakage": _3 }], "okinawa": [1, { "aguni": _3, "ginowan": _3, "ginoza": _3, "gushikami": _3, "haebaru": _3, "higashi": _3, "hirara": _3, "iheya": _3, "ishigaki": _3, "ishikawa": _3, "itoman": _3, "izena": _3, "kadena": _3, "kin": _3, "kitadaito": _3, "kitanakagusuku": _3, "kumejima": _3, "kunigami": _3, "minamidaito": _3, "motobu": _3, "nago": _3, "naha": _3, "nakagusuku": _3, "nakijin": _3, "nanjo": _3, "nishihara": _3, "ogimi": _3, "okinawa": _3, "onna": _3, "shimoji": _3, "taketomi": _3, "tarama": _3, "tokashiki": _3, "tomigusuku": _3, "tonaki": _3, "urasoe": _3, "uruma": _3, "yaese": _3, "yomitan": _3, "yonabaru": _3, "yonaguni": _3, "zamami": _3 }], "osaka": [1, { "abeno": _3, "chihayaakasaka": _3, "chuo": _3, "daito": _3, "fujiidera": _3, "habikino": _3, "hannan": _3, "higashiosaka": _3, "higashisumiyoshi": _3, "higashiyodogawa": _3, "hirakata": _3, "ibaraki": _3, "ikeda": _3, "izumi": _3, "izumiotsu": _3, "izumisano": _3, "kadoma": _3, "kaizuka": _3, "kanan": _3, "kashiwara": _3, "katano": _3, "kawachinagano": _3, "kishiwada": _3, "kita": _3, "kumatori": _3, "matsubara": _3, "minato": _3, "minoh": _3, "misaki": _3, "moriguchi": _3, "neyagawa": _3, "nishi": _3, "nose": _3, "osakasayama": _3, "sakai": _3, "sayama": _3, "sennan": _3, "settsu": _3, "shijonawate": _3, "shimamoto": _3, "suita": _3, "tadaoka": _3, "taishi": _3, "tajiri": _3, "takaishi": _3, "takatsuki": _3, "tondabayashi": _3, "toyonaka": _3, "toyono": _3, "yao": _3 }], "saga": [1, { "ariake": _3, "arita": _3, "fukudomi": _3, "genkai": _3, "hamatama": _3, "hizen": _3, "imari": _3, "kamimine": _3, "kanzaki": _3, "karatsu": _3, "kashima": _3, "kitagata": _3, "kitahata": _3, "kiyama": _3, "kouhoku": _3, "kyuragi": _3, "nishiarita": _3, "ogi": _3, "omachi": _3, "ouchi": _3, "saga": _3, "shiroishi": _3, "taku": _3, "tara": _3, "tosu": _3, "yoshinogari": _3 }], "saitama": [1, { "arakawa": _3, "asaka": _3, "chichibu": _3, "fujimi": _3, "fujimino": _3, "fukaya": _3, "hanno": _3, "hanyu": _3, "hasuda": _3, "hatogaya": _3, "hatoyama": _3, "hidaka": _3, "higashichichibu": _3, "higashimatsuyama": _3, "honjo": _3, "ina": _3, "iruma": _3, "iwatsuki": _3, "kamiizumi": _3, "kamikawa": _3, "kamisato": _3, "kasukabe": _3, "kawagoe": _3, "kawaguchi": _3, "kawajima": _3, "kazo": _3, "kitamoto": _3, "koshigaya": _3, "kounosu": _3, "kuki": _3, "kumagaya": _3, "matsubushi": _3, "minano": _3, "misato": _3, "miyashiro": _3, "miyoshi": _3, "moroyama": _3, "nagatoro": _3, "namegawa": _3, "niiza": _3, "ogano": _3, "ogawa": _3, "ogose": _3, "okegawa": _3, "omiya": _3, "otaki": _3, "ranzan": _3, "ryokami": _3, "saitama": _3, "sakado": _3, "satte": _3, "sayama": _3, "shiki": _3, "shiraoka": _3, "soka": _3, "sugito": _3, "toda": _3, "tokigawa": _3, "tokorozawa": _3, "tsurugashima": _3, "urawa": _3, "warabi": _3, "yashio": _3, "yokoze": _3, "yono": _3, "yorii": _3, "yoshida": _3, "yoshikawa": _3, "yoshimi": _3 }], "shiga": [1, { "aisho": _3, "gamo": _3, "higashiomi": _3, "hikone": _3, "koka": _3, "konan": _3, "kosei": _3, "koto": _3, "kusatsu": _3, "maibara": _3, "moriyama": _3, "nagahama": _3, "nishiazai": _3, "notogawa": _3, "omihachiman": _3, "otsu": _3, "ritto": _3, "ryuoh": _3, "takashima": _3, "takatsuki": _3, "torahime": _3, "toyosato": _3, "yasu": _3 }], "shimane": [1, { "akagi": _3, "ama": _3, "gotsu": _3, "hamada": _3, "higashiizumo": _3, "hikawa": _3, "hikimi": _3, "izumo": _3, "kakinoki": _3, "masuda": _3, "matsue": _3, "misato": _3, "nishinoshima": _3, "ohda": _3, "okinoshima": _3, "okuizumo": _3, "shimane": _3, "tamayu": _3, "tsuwano": _3, "unnan": _3, "yakumo": _3, "yasugi": _3, "yatsuka": _3 }], "shizuoka": [1, { "arai": _3, "atami": _3, "fuji": _3, "fujieda": _3, "fujikawa": _3, "fujinomiya": _3, "fukuroi": _3, "gotemba": _3, "haibara": _3, "hamamatsu": _3, "higashiizu": _3, "ito": _3, "iwata": _3, "izu": _3, "izunokuni": _3, "kakegawa": _3, "kannami": _3, "kawanehon": _3, "kawazu": _3, "kikugawa": _3, "kosai": _3, "makinohara": _3, "matsuzaki": _3, "minamiizu": _3, "mishima": _3, "morimachi": _3, "nishiizu": _3, "numazu": _3, "omaezaki": _3, "shimada": _3, "shimizu": _3, "shimoda": _3, "shizuoka": _3, "susono": _3, "yaizu": _3, "yoshida": _3 }], "tochigi": [1, { "ashikaga": _3, "bato": _3, "haga": _3, "ichikai": _3, "iwafune": _3, "kaminokawa": _3, "kanuma": _3, "karasuyama": _3, "kuroiso": _3, "mashiko": _3, "mibu": _3, "moka": _3, "motegi": _3, "nasu": _3, "nasushiobara": _3, "nikko": _3, "nishikata": _3, "nogi": _3, "ohira": _3, "ohtawara": _3, "oyama": _3, "sakura": _3, "sano": _3, "shimotsuke": _3, "shioya": _3, "takanezawa": _3, "tochigi": _3, "tsuga": _3, "ujiie": _3, "utsunomiya": _3, "yaita": _3 }], "tokushima": [1, { "aizumi": _3, "anan": _3, "ichiba": _3, "itano": _3, "kainan": _3, "komatsushima": _3, "matsushige": _3, "mima": _3, "minami": _3, "miyoshi": _3, "mugi": _3, "nakagawa": _3, "naruto": _3, "sanagochi": _3, "shishikui": _3, "tokushima": _3, "wajiki": _3 }], "tokyo": [1, { "adachi": _3, "akiruno": _3, "akishima": _3, "aogashima": _3, "arakawa": _3, "bunkyo": _3, "chiyoda": _3, "chofu": _3, "chuo": _3, "edogawa": _3, "fuchu": _3, "fussa": _3, "hachijo": _3, "hachioji": _3, "hamura": _3, "higashikurume": _3, "higashimurayama": _3, "higashiyamato": _3, "hino": _3, "hinode": _3, "hinohara": _3, "inagi": _3, "itabashi": _3, "katsushika": _3, "kita": _3, "kiyose": _3, "kodaira": _3, "koganei": _3, "kokubunji": _3, "komae": _3, "koto": _3, "kouzushima": _3, "kunitachi": _3, "machida": _3, "meguro": _3, "minato": _3, "mitaka": _3, "mizuho": _3, "musashimurayama": _3, "musashino": _3, "nakano": _3, "nerima": _3, "ogasawara": _3, "okutama": _3, "ome": _3, "oshima": _3, "ota": _3, "setagaya": _3, "shibuya": _3, "shinagawa": _3, "shinjuku": _3, "suginami": _3, "sumida": _3, "tachikawa": _3, "taito": _3, "tama": _3, "toshima": _3 }], "tottori": [1, { "chizu": _3, "hino": _3, "kawahara": _3, "koge": _3, "kotoura": _3, "misasa": _3, "nanbu": _3, "nichinan": _3, "sakaiminato": _3, "tottori": _3, "wakasa": _3, "yazu": _3, "yonago": _3 }], "toyama": [1, { "asahi": _3, "fuchu": _3, "fukumitsu": _3, "funahashi": _3, "himi": _3, "imizu": _3, "inami": _3, "johana": _3, "kamiichi": _3, "kurobe": _3, "nakaniikawa": _3, "namerikawa": _3, "nanto": _3, "nyuzen": _3, "oyabe": _3, "taira": _3, "takaoka": _3, "tateyama": _3, "toga": _3, "tonami": _3, "toyama": _3, "unazuki": _3, "uozu": _3, "yamada": _3 }], "wakayama": [1, { "arida": _3, "aridagawa": _3, "gobo": _3, "hashimoto": _3, "hidaka": _3, "hirogawa": _3, "inami": _3, "iwade": _3, "kainan": _3, "kamitonda": _3, "katsuragi": _3, "kimino": _3, "kinokawa": _3, "kitayama": _3, "koya": _3, "koza": _3, "kozagawa": _3, "kudoyama": _3, "kushimoto": _3, "mihama": _3, "misato": _3, "nachikatsuura": _3, "shingu": _3, "shirahama": _3, "taiji": _3, "tanabe": _3, "wakayama": _3, "yuasa": _3, "yura": _3 }], "yamagata": [1, { "asahi": _3, "funagata": _3, "higashine": _3, "iide": _3, "kahoku": _3, "kaminoyama": _3, "kaneyama": _3, "kawanishi": _3, "mamurogawa": _3, "mikawa": _3, "murayama": _3, "nagai": _3, "nakayama": _3, "nanyo": _3, "nishikawa": _3, "obanazawa": _3, "oe": _3, "oguni": _3, "ohkura": _3, "oishida": _3, "sagae": _3, "sakata": _3, "sakegawa": _3, "shinjo": _3, "shirataka": _3, "shonai": _3, "takahata": _3, "tendo": _3, "tozawa": _3, "tsuruoka": _3, "yamagata": _3, "yamanobe": _3, "yonezawa": _3, "yuza": _3 }], "yamaguchi": [1, { "abu": _3, "hagi": _3, "hikari": _3, "hofu": _3, "iwakuni": _3, "kudamatsu": _3, "mitou": _3, "nagato": _3, "oshima": _3, "shimonoseki": _3, "shunan": _3, "tabuse": _3, "tokuyama": _3, "toyota": _3, "ube": _3, "yuu": _3 }], "yamanashi": [1, { "chuo": _3, "doshi": _3, "fuefuki": _3, "fujikawa": _3, "fujikawaguchiko": _3, "fujiyoshida": _3, "hayakawa": _3, "hokuto": _3, "ichikawamisato": _3, "kai": _3, "kofu": _3, "koshu": _3, "kosuge": _3, "minami-alps": _3, "minobu": _3, "nakamichi": _3, "nanbu": _3, "narusawa": _3, "nirasaki": _3, "nishikatsura": _3, "oshino": _3, "otsuki": _3, "showa": _3, "tabayama": _3, "tsuru": _3, "uenohara": _3, "yamanakako": _3, "yamanashi": _3 }], "xn--ehqz56n": _3, "\u4E09\u91CD": _3, "xn--1lqs03n": _3, "\u4EAC\u90FD": _3, "xn--qqqt11m": _3, "\u4F50\u8CC0": _3, "xn--f6qx53a": _3, "\u5175\u5EAB": _3, "xn--djrs72d6uy": _3, "\u5317\u6D77\u9053": _3, "xn--mkru45i": _3, "\u5343\u8449": _3, "xn--0trq7p7nn": _3, "\u548C\u6B4C\u5C71": _3, "xn--5js045d": _3, "\u57FC\u7389": _3, "xn--kbrq7o": _3, "\u5927\u5206": _3, "xn--pssu33l": _3, "\u5927\u962A": _3, "xn--ntsq17g": _3, "\u5948\u826F": _3, "xn--uisz3g": _3, "\u5BAE\u57CE": _3, "xn--6btw5a": _3, "\u5BAE\u5D0E": _3, "xn--1ctwo": _3, "\u5BCC\u5C71": _3, "xn--6orx2r": _3, "\u5C71\u53E3": _3, "xn--rht61e": _3, "\u5C71\u5F62": _3, "xn--rht27z": _3, "\u5C71\u68A8": _3, "xn--nit225k": _3, "\u5C90\u961C": _3, "xn--rht3d": _3, "\u5CA1\u5C71": _3, "xn--djty4k": _3, "\u5CA9\u624B": _3, "xn--klty5x": _3, "\u5CF6\u6839": _3, "xn--kltx9a": _3, "\u5E83\u5CF6": _3, "xn--kltp7d": _3, "\u5FB3\u5CF6": _3, "xn--c3s14m": _3, "\u611B\u5A9B": _3, "xn--vgu402c": _3, "\u611B\u77E5": _3, "xn--efvn9s": _3, "\u65B0\u6F5F": _3, "xn--1lqs71d": _3, "\u6771\u4EAC": _3, "xn--4pvxs": _3, "\u6803\u6728": _3, "xn--uuwu58a": _3, "\u6C96\u7E04": _3, "xn--zbx025d": _3, "\u6ECB\u8CC0": _3, "xn--8pvr4u": _3, "\u718A\u672C": _3, "xn--5rtp49c": _3, "\u77F3\u5DDD": _3, "xn--ntso0iqx3a": _3, "\u795E\u5948\u5DDD": _3, "xn--elqq16h": _3, "\u798F\u4E95": _3, "xn--4it168d": _3, "\u798F\u5CA1": _3, "xn--klt787d": _3, "\u798F\u5CF6": _3, "xn--rny31h": _3, "\u79CB\u7530": _3, "xn--7t0a264c": _3, "\u7FA4\u99AC": _3, "xn--uist22h": _3, "\u8328\u57CE": _3, "xn--8ltr62k": _3, "\u9577\u5D0E": _3, "xn--2m4a15e": _3, "\u9577\u91CE": _3, "xn--32vp30h": _3, "\u9752\u68EE": _3, "xn--4it797k": _3, "\u9759\u5CA1": _3, "xn--5rtq34k": _3, "\u9999\u5DDD": _3, "xn--k7yn95e": _3, "\u9AD8\u77E5": _3, "xn--tor131o": _3, "\u9CE5\u53D6": _3, "xn--d5qv7z876c": _3, "\u9E7F\u5150\u5CF6": _3, "kawasaki": _18, "kitakyushu": _18, "kobe": _18, "nagoya": _18, "sapporo": _18, "sendai": _18, "yokohama": _18, "buyshop": _4, "fashionstore": _4, "handcrafted": _4, "kawaiishop": _4, "supersale": _4, "theshop": _4, "0am": _4, "0g0": _4, "0j0": _4, "0t0": _4, "mydns": _4, "pgw": _4, "wjg": _4, "usercontent": _4, "angry": _4, "babyblue": _4, "babymilk": _4, "backdrop": _4, "bambina": _4, "bitter": _4, "blush": _4, "boo": _4, "boy": _4, "boyfriend": _4, "but": _4, "candypop": _4, "capoo": _4, "catfood": _4, "cheap": _4, "chicappa": _4, "chillout": _4, "chips": _4, "chowder": _4, "chu": _4, "ciao": _4, "cocotte": _4, "coolblog": _4, "cranky": _4, "cutegirl": _4, "daa": _4, "deca": _4, "deci": _4, "digick": _4, "egoism": _4, "fakefur": _4, "fem": _4, "flier": _4, "floppy": _4, "fool": _4, "frenchkiss": _4, "girlfriend": _4, "girly": _4, "gloomy": _4, "gonna": _4, "greater": _4, "hacca": _4, "heavy": _4, "her": _4, "hiho": _4, "hippy": _4, "holy": _4, "hungry": _4, "icurus": _4, "itigo": _4, "jellybean": _4, "kikirara": _4, "kill": _4, "kilo": _4, "kuron": _4, "littlestar": _4, "lolipopmc": _4, "lolitapunk": _4, "lomo": _4, "lovepop": _4, "lovesick": _4, "main": _4, "mods": _4, "mond": _4, "mongolian": _4, "moo": _4, "namaste": _4, "nikita": _4, "nobushi": _4, "noor": _4, "oops": _4, "parallel": _4, "parasite": _4, "pecori": _4, "peewee": _4, "penne": _4, "pepper": _4, "perma": _4, "pigboat": _4, "pinoko": _4, "punyu": _4, "pupu": _4, "pussycat": _4, "pya": _4, "raindrop": _4, "readymade": _4, "sadist": _4, "schoolbus": _4, "secret": _4, "staba": _4, "stripper": _4, "sub": _4, "sunnyday": _4, "thick": _4, "tonkotsu": _4, "under": _4, "upper": _4, "velvet": _4, "verse": _4, "versus": _4, "vivian": _4, "watson": _4, "weblike": _4, "whitesnow": _4, "zombie": _4, "hateblo": _4, "hatenablog": _4, "hatenadiary": _4, "2-d": _4, "bona": _4, "crap": _4, "daynight": _4, "eek": _4, "flop": _4, "halfmoon": _4, "jeez": _4, "matrix": _4, "mimoza": _4, "netgamers": _4, "nyanta": _4, "o0o0": _4, "rdy": _4, "rgr": _4, "rulez": _4, "sakurastorage": [0, { "isk01": _55, "isk02": _55 }], "saloon": _4, "sblo": _4, "skr": _4, "tank": _4, "uh-oh": _4, "undo": _4, "webaccel": [0, { "rs": _4, "user": _4 }], "websozai": _4, "xii": _4 }], "ke": [1, { "ac": _3, "co": _3, "go": _3, "info": _3, "me": _3, "mobi": _3, "ne": _3, "or": _3, "sc": _3 }], "kg": [1, { "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "us": _4 }], "kh": _18, "ki": _56, "km": [1, { "ass": _3, "com": _3, "edu": _3, "gov": _3, "mil": _3, "nom": _3, "org": _3, "prd": _3, "tm": _3, "asso": _3, "coop": _3, "gouv": _3, "medecin": _3, "notaires": _3, "pharmaciens": _3, "presse": _3, "veterinaire": _3 }], "kn": [1, { "edu": _3, "gov": _3, "net": _3, "org": _3 }], "kp": [1, { "com": _3, "edu": _3, "gov": _3, "org": _3, "rep": _3, "tra": _3 }], "kr": [1, { "ac": _3, "ai": _3, "co": _3, "es": _3, "go": _3, "hs": _3, "io": _3, "it": _3, "kg": _3, "me": _3, "mil": _3, "ms": _3, "ne": _3, "or": _3, "pe": _3, "re": _3, "sc": _3, "busan": _3, "chungbuk": _3, "chungnam": _3, "daegu": _3, "daejeon": _3, "gangwon": _3, "gwangju": _3, "gyeongbuk": _3, "gyeonggi": _3, "gyeongnam": _3, "incheon": _3, "jeju": _3, "jeonbuk": _3, "jeonnam": _3, "seoul": _3, "ulsan": _3, "c01": _4, "eliv-dns": _4 }], "kw": [1, { "com": _3, "edu": _3, "emb": _3, "gov": _3, "ind": _3, "net": _3, "org": _3 }], "ky": _45, "kz": [1, { "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "jcloud": _4 }], "la": [1, { "com": _3, "edu": _3, "gov": _3, "info": _3, "int": _3, "net": _3, "org": _3, "per": _3, "bnr": _4 }], "lb": _5, "lc": [1, { "co": _3, "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "oy": _4 }], "li": _3, "lk": [1, { "ac": _3, "assn": _3, "com": _3, "edu": _3, "gov": _3, "grp": _3, "hotel": _3, "int": _3, "ltd": _3, "net": _3, "ngo": _3, "org": _3, "sch": _3, "soc": _3, "web": _3 }], "lr": _5, "ls": [1, { "ac": _3, "biz": _3, "co": _3, "edu": _3, "gov": _3, "info": _3, "net": _3, "org": _3, "sc": _3 }], "lt": _11, "lu": [1, { "123website": _4 }], "lv": [1, { "asn": _3, "com": _3, "conf": _3, "edu": _3, "gov": _3, "id": _3, "mil": _3, "net": _3, "org": _3 }], "ly": [1, { "com": _3, "edu": _3, "gov": _3, "id": _3, "med": _3, "net": _3, "org": _3, "plc": _3, "sch": _3 }], "ma": [1, { "ac": _3, "co": _3, "gov": _3, "net": _3, "org": _3, "press": _3 }], "mc": [1, { "asso": _3, "tm": _3 }], "md": [1, { "ir": _4 }], "me": [1, { "ac": _3, "co": _3, "edu": _3, "gov": _3, "its": _3, "net": _3, "org": _3, "priv": _3, "c66": _4, "craft": _4, "edgestack": _4, "filegear": _4, "glitch": _4, "filegear-sg": _4, "lohmus": _4, "barsy": _4, "mcdir": _4, "brasilia": _4, "ddns": _4, "dnsfor": _4, "hopto": _4, "loginto": _4, "noip": _4, "webhop": _4, "soundcast": _4, "tcp4": _4, "vp4": _4, "diskstation": _4, "dscloud": _4, "i234": _4, "myds": _4, "synology": _4, "transip": _44, "nohost": _4 }], "mg": [1, { "co": _3, "com": _3, "edu": _3, "gov": _3, "mil": _3, "nom": _3, "org": _3, "prd": _3 }], "mh": _3, "mil": _3, "mk": [1, { "com": _3, "edu": _3, "gov": _3, "inf": _3, "name": _3, "net": _3, "org": _3 }], "ml": [1, { "ac": _3, "art": _3, "asso": _3, "com": _3, "edu": _3, "gouv": _3, "gov": _3, "info": _3, "inst": _3, "net": _3, "org": _3, "pr": _3, "presse": _3 }], "mm": _18, "mn": [1, { "edu": _3, "gov": _3, "org": _3, "nyc": _4 }], "mo": _5, "mobi": [1, { "barsy": _4, "dscloud": _4 }], "mp": [1, { "ju": _4 }], "mq": _3, "mr": _11, "ms": [1, { "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "minisite": _4 }], "mt": _45, "mu": [1, { "ac": _3, "co": _3, "com": _3, "gov": _3, "net": _3, "or": _3, "org": _3 }], "museum": _3, "mv": [1, { "aero": _3, "biz": _3, "com": _3, "coop": _3, "edu": _3, "gov": _3, "info": _3, "int": _3, "mil": _3, "museum": _3, "name": _3, "net": _3, "org": _3, "pro": _3 }], "mw": [1, { "ac": _3, "biz": _3, "co": _3, "com": _3, "coop": _3, "edu": _3, "gov": _3, "int": _3, "net": _3, "org": _3 }], "mx": [1, { "com": _3, "edu": _3, "gob": _3, "net": _3, "org": _3 }], "my": [1, { "biz": _3, "com": _3, "edu": _3, "gov": _3, "mil": _3, "name": _3, "net": _3, "org": _3 }], "mz": [1, { "ac": _3, "adv": _3, "co": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3 }], "na": [1, { "alt": _3, "co": _3, "com": _3, "gov": _3, "net": _3, "org": _3 }], "name": [1, { "her": _59, "his": _59 }], "nc": [1, { "asso": _3, "nom": _3 }], "ne": _3, "net": [1, { "adobeaemcloud": _4, "adobeio-static": _4, "adobeioruntime": _4, "akadns": _4, "akamai": _4, "akamai-staging": _4, "akamaiedge": _4, "akamaiedge-staging": _4, "akamaihd": _4, "akamaihd-staging": _4, "akamaiorigin": _4, "akamaiorigin-staging": _4, "akamaized": _4, "akamaized-staging": _4, "edgekey": _4, "edgekey-staging": _4, "edgesuite": _4, "edgesuite-staging": _4, "alwaysdata": _4, "myamaze": _4, "cloudfront": _4, "appudo": _4, "atlassian-dev": [0, { "prod": _52 }], "myfritz": _4, "onavstack": _4, "shopselect": _4, "blackbaudcdn": _4, "boomla": _4, "bplaced": _4, "square7": _4, "cdn77": [0, { "r": _4 }], "cdn77-ssl": _4, "gb": _4, "hu": _4, "jp": _4, "se": _4, "uk": _4, "clickrising": _4, "ddns-ip": _4, "dns-cloud": _4, "dns-dynamic": _4, "cloudaccess": _4, "cloudflare": [2, { "cdn": _4 }], "cloudflareanycast": _52, "cloudflarecn": _52, "cloudflareglobal": _52, "ctfcloud": _4, "feste-ip": _4, "knx-server": _4, "static-access": _4, "cryptonomic": _7, "dattolocal": _4, "mydatto": _4, "debian": _4, "definima": _4, "deno": _4, "at-band-camp": _4, "blogdns": _4, "broke-it": _4, "buyshouses": _4, "dnsalias": _4, "dnsdojo": _4, "does-it": _4, "dontexist": _4, "dynalias": _4, "dynathome": _4, "endofinternet": _4, "from-az": _4, "from-co": _4, "from-la": _4, "from-ny": _4, "gets-it": _4, "ham-radio-op": _4, "homeftp": _4, "homeip": _4, "homelinux": _4, "homeunix": _4, "in-the-band": _4, "is-a-chef": _4, "is-a-geek": _4, "isa-geek": _4, "kicks-ass": _4, "office-on-the": _4, "podzone": _4, "scrapper-site": _4, "selfip": _4, "sells-it": _4, "servebbs": _4, "serveftp": _4, "thruhere": _4, "webhop": _4, "casacam": _4, "dynu": _4, "dynv6": _4, "twmail": _4, "ru": _4, "channelsdvr": [2, { "u": _4 }], "fastly": [0, { "freetls": _4, "map": _4, "prod": [0, { "a": _4, "global": _4 }], "ssl": [0, { "a": _4, "b": _4, "global": _4 }] }], "fastlylb": [2, { "map": _4 }], "edgeapp": _4, "keyword-on": _4, "live-on": _4, "server-on": _4, "cdn-edges": _4, "heteml": _4, "cloudfunctions": _4, "grafana-dev": _4, "iobb": _4, "moonscale": _4, "in-dsl": _4, "in-vpn": _4, "oninferno": _4, "botdash": _4, "apps-1and1": _4, "ipifony": _4, "cloudjiffy": [2, { "fra1-de": _4, "west1-us": _4 }], "elastx": [0, { "jls-sto1": _4, "jls-sto2": _4, "jls-sto3": _4 }], "massivegrid": [0, { "paas": [0, { "fr-1": _4, "lon-1": _4, "lon-2": _4, "ny-1": _4, "ny-2": _4, "sg-1": _4 }] }], "saveincloud": [0, { "jelastic": _4, "nordeste-idc": _4 }], "scaleforce": _46, "kinghost": _4, "uni5": _4, "krellian": _4, "ggff": _4, "localcert": _4, "localhostcert": _4, "localto": _7, "barsy": _4, "memset": _4, "azure-api": _4, "azure-mobile": _4, "azureedge": _4, "azurefd": _4, "azurestaticapps": [2, { "1": _4, "2": _4, "3": _4, "4": _4, "5": _4, "6": _4, "7": _4, "centralus": _4, "eastasia": _4, "eastus2": _4, "westeurope": _4, "westus2": _4 }], "azurewebsites": _4, "cloudapp": _4, "trafficmanager": _4, "windows": [0, { "core": [0, { "blob": _4 }], "servicebus": _4 }], "mynetname": [0, { "sn": _4 }], "routingthecloud": _4, "bounceme": _4, "ddns": _4, "eating-organic": _4, "mydissent": _4, "myeffect": _4, "mymediapc": _4, "mypsx": _4, "mysecuritycamera": _4, "nhlfan": _4, "no-ip": _4, "pgafan": _4, "privatizehealthinsurance": _4, "redirectme": _4, "serveblog": _4, "serveminecraft": _4, "sytes": _4, "dnsup": _4, "hicam": _4, "now-dns": _4, "ownip": _4, "vpndns": _4, "cloudycluster": _4, "ovh": [0, { "hosting": _7, "webpaas": _7 }], "rackmaze": _4, "myradweb": _4, "in": _4, "subsc-pay": _4, "squares": _4, "schokokeks": _4, "firewall-gateway": _4, "seidat": _4, "senseering": _4, "siteleaf": _4, "mafelo": _4, "myspreadshop": _4, "vps-host": [2, { "jelastic": [0, { "atl": _4, "njs": _4, "ric": _4 }] }], "srcf": [0, { "soc": _4, "user": _4 }], "supabase": _4, "dsmynas": _4, "familyds": _4, "ts": [2, { "c": _7 }], "torproject": [2, { "pages": _4 }], "vusercontent": _4, "reserve-online": _4, "community-pro": _4, "meinforum": _4, "yandexcloud": [2, { "storage": _4, "website": _4 }], "za": _4 }], "nf": [1, { "arts": _3, "com": _3, "firm": _3, "info": _3, "net": _3, "other": _3, "per": _3, "rec": _3, "store": _3, "web": _3 }], "ng": [1, { "com": _3, "edu": _3, "gov": _3, "i": _3, "mil": _3, "mobi": _3, "name": _3, "net": _3, "org": _3, "sch": _3, "biz": [2, { "co": _4, "dl": _4, "go": _4, "lg": _4, "on": _4 }], "col": _4, "firm": _4, "gen": _4, "ltd": _4, "ngo": _4, "plc": _4 }], "ni": [1, { "ac": _3, "biz": _3, "co": _3, "com": _3, "edu": _3, "gob": _3, "in": _3, "info": _3, "int": _3, "mil": _3, "net": _3, "nom": _3, "org": _3, "web": _3 }], "nl": [1, { "co": _4, "hosting-cluster": _4, "gov": _4, "khplay": _4, "123website": _4, "myspreadshop": _4, "transurl": _7, "cistron": _4, "demon": _4 }], "no": [1, { "fhs": _3, "folkebibl": _3, "fylkesbibl": _3, "idrett": _3, "museum": _3, "priv": _3, "vgs": _3, "dep": _3, "herad": _3, "kommune": _3, "mil": _3, "stat": _3, "aa": _60, "ah": _60, "bu": _60, "fm": _60, "hl": _60, "hm": _60, "jan-mayen": _60, "mr": _60, "nl": _60, "nt": _60, "of": _60, "ol": _60, "oslo": _60, "rl": _60, "sf": _60, "st": _60, "svalbard": _60, "tm": _60, "tr": _60, "va": _60, "vf": _60, "akrehamn": _3, "xn--krehamn-dxa": _3, "\xE5krehamn": _3, "algard": _3, "xn--lgrd-poac": _3, "\xE5lg\xE5rd": _3, "arna": _3, "bronnoysund": _3, "xn--brnnysund-m8ac": _3, "br\xF8nn\xF8ysund": _3, "brumunddal": _3, "bryne": _3, "drobak": _3, "xn--drbak-wua": _3, "dr\xF8bak": _3, "egersund": _3, "fetsund": _3, "floro": _3, "xn--flor-jra": _3, "flor\xF8": _3, "fredrikstad": _3, "hokksund": _3, "honefoss": _3, "xn--hnefoss-q1a": _3, "h\xF8nefoss": _3, "jessheim": _3, "jorpeland": _3, "xn--jrpeland-54a": _3, "j\xF8rpeland": _3, "kirkenes": _3, "kopervik": _3, "krokstadelva": _3, "langevag": _3, "xn--langevg-jxa": _3, "langev\xE5g": _3, "leirvik": _3, "mjondalen": _3, "xn--mjndalen-64a": _3, "mj\xF8ndalen": _3, "mo-i-rana": _3, "mosjoen": _3, "xn--mosjen-eya": _3, "mosj\xF8en": _3, "nesoddtangen": _3, "orkanger": _3, "osoyro": _3, "xn--osyro-wua": _3, "os\xF8yro": _3, "raholt": _3, "xn--rholt-mra": _3, "r\xE5holt": _3, "sandnessjoen": _3, "xn--sandnessjen-ogb": _3, "sandnessj\xF8en": _3, "skedsmokorset": _3, "slattum": _3, "spjelkavik": _3, "stathelle": _3, "stavern": _3, "stjordalshalsen": _3, "xn--stjrdalshalsen-sqb": _3, "stj\xF8rdalshalsen": _3, "tananger": _3, "tranby": _3, "vossevangen": _3, "aarborte": _3, "aejrie": _3, "afjord": _3, "xn--fjord-lra": _3, "\xE5fjord": _3, "agdenes": _3, "akershus": _61, "aknoluokta": _3, "xn--koluokta-7ya57h": _3, "\xE1k\u014Boluokta": _3, "al": _3, "xn--l-1fa": _3, "\xE5l": _3, "alaheadju": _3, "xn--laheadju-7ya": _3, "\xE1laheadju": _3, "alesund": _3, "xn--lesund-hua": _3, "\xE5lesund": _3, "alstahaug": _3, "alta": _3, "xn--lt-liac": _3, "\xE1lt\xE1": _3, "alvdal": _3, "amli": _3, "xn--mli-tla": _3, "\xE5mli": _3, "amot": _3, "xn--mot-tla": _3, "\xE5mot": _3, "andasuolo": _3, "andebu": _3, "andoy": _3, "xn--andy-ira": _3, "and\xF8y": _3, "ardal": _3, "xn--rdal-poa": _3, "\xE5rdal": _3, "aremark": _3, "arendal": _3, "xn--s-1fa": _3, "\xE5s": _3, "aseral": _3, "xn--seral-lra": _3, "\xE5seral": _3, "asker": _3, "askim": _3, "askoy": _3, "xn--asky-ira": _3, "ask\xF8y": _3, "askvoll": _3, "asnes": _3, "xn--snes-poa": _3, "\xE5snes": _3, "audnedaln": _3, "aukra": _3, "aure": _3, "aurland": _3, "aurskog-holand": _3, "xn--aurskog-hland-jnb": _3, "aurskog-h\xF8land": _3, "austevoll": _3, "austrheim": _3, "averoy": _3, "xn--avery-yua": _3, "aver\xF8y": _3, "badaddja": _3, "xn--bdddj-mrabd": _3, "b\xE5d\xE5ddj\xE5": _3, "xn--brum-voa": _3, "b\xE6rum": _3, "bahcavuotna": _3, "xn--bhcavuotna-s4a": _3, "b\xE1hcavuotna": _3, "bahccavuotna": _3, "xn--bhccavuotna-k7a": _3, "b\xE1hccavuotna": _3, "baidar": _3, "xn--bidr-5nac": _3, "b\xE1id\xE1r": _3, "bajddar": _3, "xn--bjddar-pta": _3, "b\xE1jddar": _3, "balat": _3, "xn--blt-elab": _3, "b\xE1l\xE1t": _3, "balestrand": _3, "ballangen": _3, "balsfjord": _3, "bamble": _3, "bardu": _3, "barum": _3, "batsfjord": _3, "xn--btsfjord-9za": _3, "b\xE5tsfjord": _3, "bearalvahki": _3, "xn--bearalvhki-y4a": _3, "bearalv\xE1hki": _3, "beardu": _3, "beiarn": _3, "berg": _3, "bergen": _3, "berlevag": _3, "xn--berlevg-jxa": _3, "berlev\xE5g": _3, "bievat": _3, "xn--bievt-0qa": _3, "biev\xE1t": _3, "bindal": _3, "birkenes": _3, "bjarkoy": _3, "xn--bjarky-fya": _3, "bjark\xF8y": _3, "bjerkreim": _3, "bjugn": _3, "bodo": _3, "xn--bod-2na": _3, "bod\xF8": _3, "bokn": _3, "bomlo": _3, "xn--bmlo-gra": _3, "b\xF8mlo": _3, "bremanger": _3, "bronnoy": _3, "xn--brnny-wuac": _3, "br\xF8nn\xF8y": _3, "budejju": _3, "buskerud": _61, "bygland": _3, "bykle": _3, "cahcesuolo": _3, "xn--hcesuolo-7ya35b": _3, "\u010D\xE1hcesuolo": _3, "davvenjarga": _3, "xn--davvenjrga-y4a": _3, "davvenj\xE1rga": _3, "davvesiida": _3, "deatnu": _3, "dielddanuorri": _3, "divtasvuodna": _3, "divttasvuotna": _3, "donna": _3, "xn--dnna-gra": _3, "d\xF8nna": _3, "dovre": _3, "drammen": _3, "drangedal": _3, "dyroy": _3, "xn--dyry-ira": _3, "dyr\xF8y": _3, "eid": _3, "eidfjord": _3, "eidsberg": _3, "eidskog": _3, "eidsvoll": _3, "eigersund": _3, "elverum": _3, "enebakk": _3, "engerdal": _3, "etne": _3, "etnedal": _3, "evenassi": _3, "xn--eveni-0qa01ga": _3, "even\xE1\u0161\u0161i": _3, "evenes": _3, "evje-og-hornnes": _3, "farsund": _3, "fauske": _3, "fedje": _3, "fet": _3, "finnoy": _3, "xn--finny-yua": _3, "finn\xF8y": _3, "fitjar": _3, "fjaler": _3, "fjell": _3, "fla": _3, "xn--fl-zia": _3, "fl\xE5": _3, "flakstad": _3, "flatanger": _3, "flekkefjord": _3, "flesberg": _3, "flora": _3, "folldal": _3, "forde": _3, "xn--frde-gra": _3, "f\xF8rde": _3, "forsand": _3, "fosnes": _3, "xn--frna-woa": _3, "fr\xE6na": _3, "frana": _3, "frei": _3, "frogn": _3, "froland": _3, "frosta": _3, "froya": _3, "xn--frya-hra": _3, "fr\xF8ya": _3, "fuoisku": _3, "fuossko": _3, "fusa": _3, "fyresdal": _3, "gaivuotna": _3, "xn--givuotna-8ya": _3, "g\xE1ivuotna": _3, "galsa": _3, "xn--gls-elac": _3, "g\xE1ls\xE1": _3, "gamvik": _3, "gangaviika": _3, "xn--ggaviika-8ya47h": _3, "g\xE1\u014Bgaviika": _3, "gaular": _3, "gausdal": _3, "giehtavuoatna": _3, "gildeskal": _3, "xn--gildeskl-g0a": _3, "gildesk\xE5l": _3, "giske": _3, "gjemnes": _3, "gjerdrum": _3, "gjerstad": _3, "gjesdal": _3, "gjovik": _3, "xn--gjvik-wua": _3, "gj\xF8vik": _3, "gloppen": _3, "gol": _3, "gran": _3, "grane": _3, "granvin": _3, "gratangen": _3, "grimstad": _3, "grong": _3, "grue": _3, "gulen": _3, "guovdageaidnu": _3, "ha": _3, "xn--h-2fa": _3, "h\xE5": _3, "habmer": _3, "xn--hbmer-xqa": _3, "h\xE1bmer": _3, "hadsel": _3, "xn--hgebostad-g3a": _3, "h\xE6gebostad": _3, "hagebostad": _3, "halden": _3, "halsa": _3, "hamar": _3, "hamaroy": _3, "hammarfeasta": _3, "xn--hmmrfeasta-s4ac": _3, "h\xE1mm\xE1rfeasta": _3, "hammerfest": _3, "hapmir": _3, "xn--hpmir-xqa": _3, "h\xE1pmir": _3, "haram": _3, "hareid": _3, "harstad": _3, "hasvik": _3, "hattfjelldal": _3, "haugesund": _3, "hedmark": [0, { "os": _3, "valer": _3, "xn--vler-qoa": _3, "v\xE5ler": _3 }], "hemne": _3, "hemnes": _3, "hemsedal": _3, "hitra": _3, "hjartdal": _3, "hjelmeland": _3, "hobol": _3, "xn--hobl-ira": _3, "hob\xF8l": _3, "hof": _3, "hol": _3, "hole": _3, "holmestrand": _3, "holtalen": _3, "xn--holtlen-hxa": _3, "holt\xE5len": _3, "hordaland": [0, { "os": _3 }], "hornindal": _3, "horten": _3, "hoyanger": _3, "xn--hyanger-q1a": _3, "h\xF8yanger": _3, "hoylandet": _3, "xn--hylandet-54a": _3, "h\xF8ylandet": _3, "hurdal": _3, "hurum": _3, "hvaler": _3, "hyllestad": _3, "ibestad": _3, "inderoy": _3, "xn--indery-fya": _3, "inder\xF8y": _3, "iveland": _3, "ivgu": _3, "jevnaker": _3, "jolster": _3, "xn--jlster-bya": _3, "j\xF8lster": _3, "jondal": _3, "kafjord": _3, "xn--kfjord-iua": _3, "k\xE5fjord": _3, "karasjohka": _3, "xn--krjohka-hwab49j": _3, "k\xE1r\xE1\u0161johka": _3, "karasjok": _3, "karlsoy": _3, "karmoy": _3, "xn--karmy-yua": _3, "karm\xF8y": _3, "kautokeino": _3, "klabu": _3, "xn--klbu-woa": _3, "kl\xE6bu": _3, "klepp": _3, "kongsberg": _3, "kongsvinger": _3, "kraanghke": _3, "xn--kranghke-b0a": _3, "kr\xE5anghke": _3, "kragero": _3, "xn--krager-gya": _3, "krager\xF8": _3, "kristiansand": _3, "kristiansund": _3, "krodsherad": _3, "xn--krdsherad-m8a": _3, "kr\xF8dsherad": _3, "xn--kvfjord-nxa": _3, "kv\xE6fjord": _3, "xn--kvnangen-k0a": _3, "kv\xE6nangen": _3, "kvafjord": _3, "kvalsund": _3, "kvam": _3, "kvanangen": _3, "kvinesdal": _3, "kvinnherad": _3, "kviteseid": _3, "kvitsoy": _3, "xn--kvitsy-fya": _3, "kvits\xF8y": _3, "laakesvuemie": _3, "xn--lrdal-sra": _3, "l\xE6rdal": _3, "lahppi": _3, "xn--lhppi-xqa": _3, "l\xE1hppi": _3, "lardal": _3, "larvik": _3, "lavagis": _3, "lavangen": _3, "leangaviika": _3, "xn--leagaviika-52b": _3, "lea\u014Bgaviika": _3, "lebesby": _3, "leikanger": _3, "leirfjord": _3, "leka": _3, "leksvik": _3, "lenvik": _3, "lerdal": _3, "lesja": _3, "levanger": _3, "lier": _3, "lierne": _3, "lillehammer": _3, "lillesand": _3, "lindas": _3, "xn--linds-pra": _3, "lind\xE5s": _3, "lindesnes": _3, "loabat": _3, "xn--loabt-0qa": _3, "loab\xE1t": _3, "lodingen": _3, "xn--ldingen-q1a": _3, "l\xF8dingen": _3, "lom": _3, "loppa": _3, "lorenskog": _3, "xn--lrenskog-54a": _3, "l\xF8renskog": _3, "loten": _3, "xn--lten-gra": _3, "l\xF8ten": _3, "lund": _3, "lunner": _3, "luroy": _3, "xn--lury-ira": _3, "lur\xF8y": _3, "luster": _3, "lyngdal": _3, "lyngen": _3, "malatvuopmi": _3, "xn--mlatvuopmi-s4a": _3, "m\xE1latvuopmi": _3, "malselv": _3, "xn--mlselv-iua": _3, "m\xE5lselv": _3, "malvik": _3, "mandal": _3, "marker": _3, "marnardal": _3, "masfjorden": _3, "masoy": _3, "xn--msy-ula0h": _3, "m\xE5s\xF8y": _3, "matta-varjjat": _3, "xn--mtta-vrjjat-k7af": _3, "m\xE1tta-v\xE1rjjat": _3, "meland": _3, "meldal": _3, "melhus": _3, "meloy": _3, "xn--mely-ira": _3, "mel\xF8y": _3, "meraker": _3, "xn--merker-kua": _3, "mer\xE5ker": _3, "midsund": _3, "midtre-gauldal": _3, "moareke": _3, "xn--moreke-jua": _3, "mo\xE5reke": _3, "modalen": _3, "modum": _3, "molde": _3, "more-og-romsdal": [0, { "heroy": _3, "sande": _3 }], "xn--mre-og-romsdal-qqb": [0, { "xn--hery-ira": _3, "sande": _3 }], "m\xF8re-og-romsdal": [0, { "her\xF8y": _3, "sande": _3 }], "moskenes": _3, "moss": _3, "mosvik": _3, "muosat": _3, "xn--muost-0qa": _3, "muos\xE1t": _3, "naamesjevuemie": _3, "xn--nmesjevuemie-tcba": _3, "n\xE5\xE5mesjevuemie": _3, "xn--nry-yla5g": _3, "n\xE6r\xF8y": _3, "namdalseid": _3, "namsos": _3, "namsskogan": _3, "nannestad": _3, "naroy": _3, "narviika": _3, "narvik": _3, "naustdal": _3, "navuotna": _3, "xn--nvuotna-hwa": _3, "n\xE1vuotna": _3, "nedre-eiker": _3, "nesna": _3, "nesodden": _3, "nesseby": _3, "nesset": _3, "nissedal": _3, "nittedal": _3, "nord-aurdal": _3, "nord-fron": _3, "nord-odal": _3, "norddal": _3, "nordkapp": _3, "nordland": [0, { "bo": _3, "xn--b-5ga": _3, "b\xF8": _3, "heroy": _3, "xn--hery-ira": _3, "her\xF8y": _3 }], "nordre-land": _3, "nordreisa": _3, "nore-og-uvdal": _3, "notodden": _3, "notteroy": _3, "xn--nttery-byae": _3, "n\xF8tter\xF8y": _3, "odda": _3, "oksnes": _3, "xn--ksnes-uua": _3, "\xF8ksnes": _3, "omasvuotna": _3, "oppdal": _3, "oppegard": _3, "xn--oppegrd-ixa": _3, "oppeg\xE5rd": _3, "orkdal": _3, "orland": _3, "xn--rland-uua": _3, "\xF8rland": _3, "orskog": _3, "xn--rskog-uua": _3, "\xF8rskog": _3, "orsta": _3, "xn--rsta-fra": _3, "\xF8rsta": _3, "osen": _3, "osteroy": _3, "xn--ostery-fya": _3, "oster\xF8y": _3, "ostfold": [0, { "valer": _3 }], "xn--stfold-9xa": [0, { "xn--vler-qoa": _3 }], "\xF8stfold": [0, { "v\xE5ler": _3 }], "ostre-toten": _3, "xn--stre-toten-zcb": _3, "\xF8stre-toten": _3, "overhalla": _3, "ovre-eiker": _3, "xn--vre-eiker-k8a": _3, "\xF8vre-eiker": _3, "oyer": _3, "xn--yer-zna": _3, "\xF8yer": _3, "oygarden": _3, "xn--ygarden-p1a": _3, "\xF8ygarden": _3, "oystre-slidre": _3, "xn--ystre-slidre-ujb": _3, "\xF8ystre-slidre": _3, "porsanger": _3, "porsangu": _3, "xn--porsgu-sta26f": _3, "pors\xE1\u014Bgu": _3, "porsgrunn": _3, "rade": _3, "xn--rde-ula": _3, "r\xE5de": _3, "radoy": _3, "xn--rady-ira": _3, "rad\xF8y": _3, "xn--rlingen-mxa": _3, "r\xE6lingen": _3, "rahkkeravju": _3, "xn--rhkkervju-01af": _3, "r\xE1hkker\xE1vju": _3, "raisa": _3, "xn--risa-5na": _3, "r\xE1isa": _3, "rakkestad": _3, "ralingen": _3, "rana": _3, "randaberg": _3, "rauma": _3, "rendalen": _3, "rennebu": _3, "rennesoy": _3, "xn--rennesy-v1a": _3, "rennes\xF8y": _3, "rindal": _3, "ringebu": _3, "ringerike": _3, "ringsaker": _3, "risor": _3, "xn--risr-ira": _3, "ris\xF8r": _3, "rissa": _3, "roan": _3, "rodoy": _3, "xn--rdy-0nab": _3, "r\xF8d\xF8y": _3, "rollag": _3, "romsa": _3, "romskog": _3, "xn--rmskog-bya": _3, "r\xF8mskog": _3, "roros": _3, "xn--rros-gra": _3, "r\xF8ros": _3, "rost": _3, "xn--rst-0na": _3, "r\xF8st": _3, "royken": _3, "xn--ryken-vua": _3, "r\xF8yken": _3, "royrvik": _3, "xn--ryrvik-bya": _3, "r\xF8yrvik": _3, "ruovat": _3, "rygge": _3, "salangen": _3, "salat": _3, "xn--slat-5na": _3, "s\xE1lat": _3, "xn--slt-elab": _3, "s\xE1l\xE1t": _3, "saltdal": _3, "samnanger": _3, "sandefjord": _3, "sandnes": _3, "sandoy": _3, "xn--sandy-yua": _3, "sand\xF8y": _3, "sarpsborg": _3, "sauda": _3, "sauherad": _3, "sel": _3, "selbu": _3, "selje": _3, "seljord": _3, "siellak": _3, "sigdal": _3, "siljan": _3, "sirdal": _3, "skanit": _3, "xn--sknit-yqa": _3, "sk\xE1nit": _3, "skanland": _3, "xn--sknland-fxa": _3, "sk\xE5nland": _3, "skaun": _3, "skedsmo": _3, "ski": _3, "skien": _3, "skierva": _3, "xn--skierv-uta": _3, "skierv\xE1": _3, "skiptvet": _3, "skjak": _3, "xn--skjk-soa": _3, "skj\xE5k": _3, "skjervoy": _3, "xn--skjervy-v1a": _3, "skjerv\xF8y": _3, "skodje": _3, "smola": _3, "xn--smla-hra": _3, "sm\xF8la": _3, "snaase": _3, "xn--snase-nra": _3, "sn\xE5ase": _3, "snasa": _3, "xn--snsa-roa": _3, "sn\xE5sa": _3, "snillfjord": _3, "snoasa": _3, "sogndal": _3, "sogne": _3, "xn--sgne-gra": _3, "s\xF8gne": _3, "sokndal": _3, "sola": _3, "solund": _3, "somna": _3, "xn--smna-gra": _3, "s\xF8mna": _3, "sondre-land": _3, "xn--sndre-land-0cb": _3, "s\xF8ndre-land": _3, "songdalen": _3, "sor-aurdal": _3, "xn--sr-aurdal-l8a": _3, "s\xF8r-aurdal": _3, "sor-fron": _3, "xn--sr-fron-q1a": _3, "s\xF8r-fron": _3, "sor-odal": _3, "xn--sr-odal-q1a": _3, "s\xF8r-odal": _3, "sor-varanger": _3, "xn--sr-varanger-ggb": _3, "s\xF8r-varanger": _3, "sorfold": _3, "xn--srfold-bya": _3, "s\xF8rfold": _3, "sorreisa": _3, "xn--srreisa-q1a": _3, "s\xF8rreisa": _3, "sortland": _3, "sorum": _3, "xn--srum-gra": _3, "s\xF8rum": _3, "spydeberg": _3, "stange": _3, "stavanger": _3, "steigen": _3, "steinkjer": _3, "stjordal": _3, "xn--stjrdal-s1a": _3, "stj\xF8rdal": _3, "stokke": _3, "stor-elvdal": _3, "stord": _3, "stordal": _3, "storfjord": _3, "strand": _3, "stranda": _3, "stryn": _3, "sula": _3, "suldal": _3, "sund": _3, "sunndal": _3, "surnadal": _3, "sveio": _3, "svelvik": _3, "sykkylven": _3, "tana": _3, "telemark": [0, { "bo": _3, "xn--b-5ga": _3, "b\xF8": _3 }], "time": _3, "tingvoll": _3, "tinn": _3, "tjeldsund": _3, "tjome": _3, "xn--tjme-hra": _3, "tj\xF8me": _3, "tokke": _3, "tolga": _3, "tonsberg": _3, "xn--tnsberg-q1a": _3, "t\xF8nsberg": _3, "torsken": _3, "xn--trna-woa": _3, "tr\xE6na": _3, "trana": _3, "tranoy": _3, "xn--trany-yua": _3, "tran\xF8y": _3, "troandin": _3, "trogstad": _3, "xn--trgstad-r1a": _3, "tr\xF8gstad": _3, "tromsa": _3, "tromso": _3, "xn--troms-zua": _3, "troms\xF8": _3, "trondheim": _3, "trysil": _3, "tvedestrand": _3, "tydal": _3, "tynset": _3, "tysfjord": _3, "tysnes": _3, "xn--tysvr-vra": _3, "tysv\xE6r": _3, "tysvar": _3, "ullensaker": _3, "ullensvang": _3, "ulvik": _3, "unjarga": _3, "xn--unjrga-rta": _3, "unj\xE1rga": _3, "utsira": _3, "vaapste": _3, "vadso": _3, "xn--vads-jra": _3, "vads\xF8": _3, "xn--vry-yla5g": _3, "v\xE6r\xF8y": _3, "vaga": _3, "xn--vg-yiab": _3, "v\xE5g\xE5": _3, "vagan": _3, "xn--vgan-qoa": _3, "v\xE5gan": _3, "vagsoy": _3, "xn--vgsy-qoa0j": _3, "v\xE5gs\xF8y": _3, "vaksdal": _3, "valle": _3, "vang": _3, "vanylven": _3, "vardo": _3, "xn--vard-jra": _3, "vard\xF8": _3, "varggat": _3, "xn--vrggt-xqad": _3, "v\xE1rgg\xE1t": _3, "varoy": _3, "vefsn": _3, "vega": _3, "vegarshei": _3, "xn--vegrshei-c0a": _3, "veg\xE5rshei": _3, "vennesla": _3, "verdal": _3, "verran": _3, "vestby": _3, "vestfold": [0, { "sande": _3 }], "vestnes": _3, "vestre-slidre": _3, "vestre-toten": _3, "vestvagoy": _3, "xn--vestvgy-ixa6o": _3, "vestv\xE5g\xF8y": _3, "vevelstad": _3, "vik": _3, "vikna": _3, "vindafjord": _3, "voagat": _3, "volda": _3, "voss": _3, "co": _4, "123hjemmeside": _4, "myspreadshop": _4 }], "np": _18, "nr": _56, "nu": [1, { "merseine": _4, "mine": _4, "shacknet": _4, "enterprisecloud": _4 }], "nz": [1, { "ac": _3, "co": _3, "cri": _3, "geek": _3, "gen": _3, "govt": _3, "health": _3, "iwi": _3, "kiwi": _3, "maori": _3, "xn--mori-qsa": _3, "m\u0101ori": _3, "mil": _3, "net": _3, "org": _3, "parliament": _3, "school": _3, "cloudns": _4 }], "om": [1, { "co": _3, "com": _3, "edu": _3, "gov": _3, "med": _3, "museum": _3, "net": _3, "org": _3, "pro": _3 }], "onion": _3, "org": [1, { "altervista": _4, "pimienta": _4, "poivron": _4, "potager": _4, "sweetpepper": _4, "cdn77": [0, { "c": _4, "rsc": _4 }], "cdn77-secure": [0, { "origin": [0, { "ssl": _4 }] }], "ae": _4, "cloudns": _4, "ip-dynamic": _4, "ddnss": _4, "dpdns": _4, "duckdns": _4, "tunk": _4, "blogdns": _4, "blogsite": _4, "boldlygoingnowhere": _4, "dnsalias": _4, "dnsdojo": _4, "doesntexist": _4, "dontexist": _4, "doomdns": _4, "dvrdns": _4, "dynalias": _4, "dyndns": [2, { "go": _4, "home": _4 }], "endofinternet": _4, "endoftheinternet": _4, "from-me": _4, "game-host": _4, "gotdns": _4, "hobby-site": _4, "homedns": _4, "homeftp": _4, "homelinux": _4, "homeunix": _4, "is-a-bruinsfan": _4, "is-a-candidate": _4, "is-a-celticsfan": _4, "is-a-chef": _4, "is-a-geek": _4, "is-a-knight": _4, "is-a-linux-user": _4, "is-a-patsfan": _4, "is-a-soxfan": _4, "is-found": _4, "is-lost": _4, "is-saved": _4, "is-very-bad": _4, "is-very-evil": _4, "is-very-good": _4, "is-very-nice": _4, "is-very-sweet": _4, "isa-geek": _4, "kicks-ass": _4, "misconfused": _4, "podzone": _4, "readmyblog": _4, "selfip": _4, "sellsyourhome": _4, "servebbs": _4, "serveftp": _4, "servegame": _4, "stuff-4-sale": _4, "webhop": _4, "accesscam": _4, "camdvr": _4, "freeddns": _4, "mywire": _4, "webredirect": _4, "twmail": _4, "eu": [2, { "al": _4, "asso": _4, "at": _4, "au": _4, "be": _4, "bg": _4, "ca": _4, "cd": _4, "ch": _4, "cn": _4, "cy": _4, "cz": _4, "de": _4, "dk": _4, "edu": _4, "ee": _4, "es": _4, "fi": _4, "fr": _4, "gr": _4, "hr": _4, "hu": _4, "ie": _4, "il": _4, "in": _4, "int": _4, "is": _4, "it": _4, "jp": _4, "kr": _4, "lt": _4, "lu": _4, "lv": _4, "me": _4, "mk": _4, "mt": _4, "my": _4, "net": _4, "ng": _4, "nl": _4, "no": _4, "nz": _4, "pl": _4, "pt": _4, "ro": _4, "ru": _4, "se": _4, "si": _4, "sk": _4, "tr": _4, "uk": _4, "us": _4 }], "fedorainfracloud": _4, "fedorapeople": _4, "fedoraproject": [0, { "cloud": _4, "os": _43, "stg": [0, { "os": _43 }] }], "freedesktop": _4, "hatenadiary": _4, "hepforge": _4, "in-dsl": _4, "in-vpn": _4, "js": _4, "barsy": _4, "mayfirst": _4, "routingthecloud": _4, "bmoattachments": _4, "cable-modem": _4, "collegefan": _4, "couchpotatofries": _4, "hopto": _4, "mlbfan": _4, "myftp": _4, "mysecuritycamera": _4, "nflfan": _4, "no-ip": _4, "read-books": _4, "ufcfan": _4, "zapto": _4, "dynserv": _4, "now-dns": _4, "is-local": _4, "httpbin": _4, "pubtls": _4, "jpn": _4, "my-firewall": _4, "myfirewall": _4, "spdns": _4, "small-web": _4, "dsmynas": _4, "familyds": _4, "teckids": _55, "tuxfamily": _4, "diskstation": _4, "hk": _4, "us": _4, "toolforge": _4, "wmcloud": _4, "wmflabs": _4, "za": _4 }], "pa": [1, { "abo": _3, "ac": _3, "com": _3, "edu": _3, "gob": _3, "ing": _3, "med": _3, "net": _3, "nom": _3, "org": _3, "sld": _3 }], "pe": [1, { "com": _3, "edu": _3, "gob": _3, "mil": _3, "net": _3, "nom": _3, "org": _3 }], "pf": [1, { "com": _3, "edu": _3, "org": _3 }], "pg": _18, "ph": [1, { "com": _3, "edu": _3, "gov": _3, "i": _3, "mil": _3, "net": _3, "ngo": _3, "org": _3, "cloudns": _4 }], "pk": [1, { "ac": _3, "biz": _3, "com": _3, "edu": _3, "fam": _3, "gkp": _3, "gob": _3, "gog": _3, "gok": _3, "gop": _3, "gos": _3, "gov": _3, "net": _3, "org": _3, "web": _3 }], "pl": [1, { "com": _3, "net": _3, "org": _3, "agro": _3, "aid": _3, "atm": _3, "auto": _3, "biz": _3, "edu": _3, "gmina": _3, "gsm": _3, "info": _3, "mail": _3, "media": _3, "miasta": _3, "mil": _3, "nieruchomosci": _3, "nom": _3, "pc": _3, "powiat": _3, "priv": _3, "realestate": _3, "rel": _3, "sex": _3, "shop": _3, "sklep": _3, "sos": _3, "szkola": _3, "targi": _3, "tm": _3, "tourism": _3, "travel": _3, "turystyka": _3, "gov": [1, { "ap": _3, "griw": _3, "ic": _3, "is": _3, "kmpsp": _3, "konsulat": _3, "kppsp": _3, "kwp": _3, "kwpsp": _3, "mup": _3, "mw": _3, "oia": _3, "oirm": _3, "oke": _3, "oow": _3, "oschr": _3, "oum": _3, "pa": _3, "pinb": _3, "piw": _3, "po": _3, "pr": _3, "psp": _3, "psse": _3, "pup": _3, "rzgw": _3, "sa": _3, "sdn": _3, "sko": _3, "so": _3, "sr": _3, "starostwo": _3, "ug": _3, "ugim": _3, "um": _3, "umig": _3, "upow": _3, "uppo": _3, "us": _3, "uw": _3, "uzs": _3, "wif": _3, "wiih": _3, "winb": _3, "wios": _3, "witd": _3, "wiw": _3, "wkz": _3, "wsa": _3, "wskr": _3, "wsse": _3, "wuoz": _3, "wzmiuw": _3, "zp": _3, "zpisdn": _3 }], "augustow": _3, "babia-gora": _3, "bedzin": _3, "beskidy": _3, "bialowieza": _3, "bialystok": _3, "bielawa": _3, "bieszczady": _3, "boleslawiec": _3, "bydgoszcz": _3, "bytom": _3, "cieszyn": _3, "czeladz": _3, "czest": _3, "dlugoleka": _3, "elblag": _3, "elk": _3, "glogow": _3, "gniezno": _3, "gorlice": _3, "grajewo": _3, "ilawa": _3, "jaworzno": _3, "jelenia-gora": _3, "jgora": _3, "kalisz": _3, "karpacz": _3, "kartuzy": _3, "kaszuby": _3, "katowice": _3, "kazimierz-dolny": _3, "kepno": _3, "ketrzyn": _3, "klodzko": _3, "kobierzyce": _3, "kolobrzeg": _3, "konin": _3, "konskowola": _3, "kutno": _3, "lapy": _3, "lebork": _3, "legnica": _3, "lezajsk": _3, "limanowa": _3, "lomza": _3, "lowicz": _3, "lubin": _3, "lukow": _3, "malbork": _3, "malopolska": _3, "mazowsze": _3, "mazury": _3, "mielec": _3, "mielno": _3, "mragowo": _3, "naklo": _3, "nowaruda": _3, "nysa": _3, "olawa": _3, "olecko": _3, "olkusz": _3, "olsztyn": _3, "opoczno": _3, "opole": _3, "ostroda": _3, "ostroleka": _3, "ostrowiec": _3, "ostrowwlkp": _3, "pila": _3, "pisz": _3, "podhale": _3, "podlasie": _3, "polkowice": _3, "pomorskie": _3, "pomorze": _3, "prochowice": _3, "pruszkow": _3, "przeworsk": _3, "pulawy": _3, "radom": _3, "rawa-maz": _3, "rybnik": _3, "rzeszow": _3, "sanok": _3, "sejny": _3, "skoczow": _3, "slask": _3, "slupsk": _3, "sosnowiec": _3, "stalowa-wola": _3, "starachowice": _3, "stargard": _3, "suwalki": _3, "swidnica": _3, "swiebodzin": _3, "swinoujscie": _3, "szczecin": _3, "szczytno": _3, "tarnobrzeg": _3, "tgory": _3, "turek": _3, "tychy": _3, "ustka": _3, "walbrzych": _3, "warmia": _3, "warszawa": _3, "waw": _3, "wegrow": _3, "wielun": _3, "wlocl": _3, "wloclawek": _3, "wodzislaw": _3, "wolomin": _3, "wroclaw": _3, "zachpomor": _3, "zagan": _3, "zarow": _3, "zgora": _3, "zgorzelec": _3, "art": _4, "gliwice": _4, "krakow": _4, "poznan": _4, "wroc": _4, "zakopane": _4, "beep": _4, "ecommerce-shop": _4, "cfolks": _4, "dfirma": _4, "dkonto": _4, "you2": _4, "shoparena": _4, "homesklep": _4, "sdscloud": _4, "unicloud": _4, "lodz": _4, "pabianice": _4, "plock": _4, "sieradz": _4, "skierniewice": _4, "zgierz": _4, "krasnik": _4, "leczna": _4, "lubartow": _4, "lublin": _4, "poniatowa": _4, "swidnik": _4, "co": _4, "torun": _4, "simplesite": _4, "myspreadshop": _4, "gda": _4, "gdansk": _4, "gdynia": _4, "med": _4, "sopot": _4, "bielsko": _4 }], "pm": [1, { "own": _4, "name": _4 }], "pn": [1, { "co": _3, "edu": _3, "gov": _3, "net": _3, "org": _3 }], "post": _3, "pr": [1, { "biz": _3, "com": _3, "edu": _3, "gov": _3, "info": _3, "isla": _3, "name": _3, "net": _3, "org": _3, "pro": _3, "ac": _3, "est": _3, "prof": _3 }], "pro": [1, { "aaa": _3, "aca": _3, "acct": _3, "avocat": _3, "bar": _3, "cpa": _3, "eng": _3, "jur": _3, "law": _3, "med": _3, "recht": _3, "12chars": _4, "cloudns": _4, "barsy": _4, "ngrok": _4 }], "ps": [1, { "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "plo": _3, "sec": _3 }], "pt": [1, { "com": _3, "edu": _3, "gov": _3, "int": _3, "net": _3, "nome": _3, "org": _3, "publ": _3, "123paginaweb": _4 }], "pw": [1, { "gov": _3, "cloudns": _4, "x443": _4 }], "py": [1, { "com": _3, "coop": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3 }], "qa": [1, { "com": _3, "edu": _3, "gov": _3, "mil": _3, "name": _3, "net": _3, "org": _3, "sch": _3 }], "re": [1, { "asso": _3, "com": _3, "netlib": _4, "can": _4 }], "ro": [1, { "arts": _3, "com": _3, "firm": _3, "info": _3, "nom": _3, "nt": _3, "org": _3, "rec": _3, "store": _3, "tm": _3, "www": _3, "co": _4, "shop": _4, "barsy": _4 }], "rs": [1, { "ac": _3, "co": _3, "edu": _3, "gov": _3, "in": _3, "org": _3, "brendly": _51, "barsy": _4, "ox": _4 }], "ru": [1, { "ac": _4, "edu": _4, "gov": _4, "int": _4, "mil": _4, "eurodir": _4, "adygeya": _4, "bashkiria": _4, "bir": _4, "cbg": _4, "com": _4, "dagestan": _4, "grozny": _4, "kalmykia": _4, "kustanai": _4, "marine": _4, "mordovia": _4, "msk": _4, "mytis": _4, "nalchik": _4, "nov": _4, "pyatigorsk": _4, "spb": _4, "vladikavkaz": _4, "vladimir": _4, "na4u": _4, "mircloud": _4, "myjino": [2, { "hosting": _7, "landing": _7, "spectrum": _7, "vps": _7 }], "cldmail": [0, { "hb": _4 }], "mcdir": [2, { "vps": _4 }], "mcpre": _4, "net": _4, "org": _4, "pp": _4, "lk3": _4, "ras": _4 }], "rw": [1, { "ac": _3, "co": _3, "coop": _3, "gov": _3, "mil": _3, "net": _3, "org": _3 }], "sa": [1, { "com": _3, "edu": _3, "gov": _3, "med": _3, "net": _3, "org": _3, "pub": _3, "sch": _3 }], "sb": _5, "sc": _5, "sd": [1, { "com": _3, "edu": _3, "gov": _3, "info": _3, "med": _3, "net": _3, "org": _3, "tv": _3 }], "se": [1, { "a": _3, "ac": _3, "b": _3, "bd": _3, "brand": _3, "c": _3, "d": _3, "e": _3, "f": _3, "fh": _3, "fhsk": _3, "fhv": _3, "g": _3, "h": _3, "i": _3, "k": _3, "komforb": _3, "kommunalforbund": _3, "komvux": _3, "l": _3, "lanbib": _3, "m": _3, "n": _3, "naturbruksgymn": _3, "o": _3, "org": _3, "p": _3, "parti": _3, "pp": _3, "press": _3, "r": _3, "s": _3, "t": _3, "tm": _3, "u": _3, "w": _3, "x": _3, "y": _3, "z": _3, "com": _4, "iopsys": _4, "123minsida": _4, "itcouldbewor": _4, "myspreadshop": _4 }], "sg": [1, { "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "enscaled": _4 }], "sh": [1, { "com": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "hashbang": _4, "botda": _4, "platform": [0, { "ent": _4, "eu": _4, "us": _4 }], "now": _4 }], "si": [1, { "f5": _4, "gitapp": _4, "gitpage": _4 }], "sj": _3, "sk": _3, "sl": _5, "sm": _3, "sn": [1, { "art": _3, "com": _3, "edu": _3, "gouv": _3, "org": _3, "perso": _3, "univ": _3 }], "so": [1, { "com": _3, "edu": _3, "gov": _3, "me": _3, "net": _3, "org": _3, "surveys": _4 }], "sr": _3, "ss": [1, { "biz": _3, "co": _3, "com": _3, "edu": _3, "gov": _3, "me": _3, "net": _3, "org": _3, "sch": _3 }], "st": [1, { "co": _3, "com": _3, "consulado": _3, "edu": _3, "embaixada": _3, "mil": _3, "net": _3, "org": _3, "principe": _3, "saotome": _3, "store": _3, "helioho": _4, "kirara": _4, "noho": _4 }], "su": [1, { "abkhazia": _4, "adygeya": _4, "aktyubinsk": _4, "arkhangelsk": _4, "armenia": _4, "ashgabad": _4, "azerbaijan": _4, "balashov": _4, "bashkiria": _4, "bryansk": _4, "bukhara": _4, "chimkent": _4, "dagestan": _4, "east-kazakhstan": _4, "exnet": _4, "georgia": _4, "grozny": _4, "ivanovo": _4, "jambyl": _4, "kalmykia": _4, "kaluga": _4, "karacol": _4, "karaganda": _4, "karelia": _4, "khakassia": _4, "krasnodar": _4, "kurgan": _4, "kustanai": _4, "lenug": _4, "mangyshlak": _4, "mordovia": _4, "msk": _4, "murmansk": _4, "nalchik": _4, "navoi": _4, "north-kazakhstan": _4, "nov": _4, "obninsk": _4, "penza": _4, "pokrovsk": _4, "sochi": _4, "spb": _4, "tashkent": _4, "termez": _4, "togliatti": _4, "troitsk": _4, "tselinograd": _4, "tula": _4, "tuva": _4, "vladikavkaz": _4, "vladimir": _4, "vologda": _4 }], "sv": [1, { "com": _3, "edu": _3, "gob": _3, "org": _3, "red": _3 }], "sx": _11, "sy": _6, "sz": [1, { "ac": _3, "co": _3, "org": _3 }], "tc": _3, "td": _3, "tel": _3, "tf": [1, { "sch": _4 }], "tg": _3, "th": [1, { "ac": _3, "co": _3, "go": _3, "in": _3, "mi": _3, "net": _3, "or": _3, "online": _4, "shop": _4 }], "tj": [1, { "ac": _3, "biz": _3, "co": _3, "com": _3, "edu": _3, "go": _3, "gov": _3, "int": _3, "mil": _3, "name": _3, "net": _3, "nic": _3, "org": _3, "test": _3, "web": _3 }], "tk": _3, "tl": _11, "tm": [1, { "co": _3, "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "nom": _3, "org": _3 }], "tn": [1, { "com": _3, "ens": _3, "fin": _3, "gov": _3, "ind": _3, "info": _3, "intl": _3, "mincom": _3, "nat": _3, "net": _3, "org": _3, "perso": _3, "tourism": _3, "orangecloud": _4 }], "to": [1, { "611": _4, "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "oya": _4, "x0": _4, "quickconnect": _25, "vpnplus": _4 }], "tr": [1, { "av": _3, "bbs": _3, "bel": _3, "biz": _3, "com": _3, "dr": _3, "edu": _3, "gen": _3, "gov": _3, "info": _3, "k12": _3, "kep": _3, "mil": _3, "name": _3, "net": _3, "org": _3, "pol": _3, "tel": _3, "tsk": _3, "tv": _3, "web": _3, "nc": _11 }], "tt": [1, { "biz": _3, "co": _3, "com": _3, "edu": _3, "gov": _3, "info": _3, "mil": _3, "name": _3, "net": _3, "org": _3, "pro": _3 }], "tv": [1, { "better-than": _4, "dyndns": _4, "on-the-web": _4, "worse-than": _4, "from": _4, "sakura": _4 }], "tw": [1, { "club": _3, "com": [1, { "mymailer": _4 }], "ebiz": _3, "edu": _3, "game": _3, "gov": _3, "idv": _3, "mil": _3, "net": _3, "org": _3, "url": _4, "mydns": _4 }], "tz": [1, { "ac": _3, "co": _3, "go": _3, "hotel": _3, "info": _3, "me": _3, "mil": _3, "mobi": _3, "ne": _3, "or": _3, "sc": _3, "tv": _3 }], "ua": [1, { "com": _3, "edu": _3, "gov": _3, "in": _3, "net": _3, "org": _3, "cherkassy": _3, "cherkasy": _3, "chernigov": _3, "chernihiv": _3, "chernivtsi": _3, "chernovtsy": _3, "ck": _3, "cn": _3, "cr": _3, "crimea": _3, "cv": _3, "dn": _3, "dnepropetrovsk": _3, "dnipropetrovsk": _3, "donetsk": _3, "dp": _3, "if": _3, "ivano-frankivsk": _3, "kh": _3, "kharkiv": _3, "kharkov": _3, "kherson": _3, "khmelnitskiy": _3, "khmelnytskyi": _3, "kiev": _3, "kirovograd": _3, "km": _3, "kr": _3, "kropyvnytskyi": _3, "krym": _3, "ks": _3, "kv": _3, "kyiv": _3, "lg": _3, "lt": _3, "lugansk": _3, "luhansk": _3, "lutsk": _3, "lv": _3, "lviv": _3, "mk": _3, "mykolaiv": _3, "nikolaev": _3, "od": _3, "odesa": _3, "odessa": _3, "pl": _3, "poltava": _3, "rivne": _3, "rovno": _3, "rv": _3, "sb": _3, "sebastopol": _3, "sevastopol": _3, "sm": _3, "sumy": _3, "te": _3, "ternopil": _3, "uz": _3, "uzhgorod": _3, "uzhhorod": _3, "vinnica": _3, "vinnytsia": _3, "vn": _3, "volyn": _3, "yalta": _3, "zakarpattia": _3, "zaporizhzhe": _3, "zaporizhzhia": _3, "zhitomir": _3, "zhytomyr": _3, "zp": _3, "zt": _3, "cc": _4, "inf": _4, "ltd": _4, "cx": _4, "ie": _4, "biz": _4, "co": _4, "pp": _4, "v": _4 }], "ug": [1, { "ac": _3, "co": _3, "com": _3, "edu": _3, "go": _3, "gov": _3, "mil": _3, "ne": _3, "or": _3, "org": _3, "sc": _3, "us": _3 }], "uk": [1, { "ac": _3, "co": [1, { "bytemark": [0, { "dh": _4, "vm": _4 }], "layershift": _46, "barsy": _4, "barsyonline": _4, "retrosnub": _54, "nh-serv": _4, "no-ip": _4, "adimo": _4, "myspreadshop": _4 }], "gov": [1, { "api": _4, "campaign": _4, "service": _4 }], "ltd": _3, "me": _3, "net": _3, "nhs": _3, "org": [1, { "glug": _4, "lug": _4, "lugs": _4, "affinitylottery": _4, "raffleentry": _4, "weeklylottery": _4 }], "plc": _3, "police": _3, "sch": _18, "conn": _4, "copro": _4, "hosp": _4, "independent-commission": _4, "independent-inquest": _4, "independent-inquiry": _4, "independent-panel": _4, "independent-review": _4, "public-inquiry": _4, "royal-commission": _4, "pymnt": _4, "barsy": _4, "nimsite": _4, "oraclegovcloudapps": _7 }], "us": [1, { "dni": _3, "isa": _3, "nsn": _3, "ak": _62, "al": _62, "ar": _62, "as": _62, "az": _62, "ca": _62, "co": _62, "ct": _62, "dc": _62, "de": [1, { "cc": _3, "lib": _4 }], "fl": _62, "ga": _62, "gu": _62, "hi": _63, "ia": _62, "id": _62, "il": _62, "in": _62, "ks": _62, "ky": _62, "la": _62, "ma": [1, { "k12": [1, { "chtr": _3, "paroch": _3, "pvt": _3 }], "cc": _3, "lib": _3 }], "md": _62, "me": _62, "mi": [1, { "k12": _3, "cc": _3, "lib": _3, "ann-arbor": _3, "cog": _3, "dst": _3, "eaton": _3, "gen": _3, "mus": _3, "tec": _3, "washtenaw": _3 }], "mn": _62, "mo": _62, "ms": _62, "mt": _62, "nc": _62, "nd": _63, "ne": _62, "nh": _62, "nj": _62, "nm": _62, "nv": _62, "ny": _62, "oh": _62, "ok": _62, "or": _62, "pa": _62, "pr": _62, "ri": _63, "sc": _62, "sd": _63, "tn": _62, "tx": _62, "ut": _62, "va": _62, "vi": _62, "vt": _62, "wa": _62, "wi": _62, "wv": [1, { "cc": _3 }], "wy": _62, "cloudns": _4, "is-by": _4, "land-4-sale": _4, "stuff-4-sale": _4, "heliohost": _4, "enscaled": [0, { "phx": _4 }], "mircloud": _4, "ngo": _4, "golffan": _4, "noip": _4, "pointto": _4, "freeddns": _4, "srv": [2, { "gh": _4, "gl": _4 }], "platterp": _4, "servername": _4 }], "uy": [1, { "com": _3, "edu": _3, "gub": _3, "mil": _3, "net": _3, "org": _3 }], "uz": [1, { "co": _3, "com": _3, "net": _3, "org": _3 }], "va": _3, "vc": [1, { "com": _3, "edu": _3, "gov": _3, "mil": _3, "net": _3, "org": _3, "gv": [2, { "d": _4 }], "0e": _7, "mydns": _4 }], "ve": [1, { "arts": _3, "bib": _3, "co": _3, "com": _3, "e12": _3, "edu": _3, "emprende": _3, "firm": _3, "gob": _3, "gov": _3, "info": _3, "int": _3, "mil": _3, "net": _3, "nom": _3, "org": _3, "rar": _3, "rec": _3, "store": _3, "tec": _3, "web": _3 }], "vg": [1, { "edu": _3 }], "vi": [1, { "co": _3, "com": _3, "k12": _3, "net": _3, "org": _3 }], "vn": [1, { "ac": _3, "ai": _3, "biz": _3, "com": _3, "edu": _3, "gov": _3, "health": _3, "id": _3, "info": _3, "int": _3, "io": _3, "name": _3, "net": _3, "org": _3, "pro": _3, "angiang": _3, "bacgiang": _3, "backan": _3, "baclieu": _3, "bacninh": _3, "baria-vungtau": _3, "bentre": _3, "binhdinh": _3, "binhduong": _3, "binhphuoc": _3, "binhthuan": _3, "camau": _3, "cantho": _3, "caobang": _3, "daklak": _3, "daknong": _3, "danang": _3, "dienbien": _3, "dongnai": _3, "dongthap": _3, "gialai": _3, "hagiang": _3, "haiduong": _3, "haiphong": _3, "hanam": _3, "hanoi": _3, "hatinh": _3, "haugiang": _3, "hoabinh": _3, "hungyen": _3, "khanhhoa": _3, "kiengiang": _3, "kontum": _3, "laichau": _3, "lamdong": _3, "langson": _3, "laocai": _3, "longan": _3, "namdinh": _3, "nghean": _3, "ninhbinh": _3, "ninhthuan": _3, "phutho": _3, "phuyen": _3, "quangbinh": _3, "quangnam": _3, "quangngai": _3, "quangninh": _3, "quangtri": _3, "soctrang": _3, "sonla": _3, "tayninh": _3, "thaibinh": _3, "thainguyen": _3, "thanhhoa": _3, "thanhphohochiminh": _3, "thuathienhue": _3, "tiengiang": _3, "travinh": _3, "tuyenquang": _3, "vinhlong": _3, "vinhphuc": _3, "yenbai": _3 }], "vu": _45, "wf": [1, { "biz": _4, "sch": _4 }], "ws": [1, { "com": _3, "edu": _3, "gov": _3, "net": _3, "org": _3, "advisor": _7, "cloud66": _4, "dyndns": _4, "mypets": _4 }], "yt": [1, { "org": _4 }], "xn--mgbaam7a8h": _3, "\u0627\u0645\u0627\u0631\u0627\u062A": _3, "xn--y9a3aq": _3, "\u0570\u0561\u0575": _3, "xn--54b7fta0cc": _3, "\u09AC\u09BE\u0982\u09B2\u09BE": _3, "xn--90ae": _3, "\u0431\u0433": _3, "xn--mgbcpq6gpa1a": _3, "\u0627\u0644\u0628\u062D\u0631\u064A\u0646": _3, "xn--90ais": _3, "\u0431\u0435\u043B": _3, "xn--fiqs8s": _3, "\u4E2D\u56FD": _3, "xn--fiqz9s": _3, "\u4E2D\u570B": _3, "xn--lgbbat1ad8j": _3, "\u0627\u0644\u062C\u0632\u0627\u0626\u0631": _3, "xn--wgbh1c": _3, "\u0645\u0635\u0631": _3, "xn--e1a4c": _3, "\u0435\u044E": _3, "xn--qxa6a": _3, "\u03B5\u03C5": _3, "xn--mgbah1a3hjkrd": _3, "\u0645\u0648\u0631\u064A\u062A\u0627\u0646\u064A\u0627": _3, "xn--node": _3, "\u10D2\u10D4": _3, "xn--qxam": _3, "\u03B5\u03BB": _3, "xn--j6w193g": [1, { "xn--gmqw5a": _3, "xn--55qx5d": _3, "xn--mxtq1m": _3, "xn--wcvs22d": _3, "xn--uc0atv": _3, "xn--od0alg": _3 }], "\u9999\u6E2F": [1, { "\u500B\u4EBA": _3, "\u516C\u53F8": _3, "\u653F\u5E9C": _3, "\u6559\u80B2": _3, "\u7D44\u7E54": _3, "\u7DB2\u7D61": _3 }], "xn--2scrj9c": _3, "\u0CAD\u0CBE\u0CB0\u0CA4": _3, "xn--3hcrj9c": _3, "\u0B2D\u0B3E\u0B30\u0B24": _3, "xn--45br5cyl": _3, "\u09AD\u09BE\u09F0\u09A4": _3, "xn--h2breg3eve": _3, "\u092D\u093E\u0930\u0924\u092E\u094D": _3, "xn--h2brj9c8c": _3, "\u092D\u093E\u0930\u094B\u0924": _3, "xn--mgbgu82a": _3, "\u0680\u0627\u0631\u062A": _3, "xn--rvc1e0am3e": _3, "\u0D2D\u0D3E\u0D30\u0D24\u0D02": _3, "xn--h2brj9c": _3, "\u092D\u093E\u0930\u0924": _3, "xn--mgbbh1a": _3, "\u0628\u0627\u0631\u062A": _3, "xn--mgbbh1a71e": _3, "\u0628\u06BE\u0627\u0631\u062A": _3, "xn--fpcrj9c3d": _3, "\u0C2D\u0C3E\u0C30\u0C24\u0C4D": _3, "xn--gecrj9c": _3, "\u0AAD\u0ABE\u0AB0\u0AA4": _3, "xn--s9brj9c": _3, "\u0A2D\u0A3E\u0A30\u0A24": _3, "xn--45brj9c": _3, "\u09AD\u09BE\u09B0\u09A4": _3, "xn--xkc2dl3a5ee0h": _3, "\u0B87\u0BA8\u0BCD\u0BA4\u0BBF\u0BAF\u0BBE": _3, "xn--mgba3a4f16a": _3, "\u0627\u06CC\u0631\u0627\u0646": _3, "xn--mgba3a4fra": _3, "\u0627\u064A\u0631\u0627\u0646": _3, "xn--mgbtx2b": _3, "\u0639\u0631\u0627\u0642": _3, "xn--mgbayh7gpa": _3, "\u0627\u0644\u0627\u0631\u062F\u0646": _3, "xn--3e0b707e": _3, "\uD55C\uAD6D": _3, "xn--80ao21a": _3, "\u049B\u0430\u0437": _3, "xn--q7ce6a": _3, "\u0EA5\u0EB2\u0EA7": _3, "xn--fzc2c9e2c": _3, "\u0DBD\u0D82\u0D9A\u0DCF": _3, "xn--xkc2al3hye2a": _3, "\u0B87\u0BB2\u0B99\u0BCD\u0B95\u0BC8": _3, "xn--mgbc0a9azcg": _3, "\u0627\u0644\u0645\u063A\u0631\u0628": _3, "xn--d1alf": _3, "\u043C\u043A\u0434": _3, "xn--l1acc": _3, "\u043C\u043E\u043D": _3, "xn--mix891f": _3, "\u6FB3\u9580": _3, "xn--mix082f": _3, "\u6FB3\u95E8": _3, "xn--mgbx4cd0ab": _3, "\u0645\u0644\u064A\u0633\u064A\u0627": _3, "xn--mgb9awbf": _3, "\u0639\u0645\u0627\u0646": _3, "xn--mgbai9azgqp6j": _3, "\u067E\u0627\u06A9\u0633\u062A\u0627\u0646": _3, "xn--mgbai9a5eva00b": _3, "\u067E\u0627\u0643\u0633\u062A\u0627\u0646": _3, "xn--ygbi2ammx": _3, "\u0641\u0644\u0633\u0637\u064A\u0646": _3, "xn--90a3ac": [1, { "xn--80au": _3, "xn--90azh": _3, "xn--d1at": _3, "xn--c1avg": _3, "xn--o1ac": _3, "xn--o1ach": _3 }], "\u0441\u0440\u0431": [1, { "\u0430\u043A": _3, "\u043E\u0431\u0440": _3, "\u043E\u0434": _3, "\u043E\u0440\u0433": _3, "\u043F\u0440": _3, "\u0443\u043F\u0440": _3 }], "xn--p1ai": _3, "\u0440\u0444": _3, "xn--wgbl6a": _3, "\u0642\u0637\u0631": _3, "xn--mgberp4a5d4ar": _3, "\u0627\u0644\u0633\u0639\u0648\u062F\u064A\u0629": _3, "xn--mgberp4a5d4a87g": _3, "\u0627\u0644\u0633\u0639\u0648\u062F\u06CC\u0629": _3, "xn--mgbqly7c0a67fbc": _3, "\u0627\u0644\u0633\u0639\u0648\u062F\u06CC\u06C3": _3, "xn--mgbqly7cvafr": _3, "\u0627\u0644\u0633\u0639\u0648\u062F\u064A\u0647": _3, "xn--mgbpl2fh": _3, "\u0633\u0648\u062F\u0627\u0646": _3, "xn--yfro4i67o": _3, "\u65B0\u52A0\u5761": _3, "xn--clchc0ea0b2g2a9gcd": _3, "\u0B9A\u0BBF\u0B99\u0BCD\u0B95\u0BAA\u0BCD\u0BAA\u0BC2\u0BB0\u0BCD": _3, "xn--ogbpf8fl": _3, "\u0633\u0648\u0631\u064A\u0629": _3, "xn--mgbtf8fl": _3, "\u0633\u0648\u0631\u064A\u0627": _3, "xn--o3cw4h": [1, { "xn--o3cyx2a": _3, "xn--12co0c3b4eva": _3, "xn--m3ch0j3a": _3, "xn--h3cuzk1di": _3, "xn--12c1fe0br": _3, "xn--12cfi8ixb8l": _3 }], "\u0E44\u0E17\u0E22": [1, { "\u0E17\u0E2B\u0E32\u0E23": _3, "\u0E18\u0E38\u0E23\u0E01\u0E34\u0E08": _3, "\u0E40\u0E19\u0E47\u0E15": _3, "\u0E23\u0E31\u0E10\u0E1A\u0E32\u0E25": _3, "\u0E28\u0E36\u0E01\u0E29\u0E32": _3, "\u0E2D\u0E07\u0E04\u0E4C\u0E01\u0E23": _3 }], "xn--pgbs0dh": _3, "\u062A\u0648\u0646\u0633": _3, "xn--kpry57d": _3, "\u53F0\u7063": _3, "xn--kprw13d": _3, "\u53F0\u6E7E": _3, "xn--nnx388a": _3, "\u81FA\u7063": _3, "xn--j1amh": _3, "\u0443\u043A\u0440": _3, "xn--mgb2ddes": _3, "\u0627\u0644\u064A\u0645\u0646": _3, "xxx": _3, "ye": _6, "za": [0, { "ac": _3, "agric": _3, "alt": _3, "co": _3, "edu": _3, "gov": _3, "grondar": _3, "law": _3, "mil": _3, "net": _3, "ngo": _3, "nic": _3, "nis": _3, "nom": _3, "org": _3, "school": _3, "tm": _3, "web": _3 }], "zm": [1, { "ac": _3, "biz": _3, "co": _3, "com": _3, "edu": _3, "gov": _3, "info": _3, "mil": _3, "net": _3, "org": _3, "sch": _3 }], "zw": [1, { "ac": _3, "co": _3, "gov": _3, "mil": _3, "org": _3 }], "aaa": _3, "aarp": _3, "abb": _3, "abbott": _3, "abbvie": _3, "abc": _3, "able": _3, "abogado": _3, "abudhabi": _3, "academy": [1, { "official": _4 }], "accenture": _3, "accountant": _3, "accountants": _3, "aco": _3, "actor": _3, "ads": _3, "adult": _3, "aeg": _3, "aetna": _3, "afl": _3, "africa": _3, "agakhan": _3, "agency": _3, "aig": _3, "airbus": _3, "airforce": _3, "airtel": _3, "akdn": _3, "alibaba": _3, "alipay": _3, "allfinanz": _3, "allstate": _3, "ally": _3, "alsace": _3, "alstom": _3, "amazon": _3, "americanexpress": _3, "americanfamily": _3, "amex": _3, "amfam": _3, "amica": _3, "amsterdam": _3, "analytics": _3, "android": _3, "anquan": _3, "anz": _3, "aol": _3, "apartments": _3, "app": [1, { "adaptable": _4, "aiven": _4, "beget": _7, "brave": _8, "clerk": _4, "clerkstage": _4, "wnext": _4, "csb": [2, { "preview": _4 }], "convex": _4, "deta": _4, "ondigitalocean": _4, "easypanel": _4, "encr": _4, "evervault": _9, "expo": [2, { "staging": _4 }], "edgecompute": _4, "on-fleek": _4, "flutterflow": _4, "e2b": _4, "framer": _4, "hosted": _7, "run": _7, "web": _4, "hasura": _4, "botdash": _4, "loginline": _4, "lovable": _4, "medusajs": _4, "messerli": _4, "netfy": _4, "netlify": _4, "ngrok": _4, "ngrok-free": _4, "developer": _7, "noop": _4, "northflank": _7, "upsun": _7, "replit": _10, "nyat": _4, "snowflake": [0, { "*": _4, "privatelink": _7 }], "streamlit": _4, "storipress": _4, "telebit": _4, "typedream": _4, "vercel": _4, "bookonline": _4, "wdh": _4, "windsurf": _4, "zeabur": _4, "zerops": _7 }], "apple": _3, "aquarelle": _3, "arab": _3, "aramco": _3, "archi": _3, "army": _3, "art": _3, "arte": _3, "asda": _3, "associates": _3, "athleta": _3, "attorney": _3, "auction": _3, "audi": _3, "audible": _3, "audio": _3, "auspost": _3, "author": _3, "auto": _3, "autos": _3, "aws": [1, { "sagemaker": [0, { "ap-northeast-1": _14, "ap-northeast-2": _14, "ap-south-1": _14, "ap-southeast-1": _14, "ap-southeast-2": _14, "ca-central-1": _16, "eu-central-1": _14, "eu-west-1": _14, "eu-west-2": _14, "us-east-1": _16, "us-east-2": _16, "us-west-2": _16, "af-south-1": _13, "ap-east-1": _13, "ap-northeast-3": _13, "ap-south-2": _15, "ap-southeast-3": _13, "ap-southeast-4": _15, "ca-west-1": [0, { "notebook": _4, "notebook-fips": _4 }], "eu-central-2": _13, "eu-north-1": _13, "eu-south-1": _13, "eu-south-2": _13, "eu-west-3": _13, "il-central-1": _13, "me-central-1": _13, "me-south-1": _13, "sa-east-1": _13, "us-gov-east-1": _17, "us-gov-west-1": _17, "us-west-1": [0, { "notebook": _4, "notebook-fips": _4, "studio": _4 }], "experiments": _7 }], "repost": [0, { "private": _7 }], "on": [0, { "ap-northeast-1": _12, "ap-southeast-1": _12, "ap-southeast-2": _12, "eu-central-1": _12, "eu-north-1": _12, "eu-west-1": _12, "us-east-1": _12, "us-east-2": _12, "us-west-2": _12 }] }], "axa": _3, "azure": _3, "baby": _3, "baidu": _3, "banamex": _3, "band": _3, "bank": _3, "bar": _3, "barcelona": _3, "barclaycard": _3, "barclays": _3, "barefoot": _3, "bargains": _3, "baseball": _3, "basketball": [1, { "aus": _4, "nz": _4 }], "bauhaus": _3, "bayern": _3, "bbc": _3, "bbt": _3, "bbva": _3, "bcg": _3, "bcn": _3, "beats": _3, "beauty": _3, "beer": _3, "bentley": _3, "berlin": _3, "best": _3, "bestbuy": _3, "bet": _3, "bharti": _3, "bible": _3, "bid": _3, "bike": _3, "bing": _3, "bingo": _3, "bio": _3, "black": _3, "blackfriday": _3, "blockbuster": _3, "blog": _3, "bloomberg": _3, "blue": _3, "bms": _3, "bmw": _3, "bnpparibas": _3, "boats": _3, "boehringer": _3, "bofa": _3, "bom": _3, "bond": _3, "boo": _3, "book": _3, "booking": _3, "bosch": _3, "bostik": _3, "boston": _3, "bot": _3, "boutique": _3, "box": _3, "bradesco": _3, "bridgestone": _3, "broadway": _3, "broker": _3, "brother": _3, "brussels": _3, "build": [1, { "v0": _4, "windsurf": _4 }], "builders": [1, { "cloudsite": _4 }], "business": _19, "buy": _3, "buzz": _3, "bzh": _3, "cab": _3, "cafe": _3, "cal": _3, "call": _3, "calvinklein": _3, "cam": _3, "camera": _3, "camp": [1, { "emf": [0, { "at": _4 }] }], "canon": _3, "capetown": _3, "capital": _3, "capitalone": _3, "car": _3, "caravan": _3, "cards": _3, "care": _3, "career": _3, "careers": _3, "cars": _3, "casa": [1, { "nabu": [0, { "ui": _4 }] }], "case": _3, "cash": _3, "casino": _3, "catering": _3, "catholic": _3, "cba": _3, "cbn": _3, "cbre": _3, "center": _3, "ceo": _3, "cern": _3, "cfa": _3, "cfd": _3, "chanel": _3, "channel": _3, "charity": _3, "chase": _3, "chat": _3, "cheap": _3, "chintai": _3, "christmas": _3, "chrome": _3, "church": _3, "cipriani": _3, "circle": _3, "cisco": _3, "citadel": _3, "citi": _3, "citic": _3, "city": _3, "claims": _3, "cleaning": _3, "click": _3, "clinic": _3, "clinique": _3, "clothing": _3, "cloud": [1, { "convex": _4, "elementor": _4, "encoway": [0, { "eu": _4 }], "statics": _7, "ravendb": _4, "axarnet": [0, { "es-1": _4 }], "diadem": _4, "jelastic": [0, { "vip": _4 }], "jele": _4, "jenv-aruba": [0, { "aruba": [0, { "eur": [0, { "it1": _4 }] }], "it1": _4 }], "keliweb": [2, { "cs": _4 }], "oxa": [2, { "tn": _4, "uk": _4 }], "primetel": [2, { "uk": _4 }], "reclaim": [0, { "ca": _4, "uk": _4, "us": _4 }], "trendhosting": [0, { "ch": _4, "de": _4 }], "jotelulu": _4, "kuleuven": _4, "laravel": _4, "linkyard": _4, "magentosite": _7, "matlab": _4, "observablehq": _4, "perspecta": _4, "vapor": _4, "on-rancher": _7, "scw": [0, { "baremetal": [0, { "fr-par-1": _4, "fr-par-2": _4, "nl-ams-1": _4 }], "fr-par": [0, { "cockpit": _4, "fnc": [2, { "functions": _4 }], "k8s": _21, "s3": _4, "s3-website": _4, "whm": _4 }], "instances": [0, { "priv": _4, "pub": _4 }], "k8s": _4, "nl-ams": [0, { "cockpit": _4, "k8s": _21, "s3": _4, "s3-website": _4, "whm": _4 }], "pl-waw": [0, { "cockpit": _4, "k8s": _21, "s3": _4, "s3-website": _4 }], "scalebook": _4, "smartlabeling": _4 }], "servebolt": _4, "onstackit": [0, { "runs": _4 }], "trafficplex": _4, "unison-services": _4, "urown": _4, "voorloper": _4, "zap": _4 }], "club": [1, { "cloudns": _4, "jele": _4, "barsy": _4 }], "clubmed": _3, "coach": _3, "codes": [1, { "owo": _7 }], "coffee": _3, "college": _3, "cologne": _3, "commbank": _3, "community": [1, { "nog": _4, "ravendb": _4, "myforum": _4 }], "company": _3, "compare": _3, "computer": _3, "comsec": _3, "condos": _3, "construction": _3, "consulting": _3, "contact": _3, "contractors": _3, "cooking": _3, "cool": [1, { "elementor": _4, "de": _4 }], "corsica": _3, "country": _3, "coupon": _3, "coupons": _3, "courses": _3, "cpa": _3, "credit": _3, "creditcard": _3, "creditunion": _3, "cricket": _3, "crown": _3, "crs": _3, "cruise": _3, "cruises": _3, "cuisinella": _3, "cymru": _3, "cyou": _3, "dad": _3, "dance": _3, "data": _3, "date": _3, "dating": _3, "datsun": _3, "day": _3, "dclk": _3, "dds": _3, "deal": _3, "dealer": _3, "deals": _3, "degree": _3, "delivery": _3, "dell": _3, "deloitte": _3, "delta": _3, "democrat": _3, "dental": _3, "dentist": _3, "desi": _3, "design": [1, { "graphic": _4, "bss": _4 }], "dev": [1, { "12chars": _4, "myaddr": _4, "panel": _4, "lcl": _7, "lclstage": _7, "stg": _7, "stgstage": _7, "pages": _4, "r2": _4, "workers": _4, "deno": _4, "deno-staging": _4, "deta": _4, "evervault": _9, "fly": _4, "githubpreview": _4, "gateway": _7, "hrsn": [2, { "psl": [0, { "sub": _4, "wc": [0, { "*": _4, "sub": _7 }] }] }], "botdash": _4, "inbrowser": _7, "is-a-good": _4, "is-a": _4, "iserv": _4, "runcontainers": _4, "localcert": [0, { "user": _7 }], "loginline": _4, "barsy": _4, "mediatech": _4, "modx": _4, "ngrok": _4, "ngrok-free": _4, "is-a-fullstack": _4, "is-cool": _4, "is-not-a": _4, "localplayer": _4, "xmit": _4, "platter-app": _4, "replit": [2, { "archer": _4, "bones": _4, "canary": _4, "global": _4, "hacker": _4, "id": _4, "janeway": _4, "kim": _4, "kira": _4, "kirk": _4, "odo": _4, "paris": _4, "picard": _4, "pike": _4, "prerelease": _4, "reed": _4, "riker": _4, "sisko": _4, "spock": _4, "staging": _4, "sulu": _4, "tarpit": _4, "teams": _4, "tucker": _4, "wesley": _4, "worf": _4 }], "crm": [0, { "d": _7, "w": _7, "wa": _7, "wb": _7, "wc": _7, "wd": _7, "we": _7, "wf": _7 }], "vercel": _4, "webhare": _7 }], "dhl": _3, "diamonds": _3, "diet": _3, "digital": [1, { "cloudapps": [2, { "london": _4 }] }], "direct": [1, { "libp2p": _4 }], "directory": _3, "discount": _3, "discover": _3, "dish": _3, "diy": _3, "dnp": _3, "docs": _3, "doctor": _3, "dog": _3, "domains": _3, "dot": _3, "download": _3, "drive": _3, "dtv": _3, "dubai": _3, "dunlop": _3, "dupont": _3, "durban": _3, "dvag": _3, "dvr": _3, "earth": _3, "eat": _3, "eco": _3, "edeka": _3, "education": _19, "email": [1, { "crisp": [0, { "on": _4 }], "tawk": _49, "tawkto": _49 }], "emerck": _3, "energy": _3, "engineer": _3, "engineering": _3, "enterprises": _3, "epson": _3, "equipment": _3, "ericsson": _3, "erni": _3, "esq": _3, "estate": [1, { "compute": _7 }], "eurovision": _3, "eus": [1, { "party": _50 }], "events": [1, { "koobin": _4, "co": _4 }], "exchange": _3, "expert": _3, "exposed": _3, "express": _3, "extraspace": _3, "fage": _3, "fail": _3, "fairwinds": _3, "faith": _3, "family": _3, "fan": _3, "fans": _3, "farm": [1, { "storj": _4 }], "farmers": _3, "fashion": _3, "fast": _3, "fedex": _3, "feedback": _3, "ferrari": _3, "ferrero": _3, "fidelity": _3, "fido": _3, "film": _3, "final": _3, "finance": _3, "financial": _19, "fire": _3, "firestone": _3, "firmdale": _3, "fish": _3, "fishing": _3, "fit": _3, "fitness": _3, "flickr": _3, "flights": _3, "flir": _3, "florist": _3, "flowers": _3, "fly": _3, "foo": _3, "food": _3, "football": _3, "ford": _3, "forex": _3, "forsale": _3, "forum": _3, "foundation": _3, "fox": _3, "free": _3, "fresenius": _3, "frl": _3, "frogans": _3, "frontier": _3, "ftr": _3, "fujitsu": _3, "fun": _3, "fund": _3, "furniture": _3, "futbol": _3, "fyi": _3, "gal": _3, "gallery": _3, "gallo": _3, "gallup": _3, "game": _3, "games": [1, { "pley": _4, "sheezy": _4 }], "gap": _3, "garden": _3, "gay": [1, { "pages": _4 }], "gbiz": _3, "gdn": [1, { "cnpy": _4 }], "gea": _3, "gent": _3, "genting": _3, "george": _3, "ggee": _3, "gift": _3, "gifts": _3, "gives": _3, "giving": _3, "glass": _3, "gle": _3, "global": [1, { "appwrite": _4 }], "globo": _3, "gmail": _3, "gmbh": _3, "gmo": _3, "gmx": _3, "godaddy": _3, "gold": _3, "goldpoint": _3, "golf": _3, "goo": _3, "goodyear": _3, "goog": [1, { "cloud": _4, "translate": _4, "usercontent": _7 }], "google": _3, "gop": _3, "got": _3, "grainger": _3, "graphics": _3, "gratis": _3, "green": _3, "gripe": _3, "grocery": _3, "group": [1, { "discourse": _4 }], "gucci": _3, "guge": _3, "guide": _3, "guitars": _3, "guru": _3, "hair": _3, "hamburg": _3, "hangout": _3, "haus": _3, "hbo": _3, "hdfc": _3, "hdfcbank": _3, "health": [1, { "hra": _4 }], "healthcare": _3, "help": _3, "helsinki": _3, "here": _3, "hermes": _3, "hiphop": _3, "hisamitsu": _3, "hitachi": _3, "hiv": _3, "hkt": _3, "hockey": _3, "holdings": _3, "holiday": _3, "homedepot": _3, "homegoods": _3, "homes": _3, "homesense": _3, "honda": _3, "horse": _3, "hospital": _3, "host": [1, { "cloudaccess": _4, "freesite": _4, "easypanel": _4, "fastvps": _4, "myfast": _4, "tempurl": _4, "wpmudev": _4, "jele": _4, "mircloud": _4, "wp2": _4, "half": _4 }], "hosting": [1, { "opencraft": _4 }], "hot": _3, "hotels": _3, "hotmail": _3, "house": _3, "how": _3, "hsbc": _3, "hughes": _3, "hyatt": _3, "hyundai": _3, "ibm": _3, "icbc": _3, "ice": _3, "icu": _3, "ieee": _3, "ifm": _3, "ikano": _3, "imamat": _3, "imdb": _3, "immo": _3, "immobilien": _3, "inc": _3, "industries": _3, "infiniti": _3, "ing": _3, "ink": _3, "institute": _3, "insurance": _3, "insure": _3, "international": _3, "intuit": _3, "investments": _3, "ipiranga": _3, "irish": _3, "ismaili": _3, "ist": _3, "istanbul": _3, "itau": _3, "itv": _3, "jaguar": _3, "java": _3, "jcb": _3, "jeep": _3, "jetzt": _3, "jewelry": _3, "jio": _3, "jll": _3, "jmp": _3, "jnj": _3, "joburg": _3, "jot": _3, "joy": _3, "jpmorgan": _3, "jprs": _3, "juegos": _3, "juniper": _3, "kaufen": _3, "kddi": _3, "kerryhotels": _3, "kerryproperties": _3, "kfh": _3, "kia": _3, "kids": _3, "kim": _3, "kindle": _3, "kitchen": _3, "kiwi": _3, "koeln": _3, "komatsu": _3, "kosher": _3, "kpmg": _3, "kpn": _3, "krd": [1, { "co": _4, "edu": _4 }], "kred": _3, "kuokgroup": _3, "kyoto": _3, "lacaixa": _3, "lamborghini": _3, "lamer": _3, "lancaster": _3, "land": _3, "landrover": _3, "lanxess": _3, "lasalle": _3, "lat": _3, "latino": _3, "latrobe": _3, "law": _3, "lawyer": _3, "lds": _3, "lease": _3, "leclerc": _3, "lefrak": _3, "legal": _3, "lego": _3, "lexus": _3, "lgbt": _3, "lidl": _3, "life": _3, "lifeinsurance": _3, "lifestyle": _3, "lighting": _3, "like": _3, "lilly": _3, "limited": _3, "limo": _3, "lincoln": _3, "link": [1, { "myfritz": _4, "cyon": _4, "dweb": _7, "inbrowser": _7, "nftstorage": _57, "mypep": _4, "storacha": _57, "w3s": _57 }], "live": [1, { "aem": _4, "hlx": _4, "ewp": _7 }], "living": _3, "llc": _3, "llp": _3, "loan": _3, "loans": _3, "locker": _3, "locus": _3, "lol": [1, { "omg": _4 }], "london": _3, "lotte": _3, "lotto": _3, "love": _3, "lpl": _3, "lplfinancial": _3, "ltd": _3, "ltda": _3, "lundbeck": _3, "luxe": _3, "luxury": _3, "madrid": _3, "maif": _3, "maison": _3, "makeup": _3, "man": _3, "management": _3, "mango": _3, "map": _3, "market": _3, "marketing": _3, "markets": _3, "marriott": _3, "marshalls": _3, "mattel": _3, "mba": _3, "mckinsey": _3, "med": _3, "media": _58, "meet": _3, "melbourne": _3, "meme": _3, "memorial": _3, "men": _3, "menu": [1, { "barsy": _4, "barsyonline": _4 }], "merck": _3, "merckmsd": _3, "miami": _3, "microsoft": _3, "mini": _3, "mint": _3, "mit": _3, "mitsubishi": _3, "mlb": _3, "mls": _3, "mma": _3, "mobile": _3, "moda": _3, "moe": _3, "moi": _3, "mom": [1, { "ind": _4 }], "monash": _3, "money": _3, "monster": _3, "mormon": _3, "mortgage": _3, "moscow": _3, "moto": _3, "motorcycles": _3, "mov": _3, "movie": _3, "msd": _3, "mtn": _3, "mtr": _3, "music": _3, "nab": _3, "nagoya": _3, "navy": _3, "nba": _3, "nec": _3, "netbank": _3, "netflix": _3, "network": [1, { "alces": _7, "co": _4, "arvo": _4, "azimuth": _4, "tlon": _4 }], "neustar": _3, "new": _3, "news": [1, { "noticeable": _4 }], "next": _3, "nextdirect": _3, "nexus": _3, "nfl": _3, "ngo": _3, "nhk": _3, "nico": _3, "nike": _3, "nikon": _3, "ninja": _3, "nissan": _3, "nissay": _3, "nokia": _3, "norton": _3, "now": _3, "nowruz": _3, "nowtv": _3, "nra": _3, "nrw": _3, "ntt": _3, "nyc": _3, "obi": _3, "observer": _3, "office": _3, "okinawa": _3, "olayan": _3, "olayangroup": _3, "ollo": _3, "omega": _3, "one": [1, { "kin": _7, "service": _4 }], "ong": [1, { "obl": _4 }], "onl": _3, "online": [1, { "eero": _4, "eero-stage": _4, "websitebuilder": _4, "barsy": _4 }], "ooo": _3, "open": _3, "oracle": _3, "orange": [1, { "tech": _4 }], "organic": _3, "origins": _3, "osaka": _3, "otsuka": _3, "ott": _3, "ovh": [1, { "nerdpol": _4 }], "page": [1, { "aem": _4, "hlx": _4, "hlx3": _4, "translated": _4, "codeberg": _4, "heyflow": _4, "prvcy": _4, "rocky": _4, "pdns": _4, "plesk": _4 }], "panasonic": _3, "paris": _3, "pars": _3, "partners": _3, "parts": _3, "party": _3, "pay": _3, "pccw": _3, "pet": _3, "pfizer": _3, "pharmacy": _3, "phd": _3, "philips": _3, "phone": _3, "photo": _3, "photography": _3, "photos": _58, "physio": _3, "pics": _3, "pictet": _3, "pictures": [1, { "1337": _4 }], "pid": _3, "pin": _3, "ping": _3, "pink": _3, "pioneer": _3, "pizza": [1, { "ngrok": _4 }], "place": _19, "play": _3, "playstation": _3, "plumbing": _3, "plus": _3, "pnc": _3, "pohl": _3, "poker": _3, "politie": _3, "porn": _3, "pramerica": _3, "praxi": _3, "press": _3, "prime": _3, "prod": _3, "productions": _3, "prof": _3, "progressive": _3, "promo": _3, "properties": _3, "property": _3, "protection": _3, "pru": _3, "prudential": _3, "pub": [1, { "id": _7, "kin": _7, "barsy": _4 }], "pwc": _3, "qpon": _3, "quebec": _3, "quest": _3, "racing": _3, "radio": _3, "read": _3, "realestate": _3, "realtor": _3, "realty": _3, "recipes": _3, "red": _3, "redstone": _3, "redumbrella": _3, "rehab": _3, "reise": _3, "reisen": _3, "reit": _3, "reliance": _3, "ren": _3, "rent": _3, "rentals": _3, "repair": _3, "report": _3, "republican": _3, "rest": _3, "restaurant": _3, "review": _3, "reviews": _3, "rexroth": _3, "rich": _3, "richardli": _3, "ricoh": _3, "ril": _3, "rio": _3, "rip": [1, { "clan": _4 }], "rocks": [1, { "myddns": _4, "stackit": _4, "lima-city": _4, "webspace": _4 }], "rodeo": _3, "rogers": _3, "room": _3, "rsvp": _3, "rugby": _3, "ruhr": _3, "run": [1, { "appwrite": _7, "development": _4, "ravendb": _4, "liara": [2, { "iran": _4 }], "servers": _4, "build": _7, "code": _7, "database": _7, "migration": _7, "onporter": _4, "repl": _4, "stackit": _4, "val": [0, { "express": _4, "web": _4 }], "wix": _4 }], "rwe": _3, "ryukyu": _3, "saarland": _3, "safe": _3, "safety": _3, "sakura": _3, "sale": _3, "salon": _3, "samsclub": _3, "samsung": _3, "sandvik": _3, "sandvikcoromant": _3, "sanofi": _3, "sap": _3, "sarl": _3, "sas": _3, "save": _3, "saxo": _3, "sbi": _3, "sbs": _3, "scb": _3, "schaeffler": _3, "schmidt": _3, "scholarships": _3, "school": _3, "schule": _3, "schwarz": _3, "science": _3, "scot": [1, { "gov": [2, { "service": _4 }] }], "search": _3, "seat": _3, "secure": _3, "security": _3, "seek": _3, "select": _3, "sener": _3, "services": [1, { "loginline": _4 }], "seven": _3, "sew": _3, "sex": _3, "sexy": _3, "sfr": _3, "shangrila": _3, "sharp": _3, "shell": _3, "shia": _3, "shiksha": _3, "shoes": _3, "shop": [1, { "base": _4, "hoplix": _4, "barsy": _4, "barsyonline": _4, "shopware": _4 }], "shopping": _3, "shouji": _3, "show": _3, "silk": _3, "sina": _3, "singles": _3, "site": [1, { "square": _4, "canva": _22, "cloudera": _7, "convex": _4, "cyon": _4, "fastvps": _4, "figma": _4, "heyflow": _4, "jele": _4, "jouwweb": _4, "loginline": _4, "barsy": _4, "notion": _4, "omniwe": _4, "opensocial": _4, "madethis": _4, "platformsh": _7, "tst": _7, "byen": _4, "srht": _4, "novecore": _4, "cpanel": _4, "wpsquared": _4 }], "ski": _3, "skin": _3, "sky": _3, "skype": _3, "sling": _3, "smart": _3, "smile": _3, "sncf": _3, "soccer": _3, "social": _3, "softbank": _3, "software": _3, "sohu": _3, "solar": _3, "solutions": _3, "song": _3, "sony": _3, "soy": _3, "spa": _3, "space": [1, { "myfast": _4, "heiyu": _4, "hf": [2, { "static": _4 }], "app-ionos": _4, "project": _4, "uber": _4, "xs4all": _4 }], "sport": _3, "spot": _3, "srl": _3, "stada": _3, "staples": _3, "star": _3, "statebank": _3, "statefarm": _3, "stc": _3, "stcgroup": _3, "stockholm": _3, "storage": _3, "store": [1, { "barsy": _4, "sellfy": _4, "shopware": _4, "storebase": _4 }], "stream": _3, "studio": _3, "study": _3, "style": _3, "sucks": _3, "supplies": _3, "supply": _3, "support": [1, { "barsy": _4 }], "surf": _3, "surgery": _3, "suzuki": _3, "swatch": _3, "swiss": _3, "sydney": _3, "systems": [1, { "knightpoint": _4 }], "tab": _3, "taipei": _3, "talk": _3, "taobao": _3, "target": _3, "tatamotors": _3, "tatar": _3, "tattoo": _3, "tax": _3, "taxi": _3, "tci": _3, "tdk": _3, "team": [1, { "discourse": _4, "jelastic": _4 }], "tech": [1, { "cleverapps": _4 }], "technology": _19, "temasek": _3, "tennis": _3, "teva": _3, "thd": _3, "theater": _3, "theatre": _3, "tiaa": _3, "tickets": _3, "tienda": _3, "tips": _3, "tires": _3, "tirol": _3, "tjmaxx": _3, "tjx": _3, "tkmaxx": _3, "tmall": _3, "today": [1, { "prequalifyme": _4 }], "tokyo": _3, "tools": [1, { "addr": _47, "myaddr": _4 }], "top": [1, { "ntdll": _4, "wadl": _7 }], "toray": _3, "toshiba": _3, "total": _3, "tours": _3, "town": _3, "toyota": _3, "toys": _3, "trade": _3, "trading": _3, "training": _3, "travel": _3, "travelers": _3, "travelersinsurance": _3, "trust": _3, "trv": _3, "tube": _3, "tui": _3, "tunes": _3, "tushu": _3, "tvs": _3, "ubank": _3, "ubs": _3, "unicom": _3, "university": _3, "uno": _3, "uol": _3, "ups": _3, "vacations": _3, "vana": _3, "vanguard": _3, "vegas": _3, "ventures": _3, "verisign": _3, "versicherung": _3, "vet": _3, "viajes": _3, "video": _3, "vig": _3, "viking": _3, "villas": _3, "vin": _3, "vip": _3, "virgin": _3, "visa": _3, "vision": _3, "viva": _3, "vivo": _3, "vlaanderen": _3, "vodka": _3, "volvo": _3, "vote": _3, "voting": _3, "voto": _3, "voyage": _3, "wales": _3, "walmart": _3, "walter": _3, "wang": _3, "wanggou": _3, "watch": _3, "watches": _3, "weather": _3, "weatherchannel": _3, "webcam": _3, "weber": _3, "website": _58, "wed": _3, "wedding": _3, "weibo": _3, "weir": _3, "whoswho": _3, "wien": _3, "wiki": _58, "williamhill": _3, "win": _3, "windows": _3, "wine": _3, "winners": _3, "wme": _3, "wolterskluwer": _3, "woodside": _3, "work": _3, "works": _3, "world": _3, "wow": _3, "wtc": _3, "wtf": _3, "xbox": _3, "xerox": _3, "xihuan": _3, "xin": _3, "xn--11b4c3d": _3, "\u0915\u0949\u092E": _3, "xn--1ck2e1b": _3, "\u30BB\u30FC\u30EB": _3, "xn--1qqw23a": _3, "\u4F5B\u5C71": _3, "xn--30rr7y": _3, "\u6148\u5584": _3, "xn--3bst00m": _3, "\u96C6\u56E2": _3, "xn--3ds443g": _3, "\u5728\u7EBF": _3, "xn--3pxu8k": _3, "\u70B9\u770B": _3, "xn--42c2d9a": _3, "\u0E04\u0E2D\u0E21": _3, "xn--45q11c": _3, "\u516B\u5366": _3, "xn--4gbrim": _3, "\u0645\u0648\u0642\u0639": _3, "xn--55qw42g": _3, "\u516C\u76CA": _3, "xn--55qx5d": _3, "\u516C\u53F8": _3, "xn--5su34j936bgsg": _3, "\u9999\u683C\u91CC\u62C9": _3, "xn--5tzm5g": _3, "\u7F51\u7AD9": _3, "xn--6frz82g": _3, "\u79FB\u52A8": _3, "xn--6qq986b3xl": _3, "\u6211\u7231\u4F60": _3, "xn--80adxhks": _3, "\u043C\u043E\u0441\u043A\u0432\u0430": _3, "xn--80aqecdr1a": _3, "\u043A\u0430\u0442\u043E\u043B\u0438\u043A": _3, "xn--80asehdb": _3, "\u043E\u043D\u043B\u0430\u0439\u043D": _3, "xn--80aswg": _3, "\u0441\u0430\u0439\u0442": _3, "xn--8y0a063a": _3, "\u8054\u901A": _3, "xn--9dbq2a": _3, "\u05E7\u05D5\u05DD": _3, "xn--9et52u": _3, "\u65F6\u5C1A": _3, "xn--9krt00a": _3, "\u5FAE\u535A": _3, "xn--b4w605ferd": _3, "\u6DE1\u9A6C\u9521": _3, "xn--bck1b9a5dre4c": _3, "\u30D5\u30A1\u30C3\u30B7\u30E7\u30F3": _3, "xn--c1avg": _3, "\u043E\u0440\u0433": _3, "xn--c2br7g": _3, "\u0928\u0947\u091F": _3, "xn--cck2b3b": _3, "\u30B9\u30C8\u30A2": _3, "xn--cckwcxetd": _3, "\u30A2\u30DE\u30BE\u30F3": _3, "xn--cg4bki": _3, "\uC0BC\uC131": _3, "xn--czr694b": _3, "\u5546\u6807": _3, "xn--czrs0t": _3, "\u5546\u5E97": _3, "xn--czru2d": _3, "\u5546\u57CE": _3, "xn--d1acj3b": _3, "\u0434\u0435\u0442\u0438": _3, "xn--eckvdtc9d": _3, "\u30DD\u30A4\u30F3\u30C8": _3, "xn--efvy88h": _3, "\u65B0\u95FB": _3, "xn--fct429k": _3, "\u5BB6\u96FB": _3, "xn--fhbei": _3, "\u0643\u0648\u0645": _3, "xn--fiq228c5hs": _3, "\u4E2D\u6587\u7F51": _3, "xn--fiq64b": _3, "\u4E2D\u4FE1": _3, "xn--fjq720a": _3, "\u5A31\u4E50": _3, "xn--flw351e": _3, "\u8C37\u6B4C": _3, "xn--fzys8d69uvgm": _3, "\u96FB\u8A0A\u76C8\u79D1": _3, "xn--g2xx48c": _3, "\u8D2D\u7269": _3, "xn--gckr3f0f": _3, "\u30AF\u30E9\u30A6\u30C9": _3, "xn--gk3at1e": _3, "\u901A\u8CA9": _3, "xn--hxt814e": _3, "\u7F51\u5E97": _3, "xn--i1b6b1a6a2e": _3, "\u0938\u0902\u0917\u0920\u0928": _3, "xn--imr513n": _3, "\u9910\u5385": _3, "xn--io0a7i": _3, "\u7F51\u7EDC": _3, "xn--j1aef": _3, "\u043A\u043E\u043C": _3, "xn--jlq480n2rg": _3, "\u4E9A\u9A6C\u900A": _3, "xn--jvr189m": _3, "\u98DF\u54C1": _3, "xn--kcrx77d1x4a": _3, "\u98DE\u5229\u6D66": _3, "xn--kput3i": _3, "\u624B\u673A": _3, "xn--mgba3a3ejt": _3, "\u0627\u0631\u0627\u0645\u0643\u0648": _3, "xn--mgba7c0bbn0a": _3, "\u0627\u0644\u0639\u0644\u064A\u0627\u0646": _3, "xn--mgbab2bd": _3, "\u0628\u0627\u0632\u0627\u0631": _3, "xn--mgbca7dzdo": _3, "\u0627\u0628\u0648\u0638\u0628\u064A": _3, "xn--mgbi4ecexp": _3, "\u0643\u0627\u062B\u0648\u0644\u064A\u0643": _3, "xn--mgbt3dhd": _3, "\u0647\u0645\u0631\u0627\u0647": _3, "xn--mk1bu44c": _3, "\uB2F7\uCEF4": _3, "xn--mxtq1m": _3, "\u653F\u5E9C": _3, "xn--ngbc5azd": _3, "\u0634\u0628\u0643\u0629": _3, "xn--ngbe9e0a": _3, "\u0628\u064A\u062A\u0643": _3, "xn--ngbrx": _3, "\u0639\u0631\u0628": _3, "xn--nqv7f": _3, "\u673A\u6784": _3, "xn--nqv7fs00ema": _3, "\u7EC4\u7EC7\u673A\u6784": _3, "xn--nyqy26a": _3, "\u5065\u5EB7": _3, "xn--otu796d": _3, "\u62DB\u8058": _3, "xn--p1acf": [1, { "xn--90amc": _4, "xn--j1aef": _4, "xn--j1ael8b": _4, "xn--h1ahn": _4, "xn--j1adp": _4, "xn--c1avg": _4, "xn--80aaa0cvac": _4, "xn--h1aliz": _4, "xn--90a1af": _4, "xn--41a": _4 }], "\u0440\u0443\u0441": [1, { "\u0431\u0438\u0437": _4, "\u043A\u043E\u043C": _4, "\u043A\u0440\u044B\u043C": _4, "\u043C\u0438\u0440": _4, "\u043C\u0441\u043A": _4, "\u043E\u0440\u0433": _4, "\u0441\u0430\u043C\u0430\u0440\u0430": _4, "\u0441\u043E\u0447\u0438": _4, "\u0441\u043F\u0431": _4, "\u044F": _4 }], "xn--pssy2u": _3, "\u5927\u62FF": _3, "xn--q9jyb4c": _3, "\u307F\u3093\u306A": _3, "xn--qcka1pmc": _3, "\u30B0\u30FC\u30B0\u30EB": _3, "xn--rhqv96g": _3, "\u4E16\u754C": _3, "xn--rovu88b": _3, "\u66F8\u7C4D": _3, "xn--ses554g": _3, "\u7F51\u5740": _3, "xn--t60b56a": _3, "\uB2F7\uB137": _3, "xn--tckwe": _3, "\u30B3\u30E0": _3, "xn--tiq49xqyj": _3, "\u5929\u4E3B\u6559": _3, "xn--unup4y": _3, "\u6E38\u620F": _3, "xn--vermgensberater-ctb": _3, "verm\xF6gensberater": _3, "xn--vermgensberatung-pwb": _3, "verm\xF6gensberatung": _3, "xn--vhquv": _3, "\u4F01\u4E1A": _3, "xn--vuq861b": _3, "\u4FE1\u606F": _3, "xn--w4r85el8fhu5dnra": _3, "\u5609\u91CC\u5927\u9152\u5E97": _3, "xn--w4rs40l": _3, "\u5609\u91CC": _3, "xn--xhq521b": _3, "\u5E7F\u4E1C": _3, "xn--zfr164b": _3, "\u653F\u52A1": _3, "xyz": [1, { "botdash": _4, "telebit": _7 }], "yachts": _3, "yahoo": _3, "yamaxun": _3, "yandex": _3, "yodobashi": _3, "yoga": _3, "yokohama": _3, "you": _3, "youtube": _3, "yun": _3, "zappos": _3, "zara": _3, "zero": _3, "zip": _3, "zone": [1, { "cloud66": _4, "triton": _7, "stackit": _4, "lima": _4 }], "zuerich": _3 }];
       return rules2;
     })();
-    function lookupInTrie(parts, trie, index, allowedMask) {
+    function lookupInTrie(parts2, trie, index, allowedMask) {
       let result = null;
       let node = trie;
       while (node !== void 0) {
@@ -24471,7 +24471,7 @@ var require_cjs = __commonJS({
           break;
         }
         const succ = node[1];
-        node = Object.prototype.hasOwnProperty.call(succ, parts[index]) ? succ[parts[index]] : succ["*"];
+        node = Object.prototype.hasOwnProperty.call(succ, parts2[index]) ? succ[parts2[index]] : succ["*"];
         index -= 1;
       }
       return result;
@@ -24595,11 +24595,11 @@ var require_permuteDomain = __commonJS({
         domain = domain.slice(0, -1);
       }
       const prefix = domain.slice(0, -(pubSuf.length + 1));
-      const parts = prefix.split(".").reverse();
+      const parts2 = prefix.split(".").reverse();
       let cur = pubSuf;
       const permutations = [cur];
-      while (parts.length) {
-        const part = parts.shift();
+      while (parts2.length) {
+        const part = parts2.shift();
         cur = `${part}.${cur}`;
         permutations.push(cur);
       }
@@ -24777,18 +24777,18 @@ var require_memstore = __commonJS({
       /**
        * @internal No doc because this is an overload that supports the implementation
        */
-      findCookie(domain, path22, key, callback) {
+      findCookie(domain, path21, key, callback) {
         const promiseCallback = (0, utils_1.createPromiseCallback)(callback);
-        if (domain == null || path22 == null || key == null) {
+        if (domain == null || path21 == null || key == null) {
           return promiseCallback.resolve(void 0);
         }
-        const result = this.idx[domain]?.[path22]?.[key];
+        const result = this.idx[domain]?.[path21]?.[key];
         return promiseCallback.resolve(result);
       }
       /**
        * @internal No doc because this is an overload that supports the implementation
        */
-      findCookies(domain, path22, allowSpecialUseDomain = false, callback) {
+      findCookies(domain, path21, allowSpecialUseDomain = false, callback) {
         if (typeof allowSpecialUseDomain === "function") {
           callback = allowSpecialUseDomain;
           allowSpecialUseDomain = true;
@@ -24799,7 +24799,7 @@ var require_memstore = __commonJS({
           return promiseCallback.resolve([]);
         }
         let pathMatcher;
-        if (!path22) {
+        if (!path21) {
           pathMatcher = function matchAll(domainIndex) {
             for (const curPath in domainIndex) {
               const pathIndex = domainIndex[curPath];
@@ -24814,7 +24814,7 @@ var require_memstore = __commonJS({
         } else {
           pathMatcher = function matchRFC(domainIndex) {
             for (const cookiePath in domainIndex) {
-              if ((0, pathMatch_1.pathMatch)(path22, cookiePath)) {
+              if ((0, pathMatch_1.pathMatch)(path21, cookiePath)) {
                 const pathIndex = domainIndex[cookiePath];
                 for (const key in pathIndex) {
                   const value = pathIndex[key];
@@ -24842,14 +24842,14 @@ var require_memstore = __commonJS({
        */
       putCookie(cookie, callback) {
         const promiseCallback = (0, utils_1.createPromiseCallback)(callback);
-        const { domain, path: path22, key } = cookie;
-        if (domain == null || path22 == null || key == null) {
+        const { domain, path: path21, key } = cookie;
+        if (domain == null || path21 == null || key == null) {
           return promiseCallback.resolve(void 0);
         }
         const domainEntry = this.idx[domain] ?? /* @__PURE__ */ Object.create(null);
         this.idx[domain] = domainEntry;
-        const pathEntry = domainEntry[path22] ?? /* @__PURE__ */ Object.create(null);
-        domainEntry[path22] = pathEntry;
+        const pathEntry = domainEntry[path21] ?? /* @__PURE__ */ Object.create(null);
+        domainEntry[path21] = pathEntry;
         pathEntry[key] = cookie;
         return promiseCallback.resolve(void 0);
       }
@@ -24865,20 +24865,20 @@ var require_memstore = __commonJS({
       /**
        * @internal No doc because this is an overload that supports the implementation
        */
-      removeCookie(domain, path22, key, callback) {
+      removeCookie(domain, path21, key, callback) {
         const promiseCallback = (0, utils_1.createPromiseCallback)(callback);
-        delete this.idx[domain]?.[path22]?.[key];
+        delete this.idx[domain]?.[path21]?.[key];
         return promiseCallback.resolve(void 0);
       }
       /**
        * @internal No doc because this is an overload that supports the implementation
        */
-      removeCookies(domain, path22, callback) {
+      removeCookies(domain, path21, callback) {
         const promiseCallback = (0, utils_1.createPromiseCallback)(callback);
         const domainEntry = this.idx[domain];
         if (domainEntry) {
-          if (path22) {
-            delete domainEntry[path22];
+          if (path21) {
+            delete domainEntry[path21];
           } else {
             delete this.idx[domain];
           }
@@ -24904,8 +24904,8 @@ var require_memstore = __commonJS({
         domains.forEach((domain) => {
           const domainEntry = idx[domain] ?? {};
           const paths = Object.keys(domainEntry);
-          paths.forEach((path22) => {
-            const pathEntry = domainEntry[path22] ?? {};
+          paths.forEach((path21) => {
+            const pathEntry = domainEntry[path21] ?? {};
             const keys = Object.keys(pathEntry);
             keys.forEach((key) => {
               const keyEntry = pathEntry[key];
@@ -25051,8 +25051,8 @@ var require_formatDate = __commonJS({
   "node_modules/tough-cookie/dist/cookie/formatDate.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.formatDate = formatDate2;
-    function formatDate2(date) {
+    exports.formatDate = formatDate;
+    function formatDate(date) {
       return date.toUTCString();
     }
   }
@@ -25097,14 +25097,14 @@ var require_parseDate = __commonJS({
       return parseInt(token.slice(0, count), 10);
     }
     function parseTime(token) {
-      const parts = token.split(":");
+      const parts2 = token.split(":");
       const result = [0, 0, 0];
-      if (parts.length !== 3) {
+      if (parts2.length !== 3) {
         return;
       }
       for (let i = 0; i < 3; i++) {
         const trailingOK = i == 2;
-        const numPart = parts[i];
+        const numPart = parts2[i];
         if (numPart === void 0) {
           return;
         }
@@ -25923,18 +25923,18 @@ var require_defaultPath = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.defaultPath = defaultPath;
-    function defaultPath(path22) {
-      if (!path22 || path22.slice(0, 1) !== "/") {
+    function defaultPath(path21) {
+      if (!path21 || path21.slice(0, 1) !== "/") {
         return "/";
       }
-      if (path22 === "/") {
-        return path22;
+      if (path21 === "/") {
+        return path21;
       }
-      const rightSlash = path22.lastIndexOf("/");
+      const rightSlash = path21.lastIndexOf("/");
       if (rightSlash === 0) {
         return "/";
       }
-      return path22.slice(0, rightSlash);
+      return path21.slice(0, rightSlash);
     }
   }
 });
@@ -26328,7 +26328,7 @@ var require_cookieJar = __commonJS({
           return promiseCallback.reject(parameterError);
         }
         const host = (0, canonicalDomain_1.canonicalDomain)(context.hostname);
-        const path22 = context.pathname || "/";
+        const path21 = context.pathname || "/";
         const secure = context.protocol && (context.protocol == "https:" || context.protocol == "wss:");
         let sameSiteLevel = 0;
         if (options.sameSiteContext) {
@@ -26356,7 +26356,7 @@ var require_cookieJar = __commonJS({
               return false;
             }
           }
-          if (!allPaths && typeof c.path === "string" && !(0, pathMatch_1.pathMatch)(path22, c.path)) {
+          if (!allPaths && typeof c.path === "string" && !(0, pathMatch_1.pathMatch)(path21, c.path)) {
             return false;
           }
           if (c.secure && !secure) {
@@ -26386,7 +26386,7 @@ var require_cookieJar = __commonJS({
           }
           return true;
         }
-        store2.findCookies(host, allPaths ? null : path22, this.allowSpecialUseDomain, (err2, cookies) => {
+        store2.findCookies(host, allPaths ? null : path21, this.allowSpecialUseDomain, (err2, cookies) => {
           if (err2) {
             cb(err2);
             return;
@@ -26821,18 +26821,18 @@ var require_permutePath = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.permutePath = permutePath;
-    function permutePath(path22) {
-      if (path22 === "/") {
+    function permutePath(path21) {
+      if (path21 === "/") {
         return ["/"];
       }
-      const permutations = [path22];
-      while (path22.length > 1) {
-        const lindex = path22.lastIndexOf("/");
+      const permutations = [path21];
+      while (path21.length > 1) {
+        const lindex = path21.lastIndexOf("/");
         if (lindex === 0) {
           break;
         }
-        path22 = path22.slice(0, lindex);
-        permutations.push(path22);
+        path21 = path21.slice(0, lindex);
+        permutations.push(path21);
       }
       permutations.push("/");
       return permutations;
@@ -37097,7 +37097,7 @@ var require_satisfies = __commonJS({
   "node_modules/zca-js/node_modules/semver/functions/satisfies.js"(exports, module) {
     "use strict";
     var Range = require_range2();
-    var satisfies = (version, range, options) => {
+    var satisfies2 = (version, range, options) => {
       try {
         range = new Range(range, options);
       } catch (er) {
@@ -37105,7 +37105,7 @@ var require_satisfies = __commonJS({
       }
       return range.test(version);
     };
-    module.exports = satisfies;
+    module.exports = satisfies2;
   }
 });
 
@@ -37260,7 +37260,7 @@ var require_outside = __commonJS({
     var Comparator = require_comparator();
     var { ANY } = Comparator;
     var Range = require_range2();
-    var satisfies = require_satisfies();
+    var satisfies2 = require_satisfies();
     var gt = require_gt();
     var lt = require_lt();
     var lte = require_lte();
@@ -37287,7 +37287,7 @@ var require_outside = __commonJS({
         default:
           throw new TypeError('Must provide a hilo val of "<" or ">"');
       }
-      if (satisfies(version, range, options)) {
+      if (satisfies2(version, range, options)) {
         return false;
       }
       for (let i = 0; i < range.set.length; ++i) {
@@ -37359,7 +37359,7 @@ var require_intersects = __commonJS({
 var require_simplify = __commonJS({
   "node_modules/zca-js/node_modules/semver/ranges/simplify.js"(exports, module) {
     "use strict";
-    var satisfies = require_satisfies();
+    var satisfies2 = require_satisfies();
     var compare2 = require_compare();
     module.exports = (versions, range, options) => {
       const set = [];
@@ -37367,7 +37367,7 @@ var require_simplify = __commonJS({
       let prev = null;
       const v = versions.sort((a, b) => compare2(a, b, options));
       for (const version of v) {
-        const included = satisfies(version, range, options);
+        const included = satisfies2(version, range, options);
         if (included) {
           prev = version;
           if (!first) {
@@ -37412,7 +37412,7 @@ var require_subset = __commonJS({
     var Range = require_range2();
     var Comparator = require_comparator();
     var { ANY } = Comparator;
-    var satisfies = require_satisfies();
+    var satisfies2 = require_satisfies();
     var compare2 = require_compare();
     var subset = (sub, dom, options = {}) => {
       if (sub === dom) {
@@ -37481,14 +37481,14 @@ var require_subset = __commonJS({
         }
       }
       for (const eq of eqSet) {
-        if (gt && !satisfies(eq, String(gt), options)) {
+        if (gt && !satisfies2(eq, String(gt), options)) {
           return null;
         }
-        if (lt && !satisfies(eq, String(lt), options)) {
+        if (lt && !satisfies2(eq, String(lt), options)) {
           return null;
         }
         for (const c of dom) {
-          if (!satisfies(eq, String(c), options)) {
+          if (!satisfies2(eq, String(c), options)) {
             return false;
           }
         }
@@ -37601,7 +37601,7 @@ var require_semver2 = __commonJS({
     var truncate = require_truncate();
     var Comparator = require_comparator();
     var Range = require_range2();
-    var satisfies = require_satisfies();
+    var satisfies2 = require_satisfies();
     var toComparators = require_to_comparators();
     var maxSatisfying = require_max_satisfying();
     var minSatisfying = require_min_satisfying();
@@ -37640,7 +37640,7 @@ var require_semver2 = __commonJS({
       truncate,
       Comparator,
       Range,
-      satisfies,
+      satisfies: satisfies2,
       toComparators,
       maxSatisfying,
       minSatisfying,
@@ -39049,8 +39049,8 @@ var require_sender = __commonJS({
        * @param {Function} [generateMask] The function used to generate the masking
        *     key
        */
-      constructor(socket, extensions2, generateMask) {
-        this._extensions = extensions2 || {};
+      constructor(socket, extensions, generateMask) {
+        this._extensions = extensions || {};
         if (generateMask) {
           this._generateMask = generateMask;
           this._maskBuffer = Buffer.alloc(4);
@@ -39875,9 +39875,9 @@ var require_extension = __commonJS({
       }
       return offers;
     }
-    function format(extensions2) {
-      return Object.keys(extensions2).map((extension2) => {
-        let configurations = extensions2[extension2];
+    function format(extensions) {
+      return Object.keys(extensions).map((extension2) => {
+        let configurations = extensions[extension2];
         if (!Array.isArray(configurations)) configurations = [configurations];
         return configurations.map((params) => {
           return [extension2].concat(
@@ -40503,9 +40503,9 @@ var require_websocket = __commonJS({
         opts.auth = `${parsedUrl.username}:${parsedUrl.password}`;
       }
       if (isIpcUrl) {
-        const parts = opts.path.split(":");
-        opts.socketPath = parts[0];
-        opts.path = parts[1];
+        const parts2 = opts.path.split(":");
+        opts.socketPath = parts2[0];
+        opts.path = parts2[1];
       }
       let req;
       if (opts.followRedirects) {
@@ -40612,22 +40612,22 @@ var require_websocket = __commonJS({
             abortHandshake(websocket, socket, message2);
             return;
           }
-          let extensions2;
+          let extensions;
           try {
-            extensions2 = parse(secWebSocketExtensions);
+            extensions = parse(secWebSocketExtensions);
           } catch (err2) {
             const message2 = "Invalid Sec-WebSocket-Extensions header";
             abortHandshake(websocket, socket, message2);
             return;
           }
-          const extensionNames = Object.keys(extensions2);
+          const extensionNames = Object.keys(extensions);
           if (extensionNames.length !== 1 || extensionNames[0] !== PerMessageDeflate2.extensionName) {
             const message2 = "Server indicated an extension that was not requested";
             abortHandshake(websocket, socket, message2);
             return;
           }
           try {
-            perMessageDeflate.accept(extensions2[PerMessageDeflate2.extensionName]);
+            perMessageDeflate.accept(extensions[PerMessageDeflate2.extensionName]);
           } catch (err2) {
             const message2 = "Invalid Sec-WebSocket-Extensions header";
             abortHandshake(websocket, socket, message2);
@@ -41193,7 +41193,7 @@ var require_websocket_server = __commonJS({
           }
         }
         const secWebSocketExtensions = req.headers["sec-websocket-extensions"];
-        const extensions2 = {};
+        const extensions = {};
         if (this.options.perMessageDeflate && secWebSocketExtensions !== void 0) {
           const perMessageDeflate = new PerMessageDeflate2({
             ...this.options.perMessageDeflate,
@@ -41204,7 +41204,7 @@ var require_websocket_server = __commonJS({
             const offers = extension2.parse(secWebSocketExtensions);
             if (offers[PerMessageDeflate2.extensionName]) {
               perMessageDeflate.accept(offers[PerMessageDeflate2.extensionName]);
-              extensions2[PerMessageDeflate2.extensionName] = perMessageDeflate;
+              extensions[PerMessageDeflate2.extensionName] = perMessageDeflate;
             }
           } catch (err2) {
             const message2 = "Invalid or unacceptable Sec-WebSocket-Extensions header";
@@ -41224,7 +41224,7 @@ var require_websocket_server = __commonJS({
                 return abortHandshake(socket, code || 401, message2, headers);
               }
               this.completeUpgrade(
-                extensions2,
+                extensions,
                 key,
                 protocols,
                 req,
@@ -41237,7 +41237,7 @@ var require_websocket_server = __commonJS({
           }
           if (!this.options.verifyClient(info)) return abortHandshake(socket, 401);
         }
-        this.completeUpgrade(extensions2, key, protocols, req, socket, head, cb);
+        this.completeUpgrade(extensions, key, protocols, req, socket, head, cb);
       }
       /**
        * Upgrade the connection to WebSocket.
@@ -41252,7 +41252,7 @@ var require_websocket_server = __commonJS({
        * @throws {Error} If called more than once with the same socket
        * @private
        */
-      completeUpgrade(extensions2, key, protocols, req, socket, head, cb) {
+      completeUpgrade(extensions, key, protocols, req, socket, head, cb) {
         if (!socket.readable || !socket.writable) return socket.destroy();
         if (socket[kWebSocket]) {
           throw new Error(
@@ -41275,13 +41275,13 @@ var require_websocket_server = __commonJS({
             ws._protocol = protocol;
           }
         }
-        if (extensions2[PerMessageDeflate2.extensionName]) {
-          const params = extensions2[PerMessageDeflate2.extensionName].params;
+        if (extensions[PerMessageDeflate2.extensionName]) {
+          const params = extensions[PerMessageDeflate2.extensionName].params;
           const value = extension2.format({
             [PerMessageDeflate2.extensionName]: [params]
           });
           headers.push(`Sec-WebSocket-Extensions: ${value}`);
-          ws._extensions = extensions2;
+          ws._extensions = extensions;
         }
         this.emit("headers", headers, req);
         socket.write(headers.concat("\r\n").join("\r\n"));
@@ -50194,17 +50194,17 @@ var require_mime_types2 = __commonJS({
       }
       return exts[0];
     }
-    function lookup2(path22) {
-      if (!path22 || typeof path22 !== "string") {
+    function lookup2(path21) {
+      if (!path21 || typeof path21 !== "string") {
         return false;
       }
-      var extension3 = extname("x." + path22).toLowerCase().substr(1);
+      var extension3 = extname("x." + path21).toLowerCase().substr(1);
       if (!extension3) {
         return false;
       }
       return exports.types[extension3] || false;
     }
-    function populateMaps(extensions2, types) {
+    function populateMaps(extensions, types) {
       var preference = ["nginx", "apache", void 0, "iana"];
       Object.keys(db).forEach(function forEachMimeType(type) {
         var mime = db[type];
@@ -50212,7 +50212,7 @@ var require_mime_types2 = __commonJS({
         if (!exts || !exts.length) {
           return;
         }
-        extensions2[type] = exts;
+        extensions[type] = exts;
         for (var i = 0; i < exts.length; i++) {
           var extension3 = exts[i];
           if (types[extension3]) {
@@ -50500,11 +50500,11 @@ var require_form_data = __commonJS({
     "use strict";
     var CombinedStream = require_combined_stream();
     var util2 = __require("util");
-    var path22 = __require("path");
+    var path21 = __require("path");
     var http = __require("http");
     var https = __require("https");
     var parseUrl = __require("url").parse;
-    var fs17 = __require("fs");
+    var fs16 = __require("fs");
     var Stream = __require("stream").Stream;
     var crypto3 = __require("crypto");
     var mime = require_mime_types2();
@@ -50574,7 +50574,7 @@ var require_form_data = __commonJS({
         if (value.end != void 0 && value.end != Infinity && value.start != void 0) {
           callback(null, value.end + 1 - (value.start ? value.start : 0));
         } else {
-          fs17.stat(value.path, function(err2, stat) {
+          fs16.stat(value.path, function(err2, stat) {
             if (err2) {
               callback(err2);
               return;
@@ -50631,11 +50631,11 @@ var require_form_data = __commonJS({
     FormData6.prototype._getContentDisposition = function(value, options) {
       var filename;
       if (typeof options.filepath === "string") {
-        filename = path22.normalize(options.filepath).replace(/\\/g, "/");
+        filename = path21.normalize(options.filepath).replace(/\\/g, "/");
       } else if (options.filename || value && (value.name || value.path)) {
-        filename = path22.basename(options.filename || value && (value.name || value.path));
+        filename = path21.basename(options.filename || value && (value.name || value.path));
       } else if (value && value.readable && hasOwn2(value, "httpVersion")) {
-        filename = path22.basename(value.client._httpMessage.path || "");
+        filename = path21.basename(value.client._httpMessage.path || "");
       }
       if (filename) {
         return 'filename="' + escapeHeaderParam(filename) + '"';
@@ -50817,9 +50817,9 @@ var require_form_data = __commonJS({
 });
 
 // src/server/index.ts
-var import_express11 = __toESM(require_express2(), 1);
+var import_express10 = __toESM(require_express2(), 1);
 import { mkdirSync as mkdirSync5 } from "node:fs";
-import path21 from "node:path";
+import path20 from "node:path";
 
 // src/server/runtime.ts
 import os from "node:os";
@@ -50832,8 +50832,8 @@ var staticRoot = path.join(appRoot, pluginBundle ? "public" : "dist");
 var projectRoot = path.resolve(process.env.KGS_ROOT ?? (pluginBundle ? path.join(os.homedir(), ".kallob-growth") : path.join(appRoot, "dev")));
 var port = Number(process.env.PORT ?? (pluginBundle ? 8795 : 8790));
 var production = pluginBundle || process.env.KGS_MODE === "production";
-var buildId = true ? "d5aa4a5-muv169k7" : "source";
-var studioVersion = true ? "0.10.0" : "source";
+var buildId = true ? "c08fb25-muv5kkkr" : "source";
+var studioVersion = true ? "0.11.0" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/server/integrations/keychain.ts
@@ -51088,10 +51088,10 @@ import fs8 from "node:fs/promises";
 import { createHash as createHash4, randomUUID as randomUUID2 } from "node:crypto";
 
 // src/server/codex-desktop/bridge.ts
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { chmod, mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
-import { closeSync, existsSync, mkdirSync, openSync, readFileSync } from "node:fs";
+import { closeSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import path2 from "node:path";
 import readline from "node:readline";
@@ -51143,6 +51143,20 @@ function projectRootFor(cwd, roots) {
     if (inside && (!best || root.length > best.length)) best = root;
   }
   return best;
+}
+function isCodexProcess(pid) {
+  if (!pid) return false;
+  try {
+    process.kill(pid, 0);
+  } catch (error) {
+    if (error.code !== "EPERM") return false;
+  }
+  if (process.platform === "win32") return true;
+  try {
+    return /codex/i.test(execFileSync("ps", ["-p", String(pid), "-o", "command="], { encoding: "utf8", timeout: 2e3 }));
+  } catch {
+    return false;
+  }
 }
 var CodexDesktopError = class extends Error {
   constructor(message2, options) {
@@ -51350,6 +51364,114 @@ var CodexDesktopBridge = class {
   isRunning(threadId) {
     const id = validThreadId(threadId);
     return Boolean(id && this.turns.has(id));
+  }
+  /** Codex tasks with a turn running or a message waiting. */
+  runningThreads() {
+    return [...this.turns.keys()];
+  }
+  journalDirectory() {
+    return path2.join(path2.dirname(this.registryPath), "codex-turns", "journal");
+  }
+  journalPath(threadId) {
+    return path2.join(this.journalDirectory(), `${threadId}.json`);
+  }
+  readJournal(threadId) {
+    try {
+      const value = JSON.parse(readFileSync(this.journalPath(threadId), "utf8"));
+      return value.version === 1 && value.threadId === threadId ? value : null;
+    } catch {
+      return null;
+    }
+  }
+  /** Changes one task's journal atomically; a journal with nothing in flight is removed. */
+  updateJournal(threadId, base, change) {
+    const journal = this.readJournal(threadId) ?? { version: 1, threadId, ...base, running: null, queue: [] };
+    change(journal);
+    const file = this.journalPath(threadId);
+    if (!journal.running && !journal.queue.length) {
+      rmSync(file, { force: true });
+      return;
+    }
+    mkdirSync(this.journalDirectory(), { recursive: true, mode: 448 });
+    const temporary = `${file}.${process.pid}.tmp`;
+    writeFileSync(temporary, `${JSON.stringify(journal, null, 2)}
+`, { encoding: "utf8", mode: 384 });
+    renameSync(temporary, file);
+  }
+  /** Chains one turn after the task's current one, and reports it to the listener when it ends. */
+  chain(threadId, run2) {
+    const previous = this.turns.get(threadId) ?? Promise.resolve(null);
+    const turn = previous.catch(() => null).then(run2);
+    this.turns.set(threadId, turn);
+    void turn.then((outcome) => {
+      if (this.turns.get(threadId) === turn) this.turns.delete(threadId);
+      try {
+        this.turnListener?.(outcome);
+      } catch {
+      }
+    });
+    return turn;
+  }
+  /**
+   * After a restart (a Studio update): follows the turns the previous server
+   * left running (watching a live one until it exits, or reading how a
+   * finished one ended from its log) and runs the messages still waiting, in
+   * order. Call once the turn listener is set.
+   */
+  resumeTurns() {
+    let entries = [];
+    try {
+      entries = readdirSync(this.journalDirectory()).filter((name) => name.endsWith(".json"));
+    } catch {
+      return 0;
+    }
+    let resumed = 0;
+    for (const entry of entries) {
+      const threadId = validThreadId(entry.slice(0, -".json".length));
+      const journal = threadId ? this.readJournal(threadId) : null;
+      if (!threadId || !journal) continue;
+      const base = { cwd: journal.cwd, writableRoots: journal.writableRoots };
+      const running = journal.running;
+      if (running) {
+        resumed += 1;
+        this.chain(threadId, async () => {
+          if (isCodexProcess(running.pid)) {
+            await new Promise((resolve) => {
+              const timer = setInterval(() => {
+                if (!isCodexProcess(running.pid)) {
+                  clearInterval(timer);
+                  resolve();
+                }
+              }, 1e3);
+            });
+          }
+          this.updateJournal(threadId, base, (value) => {
+            if (value.running?.messageId === running.messageId) value.running = null;
+          });
+          return { threadId, messageId: running.messageId, ...turnResult(running.logPath, 0) };
+        });
+      }
+      for (const waiting of journal.queue) {
+        resumed += 1;
+        this.chain(threadId, () => this.startQueued(threadId, base, waiting.messageId));
+      }
+    }
+    return resumed;
+  }
+  /** Starts a waiting message: it leaves the queue and becomes the running turn. */
+  startQueued(threadId, base, messageId) {
+    const waiting = this.readJournal(threadId)?.queue.find((item) => item.messageId === messageId);
+    if (!waiting) return Promise.resolve({ threadId, messageId, ok: false, detail: "The queued message was lost" });
+    let binary;
+    try {
+      binary = this.resolveCodexBinary();
+    } catch (error) {
+      this.updateJournal(threadId, base, (value) => {
+        value.queue = value.queue.filter((item) => item.messageId !== messageId);
+      });
+      return Promise.resolve({ threadId, messageId, ok: false, detail: error instanceof Error ? error.message : String(error) });
+    }
+    return this.runTurn(binary, threadId, base.cwd, base.writableRoots, waiting.message, messageId, base);
   }
   registryPath;
   binary;
@@ -51564,17 +51686,13 @@ var CodexDesktopBridge = class {
     if (!cwd || !existsSync(cwd)) throw new CodexDesktopError("Task Codex kh\xF4ng c\xF2n kh\u1EA3 d\u1EE5ng tr\xEAn m\xE1y n\xE0y.");
     const writableRoots = (saved?.writable_roots ?? []).filter((root) => existsSync(root));
     const messageId = randomUUID();
-    const previous = this.turns.get(validId) ?? Promise.resolve(null);
-    const turn = previous.catch(() => null).then(() => this.runTurn(binary, validId, cwd, writableRoots, message2, messageId));
-    this.turns.set(validId, turn);
-    void turn.then((outcome) => {
-      if (this.turns.get(validId) === turn) this.turns.delete(validId);
-      try {
-        this.turnListener?.(outcome);
-      } catch {
-      }
+    const queuedAt = (/* @__PURE__ */ new Date()).toISOString();
+    const base = { cwd, writableRoots };
+    this.updateJournal(validId, base, (journal) => {
+      journal.queue.push({ messageId, message: message2, queuedAt });
     });
-    return { status: "queued", messageId, threadId: validId, queuedAt: (/* @__PURE__ */ new Date()).toISOString() };
+    this.chain(validId, () => this.startQueued(validId, base, messageId));
+    return { status: "queued", messageId, threadId: validId, queuedAt };
   }
   /**
    * Adds a message to Codex Desktop's shared queue. The visible desktop task,
@@ -51600,12 +51718,16 @@ var CodexDesktopBridge = class {
     return { status: "queued", messageId, threadId: validId, queuedAt: (/* @__PURE__ */ new Date()).toISOString() };
   }
   /** Resolves when the background turn ends; its output goes to a log next to the registry. */
-  runTurn(binary, threadId, cwd, writableRoots, message2, messageId) {
+  runTurn(binary, threadId, cwd, writableRoots, message2, messageId, base) {
     return new Promise((resolve) => {
       const logDirectory = path2.join(path2.dirname(this.registryPath), "codex-turns");
       mkdirSync(logDirectory, { recursive: true });
       const logPath = path2.join(logDirectory, `${threadId}-${messageId}.jsonl`);
       const log = openSync(logPath, "a");
+      const finish = () => this.updateJournal(threadId, base, (journal) => {
+        if (journal.running?.messageId === messageId) journal.running = null;
+        journal.queue = journal.queue.filter((item) => item.messageId !== messageId);
+      });
       let child;
       try {
         child = spawn(binary, [
@@ -51625,8 +51747,13 @@ var CodexDesktopBridge = class {
         ], { cwd, stdio: ["pipe", log, log], detached: true });
       } catch (error) {
         closeSync(log);
+        finish();
         return resolve({ threadId, messageId, ok: false, detail: error instanceof Error ? error.message : String(error) });
       }
+      this.updateJournal(threadId, base, (journal) => {
+        journal.queue = journal.queue.filter((item) => item.messageId !== messageId);
+        journal.running = { messageId, pid: child.pid ?? null, logPath, startedAt: (/* @__PURE__ */ new Date()).toISOString() };
+      });
       let settled = false;
       const done = (code, failure) => {
         if (settled) return;
@@ -51635,6 +51762,7 @@ var CodexDesktopBridge = class {
           closeSync(log);
         } catch {
         }
+        finish();
         resolve({ threadId, messageId, ...turnResult(logPath, code, failure) });
       };
       child.once("exit", (code) => done(code));
@@ -63851,6 +63979,7 @@ var KallobCloudClient = class {
   pending = /* @__PURE__ */ new Map();
   metadataCache = null;
   refreshing = null;
+  accountCache = null;
   /** One sign-in per Kallob Cloud and per Studio instance (its callback), so instances never overwrite each other. */
   get account() {
     return `kallob-cloud:${this.apiOrigin}:${new URL(this.options.redirectUri).host}`;
@@ -63914,7 +64043,7 @@ var KallobCloudClient = class {
     if (server2.status !== 200 || !authorizationEndpoint || !tokenEndpoint || !registrationEndpoint) {
       throw new Error(`Kallob Cloud at ${this.apiOrigin} does not publish OAuth metadata`);
     }
-    this.metadataCache = { authorizationEndpoint, tokenEndpoint, registrationEndpoint, revocationEndpoint: stringField(server2.data, "revocation_endpoint"), resource };
+    this.metadataCache = { authorizationEndpoint, tokenEndpoint, registrationEndpoint, revocationEndpoint: stringField(server2.data, "revocation_endpoint"), userinfoEndpoint: stringField(server2.data, "userinfo_endpoint"), resource };
     return this.metadataCache;
   }
   async status() {
@@ -63926,6 +64055,28 @@ var KallobCloudClient = class {
       scope: connected ? grant?.scope ?? null : null,
       expiresAt: connected && grant?.expiresAt ? new Date(grant.expiresAt).toISOString() : null
     };
+  }
+  /**
+   * The signed-in person's name and email from Kallob Cloud's OIDC userinfo
+   * endpoint, or null when not connected or not available. Remembered per
+   * access token, so it is asked once per sign-in and refresh.
+   */
+  async signedInAccount() {
+    if (!(await this.status()).connected) return null;
+    const metadata = await this.metadata();
+    if (!metadata.userinfoEndpoint) return null;
+    let token = await this.accessToken();
+    if (this.accountCache?.token === token) return this.accountCache.account;
+    const ask = (bearer) => this.json(metadata.userinfoEndpoint, { headers: { authorization: `Bearer ${bearer}`, accept: "application/json" } });
+    let answer = await ask(token);
+    if (answer.status === 401) {
+      token = await this.accessToken(true);
+      answer = await ask(token);
+    }
+    if (answer.status !== 200) return null;
+    const account = { name: stringField(answer.data, "name"), email: stringField(answer.data, "email") };
+    this.accountCache = { token, account };
+    return account;
   }
   /** Registers this plugin once per Kallob Cloud and redirect URI, then returns the consent URL. */
   async beginConnect() {
@@ -63986,6 +64137,7 @@ var KallobCloudClient = class {
     return this.status();
   }
   async disconnect() {
+    this.accountCache = null;
     const grant = await this.load();
     if (grant?.refreshToken) {
       try {
@@ -64286,6 +64438,11 @@ var ProductKernel = class {
   localSyncIntervals = /* @__PURE__ */ new Map();
   connectorRegistry;
   localFolderLifecycleStarted = false;
+  /** Task kinds mini-apps own (their work comes back another way than a result file); set once they have loaded. */
+  taskKinds = /* @__PURE__ */ new Map();
+  useTaskKinds(kinds) {
+    this.taskKinds = kinds;
+  }
   snapshot() {
     const connectorCatalog = this.connectorRegistry.catalog({
       "google-drive": {
@@ -65436,7 +65593,8 @@ var ProductKernel = class {
     if (task.status === "archived") throw new Error("Restore this task before continuing it");
     if (!this.codexDesktop.queueMessage) throw new Error("Sending to Codex is not available in this runtime");
     if (this.codexDesktop.isRunning?.(task.codexThreadId)) return this.withRunning(task);
-    const deliver = task.source.type === "image-studio" ? `When the images are ready, save them with the image_asset_save tool (task_id ${JSON.stringify(task.id)}) and end your turn.` : "When the deliverable is ready, write the result file exactly as the task instructions say.";
+    const kind = this.taskKinds.get(task.source.type);
+    const deliver = kind ? kind.deliver(task) : "When the deliverable is ready, write the result file exactly as the task instructions say.";
     await this.codexDesktop.queueMessage(task.codexThreadId, `Continue this Growth Studio task from where you stopped; do not start over. ${deliver} If you need the founder, call the growth_task_ask tool with task_id ${JSON.stringify(task.id)} and end your turn.`);
     const updated = this.store.updateTask(taskId, { status: task.status === "inbox" ? "active" : task.status, lastError: null }, task.revision);
     this.store.addEvent({ level: "success", eventType: "task.codex_nudged", title: "Asked Codex to continue", detail: task.title });
@@ -65716,7 +65874,8 @@ Continue the task.`;
         if (String(input.taskId ?? "") !== taskId) throw new Error("Result artifact taskId does not match its filename");
         const normalized = await this.normalizeTaskResult(input);
         const sourceTask = this.store.getTask(taskId);
-        if (sourceTask?.source.type === "image-studio") throw new Error("An Image Studio request returns its images with the image_asset_save tool, not a result file");
+        const kind = sourceTask ? this.taskKinds.get(sourceTask.source.type) : void 0;
+        if (kind) throw new Error(`This task does not take a result file. ${kind.deliver(sourceTask)}`);
         if (sourceTask?.source.type === "personal-brand") {
           const imported = this.store.applyPersonalBrandArticleResult(taskId, normalized);
           if (imported.applied) this.store.addEvent({ level: "success", eventType: "personal_brand.article.imported", title: "Personal Brand article ready for review", detail: `${imported.article.title} \xB7 v${imported.article.version}` });
@@ -65827,7 +65986,8 @@ Continue the task.`;
     const attempts = (this.rejectedResults.get(taskId) ?? 0) + 1;
     this.rejectedResults.set(taskId, attempts);
     if (attempts > 3 || !task.codexThreadId || !this.codexDesktop.queueMessage) return;
-    const message2 = task.source.type === "image-studio" ? `Growth Studio could not use that file: ${reason}. Save the image options with the image_asset_save tool (task_id ${JSON.stringify(taskId)}) instead, then end your turn.` : `Growth Studio could not import the result file for this task: ${reason}.
+    const kind = this.taskKinds.get(task.source.type);
+    const message2 = kind ? `Growth Studio could not use that file: ${reason}. ${kind.deliver(task)}` : `Growth Studio could not import the result file for this task: ${reason}.
 
 Fix it and write the result JSON again to ${JSON.stringify(`${resultPath}.tmp`)}, then atomically rename it to ${JSON.stringify(resultPath)}. Remember: "executionMode" is "engine" only when you ran a Kallob Engine (then "engineId" and "engineName" name it); otherwise it is "direct" with both null.`;
     try {
@@ -66559,7 +66719,6 @@ function attentionPort(bus, reconcile) {
     reconcile
   };
 }
-var silentAttention = { request: () => void 0, close: () => void 0, reconcile: () => void 0 };
 function taskChangeEvents(before, after) {
   const events2 = [];
   if (before.question?.id !== after.question?.id) {
@@ -66690,7 +66849,7 @@ function backupDatabase(db, directory, keep = 5) {
 }
 
 // src/server/kernel/manifest.ts
-var kernelManifest = { id: "kernel", version: "1.0.0" };
+var kernelManifest = { id: "kernel", version: "1.1.0" };
 
 // src/server/kernel/migrations/0001-baseline.ts
 var baseline = {
@@ -66899,11 +67058,11 @@ var baseline = {
 var columns = (db, table) => new Set(db.prepare(`PRAGMA table_info(${table})`).all().map((column) => column.name));
 function migrateConnectionsSchema(db) {
   const table = db.prepare("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'connections'").get();
-  const columns4 = new Set(
+  const columns3 = new Set(
     db.prepare("PRAGMA table_info(connections)").all().map((column) => column.name)
   );
-  if (table?.sql?.includes("'facebook-page'") && columns4.has("kind")) return;
-  const kindExpression = columns4.has("kind") ? "kind" : "CASE WHEN provider = 'composio' THEN 'gateway' ELSE 'source' END";
+  if (table?.sql?.includes("'facebook-page'") && columns3.has("kind")) return;
+  const kindExpression = columns3.has("kind") ? "kind" : "CASE WHEN provider = 'composio' THEN 'gateway' ELSE 'source' END";
   db.exec("PRAGMA foreign_keys = OFF; BEGIN IMMEDIATE;");
   try {
     db.exec(`
@@ -66941,7 +67100,11 @@ var kernelSchema = {
 };
 
 // src/mini-apps/brand-profile/manifest.ts
-var manifest = { id: "brand-profile", version: "1.0.0" };
+var manifest = {
+  id: "brand-profile",
+  version: "1.0.0",
+  exports: { "brand-profile.context": "1.0" }
+};
 
 // src/mini-apps/brand-profile/server/migrations/0001-baseline.ts
 var baseline2 = {
@@ -67166,64 +67329,11 @@ var schema2 = {
   migrations: [baseline3]
 };
 
-// src/mini-apps/image-studio/manifest.ts
-var manifest3 = { id: "image-studio", version: "1.0.0" };
-
-// src/mini-apps/image-studio/server/migrations/0001-baseline.ts
-var baseline4 = {
-  id: "0001-baseline",
-  transaction: false,
-  up(db) {
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS image_assets (
-        id TEXT PRIMARY KEY,
-        task_id TEXT NOT NULL,
-        kind TEXT NOT NULL CHECK (kind IN ('reference', 'option')),
-        round INTEGER NOT NULL DEFAULT 0,
-        caption TEXT NOT NULL DEFAULT '',
-        file_name TEXT NOT NULL,
-        mime_type TEXT NOT NULL,
-        bytes INTEGER NOT NULL,
-        approved_at TEXT,
-        created_at TEXT NOT NULL
-      );
-      CREATE INDEX IF NOT EXISTS image_assets_task_idx ON image_assets(task_id, round DESC, created_at);
-      CREATE INDEX IF NOT EXISTS image_assets_approved_idx ON image_assets(approved_at DESC) WHERE approved_at IS NOT NULL;
-      CREATE TABLE IF NOT EXISTS image_my_photos (
-        id TEXT PRIMARY KEY,
-        kind TEXT NOT NULL CHECK (kind IN ('portrait', 'product', 'other')),
-        name TEXT NOT NULL DEFAULT '',
-        file_name TEXT NOT NULL,
-        mime_type TEXT NOT NULL,
-        bytes INTEGER NOT NULL,
-        created_at TEXT NOT NULL
-      );
-      CREATE TABLE IF NOT EXISTS image_style_assets (
-        id TEXT PRIMARY KEY,
-        name TEXT NOT NULL DEFAULT '',
-        file_name TEXT NOT NULL,
-        mime_type TEXT NOT NULL,
-        bytes INTEGER NOT NULL,
-        created_at TEXT NOT NULL
-      );
-    `);
-    if (!columns2(db, "image_assets").has("final_file_name")) db.exec("ALTER TABLE image_assets ADD COLUMN final_file_name TEXT");
-  }
-};
-var columns2 = (db, table) => new Set(db.prepare(`PRAGMA table_info(${table})`).all().map((column) => column.name));
-
-// src/mini-apps/image-studio/server/migrations/index.ts
-var schema3 = {
-  id: manifest3.id,
-  dependsOn: ["kernel"],
-  migrations: [baseline4]
-};
-
 // src/mini-apps/offers/manifest.ts
-var manifest4 = { id: "offers", version: "1.0.0" };
+var manifest3 = { id: "offers", version: "1.0.0" };
 
 // src/mini-apps/offers/server/migrations/0001-baseline.ts
-var baseline5 = {
+var baseline4 = {
   id: "0001-baseline",
   transaction: false,
   up(db) {
@@ -67309,17 +67419,17 @@ function migrateOffersSchema(db) {
 }
 
 // src/mini-apps/offers/server/migrations/index.ts
-var schema4 = {
-  id: manifest4.id,
+var schema3 = {
+  id: manifest3.id,
   dependsOn: ["kernel"],
-  migrations: [baseline5]
+  migrations: [baseline4]
 };
 
 // src/mini-apps/personal-brand/manifest.ts
-var manifest5 = { id: "personal-brand", version: "1.0.0" };
+var manifest4 = { id: "personal-brand", version: "1.0.0" };
 
 // src/mini-apps/personal-brand/server/migrations/0001-baseline.ts
-var baseline6 = {
+var baseline5 = {
   id: "0001-baseline",
   transaction: false,
   up(db) {
@@ -67508,17 +67618,17 @@ function migratePersonalBrandLibrarySchema(db) {
 }
 
 // src/mini-apps/personal-brand/server/migrations/index.ts
-var schema5 = {
-  id: manifest5.id,
+var schema4 = {
+  id: manifest4.id,
   dependsOn: ["kernel", "quick-content"],
-  migrations: [baseline6]
+  migrations: [baseline5]
 };
 
 // src/mini-apps/quick-content/manifest.ts
-var manifest6 = { id: "quick-content", version: "1.0.0" };
+var manifest5 = { id: "quick-content", version: "1.0.0" };
 
 // src/mini-apps/quick-content/server/migrations/0001-baseline.ts
-var baseline7 = {
+var baseline6 = {
   id: "0001-baseline",
   transaction: false,
   up(db) {
@@ -67599,26 +67709,26 @@ var baseline7 = {
         applied_at TEXT NOT NULL
       );
     `);
-    const batchColumns = columns3(db, "quick_content_batches");
+    const batchColumns = columns2(db, "quick_content_batches");
     if (!batchColumns.has("angles_json")) db.exec("ALTER TABLE quick_content_batches ADD COLUMN angles_json TEXT NOT NULL DEFAULT '[]'");
     if (!batchColumns.has("source_app")) db.exec("ALTER TABLE quick_content_batches ADD COLUMN source_app TEXT NOT NULL DEFAULT 'quick-content'");
     if (!batchColumns.has("value_type")) db.exec("ALTER TABLE quick_content_batches ADD COLUMN value_type TEXT");
   }
 };
-var columns3 = (db, table) => new Set(db.prepare(`PRAGMA table_info(${table})`).all().map((column) => column.name));
+var columns2 = (db, table) => new Set(db.prepare(`PRAGMA table_info(${table})`).all().map((column) => column.name));
 
 // src/mini-apps/quick-content/server/migrations/index.ts
-var schema6 = {
-  id: manifest6.id,
+var schema5 = {
+  id: manifest5.id,
   dependsOn: ["kernel"],
-  migrations: [baseline7]
+  migrations: [baseline6]
 };
 
 // src/mini-apps/quick-visual/manifest.ts
-var manifest7 = { id: "quick-visual", version: "1.0.0" };
+var manifest6 = { id: "quick-visual", version: "1.0.0" };
 
 // src/mini-apps/quick-visual/server/migrations/0001-baseline.ts
-var baseline8 = {
+var baseline7 = {
   id: "0001-baseline",
   transaction: false,
   up(db) {
@@ -67751,17 +67861,17 @@ function migrateQuickVisualSchema(db) {
 }
 
 // src/mini-apps/quick-visual/server/migrations/index.ts
-var schema7 = {
-  id: manifest7.id,
+var schema6 = {
+  id: manifest6.id,
   dependsOn: ["kernel"],
-  migrations: [baseline8]
+  migrations: [baseline7]
 };
 
 // src/mini-apps/research/manifest.ts
-var manifest8 = { id: "research", version: "1.0.0" };
+var manifest7 = { id: "research", version: "1.0.0" };
 
 // src/mini-apps/research/server/migrations/0001-baseline.ts
-var baseline9 = {
+var baseline8 = {
   id: "0001-baseline",
   transaction: false,
   up(db) {
@@ -67927,7 +68037,7 @@ var baseline9 = {
   }
 };
 function migrateResearchStudioSchema(db) {
-  const columns4 = new Set(
+  const columns3 = new Set(
     db.prepare("PRAGMA table_info(research_runs)").all().map((column) => column.name)
   );
   const additions = [
@@ -67941,7 +68051,7 @@ function migrateResearchStudioSchema(db) {
     ["profile_ids_json", "TEXT NOT NULL DEFAULT '[]'"],
     ["profile_snapshots_json", "TEXT NOT NULL DEFAULT '[]'"]
   ];
-  for (const [name, definition] of additions) if (!columns4.has(name)) db.exec(`ALTER TABLE research_runs ADD COLUMN ${name} ${definition}`);
+  for (const [name, definition] of additions) if (!columns3.has(name)) db.exec(`ALTER TABLE research_runs ADD COLUMN ${name} ${definition}`);
   const monitorColumns = new Set(
     db.prepare("PRAGMA table_info(research_monitors)").all().map((column) => column.name)
   );
@@ -67983,17 +68093,17 @@ function migrateResearchStudioSchema(db) {
 }
 
 // src/mini-apps/research/server/migrations/index.ts
-var schema8 = {
-  id: manifest8.id,
+var schema7 = {
+  id: manifest7.id,
   dependsOn: ["kernel"],
-  migrations: [baseline9]
+  migrations: [baseline8]
 };
 
 // src/mini-apps/zalo-chatbot/manifest.ts
-var manifest9 = { id: "zalo-chatbot", version: "1.0.0" };
+var manifest8 = { id: "zalo-chatbot", version: "1.0.0" };
 
 // src/mini-apps/zalo-chatbot/server/migrations/0001-baseline.ts
-var baseline10 = {
+var baseline9 = {
   id: "0001-baseline",
   transaction: false,
   up(db) {
@@ -68097,15 +68207,15 @@ var baseline10 = {
 };
 
 // src/mini-apps/zalo-chatbot/server/migrations/index.ts
-var schema9 = {
-  id: manifest9.id,
+var schema8 = {
+  id: manifest8.id,
   dependsOn: ["kernel", "crm"],
-  migrations: [baseline10]
+  migrations: [baseline9]
 };
 
 // src/mini-apps/schema-registry.ts
 function studioSchemaModules() {
-  return [kernelSchema, schema, schema4, schema8, schema6, schema5, schema7, schema3, schema2, schema9];
+  return [kernelSchema, schema, schema3, schema7, schema5, schema4, schema6, schema2, schema8];
 }
 
 // src/server/kernel/store.ts
@@ -68438,7 +68548,7 @@ function normalizeResearchMonitor(input) {
 }
 function nextResearchMonitorAt(input, after = /* @__PURE__ */ new Date()) {
   const [hour, minute] = input.localTime.split(":").map(Number);
-  const parts = new Intl.DateTimeFormat("en-CA", {
+  const parts2 = new Intl.DateTimeFormat("en-CA", {
     timeZone: input.timezone,
     year: "numeric",
     month: "2-digit",
@@ -68448,7 +68558,7 @@ function nextResearchMonitorAt(input, after = /* @__PURE__ */ new Date()) {
     minute: "2-digit",
     hourCycle: "h23"
   }).formatToParts(after);
-  const value = (type) => parts.find((part) => part.type === type)?.value ?? "";
+  const value = (type) => parts2.find((part) => part.type === type)?.value ?? "";
   const local = /* @__PURE__ */ new Date(`${value("year")}-${value("month")}-${value("day")}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`);
   const observedLocal = /* @__PURE__ */ new Date(`${value("year")}-${value("month")}-${value("day")}T${value("hour")}:${value("minute")}:00`);
   const offset = after.getTime() - observedLocal.getTime();
@@ -68892,17 +69002,8 @@ function migrateOfferPayload(encoded) {
     content: offerText(payload.content) || legacyOfferMarkdown(payload)
   });
 }
-function toImageAsset(row) {
-  return { id: row.id, taskId: row.task_id, kind: row.kind, round: Number(row.round), caption: row.caption, mimeType: row.mime_type, bytes: Number(row.bytes), approvedAt: row.approved_at, hasFinal: Boolean(row.final_file_name), createdAt: row.created_at };
-}
-function toMyPhoto(row) {
-  return { id: row.id, kind: row.kind, name: row.name, mimeType: row.mime_type, bytes: Number(row.bytes), createdAt: row.created_at };
-}
 function toNotification(row) {
   return { id: row.id, kind: row.kind, taskId: row.task_id, title: row.title, body: row.body, target: JSON.parse(row.target_json), raisedAt: row.raised_at, revision: Number(row.revision) };
-}
-function toStyleImage(row) {
-  return { id: row.id, name: row.name, mimeType: row.mime_type, bytes: Number(row.bytes), createdAt: row.created_at };
 }
 function toConnection(row) {
   return {
@@ -69151,7 +69252,7 @@ var StudioStore = class {
     const completedAt = status === "done" ? current.completedAt ?? timestamp2 : null;
     const archivedAt = status === "archived" ? current.archivedAt ?? timestamp2 : null;
     const question = patch.question === void 0 ? current.question : patch.question;
-    this.db.prepare(`UPDATE tasks SET title = ?, description = ?, status = ?, priority = ?, due_at = ?, codex_thread_id = ?, codex_message_id = ?, codex_assigned_at = ?, last_error = ?, question_json = ?, completed_at = ?, archived_at = ?, revision = revision + 1, updated_at = ? WHERE id = ?`).run(patch.title ?? current.title, patch.description ?? current.description, status, patch.priority ?? current.priority, patch.dueAt === void 0 ? current.dueAt : patch.dueAt, patch.codexThreadId === void 0 ? current.codexThreadId : patch.codexThreadId, patch.codexMessageId === void 0 ? current.codexMessageId : patch.codexMessageId, patch.codexAssignedAt === void 0 ? current.codexAssignedAt : patch.codexAssignedAt, patch.lastError === void 0 ? current.lastError : patch.lastError, question ? JSON.stringify(question) : null, completedAt, archivedAt, timestamp2, id);
+    this.db.prepare(`UPDATE tasks SET title = ?, description = ?, status = ?, priority = ?, due_at = ?, codex_thread_id = ?, codex_message_id = ?, codex_assigned_at = ?, last_error = ?, question_json = ?, source_json = ?, completed_at = ?, archived_at = ?, revision = revision + 1, updated_at = ? WHERE id = ?`).run(patch.title ?? current.title, patch.description ?? current.description, status, patch.priority ?? current.priority, patch.dueAt === void 0 ? current.dueAt : patch.dueAt, patch.codexThreadId === void 0 ? current.codexThreadId : patch.codexThreadId, patch.codexMessageId === void 0 ? current.codexMessageId : patch.codexMessageId, patch.codexAssignedAt === void 0 ? current.codexAssignedAt : patch.codexAssignedAt, patch.lastError === void 0 ? current.lastError : patch.lastError, question ? JSON.stringify(question) : null, JSON.stringify(patch.source ?? current.source), completedAt, archivedAt, timestamp2, id);
     const updated = this.getTask(id);
     this.emit(taskChangeEvents(current, updated));
     return updated;
@@ -70001,72 +70102,6 @@ Vi\u1EC7c n\xEAn l\xE0m: ${finding.recommendation}`, finding.priority, JSON.stri
   isResolved(id) {
     const row = this.db.prepare("SELECT resolved_at FROM notifications WHERE id = ?").get(id);
     return !row || row.resolved_at !== null;
-  }
-  addImageAsset(input) {
-    this.db.prepare(`INSERT INTO image_assets (id, task_id, kind, round, caption, file_name, mime_type, bytes, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(input.id, input.taskId, input.kind, input.round, input.caption, input.fileName, input.mimeType, input.bytes, now());
-    return this.getImageAsset(input.id).asset;
-  }
-  /** The asset and the file name it is stored under (relative to the task's image folder). */
-  getImageAsset(id) {
-    const row = this.db.prepare("SELECT * FROM image_assets WHERE id = ?").get(id);
-    return row ? { asset: toImageAsset(row), fileName: row.file_name, finalFileName: row.final_file_name } : null;
-  }
-  listImageAssets(taskId) {
-    return this.db.prepare("SELECT * FROM image_assets WHERE task_id = ? ORDER BY round DESC, created_at, rowid").all(taskId).map(toImageAsset);
-  }
-  nextImageRound(taskId) {
-    const row = this.db.prepare("SELECT MAX(round) AS round FROM image_assets WHERE task_id = ? AND kind = 'option'").get(taskId);
-    return Number(row.round ?? 0) + 1;
-  }
-  /** Approves an option; `finalFileName` is the picture with the words Studio drew on it. */
-  approveImageAsset(id, finalFileName = null) {
-    this.db.prepare("UPDATE image_assets SET approved_at = COALESCE(approved_at, ?), final_file_name = COALESCE(?, final_file_name) WHERE id = ? AND kind = 'option'").run(now(), finalFileName, id);
-    return this.getImageAsset(id).asset;
-  }
-  /** The values an image request's words are drawn from (a price, a date), changed without a new round. */
-  setImageValues(taskId, values, headline) {
-    const task = this.getTask(taskId);
-    if (!task || task.source.type !== "image-studio") throw new Error("Image request not found");
-    const source = { ...task.source, imageValues: values, ...headline ? { imageHeadline: headline, imageBrief: headline } : {} };
-    this.db.prepare("UPDATE tasks SET source_json = ?, revision = revision + 1, updated_at = ? WHERE id = ?").run(JSON.stringify(source), now(), taskId);
-    return this.getTask(taskId);
-  }
-  addMyPhoto(input) {
-    this.db.prepare("INSERT INTO image_my_photos (id, kind, name, file_name, mime_type, bytes, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)").run(input.id, input.kind, input.name, input.fileName, input.mimeType, input.bytes, now());
-    return this.getMyPhoto(input.id).photo;
-  }
-  getMyPhoto(id) {
-    const row = this.db.prepare("SELECT * FROM image_my_photos WHERE id = ?").get(id);
-    return row ? { photo: toMyPhoto(row), fileName: row.file_name } : null;
-  }
-  listMyPhotos() {
-    return this.db.prepare("SELECT * FROM image_my_photos ORDER BY created_at DESC, rowid DESC").all().map(toMyPhoto);
-  }
-  removeMyPhoto(id) {
-    this.db.prepare("DELETE FROM image_my_photos WHERE id = ?").run(id);
-  }
-  addStyleImage(input) {
-    this.db.prepare("INSERT INTO image_style_assets (id, name, file_name, mime_type, bytes, created_at) VALUES (?, ?, ?, ?, ?, ?)").run(input.id, input.name, input.fileName, input.mimeType, input.bytes, now());
-    return this.getStyleImage(input.id).image;
-  }
-  getStyleImage(id) {
-    const row = this.db.prepare("SELECT * FROM image_style_assets WHERE id = ?").get(id);
-    return row ? { image: toStyleImage(row), fileName: row.file_name } : null;
-  }
-  /** The saved style set with the file each picture is stored under, oldest first. */
-  listStyleImages() {
-    return this.db.prepare("SELECT * FROM image_style_assets ORDER BY created_at, rowid").all().map((row) => ({ image: toStyleImage(row), fileName: row.file_name }));
-  }
-  removeStyleImage(id) {
-    this.db.prepare("DELETE FROM image_style_assets WHERE id = ?").run(id);
-  }
-  listLibraryImages(limit2 = 500) {
-    const rows = this.db.prepare(`SELECT image_assets.*, tasks.source_json FROM image_assets JOIN tasks ON tasks.id = image_assets.task_id
-      WHERE image_assets.approved_at IS NOT NULL ORDER BY image_assets.approved_at DESC LIMIT ?`).all(limit2);
-    return rows.map((row) => {
-      const source = JSON.parse(row.source_json);
-      return { ...toImageAsset(row), brief: source.imageBrief ?? "", headline: source.imageHeadline ?? null, size: source.imageSize ?? null, recipe: source.imageRecipe ?? null };
-    });
   }
   toOfferSummary(row, payload) {
     const input = payload ?? migrateOfferPayload(row.payload_json);
@@ -73009,15 +73044,6 @@ Vi\u1EC7c n\xEAn l\xE0m: ${finding.recommendation}`, finding.priority, JSON.stri
   }
 };
 
-// src/mini-apps/manifests.ts
-var miniAppManifests = [manifest, manifest4, manifest8, manifest6, manifest7, manifest3, manifest5, manifest2, manifest9];
-function studioVersions() {
-  return {
-    kernel: kernelManifest.version,
-    miniApps: Object.fromEntries(miniAppManifests.map((manifest10) => [manifest10.id, manifest10.version]))
-  };
-}
-
 // node_modules/zod/v3/external.js
 var external_exports = {};
 __export(external_exports, {
@@ -73496,8 +73522,8 @@ function getErrorMap() {
 
 // node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path22, errorMaps, issueData } = params;
-  const fullPath = [...path22, ...issueData.path || []];
+  const { data, path: path21, errorMaps, issueData } = params;
+  const fullPath = [...path21, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -73613,11 +73639,11 @@ var errorUtil;
 
 // node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path22, key) {
+  constructor(parent, value, path21, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path22;
+    this._path = path21;
     this._key = key;
   }
   get path() {
@@ -75350,9 +75376,9 @@ var ZodArray = class _ZodArray extends ZodType {
     return this.min(1, message2);
   }
 };
-ZodArray.create = (schema11, params) => {
+ZodArray.create = (schema10, params) => {
   return new ZodArray({
-    type: schema11,
+    type: schema10,
     minLength: null,
     maxLength: null,
     exactLength: null,
@@ -75360,30 +75386,30 @@ ZodArray.create = (schema11, params) => {
     ...processCreateParams(params)
   });
 };
-function deepPartialify(schema11) {
-  if (schema11 instanceof ZodObject) {
+function deepPartialify(schema10) {
+  if (schema10 instanceof ZodObject) {
     const newShape = {};
-    for (const key in schema11.shape) {
-      const fieldSchema = schema11.shape[key];
+    for (const key in schema10.shape) {
+      const fieldSchema = schema10.shape[key];
       newShape[key] = ZodOptional.create(deepPartialify(fieldSchema));
     }
     return new ZodObject({
-      ...schema11._def,
+      ...schema10._def,
       shape: () => newShape
     });
-  } else if (schema11 instanceof ZodArray) {
+  } else if (schema10 instanceof ZodArray) {
     return new ZodArray({
-      ...schema11._def,
-      type: deepPartialify(schema11.element)
+      ...schema10._def,
+      type: deepPartialify(schema10.element)
     });
-  } else if (schema11 instanceof ZodOptional) {
-    return ZodOptional.create(deepPartialify(schema11.unwrap()));
-  } else if (schema11 instanceof ZodNullable) {
-    return ZodNullable.create(deepPartialify(schema11.unwrap()));
-  } else if (schema11 instanceof ZodTuple) {
-    return ZodTuple.create(schema11.items.map((item) => deepPartialify(item)));
+  } else if (schema10 instanceof ZodOptional) {
+    return ZodOptional.create(deepPartialify(schema10.unwrap()));
+  } else if (schema10 instanceof ZodNullable) {
+    return ZodNullable.create(deepPartialify(schema10.unwrap()));
+  } else if (schema10 instanceof ZodTuple) {
+    return ZodTuple.create(schema10.items.map((item) => deepPartialify(item)));
   } else {
-    return schema11;
+    return schema10;
   }
 }
 var ZodObject = class _ZodObject extends ZodType {
@@ -75599,8 +75625,8 @@ var ZodObject = class _ZodObject extends ZodType {
   //   }) as any;
   //   return merged;
   // }
-  setKey(key, schema11) {
-    return this.augment({ [key]: schema11 });
+  setKey(key, schema10) {
+    return this.augment({ [key]: schema10 });
   }
   // merge<Incoming extends AnyZodObject>(
   //   merging: Incoming
@@ -76046,10 +76072,10 @@ var ZodTuple = class _ZodTuple extends ZodType {
       status.dirty();
     }
     const items = [...ctx.data].map((item, itemIndex) => {
-      const schema11 = this._def.items[itemIndex] || this._def.rest;
-      if (!schema11)
+      const schema10 = this._def.items[itemIndex] || this._def.rest;
+      if (!schema10)
         return null;
-      return schema11._parse(new ParseInputLazyPath(ctx, item, ctx.path, itemIndex));
+      return schema10._parse(new ParseInputLazyPath(ctx, item, ctx.path, itemIndex));
     }).filter((x) => !!x);
     if (ctx.common.async) {
       return Promise.all(items).then((results) => {
@@ -76563,9 +76589,9 @@ var ZodPromise = class extends ZodType {
     }));
   }
 };
-ZodPromise.create = (schema11, params) => {
+ZodPromise.create = (schema10, params) => {
   return new ZodPromise({
-    type: schema11,
+    type: schema10,
     typeName: ZodFirstPartyTypeKind.ZodPromise,
     ...processCreateParams(params)
   });
@@ -76693,17 +76719,17 @@ var ZodEffects = class extends ZodType {
     util.assertNever(effect);
   }
 };
-ZodEffects.create = (schema11, effect, params) => {
+ZodEffects.create = (schema10, effect, params) => {
   return new ZodEffects({
-    schema: schema11,
+    schema: schema10,
     typeName: ZodFirstPartyTypeKind.ZodEffects,
     effect,
     ...processCreateParams(params)
   });
 };
-ZodEffects.createWithPreprocess = (preprocess, schema11, params) => {
+ZodEffects.createWithPreprocess = (preprocess, schema10, params) => {
   return new ZodEffects({
-    schema: schema11,
+    schema: schema10,
     effect: { type: "preprocess", transform: preprocess },
     typeName: ZodFirstPartyTypeKind.ZodEffects,
     ...processCreateParams(params)
@@ -77254,8 +77280,11 @@ function launcherOnly(port2) {
   };
 }
 
-// src/mini-apps/server-registry.ts
-var import_express10 = __toESM(require_express2(), 1);
+// src/mini-apps/sdk/server.ts
+function defineMiniApp(module) {
+  if (module.schema.id !== module.manifest.id) throw new Error(`Mini-app ${module.manifest.id} registers schema ${module.schema.id}`);
+  return module;
+}
 
 // src/mini-apps/brand-profile/server/repository.ts
 var createBrandProfileRepository = (store2) => store2;
@@ -77514,13 +77543,196 @@ function createBrandProfileRouter(store2) {
   return router;
 }
 
+// src/mini-apps/brand-profile/server/index.ts
+var server_default = defineMiniApp({
+  manifest,
+  schema,
+  register(sdk) {
+    const repository = createBrandProfileRepository(sdk.store);
+    const context = {
+      profile: () => repository.getBrandProfile(),
+      guideline: (kind) => repository.getBrandGuideline(kind),
+      assets: (filter) => repository.listBrandAssets(filter)
+    };
+    return { router: createBrandProfileRouter(repository), exports: { "brand-profile.context": context } };
+  }
+});
+
+// src/mini-apps/crm/server/repository.ts
+var createCrmRepository = (store2) => store2;
+
+// src/mini-apps/crm/server/routes.ts
+var import_express2 = __toESM(require_express2(), 1);
+function createCrmRouter(store2) {
+  const router = (0, import_express2.Router)();
+  router.get("/api/crm/overview", (_request, response, next) => {
+    try {
+      response.json(store2.getCrmOverview());
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/crm/customers", (request2, response, next) => {
+    try {
+      const stage = String(request2.query.stage ?? "");
+      response.json(store2.listCrmCustomers({ query: String(request2.query.q ?? ""), stage, archived: request2.query.archived === "1", limit: Number(request2.query.limit ?? 200) }));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/crm/customers/:id", (request2, response, next) => {
+    try {
+      const customer = store2.getCrmCustomer(request2.params.id);
+      if (!customer) return response.status(404).json({ error: "CRM customer not found" });
+      response.json(customer);
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/customers", (request2, response, next) => {
+    try {
+      response.status(201).json(store2.createCrmCustomer(request2.body ?? {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/crm/customers/:id", (request2, response, next) => {
+    try {
+      const { revision, ...input } = request2.body ?? {};
+      response.json(store2.updateCrmCustomer(request2.params.id, input, revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/customers/:id/transition", (request2, response, next) => {
+    try {
+      response.json(store2.transitionCrmCustomer(request2.params.id, request2.body?.stage, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/customers/:id/archive", (request2, response, next) => {
+    try {
+      response.json(store2.archiveCrmCustomer(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/customers/:id/restore", (request2, response, next) => {
+    try {
+      response.json(store2.archiveCrmCustomer(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/crm/opportunities", (request2, response, next) => {
+    try {
+      const stage = String(request2.query.stage ?? "");
+      response.json(store2.listCrmOpportunities({ query: String(request2.query.q ?? ""), stage, customerId: request2.query.customerId ? String(request2.query.customerId) : void 0, archived: request2.query.archived === "1", limit: Number(request2.query.limit ?? 200) }));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/crm/opportunities/:id", (request2, response, next) => {
+    try {
+      const opportunity = store2.getCrmOpportunity(request2.params.id);
+      if (!opportunity) return response.status(404).json({ error: "CRM opportunity not found" });
+      response.json(opportunity);
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/opportunities", (request2, response, next) => {
+    try {
+      response.status(201).json(store2.createCrmOpportunity(request2.body ?? {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/crm/opportunities/:id", (request2, response, next) => {
+    try {
+      const { revision, ...input } = request2.body ?? {};
+      response.json(store2.updateCrmOpportunity(request2.params.id, input, revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/opportunities/:id/transition", (request2, response, next) => {
+    try {
+      response.json(store2.transitionCrmOpportunity(request2.params.id, request2.body?.stage, request2.body?.revision, request2.body?.lostReason));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/opportunities/:id/archive", (request2, response, next) => {
+    try {
+      response.json(store2.archiveCrmOpportunity(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/opportunities/:id/restore", (request2, response, next) => {
+    try {
+      response.json(store2.archiveCrmOpportunity(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/interactions", (request2, response, next) => {
+    try {
+      response.status(201).json(store2.createCrmInteraction(request2.body ?? {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/crm/interactions/:id", (request2, response, next) => {
+    try {
+      const { revision, ...input } = request2.body ?? {};
+      response.json(store2.updateCrmInteraction(request2.params.id, input, revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/interactions/:id/archive", (request2, response, next) => {
+    try {
+      response.json(store2.archiveCrmInteraction(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/interactions/:id/restore", (request2, response, next) => {
+    try {
+      response.json(store2.archiveCrmInteraction(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/crm/tasks", (request2, response, next) => {
+    try {
+      response.status(201).json(store2.createCrmTask(request2.body ?? {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+  return router;
+}
+
+// src/mini-apps/crm/server/index.ts
+var server_default2 = defineMiniApp({
+  manifest: manifest2,
+  schema: schema2,
+  register(sdk) {
+    return { router: createCrmRouter(createCrmRepository(sdk.store)) };
+  }
+});
+
 // src/mini-apps/offers/server/repository.ts
 var createOffersRepository = (store2) => store2;
 
 // src/mini-apps/offers/server/routes.ts
-var import_express2 = __toESM(require_express2(), 1);
+var import_express3 = __toESM(require_express2(), 1);
 function createOffersRouter({ service: service2, store: store2, port: port2 }) {
-  const router = (0, import_express2.Router)();
+  const router = (0, import_express3.Router)();
   router.get("/api/offers", (request2, response, next) => {
     void (async () => {
       const status = String(request2.query.status ?? "");
@@ -77694,13 +77906,1289 @@ var OffersService = class {
   }
 };
 
+// src/mini-apps/offers/server/index.ts
+var server_default3 = defineMiniApp({
+  manifest: manifest3,
+  schema: schema3,
+  register(sdk) {
+    const repository = createOffersRepository(sdk.store);
+    const service2 = new OffersService(repository, sdk.kernel, sdk.codex, sdk.prompts, sdk.dataRoot, sdk.reconcileResults);
+    return { router: createOffersRouter({ service: service2, store: repository, port: sdk.port }) };
+  }
+});
+
+// src/mini-apps/personal-brand/server/audit-service.ts
+import path9 from "node:path";
+import { randomUUID as randomUUID4 } from "node:crypto";
+
+// src/mini-apps/personal-brand/contract.ts
+var personalBrandValueTypes2 = ["knowledge", "information", "motivation", "connection", "direct_support"];
+var personalBrandChannelIds = [
+  "facebook",
+  "zalo",
+  "instagram",
+  "tiktok",
+  "youtube",
+  "threads",
+  "x",
+  "linkedin"
+];
+
+// src/mini-apps/personal-brand/server/audit-service.ts
+var APPLICATION_KEY = "personal-brand";
+var PersonalBrandAuditService = class {
+  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, reconcileResults) {
+    this.store = store2;
+    this.codex = codex;
+    this.codexDesktop = codexDesktop2;
+    this.prompts = prompts;
+    this.projectRoot = projectRoot2;
+    this.reconcileResults = reconcileResults;
+  }
+  store;
+  codex;
+  codexDesktop;
+  prompts;
+  projectRoot;
+  reconcileResults;
+  async listAudits(input = {}) {
+    await this.reconcileResults();
+    return this.store.listPersonalBrandAudits(input);
+  }
+  async getAudit(id) {
+    await this.reconcileResults();
+    return this.store.getPersonalBrandAudit(id);
+  }
+  async createAudit(input, sourceUrl) {
+    const channels = this.normalizeChannels(input.channels);
+    if (this.store.listPersonalBrandAudits().items.some((audit2) => audit2.status === "queued" || audit2.status === "running")) {
+      throw new Error("M\u1ED9t l\u1EA7n Audit hi\u1EC7n di\u1EC7n kh\xE1c \u0111ang ch\u1EA1y. H\xE3y ch\u1EDD l\u1EA7n \u0111\xF3 ho\xE0n t\u1EA5t.");
+    }
+    await this.prompts.assertApplication(APPLICATION_KEY);
+    const id = randomUUID4();
+    const channelNames = channels.map((channel) => this.channelName(channel.id)).join(", ");
+    const task = this.store.createTask({
+      title: `Personal Brand \xB7 Audit hi\u1EC7n di\u1EC7n \xB7 ${channelNames}`.slice(0, 180),
+      description: `Qu\xE9t l\u1EA1i ${channels.length} k\xEAnh c\xE1 nh\xE2n b\u1EB1ng tr\xECnh duy\u1EC7t IAB \u0111\xE3 \u0111\u0103ng nh\u1EADp.`,
+      priority: "high",
+      source: { type: "personal-brand-audit", referenceId: id, label: "Personal Brand \xB7 Audit hi\u1EC7n di\u1EC7n", evidence: channels.map((channel) => channel.profileUrl), affectedGroups: ["marketing"], personalBrandAuditId: id }
+    });
+    const audit = this.store.createPersonalBrandAudit({ id, taskId: task.id, channels });
+    void this.dispatchAudit(audit.id, task.id, channels, sourceUrl);
+    return { audit };
+  }
+  async dispatchAudit(auditId, taskId, channels, sourceUrl) {
+    try {
+      const resultPath = path9.join(this.projectRoot, ".growth-studio", "task-results", `${taskId}.json`);
+      const prompt2 = await this.prompts.application(APPLICATION_KEY, "presence-audit", {
+        sourceUrl,
+        channelsJson: JSON.stringify(channels.map((channel) => ({ channel: this.channelName(channel.id), profileUrl: channel.profileUrl })), null, 2),
+        taskIdJson: taskId,
+        resultTitleJson: `Audit hi\u1EC7n di\u1EC7n \xB7 ${new Intl.DateTimeFormat("vi-VN", { dateStyle: "short", timeStyle: "short" }).format(/* @__PURE__ */ new Date())}`,
+        temporaryResultPathJson: `${resultPath}.tmp`,
+        resultPathJson: resultPath
+      });
+      const receipt = await this.codexDesktop.dispatch(
+        `growth-studio.task.${taskId}`,
+        `Personal Brand \xB7 Audit hi\u1EC7n di\u1EC7n`,
+        prompt2.text + this.codex.studioChannel(taskId),
+        this.projectRoot,
+        { delivery: "foreground", browserUrl: channels[0].profileUrl }
+      );
+      const current = this.store.getTask(taskId);
+      if (current) this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision);
+      this.store.markPersonalBrandAuditRunning(auditId);
+      this.store.addEvent({ level: "success", eventType: "personal_brand.audit.started", title: "Personal Brand presence audit started", detail: `${channels.length} channels \xB7 supervised IAB` });
+    } catch (error) {
+      const message2 = error instanceof Error ? error.message : String(error);
+      const current = this.store.getTask(taskId);
+      if (current) this.store.updateTask(taskId, { lastError: message2 }, current.revision);
+      this.store.markPersonalBrandAuditFailed(auditId, message2);
+      this.store.addEvent({ level: "failed", eventType: "personal_brand.audit.failed", title: "Personal Brand presence audit failed", detail: message2 });
+    }
+  }
+  normalizeChannels(input) {
+    if (!Array.isArray(input) || input.length === 0) throw new Error("H\xE3y ch\u1ECDn \xEDt nh\u1EA5t m\u1ED9t k\xEAnh v\xE0 l\u01B0u \u0111\u01B0\u1EDDng d\u1EABn profile tr\u01B0\u1EDBc khi Audit.");
+    const seen = /* @__PURE__ */ new Set();
+    return input.map((candidate) => {
+      const value = candidate && typeof candidate === "object" ? candidate : {};
+      const id = String(value.id ?? "");
+      if (!personalBrandChannelIds.includes(id) || seen.has(id)) throw new Error("Danh s\xE1ch k\xEAnh Audit kh\xF4ng h\u1EE3p l\u1EC7.");
+      seen.add(id);
+      const profileUrl = String(value.profileUrl ?? "").trim();
+      let parsed;
+      try {
+        parsed = new URL(profileUrl);
+      } catch {
+        throw new Error(`\u0110\u01B0\u1EDDng d\u1EABn profile ${this.channelName(id)} kh\xF4ng h\u1EE3p l\u1EC7.`);
+      }
+      if (parsed.protocol !== "https:" && parsed.protocol !== "http:") throw new Error(`\u0110\u01B0\u1EDDng d\u1EABn profile ${this.channelName(id)} ph\u1EA3i b\u1EAFt \u0111\u1EA7u b\u1EB1ng http:// ho\u1EB7c https://.`);
+      return { id, profileUrl: parsed.toString() };
+    });
+  }
+  channelName(id) {
+    return id === "facebook" ? "Facebook" : id === "zalo" ? "Zalo" : id === "instagram" ? "Instagram" : id === "tiktok" ? "TikTok" : id === "youtube" ? "YouTube" : id === "threads" ? "Threads" : id === "x" ? "X" : "LinkedIn";
+  }
+};
+
+// src/mini-apps/personal-brand/server/library-service.ts
+import path10 from "node:path";
+var APPLICATION_KEY2 = "personal-brand";
+var PersonalBrandLibraryService = class {
+  constructor(store2, codex, codexDesktop2, prompts, projectRoot2) {
+    this.store = store2;
+    this.codex = codex;
+    this.codexDesktop = codexDesktop2;
+    this.prompts = prompts;
+    this.projectRoot = projectRoot2;
+  }
+  store;
+  codex;
+  codexDesktop;
+  prompts;
+  projectRoot;
+  async createMaterial(input, sourceUrl) {
+    await this.prompts.assertApplication(APPLICATION_KEY2);
+    const material = this.store.createPersonalBrandMaterial(input);
+    return this.queueAnalysis(material, sourceUrl);
+  }
+  async updateMaterial(id, input, expectedRevision, sourceUrl) {
+    await this.prompts.assertApplication(APPLICATION_KEY2);
+    const material = this.store.updatePersonalBrandMaterial(id, input, expectedRevision);
+    return this.queueAnalysis(material, sourceUrl);
+  }
+  async retryMaterialAnalysis(materialId, taskId, sourceUrl) {
+    await this.prompts.assertApplication(APPLICATION_KEY2);
+    const material = this.store.getPersonalBrandMaterial(materialId);
+    if (!material) throw new Error("Personal Brand material not found");
+    const task = this.store.getTask(taskId);
+    if (!task || task.source.type !== "personal-brand-material" || task.source.personalBrandMaterialId !== materialId) {
+      throw new Error("Personal Brand material task not found");
+    }
+    if (task.status !== "inbox" && task.status !== "active") throw new Error("Personal Brand material task cannot be retried");
+    this.store.updateTask(taskId, { lastError: null }, task.revision);
+    const dispatched = await this.dispatchMaterial(material, taskId, sourceUrl);
+    if (dispatched.lastError) throw new Error(dispatched.lastError);
+    return { material, taskId, startedAt: dispatched.codexAssignedAt ?? dispatched.updatedAt };
+  }
+  queueAnalysis(material, sourceUrl) {
+    const task = this.store.createTask({
+      title: `Personal Brand \xB7 B\xF3c t\xE1ch \xFD t\u01B0\u1EDFng \xB7 ${material.title}`.slice(0, 180),
+      description: material.format === "research" ? `Nghi\xEAn c\u1EE9u v\xE0 t\u1EA1o Content Seeds: ${material.content}` : `Ph\xE2n t\xEDch t\u01B0 li\u1EC7u v\xE0 t\u1EA1o Content Seeds: ${material.title}`,
+      priority: "medium",
+      source: {
+        type: "personal-brand-material",
+        referenceId: `${material.id}:v${material.revision}`,
+        label: "Personal Brand \xB7 B\xF3c t\xE1ch Content Seeds",
+        evidence: material.sourceUrl ? [material.sourceUrl] : [],
+        affectedGroups: ["marketing"],
+        personalBrandMaterialId: material.id
+      }
+    });
+    void this.dispatchMaterial(material, task.id, sourceUrl);
+    return { material, taskId: task.id, startedAt: task.createdAt };
+  }
+  async dispatchMaterial(material, taskId, sourceUrl) {
+    try {
+      const resultPath = path10.join(this.projectRoot, ".growth-studio", "task-results", `${taskId}.json`);
+      const prompt2 = await this.prompts.application(APPLICATION_KEY2, "material-seeds", {
+        sourceUrl,
+        taskIdJson: taskId,
+        materialIdJson: material.id,
+        resultTitleJson: `Content Seeds \xB7 ${material.title}`,
+        materialTitle: material.title,
+        materialOrigin: material.origin,
+        materialType: material.format,
+        materialSourceUrl: material.sourceUrl || "(kh\xF4ng c\xF3)",
+        materialContent: material.content || "(kh\xF4ng c\xF3 tr\xEDch \u0111o\u1EA1n)",
+        temporaryResultPathJson: `${resultPath}.tmp`,
+        resultPathJson: resultPath
+      });
+      const beforeDispatch = this.store.getTask(taskId);
+      const taskKey = beforeDispatch?.codexThreadId ? `kgs.pb.${taskId}.r${beforeDispatch.revision}` : `growth-studio.task.${taskId}`;
+      const receipt = await this.codexDesktop.dispatch(
+        taskKey,
+        `Personal Brand \xB7 B\xF3c t\xE1ch Content Seeds`,
+        prompt2.text + this.codex.studioChannel(taskId),
+        this.projectRoot,
+        { openOnCreate: false }
+      );
+      const current = this.store.getTask(taskId);
+      const dispatched = current ? this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision) : null;
+      this.store.addEvent({ level: "success", eventType: "personal_brand.material.analysis_started", title: "Personal Brand material analysis started", detail: material.title });
+      return dispatched ?? this.store.getTask(taskId);
+    } catch (error) {
+      const message2 = error instanceof Error ? error.message : String(error);
+      const current = this.store.getTask(taskId);
+      const failed = current ? this.store.updateTask(taskId, { lastError: message2 }, current.revision) : null;
+      this.store.addEvent({ level: "failed", eventType: "personal_brand.material.analysis_failed", title: "Personal Brand material analysis failed", detail: message2 });
+      return failed ?? this.store.getTask(taskId);
+    }
+  }
+};
+
+// src/mini-apps/personal-brand/server/repository.ts
+var createPersonalBrandArticleRepository = (store2) => store2;
+var createPersonalBrandAuditRepository = (store2) => store2;
+var createPersonalBrandLibraryRepository = (store2) => store2;
+
+// src/mini-apps/personal-brand/server/routes.ts
+var import_express4 = __toESM(require_express2(), 1);
+function createPersonalBrandArticleRouter({ service: service2, audits, library, port: port2 }) {
+  const router = (0, import_express4.Router)();
+  router.post("/api/personal-brand/article-plans", (request2, response, next) => {
+    void service2.createPlan(request2.body ?? {}).then((value) => response.status(202).json(value)).catch(next);
+  });
+  router.get("/api/personal-brand/article-plans/:id", (request2, response, next) => {
+    void service2.getPlan(request2.params.id).then((value) => response.json(value)).catch(next);
+  });
+  router.get("/api/personal-brand/articles", (request2, response, next) => {
+    void service2.listArticles({ query: String(request2.query.q ?? ""), archived: request2.query.archived === "1" }).then((value) => response.json(value)).catch(next);
+  });
+  router.get("/api/personal-brand/articles/:id", (request2, response, next) => {
+    void service2.getArticle(request2.params.id).then((value) => value ? response.json(value) : response.status(404).json({ error: "Personal Brand article not found" })).catch(next);
+  });
+  router.post("/api/personal-brand/articles", (request2, response, next) => {
+    void service2.createArticle(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/personal-brand/content`).then((value) => response.status(201).json(value)).catch(next);
+  });
+  router.patch("/api/personal-brand/articles/:id", (request2, response, next) => {
+    try {
+      response.json(service2.store.updatePersonalBrandArticle(request2.params.id, { body: request2.body?.body }, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/articles/:id/transition", (request2, response, next) => {
+    try {
+      response.json(service2.store.transitionPersonalBrandArticle(request2.params.id, request2.body?.status, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/articles/:id/archive", (request2, response, next) => {
+    try {
+      response.json(service2.store.archivePersonalBrandArticle(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/articles/:id/restore", (request2, response, next) => {
+    try {
+      response.json(service2.store.archivePersonalBrandArticle(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/personal-brand/materials", (request2, response, next) => {
+    try {
+      response.json(library.store.listPersonalBrandMaterials({ query: String(request2.query.q ?? ""), archived: request2.query.archived === "1", origin: request2.query.origin ? String(request2.query.origin) : void 0, status: request2.query.status ? String(request2.query.status) : void 0 }));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/personal-brand/materials/:id", (request2, response, next) => {
+    try {
+      const value = library.store.getPersonalBrandMaterial(request2.params.id);
+      value ? response.json(value) : response.status(404).json({ error: "Personal Brand material not found" });
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/materials", (request2, response, next) => {
+    void library.createMaterial(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/personal-brand/materials`).then((value) => response.status(202).json(value)).catch(next);
+  });
+  router.patch("/api/personal-brand/materials/:id", (request2, response, next) => {
+    void library.updateMaterial(request2.params.id, request2.body ?? {}, request2.body?.revision, `http://127.0.0.1:${port2}/mini-apps/personal-brand/materials`).then((value) => response.status(202).json(value)).catch(next);
+  });
+  router.post("/api/personal-brand/materials/:id/analysis/retry", (request2, response, next) => {
+    void library.retryMaterialAnalysis(request2.params.id, String(request2.body?.taskId ?? ""), `http://127.0.0.1:${port2}/mini-apps/personal-brand/materials`).then((value) => response.status(202).json(value)).catch(next);
+  });
+  router.post("/api/personal-brand/materials/:id/transition", (request2, response, next) => {
+    try {
+      response.json(library.store.transitionPersonalBrandMaterial(request2.params.id, request2.body?.status, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/materials/:id/archive", (request2, response, next) => {
+    try {
+      response.json(library.store.archivePersonalBrandMaterial(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/materials/:id/restore", (request2, response, next) => {
+    try {
+      response.json(library.store.archivePersonalBrandMaterial(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/personal-brand/seeds", (request2, response, next) => {
+    try {
+      response.json(library.store.listPersonalBrandSeeds({ query: String(request2.query.q ?? ""), archived: request2.query.archived === "1", status: request2.query.status ? String(request2.query.status) : void 0 }));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/personal-brand/seeds/:id", (request2, response, next) => {
+    try {
+      const value = library.store.getPersonalBrandSeed(request2.params.id);
+      value ? response.json(value) : response.status(404).json({ error: "Personal Brand seed not found" });
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/seeds", (request2, response, next) => {
+    try {
+      response.status(201).json(library.store.createPersonalBrandSeed(request2.body ?? {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/personal-brand/seeds/:id", (request2, response, next) => {
+    try {
+      response.json(library.store.updatePersonalBrandSeed(request2.params.id, request2.body ?? {}, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/seeds/:id/transition", (request2, response, next) => {
+    try {
+      response.json(library.store.transitionPersonalBrandSeed(request2.params.id, request2.body?.status, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/seeds/:id/archive", (request2, response, next) => {
+    try {
+      response.json(library.store.archivePersonalBrandSeed(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/seeds/:id/restore", (request2, response, next) => {
+    try {
+      response.json(library.store.archivePersonalBrandSeed(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/personal-brand/audits", (request2, response, next) => {
+    void audits.listAudits({ query: String(request2.query.q ?? ""), archived: request2.query.archived === "1" }).then((value) => response.json(value)).catch(next);
+  });
+  router.get("/api/personal-brand/audits/:id", (request2, response, next) => {
+    void audits.getAudit(request2.params.id).then((value) => value ? response.json(value) : response.status(404).json({ error: "Personal Brand audit not found" })).catch(next);
+  });
+  router.post("/api/personal-brand/audits", (request2, response, next) => {
+    void audits.createAudit(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/personal-brand/audits`).then((value) => response.status(201).json(value)).catch(next);
+  });
+  router.post("/api/personal-brand/audits/:id/archive", (request2, response, next) => {
+    try {
+      response.json(audits.store.archivePersonalBrandAudit(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/personal-brand/audits/:id/restore", (request2, response, next) => {
+    try {
+      response.json(audits.store.archivePersonalBrandAudit(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  return router;
+}
+
+// src/mini-apps/personal-brand/server/service.ts
+import fs12 from "node:fs/promises";
+import path11 from "node:path";
+import { randomUUID as randomUUID5 } from "node:crypto";
+var APPLICATION_KEY3 = "personal-brand";
+var PLAN_FAILURE = "Codex ch\u01B0a t\u1EA1o \u0111\u01B0\u1EE3c h\u01B0\u1EDBng vi\u1EBFt h\u1EE3p l\u1EC7. H\xE3y th\u1EED l\u1EA1i.";
+var PersonalBrandArticleService = class {
+  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, reconcileResults) {
+    this.store = store2;
+    this.codex = codex;
+    this.codexDesktop = codexDesktop2;
+    this.prompts = prompts;
+    this.projectRoot = projectRoot2;
+    this.reconcileResults = reconcileResults;
+  }
+  store;
+  codex;
+  codexDesktop;
+  prompts;
+  projectRoot;
+  reconcileResults;
+  async listArticles(input = {}) {
+    await this.reconcileResults();
+    return this.store.listPersonalBrandArticles(input);
+  }
+  async getArticle(id) {
+    await this.reconcileResults();
+    return this.store.getPersonalBrandArticle(id);
+  }
+  async createPlan(input) {
+    const idea = this.text(input.idea, "Nguy\xEAn li\u1EC7u ch\xEDnh", 8e3, true);
+    const supportingContext = this.text(input.supportingContext, "Th\xF4ng tin th\xEAm", 2e4);
+    const audience = this.text(input.audience, "Ng\u01B0\u1EDDi \u0111\u1ECDc", 2e3);
+    const channel = this.text(input.channel, "K\xEAnh", 120, true);
+    const valueType = String(input.valueType ?? "");
+    if (!personalBrandValueTypes2.includes(valueType)) throw new Error("H\xE3y ch\u1ECDn m\u1ED9t lo\u1EA1i gi\xE1 tr\u1ECB h\u1EE3p l\u1EC7.");
+    await this.prompts.assertApplication(APPLICATION_KEY3);
+    const timestamp2 = (/* @__PURE__ */ new Date()).toISOString();
+    const state = { id: randomUUID5(), idea, supportingContext, audience, channel, valueType, coreMessage: "", angles: [], status: "queued", error: null, createdAt: timestamp2, updatedAt: timestamp2 };
+    await this.writePlan(state);
+    void this.dispatchPlan(state);
+    return this.publicPlan(state);
+  }
+  async getPlan(id) {
+    if (!/^[a-f0-9-]{36}$/i.test(id)) throw new Error("Kh\xF4ng t\xECm th\u1EA5y h\u01B0\u1EDBng vi\u1EBFt.");
+    const state = await this.readJson(this.planPaths(id).state);
+    if (!state) throw new Error("Kh\xF4ng t\xECm th\u1EA5y h\u01B0\u1EDBng vi\u1EBFt.");
+    if (state.status === "failed") return this.publicPlan(state);
+    const result = await this.readJson(this.planPaths(id).result);
+    if (result) return this.acceptPlan(state, result);
+    if (state.status === "running" && state.codexThreadId && this.codexDesktop.isRunning && !this.codexDesktop.isRunning(state.codexThreadId)) {
+      return this.acceptPlan(state, null);
+    }
+    return this.publicPlan(state);
+  }
+  async createArticle(input, sourceUrl) {
+    const valueType = String(input.valueType ?? "");
+    if (!personalBrandValueTypes2.includes(valueType)) throw new Error("H\xE3y ch\u1ECDn m\u1ED9t lo\u1EA1i gi\xE1 tr\u1ECB h\u1EE3p l\u1EC7.");
+    const angle = this.normalizeAngle(input.angle);
+    const payload = {
+      idea: this.text(input.idea, "Nguy\xEAn li\u1EC7u ch\xEDnh", 8e3, true),
+      supportingContext: this.text(input.supportingContext, "Th\xF4ng tin th\xEAm", 2e4),
+      coreMessage: this.text(input.coreMessage, "Th\xF4ng \u0111i\u1EC7p c\u1ED1t l\xF5i", 3e3, true),
+      angle,
+      valueType,
+      audience: this.text(input.audience, "Ng\u01B0\u1EDDi \u0111\u1ECDc", 2e3),
+      channel: this.text(input.channel, "K\xEAnh", 120, true)
+    };
+    await this.prompts.assertApplication(APPLICATION_KEY3);
+    const id = randomUUID5();
+    const task = this.store.createTask({
+      title: `Personal Brand \xB7 ${angle.title}`.slice(0, 180),
+      description: payload.idea,
+      priority: "medium",
+      source: { type: "personal-brand", referenceId: id, label: "Personal Brand \xB7 Trao gi\xE1 tr\u1ECB", evidence: [], affectedGroups: ["marketing"], personalBrandArticleId: id }
+    });
+    const snapshot = this.store.getBrandProfile() ? this.store.createBrandContextSnapshot() : null;
+    const article = this.store.createPersonalBrandArticle({ ...payload, id, taskId: task.id, brandContextSnapshotId: snapshot?.id ?? null });
+    const paths = await this.resultPaths(task.id);
+    const brandContext = snapshot ? JSON.stringify({ profile: snapshot.profile, records: snapshot.records, claims: snapshot.claims, guidelines: snapshot.guidelines, gaps: snapshot.gaps }) : "No approved Brand Profile snapshot is available.";
+    void this.dispatchArticle(article.id, task.id, angle.title, async () => {
+      const prompt2 = await this.prompts.application(APPLICATION_KEY3, "article-draft", {
+        sourceUrl,
+        idea: payload.idea,
+        supportingContext: payload.supportingContext || "none",
+        coreMessage: payload.coreMessage,
+        angle: payload.angle.title,
+        rationale: payload.angle.rationale,
+        approach: payload.angle.approach,
+        valueType: payload.valueType,
+        audience: payload.audience || "the intended Personal Brand audience",
+        channel: payload.channel,
+        brandContext,
+        taskIdJson: task.id,
+        resultTitleJson: payload.angle.title,
+        temporaryResultPathJson: paths.temporary,
+        resultPathJson: paths.final
+      });
+      return prompt2.text;
+    });
+    return { article };
+  }
+  async dispatchPlan(state) {
+    const paths = this.planPaths(state.id);
+    try {
+      await this.writePlan({ ...state, status: "running", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString() });
+      const prompt2 = await this.prompts.application(APPLICATION_KEY3, "angle-plan", {
+        idea: state.idea,
+        supportingContext: state.supportingContext || "none",
+        audience: state.audience || "the intended Personal Brand audience",
+        channel: state.channel,
+        valueType: state.valueType,
+        planIdJson: state.id,
+        temporaryResultPathJson: paths.temporary,
+        resultPathJson: paths.result
+      });
+      const receipt = await this.codexDesktop.dispatch(`growth-studio.pb-plan.${state.id}`, `Personal Brand \xB7 H\u01B0\u1EDBng vi\u1EBFt \xB7 ${state.idea.slice(0, 55)}`, prompt2.text, this.projectRoot, { openOnCreate: false });
+      const running = { ...state, status: "running", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), codexThreadId: receipt.threadId, codexMessageId: receipt.messageId };
+      await this.writePlan(running);
+      if (!this.codexDesktop.isRunning) return;
+      for (let attempt = 0; attempt < 1200 && this.codexDesktop.isRunning(receipt.threadId); attempt += 1) await new Promise((resolve) => setTimeout(resolve, 500));
+      const raw = await this.readJson(paths.result);
+      if (!raw) throw new Error("Codex finished without a Personal Brand angle plan");
+      await this.acceptPlan(running, raw);
+    } catch (error) {
+      await fs12.rm(paths.temporary, { force: true }).catch(() => void 0);
+      await fs12.rm(paths.result, { force: true }).catch(() => void 0);
+      await this.writePlan({ ...state, status: "failed", error: PLAN_FAILURE, updatedAt: (/* @__PURE__ */ new Date()).toISOString() });
+      this.store.addEvent({ level: "failed", eventType: "personal_brand.article_plan.failed", title: "Personal Brand angle planning failed", detail: error instanceof Error ? error.message : String(error) });
+    }
+  }
+  async dispatchArticle(articleId, taskId, title, makePrompt) {
+    try {
+      const message2 = await makePrompt() + this.codex.studioChannel(taskId);
+      const receipt = await this.codexDesktop.dispatch(`growth-studio.task.${taskId}`, `Personal Brand \xB7 ${title}`, message2, this.projectRoot, { openOnCreate: false });
+      const current = this.store.getTask(taskId);
+      if (current) this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision);
+      this.store.markPersonalBrandArticleRunning(articleId);
+      this.store.addEvent({ level: "success", eventType: "personal_brand.article.started", title: "Personal Brand article started", detail: `${title} \xB7 ${receipt.threadId}` });
+    } catch (error) {
+      const message2 = error instanceof Error ? error.message : String(error);
+      const current = this.store.getTask(taskId);
+      if (current) this.store.updateTask(taskId, { lastError: message2 }, current.revision);
+      this.store.markPersonalBrandArticleFailed(articleId, message2);
+      this.store.addEvent({ level: "failed", eventType: "personal_brand.article.failed", title: "Personal Brand article failed", detail: message2 });
+    }
+  }
+  publicPlan(state) {
+    return { id: state.id, idea: state.idea, coreMessage: state.coreMessage, angles: state.angles, status: state.status, error: state.error, createdAt: state.createdAt, updatedAt: state.updatedAt };
+  }
+  async acceptPlan(state, input) {
+    try {
+      if (!input || typeof input !== "object") throw new Error("Codex finished without a Personal Brand angle plan");
+      const result = input;
+      if (result.schemaVersion !== "personal-brand-angle-plan-v1" || result.planId !== state.id) throw new Error("Invalid Personal Brand plan");
+      const coreMessage = this.text(result.coreMessage, "Th\xF4ng \u0111i\u1EC7p c\u1ED1t l\xF5i", 3e3, true);
+      if (!Array.isArray(result.angles) || result.angles.length !== 3) throw new Error("Personal Brand plan must contain exactly three angles");
+      const angles = result.angles.map((value) => this.normalizeAngle(value));
+      if (angles.some((angle, index) => angle.id !== `angle-${index + 1}`) || new Set(angles.map((angle) => angle.title.toLocaleLowerCase())).size !== angles.length) throw new Error("Personal Brand angles must be distinct and sequential");
+      const ready = { ...state, coreMessage, angles, status: "ready", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
+      await this.writePlan(ready);
+      this.store.addEvent({ level: "success", eventType: "personal_brand.article_plan.ready", title: "Personal Brand angles ready", detail: state.idea.slice(0, 160) });
+      return this.publicPlan(ready);
+    } catch (error) {
+      await fs12.rm(this.planPaths(state.id).result, { force: true }).catch(() => void 0);
+      const failed = { ...state, coreMessage: "", angles: [], status: "failed", error: PLAN_FAILURE, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
+      await this.writePlan(failed);
+      this.store.addEvent({ level: "failed", eventType: "personal_brand.article_plan.failed", title: "Personal Brand angle planning failed", detail: error instanceof Error ? error.message : String(error) });
+      return this.publicPlan(failed);
+    }
+  }
+  normalizeAngle(input) {
+    const value = input && typeof input === "object" ? input : {};
+    return {
+      id: this.text(value.id, "M\xE3 h\u01B0\u1EDBng vi\u1EBFt", 120, true),
+      title: this.text(value.title, "T\xEAn h\u01B0\u1EDBng vi\u1EBFt", 240, true),
+      rationale: this.text(value.rationale, "L\xFD do ch\u1ECDn h\u01B0\u1EDBng vi\u1EBFt", 2e3, true),
+      approach: this.text(value.approach, "C\xE1ch tri\u1EC3n khai", 2e3, true)
+    };
+  }
+  text(value, label, limit2, required = false) {
+    const normalized = typeof value === "string" ? value.trim() : "";
+    if (required && !normalized) throw new Error(`${label} l\xE0 b\u1EAFt bu\u1ED9c.`);
+    if (normalized.length > limit2) throw new Error(`${label} v\u01B0\u1EE3t qu\xE1 ${limit2} k\xFD t\u1EF1.`);
+    return normalized;
+  }
+  planPaths(id) {
+    const directory = path11.join(this.projectRoot, ".growth-studio", "personal-brand-angle-plans");
+    return { directory, state: path11.join(directory, `${id}.state.json`), temporary: path11.join(directory, `${id}.json.tmp`), result: path11.join(directory, `${id}.json`) };
+  }
+  async resultPaths(taskId) {
+    const directory = path11.join(this.projectRoot, ".growth-studio", "task-results");
+    await fs12.mkdir(directory, { recursive: true });
+    const final = path11.join(directory, `${taskId}.json`);
+    return { final, temporary: `${final}.tmp` };
+  }
+  async readJson(file) {
+    try {
+      return JSON.parse(await fs12.readFile(file, "utf8"));
+    } catch (error) {
+      if (error.code === "ENOENT") return null;
+      throw error;
+    }
+  }
+  async writePlan(state) {
+    const paths = this.planPaths(state.id);
+    await fs12.mkdir(paths.directory, { recursive: true });
+    await fs12.writeFile(paths.state, JSON.stringify(state, null, 2), "utf8");
+  }
+};
+
+// src/mini-apps/personal-brand/server/index.ts
+var server_default4 = defineMiniApp({
+  manifest: manifest4,
+  schema: schema4,
+  register(sdk) {
+    const service2 = new PersonalBrandArticleService(createPersonalBrandArticleRepository(sdk.store), sdk.kernel, sdk.codex, sdk.prompts, sdk.dataRoot, sdk.reconcileResults);
+    const audits = new PersonalBrandAuditService(createPersonalBrandAuditRepository(sdk.store), sdk.kernel, sdk.codex, sdk.prompts, sdk.dataRoot, sdk.reconcileResults);
+    const library = new PersonalBrandLibraryService(createPersonalBrandLibraryRepository(sdk.store), sdk.kernel, sdk.codex, sdk.prompts, sdk.dataRoot);
+    return { router: createPersonalBrandArticleRouter({ service: service2, audits, library, port: sdk.port }) };
+  }
+});
+
+// src/mini-apps/quick-content/server/repository.ts
+var createQuickContentRepository = (store2) => store2;
+
+// src/mini-apps/quick-content/server/routes.ts
+var import_express5 = __toESM(require_express2(), 1);
+function createQuickContentRouter({ service: service2, port: port2 }) {
+  const router = (0, import_express5.Router)();
+  router.get("/api/quick-content/context-options", (_request, response) => response.json(service2.contextOptions()));
+  router.get("/api/quick-content/insights", (_request, response, next) => {
+    try {
+      response.json(service2.insights());
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/quick-content/settings", (_request, response, next) => {
+    try {
+      response.json(service2.store.getQuickContentSettings());
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/quick-content/settings", (request2, response, next) => {
+    try {
+      const { revision, ...input } = request2.body ?? {};
+      response.json(service2.store.updateQuickContentSettings(input, revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/angle-plans", (request2, response, next) => {
+    void service2.createAnglePlan(request2.body ?? {}).then((value) => response.status(202).json(value)).catch(next);
+  });
+  router.get("/api/quick-content/angle-plans/:id", (request2, response, next) => {
+    void service2.getAnglePlan(request2.params.id).then((value) => response.json(value)).catch(next);
+  });
+  router.get("/api/quick-content/batches", (request2, response, next) => {
+    void service2.listBatches({ query: String(request2.query.q ?? ""), status: String(request2.query.status ?? ""), archived: request2.query.archived === "1", sourceApp: String(request2.query.sourceApp ?? "quick-content") }).then((value) => response.json(value)).catch(next);
+  });
+  router.get("/api/quick-content/batches/:id", (request2, response, next) => {
+    void service2.getBatch(request2.params.id).then((value) => value ? response.json(value) : response.status(404).json({ error: "Quick Content batch not found" })).catch(next);
+  });
+  router.post("/api/quick-content/batches", (request2, response, next) => {
+    void service2.createBatch(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/quick-content/batches`).then((value) => response.status(201).json(value)).catch(next);
+  });
+  router.post("/api/quick-content/batches/:id/archive", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickContentBatch(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/batches/:id/restore", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickContentBatch(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/quick-content/drafts/:id", (request2, response, next) => {
+    try {
+      const value = service2.store.getQuickContentDraft(request2.params.id);
+      value ? response.json(value) : response.status(404).json({ error: "Quick Content draft not found" });
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/quick-content/drafts/:id", (request2, response, next) => {
+    try {
+      response.json(service2.store.updateQuickContentDraft(request2.params.id, { body: request2.body?.body }, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/drafts/:id/transition", (request2, response, next) => {
+    try {
+      response.json(service2.store.transitionQuickContentDraft(request2.params.id, request2.body?.status, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/drafts/:id/archive", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickContentDraft(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/drafts/:id/restore", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickContentDraft(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/drafts/:id/regenerate", (request2, response, next) => {
+    void service2.regenerateDraft(request2.params.id, request2.body?.note, `http://127.0.0.1:${port2}/mini-apps/quick-content/batches`).then((value) => response.status(201).json(value)).catch(next);
+  });
+  router.get("/api/quick-content/recipes", (request2, response, next) => {
+    try {
+      response.json(service2.store.listQuickContentRecipes({ archived: request2.query.archived === "1" }));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/recipes", (request2, response, next) => {
+    try {
+      response.status(201).json(service2.store.createQuickContentRecipe(request2.body ?? {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/quick-content/recipes/:id", (request2, response, next) => {
+    try {
+      const { revision, ...input } = request2.body ?? {};
+      response.json(service2.store.updateQuickContentRecipe(request2.params.id, input, revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/recipes/:id/archive", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickContentRecipe(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-content/recipes/:id/restore", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickContentRecipe(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  return router;
+}
+
+// src/mini-apps/quick-content/server/service.ts
+import fs13 from "node:fs/promises";
+import path12 from "node:path";
+import { randomUUID as randomUUID6 } from "node:crypto";
+var QUICK_CONTENT_APPLICATION_KEY = "quick-content";
+var ANGLE_PLAN_FAILURE = "Codex ch\u01B0a t\u1EA1o \u0111\u01B0\u1EE3c h\u01B0\u1EDBng vi\u1EBFt h\u1EE3p l\u1EC7. H\xE3y th\u1EED l\u1EA1i.";
+var QuickContentService = class {
+  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, reconcileResults) {
+    this.store = store2;
+    this.codex = codex;
+    this.codexDesktop = codexDesktop2;
+    this.prompts = prompts;
+    this.projectRoot = projectRoot2;
+    this.reconcileResults = reconcileResults;
+  }
+  store;
+  codex;
+  codexDesktop;
+  prompts;
+  projectRoot;
+  reconcileResults;
+  async listBatches(input = {}) {
+    await this.reconcileResults();
+    return this.store.listQuickContentBatches(input);
+  }
+  async getBatch(id) {
+    await this.reconcileResults();
+    return this.store.getQuickContentBatch(id);
+  }
+  contextOptions() {
+    const offers = this.store.listOffers({ status: "active", limit: 200 }).items.map((offer) => ({ id: offer.id, name: offer.name, summary: offer.summary, revision: offer.revision }));
+    return { offers };
+  }
+  insights() {
+    return this.store.getQuickContentInsights();
+  }
+  async createAnglePlan(input) {
+    const idea = String(input.idea ?? "").trim();
+    const supportingContext = String(input.supportingContext ?? "").trim();
+    if (!idea || idea.length > 8e3) throw new Error("Quick Content idea is required and must stay under 8000 characters");
+    if (supportingContext.length > 2e4) throw new Error("Quick Content supporting context must stay under 20000 characters");
+    const angleCount = Number(input.angleCount ?? 6);
+    if (angleCount !== 3 && angleCount !== 6) throw new Error("Quick Content angle count must be 3 or 6");
+    await this.prompts.assertApplication(QUICK_CONTENT_APPLICATION_KEY);
+    const id = randomUUID6();
+    const timestamp2 = (/* @__PURE__ */ new Date()).toISOString();
+    const plan = { id, idea, coreMessage: "", angles: [], angleCount, status: "queued", error: null, createdAt: timestamp2, updatedAt: timestamp2 };
+    await this.writeAnglePlanState({ ...plan, supportingContext });
+    void this.dispatchAnglePlan(plan, supportingContext);
+    return plan;
+  }
+  async getAnglePlan(id) {
+    if (!/^[a-f0-9-]{36}$/i.test(id)) throw new Error("Quick Content angle plan not found");
+    const paths = this.anglePlanPaths(id);
+    const state = await this.readJson(paths.state);
+    if (!state) throw new Error("Quick Content angle plan not found");
+    if (state.status === "failed") return this.publicAnglePlan(state);
+    const result = await this.readJson(paths.result);
+    if (result) return this.acceptAnglePlanResult(state, result);
+    if (state.status === "running" && state.codexThreadId && this.codexDesktop.isRunning && !this.codexDesktop.isRunning(state.codexThreadId)) {
+      return this.acceptAnglePlanResult(state, null);
+    }
+    return this.publicAnglePlan(state);
+  }
+  publicAnglePlan(state) {
+    return { id: state.id, idea: state.idea, coreMessage: state.coreMessage, angles: state.angles, angleCount: state.angleCount ?? 6, status: state.status, error: state.error, createdAt: state.createdAt, updatedAt: state.updatedAt };
+  }
+  async acceptAnglePlanResult(state, result) {
+    try {
+      if (!result || typeof result !== "object") throw new Error("Codex task finished without a Quick Content angle plan artifact");
+      const normalized = this.normalizeAnglePlanResult(state.id, result, state.angleCount ?? 6);
+      const ready = { ...state, ...normalized, status: "ready", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
+      await this.writeAnglePlanState(ready);
+      return this.publicAnglePlan(ready);
+    } catch (error) {
+      await fs13.rm(this.anglePlanPaths(state.id).result, { force: true }).catch(() => void 0);
+      const failed = { ...state, coreMessage: "", angles: [], status: "failed", error: ANGLE_PLAN_FAILURE, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
+      await this.writeAnglePlanState(failed);
+      this.store.addEvent({ level: "failed", eventType: "quick_content.angle_plan.failed", title: "Quick Content angle planning failed", detail: error instanceof Error ? error.message : String(error) });
+      return this.publicAnglePlan(failed);
+    }
+  }
+  normalizeAnglePlanResult(id, input, angleCount) {
+    const result = input;
+    const coreMessage = String(result.coreMessage ?? "").trim();
+    if (result.schemaVersion !== "quick-content-angle-plan-v1" || result.planId !== id || !coreMessage || coreMessage.length > 3e3 || !Array.isArray(result.angles) || result.angles.length !== angleCount) throw new Error("Quick Content angle plan result is invalid");
+    const angles = result.angles.map((raw, index) => {
+      const angle = raw;
+      const normalized = { id: String(angle.id ?? `angle-${index + 1}`).trim(), title: String(angle.title ?? "").trim(), rationale: String(angle.rationale ?? "").trim(), approach: String(angle.approach ?? "").trim() };
+      if (normalized.id !== `angle-${index + 1}` || !normalized.title || normalized.title.length > 240 || !normalized.rationale || normalized.rationale.length > 2e3 || !normalized.approach || normalized.approach.length > 2e3) throw new Error("Quick Content angle plan contains an invalid angle");
+      return normalized;
+    });
+    if (new Set(angles.map((angle) => angle.id)).size !== angles.length || new Set(angles.map((angle) => angle.title.toLocaleLowerCase())).size !== angles.length) throw new Error("Quick Content angle plan must contain distinct angles");
+    const operationalBlocker = [coreMessage, ...angles.flatMap((angle) => [angle.title, angle.rationale, angle.approach])].join("\n");
+    const blockerTitles = /* @__PURE__ */ new Set(["b\u1ECB ch\u1EB7n", "ch\u01B0a x\u1EED l\xFD", "\u0111\xFAng ph\u1EA1m vi"]);
+    const onlyBlockerTitles = angles.every((angle) => blockerTitles.has(angle.title.toLocaleLowerCase()));
+    if (onlyBlockerTitles || /growth_catalog|growth_engine_get|kallob cloud is not connected|không thể lập kế hoạch|công cụ.{0,40}không.{0,20}khả dụng/i.test(operationalBlocker)) throw new Error("Quick Content angle plan returned an operational blocker instead of content angles");
+    return { coreMessage, angles };
+  }
+  async createBatch(input, sourceUrl) {
+    const batchId = randomUUID6();
+    const parsedSource = new URL(sourceUrl);
+    if (parsedSource.protocol !== "http:" || !["127.0.0.1", "localhost", "[::1]"].includes(parsedSource.hostname)) throw new Error("Quick Content source must be the local Growth Studio");
+    if (input.sourceApp === "personal-brand") parsedSource.pathname = "/mini-apps/personal-brand/content";
+    sourceUrl = parsedSource.toString();
+    const offer = input.offerId ? this.store.getOffer(String(input.offerId)) : null;
+    if (input.offerId && (!offer || offer.archivedAt || offer.status !== "active")) throw new Error("Quick Content requires an active Offer when one is selected");
+    await this.prompts.assertApplication(QUICK_CONTENT_APPLICATION_KEY);
+    const brandSnapshot = this.store.getBrandProfile() ? this.store.createBrandContextSnapshot() : null;
+    const task = this.store.createTask({
+      title: `${input.sourceApp === "personal-brand" ? "Personal Brand" : "Quick Content"} \xB7 ${String(input.coreMessage ?? input.idea ?? "").trim().slice(0, 140) || "Untitled batch"}`,
+      description: String(input.idea ?? "").trim(),
+      priority: "medium",
+      source: { type: "quick-content", referenceId: batchId, label: input.sourceApp === "personal-brand" ? "Personal Brand \xB7 Trao gi\xE1 tr\u1ECB" : "Quick Content \xB7 Content Production", evidence: [], affectedGroups: ["marketing"], quickContentBatchId: batchId }
+    });
+    const batch = this.store.createQuickContentBatch({ ...input, id: batchId, taskId: task.id, brandContextSnapshotId: brandSnapshot?.id ?? null, offerRevision: offer?.revision ?? null });
+    const resultPath = await this.prepareResultPath(task.id);
+    const context = brandSnapshot ? JSON.stringify({ profile: brandSnapshot.profile, records: brandSnapshot.records, claims: brandSnapshot.claims, guidelines: brandSnapshot.guidelines, gaps: brandSnapshot.gaps }) : "No approved Brand Profile snapshot is available.";
+    void this.dispatch(task.id, batch.id, `Growth Studio \xB7 Quick Content \xB7 ${batch.title}`, () => this.batchPrompt(batch, context, offer ? JSON.stringify(offer) : "No Offer selected.", sourceUrl, resultPath.temporary, resultPath.final));
+    return { batch };
+  }
+  anglePlanPaths(id) {
+    const directory = path12.join(this.projectRoot, ".growth-studio", "quick-content-angle-plans");
+    return { directory, state: path12.join(directory, `${id}.state.json`), result: path12.join(directory, `${id}.json`), temporary: path12.join(directory, `${id}.json.tmp`) };
+  }
+  async readJson(file) {
+    try {
+      return JSON.parse(await fs13.readFile(file, "utf8"));
+    } catch (error) {
+      if (error.code === "ENOENT") return null;
+      throw error;
+    }
+  }
+  async writeAnglePlanState(state) {
+    const paths = this.anglePlanPaths(state.id);
+    await fs13.mkdir(paths.directory, { recursive: true });
+    await fs13.writeFile(paths.state, JSON.stringify(state, null, 2), "utf8");
+  }
+  async dispatchAnglePlan(plan, supportingContext) {
+    const paths = this.anglePlanPaths(plan.id);
+    try {
+      await this.writeAnglePlanState({ ...plan, status: "running", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), supportingContext });
+      this.store.addEvent({ level: "success", eventType: "quick_content.angle_plan.started", title: "Quick Content angle planning started", detail: `${plan.idea.slice(0, 120)} \xB7 durable Codex task` });
+      const prompt2 = await this.anglePlanPrompt(plan, supportingContext, paths.temporary, paths.result);
+      const receipt = await this.codexDesktop.dispatch(`growth-studio.angle.${plan.id}`, `Growth Studio \xB7 Content angles \xB7 ${plan.idea.slice(0, 60)}`, prompt2, this.projectRoot, { openOnCreate: false });
+      const running = { ...plan, status: "running", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), supportingContext, codexThreadId: receipt.threadId, codexMessageId: receipt.messageId };
+      await this.writeAnglePlanState(running);
+      if (!this.codexDesktop.isRunning) return;
+      for (let attempt = 0; attempt < 1200 && this.codexDesktop.isRunning(receipt.threadId); attempt += 1) await new Promise((resolve) => setTimeout(resolve, 500));
+      const rawResult = await this.readJson(paths.result);
+      if (!rawResult) throw new Error("Codex task finished without a Quick Content angle plan artifact");
+      const settled = await this.acceptAnglePlanResult(running, rawResult);
+      if (settled.status !== "ready") return;
+      this.store.addEvent({ level: "success", eventType: "quick_content.angle_plan.ready", title: "Quick Content angle plan ready", detail: plan.idea.slice(0, 160) });
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : String(error);
+      await fs13.rm(paths.temporary, { force: true }).catch(() => void 0);
+      await fs13.rm(paths.result, { force: true }).catch(() => void 0);
+      await this.writeAnglePlanState({ ...plan, status: "failed", error: ANGLE_PLAN_FAILURE, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), supportingContext });
+      this.store.addEvent({ level: "failed", eventType: "quick_content.angle_plan.failed", title: "Quick Content angle planning failed", detail });
+    }
+  }
+  async regenerateDraft(id, note, sourceUrl) {
+    const draft = this.store.getQuickContentDraft(id);
+    if (!draft || draft.archivedAt) throw new Error("Quick Content draft is unavailable");
+    const batch = this.store.getQuickContentBatch(draft.batchId);
+    if (!batch || batch.archivedAt) throw new Error("Quick Content batch is unavailable");
+    const instruction = String(note ?? "").trim();
+    if (!instruction || instruction.length > 4e3) throw new Error("Regeneration note is required and must stay under 4000 characters");
+    await this.prompts.assertApplication(QUICK_CONTENT_APPLICATION_KEY);
+    const task = this.store.createTask({
+      title: `Quick Content revision \xB7 ${draft.angle}`.slice(0, 180),
+      description: instruction,
+      priority: "medium",
+      source: { type: "quick-content", referenceId: `${batch.id}:${draft.id}:${draft.version + 1}`, label: "Quick Content \xB7 Draft revision", evidence: [], affectedGroups: ["marketing"], quickContentBatchId: batch.id, quickContentDraftId: draft.id }
+    });
+    const resultPath = await this.prepareResultPath(task.id);
+    void this.dispatch(task.id, batch.id, `Growth Studio \xB7 Quick Content revision \xB7 ${draft.angle}`, () => this.regenerationPrompt(batch, draft, instruction, sourceUrl, resultPath.temporary, resultPath.final, task.id));
+    return { taskId: task.id };
+  }
+  async prepareResultPath(taskId) {
+    const directory = path12.join(this.projectRoot, ".growth-studio", "task-results");
+    await fs13.mkdir(directory, { recursive: true });
+    const final = path12.join(directory, `${taskId}.json`);
+    return { final, temporary: `${final}.tmp` };
+  }
+  /** Runs in the background: Codex never comes to the front for a Quick Content run. */
+  async dispatch(taskId, batchId, title, prompt2) {
+    try {
+      const message2 = await prompt2() + this.codex.studioChannel(taskId);
+      const receipt = await this.codexDesktop.dispatch(`growth-studio.task.${taskId}`, title, message2, this.projectRoot, { openOnCreate: false });
+      const current = this.store.getTask(taskId);
+      if (current) this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision);
+      this.store.markQuickContentBatchRunning(batchId);
+      this.store.addEvent({ level: "success", eventType: "quick_content.started", title: "Quick Content generation started", detail: `${title} \xB7 ${receipt.threadId}` });
+    } catch (error) {
+      const message2 = error instanceof Error ? error.message : String(error);
+      const current = this.store.getTask(taskId);
+      if (current) this.store.updateTask(taskId, { lastError: message2 }, current.revision);
+      this.store.markQuickContentBatchFailed(batchId, message2);
+      this.store.addEvent({ level: "failed", eventType: "quick_content.failed", title: "Quick Content generation failed", detail: message2 });
+    }
+  }
+  async anglePlanPrompt(plan, supportingContext, temporaryResultPath, resultPath) {
+    const settings = this.store.getQuickContentSettings();
+    const prompt2 = await this.prompts.application(QUICK_CONTENT_APPLICATION_KEY, "angle-plan", {
+      idea: plan.idea,
+      supportingContext: supportingContext || "none",
+      audience: settings.audience,
+      objective: settings.objective,
+      channel: settings.channel,
+      tone: settings.tone,
+      angleCount: plan.angleCount,
+      planIdJson: plan.id,
+      temporaryResultPathJson: temporaryResultPath,
+      resultPathJson: resultPath
+    });
+    return prompt2.text;
+  }
+  async batchPrompt(batch, context, offer, sourceUrl, temporaryResultPath, resultPath) {
+    const confirmedAngles = batch.selectedAngles.length ? batch.selectedAngles.map((angle, index) => `${index + 1}. ${angle.title}
+Why: ${angle.rationale}
+Approach: ${angle.approach}`).join("\n\n") : "No angle plan was confirmed; derive distinct angles from the brief.";
+    const prompt2 = await this.prompts.application(QUICK_CONTENT_APPLICATION_KEY, "content-batch", {
+      quantity: batch.quantity,
+      sourceUrl,
+      idea: batch.idea,
+      coreMessage: batch.coreMessage,
+      audience: batch.audience,
+      objective: batch.objective,
+      channel: batch.channel,
+      structure: batch.structure,
+      length: batch.length,
+      tone: batch.tone,
+      callToAction: batch.callToAction || "none",
+      supportingContext: batch.supportingContext || "none",
+      confirmedAngles,
+      brandContext: context,
+      offer,
+      temporaryResultPathJson: temporaryResultPath,
+      resultPathJson: resultPath,
+      taskIdJson: batch.taskId,
+      resultTitleJson: `Quick Content \xB7 ${batch.title}`,
+      batchIdJson: batch.id,
+      coreMessageJson: batch.coreMessage
+    });
+    return prompt2.text;
+  }
+  async regenerationPrompt(batch, draft, note, sourceUrl, temporaryResultPath, resultPath, taskId) {
+    const prompt2 = await this.prompts.application(QUICK_CONTENT_APPLICATION_KEY, "draft-revision", {
+      sourceUrl,
+      coreMessage: batch.coreMessage,
+      audience: batch.audience,
+      channel: batch.channel,
+      tone: batch.tone,
+      structure: batch.structure,
+      angle: draft.angle,
+      currentBody: draft.body,
+      note,
+      temporaryResultPathJson: temporaryResultPath,
+      resultPathJson: resultPath,
+      taskIdJson: taskId,
+      resultTitleJson: `Quick Content revision \xB7 ${draft.angle}`,
+      batchIdJson: batch.id,
+      coreMessageJson: batch.coreMessage,
+      draftIdJson: draft.id,
+      angleJson: draft.angle,
+      rationaleJson: draft.rationale
+    });
+    return prompt2.text;
+  }
+};
+
+// src/mini-apps/quick-content/server/index.ts
+var server_default5 = defineMiniApp({
+  manifest: manifest5,
+  schema: schema5,
+  register(sdk) {
+    const service2 = new QuickContentService(createQuickContentRepository(sdk.store), sdk.kernel, sdk.codex, sdk.prompts, sdk.dataRoot, sdk.reconcileResults);
+    return { router: createQuickContentRouter({ service: service2, port: sdk.port }) };
+  }
+});
+
+// src/mini-apps/quick-visual/server/repository.ts
+var createQuickVisualRepository = (store2) => store2;
+
+// src/mini-apps/quick-visual/server/routes.ts
+var import_express6 = __toESM(require_express2(), 1);
+function sendImage(response, value) {
+  if (!value) return response.status(404).json({ error: "Image not found" });
+  response.setHeader("Content-Type", value.mime_type);
+  response.setHeader("Content-Disposition", `inline; filename="${value.filename.replace(/["\r\n]/g, "")}"`);
+  response.setHeader("Cache-Control", "private, max-age=60");
+  return response.send(Buffer.from(value.data));
+}
+function createQuickVisualRouter({ service: service2, port: port2 }) {
+  const router = (0, import_express6.Router)();
+  router.get("/api/quick-visual/context-options", (_request, response, next) => {
+    try {
+      response.json(service2.contextOptions());
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/quick-visual/batches", (request2, response, next) => {
+    void service2.listBatches({ query: String(request2.query.q ?? ""), status: String(request2.query.status ?? ""), archived: request2.query.archived === "1" }).then((value) => response.json(value)).catch(next);
+  });
+  router.get("/api/quick-visual/batches/:id", (request2, response, next) => {
+    void service2.getBatch(request2.params.id).then((value) => value ? response.json(value) : response.status(404).json({ error: "Quick Visual batch not found" })).catch(next);
+  });
+  router.post("/api/quick-visual/batches", (request2, response, next) => {
+    void service2.createBatch(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/quick-visual/images`).then((value) => response.status(201).json(value)).catch(next);
+  });
+  router.post("/api/quick-visual/batches/:id/archive", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickVisualBatch(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-visual/batches/:id/restore", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickVisualBatch(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/quick-visual/references/:id/file", (request2, response) => sendImage(response, service2.store.getQuickVisualReferenceData(request2.params.id)));
+  router.get("/api/quick-visual/images/:id/file", (request2, response) => sendImage(response, service2.store.getQuickVisualImageData(request2.params.id)));
+  router.get("/api/quick-visual/images/:id/versions/:version/file", (request2, response) => sendImage(response, service2.store.getQuickVisualImageData(request2.params.id, Number(request2.params.version))));
+  router.get("/api/quick-visual/images/:id", (request2, response) => {
+    const value = service2.store.getQuickVisualImage(request2.params.id);
+    return value ? response.json(value) : response.status(404).json({ error: "Quick Visual image not found" });
+  });
+  router.post("/api/quick-visual/images/:id/transition", (request2, response, next) => {
+    try {
+      response.json(service2.store.transitionQuickVisualImage(request2.params.id, request2.body?.status, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-visual/images/:id/archive", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickVisualImage(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-visual/images/:id/restore", (request2, response, next) => {
+    try {
+      response.json(service2.store.archiveQuickVisualImage(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/quick-visual/images/:id/regenerate", (request2, response, next) => {
+    void service2.regenerateImage(request2.params.id, request2.body?.note, `http://127.0.0.1:${port2}/mini-apps/quick-visual/images`).then((value) => response.status(201).json(value)).catch(next);
+  });
+  return router;
+}
+
+// src/mini-apps/quick-visual/server/service.ts
+import fs14 from "node:fs/promises";
+import path13 from "node:path";
+import { randomUUID as randomUUID7 } from "node:crypto";
+function safeFilename(value, fallback) {
+  const cleaned = path13.basename(value).replace(/[^A-Za-z0-9._-]+/g, "-").slice(0, 120);
+  return cleaned || fallback;
+}
+var QUICK_VISUAL_APPLICATION_KEY = "quick-visual";
+var QuickVisualService = class {
+  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, reconcileResults) {
+    this.store = store2;
+    this.codex = codex;
+    this.codexDesktop = codexDesktop2;
+    this.prompts = prompts;
+    this.projectRoot = projectRoot2;
+    this.reconcileResults = reconcileResults;
+  }
+  store;
+  codex;
+  codexDesktop;
+  prompts;
+  projectRoot;
+  reconcileResults;
+  async listBatches(input = {}) {
+    await this.reconcileResults();
+    return this.store.listQuickVisualBatches(input);
+  }
+  async getBatch(id) {
+    await this.reconcileResults();
+    return this.store.getQuickVisualBatch(id);
+  }
+  contextOptions() {
+    const offers = this.store.listOffers({ status: "active", limit: 200 }).items.map((offer) => ({ id: offer.id, name: offer.name, summary: offer.summary, revision: offer.revision }));
+    const contentDrafts = this.store.listQuickContentBatches({ status: "review", limit: 100 }).items.flatMap((batch) => (this.store.getQuickContentBatch(batch.id)?.drafts ?? []).filter((draft) => draft.status === "approved" && !draft.archivedAt).map((draft) => ({ id: draft.id, label: `${batch.title} \xB7 ${draft.angle}`, body: draft.body, version: draft.version })));
+    const brandAssets = this.store.listBrandAssets().map((asset) => ({ id: asset.id, label: asset.filename, role: asset.role, url: asset.url }));
+    return { offers, contentDrafts, brandAssets };
+  }
+  async createBatch(input, sourceUrl) {
+    const batchId = randomUUID7();
+    const parsedSource = new URL(sourceUrl);
+    if (parsedSource.protocol !== "http:" || !["127.0.0.1", "localhost", "[::1]"].includes(parsedSource.hostname)) throw new Error("Quick Visual source must be the local Growth Studio");
+    const offer = input.offerId ? this.store.getOffer(String(input.offerId)) : null;
+    if (input.offerId && (!offer || offer.archivedAt || offer.status !== "active")) throw new Error("Quick Visual requires an active Offer when one is selected");
+    const contentDraft = input.quickContentDraftId ? this.store.getQuickContentDraft(String(input.quickContentDraftId)) : null;
+    if (input.quickContentDraftId && (!contentDraft || contentDraft.archivedAt || contentDraft.status !== "approved")) throw new Error("Quick Visual requires an approved Quick Content draft when one is selected");
+    await this.prompts.assertApplication(QUICK_VISUAL_APPLICATION_KEY);
+    const brandSnapshot = input.useBrandContext && this.store.getBrandProfile() ? this.store.createBrandContextSnapshot() : null;
+    const uploads = (Array.isArray(input.references) ? input.references : []).map((reference) => ({ filename: String(reference.filename ?? ""), data: Buffer.from(String(reference.dataBase64 ?? ""), "base64") }));
+    const selectedAssets = (Array.isArray(input.brandAssetIds) ? input.brandAssetIds : []).map((id) => this.store.getBrandAssetData(String(id))).map((value, index) => {
+      if (!value || value.asset.archivedAt) throw new Error(`Selected Brand Asset ${index + 1} is unavailable`);
+      return { filename: value.asset.filename, data: value.data };
+    });
+    const task = this.store.createTask({ title: `Quick Visual \xB7 ${Object.values(input.brief ?? {}).find(Boolean)?.slice(0, 130) || "Untitled visual"}`, description: JSON.stringify(input.brief ?? {}), priority: "medium", source: { type: "quick-visual", referenceId: batchId, label: "Quick Visual \xB7 Content Production", evidence: [], affectedGroups: ["marketing"], quickVisualBatchId: batchId } });
+    const batch = this.store.createQuickVisualBatch({ ...input, references: input.references ?? [], brandAssetIds: input.brandAssetIds ?? [], id: batchId, taskId: task.id, brandContextSnapshotId: brandSnapshot?.id ?? null, offerRevision: offer?.revision ?? null, quickContentDraftVersion: contentDraft?.version ?? null, referenceData: [...selectedAssets, ...uploads] });
+    const run2 = await this.prepareRun(batch.id, task.id, [...selectedAssets, ...uploads]);
+    const context = brandSnapshot ? JSON.stringify({ profile: brandSnapshot.profile, records: brandSnapshot.records, claims: brandSnapshot.claims, guidelines: brandSnapshot.guidelines, gaps: brandSnapshot.gaps }) : "No Brand Profile context selected.";
+    void this.dispatch(task.id, batch.id, `Growth Studio \xB7 Quick Visual \xB7 ${batch.title}`, () => this.batchPrompt(batch, context, offer ? JSON.stringify(offer) : "No Offer selected.", contentDraft?.body ?? "No Quick Content draft selected.", sourceUrl, run2));
+    return { batch };
+  }
+  async regenerateImage(id, note, sourceUrl) {
+    const image = this.store.getQuickVisualImage(id);
+    if (!image || image.archivedAt) throw new Error("Quick Visual image is unavailable");
+    const batch = this.store.getQuickVisualBatch(image.batchId);
+    if (!batch || batch.archivedAt) throw new Error("Quick Visual batch is unavailable");
+    const instruction = String(note ?? "").trim();
+    if (!instruction || instruction.length > 4e3) throw new Error("Regeneration note is required and must stay under 4000 characters");
+    await this.prompts.assertApplication(QUICK_VISUAL_APPLICATION_KEY);
+    const task = this.store.createTask({ title: `Quick Visual revision \xB7 ${image.title}`.slice(0, 180), description: instruction, priority: "medium", source: { type: "quick-visual", referenceId: `${batch.id}:${image.id}:${image.version + 1}`, label: "Quick Visual \xB7 Image revision", evidence: [], affectedGroups: ["marketing"], quickVisualBatchId: batch.id, quickVisualImageId: image.id } });
+    const currentData = this.store.getQuickVisualImageData(image.id);
+    const run2 = await this.prepareRun(batch.id, task.id, [{ filename: `current-${currentData.filename}`, data: currentData.data }, ...batch.references.map((reference) => {
+      const stored = this.store.getQuickVisualReferenceData(reference.id);
+      return { filename: stored.filename, data: stored.data };
+    })]);
+    const output = run2.outputs[0];
+    const prompt2 = () => this.prompts.application(QUICK_VISUAL_APPLICATION_KEY, "visual-revision", {
+      sourceUrl,
+      brief: JSON.stringify(batch.brief),
+      style: batch.style,
+      aspectRatio: batch.aspectRatio,
+      note: instruction,
+      referenceList: run2.references.join(", "),
+      outputPathJson: output,
+      temporaryResultPathJson: run2.temporary,
+      resultPathJson: run2.final,
+      taskIdJson: task.id,
+      resultTitleJson: `Quick Visual revision \xB7 ${image.title}`,
+      batchIdJson: batch.id,
+      imagesShape: JSON.stringify([{ imageId: image.id, title: image.title, altText: image.altText, path: output }])
+    }).then((rendered) => rendered.text);
+    void this.dispatch(task.id, batch.id, `Growth Studio \xB7 Quick Visual revision \xB7 ${image.title}`, prompt2);
+    return { taskId: task.id };
+  }
+  async prepareRun(batchId, taskId, references) {
+    const directory = path13.join(this.projectRoot, ".growth-studio", "quick-visual-runs", taskId);
+    await fs14.mkdir(directory, { recursive: true });
+    const referencePaths = [];
+    for (const [index, reference] of references.entries()) {
+      const target = path13.join(directory, `reference-${index + 1}-${safeFilename(reference.filename, "image")}`);
+      await fs14.writeFile(target, reference.data);
+      referencePaths.push(target);
+    }
+    const resultDirectory = path13.join(this.projectRoot, ".growth-studio", "quick-visual-results", batchId, taskId);
+    await fs14.mkdir(resultDirectory, { recursive: true });
+    const final = path13.join(this.projectRoot, ".growth-studio", "task-results", `${taskId}.json`);
+    await fs14.mkdir(path13.dirname(final), { recursive: true });
+    return { references: referencePaths, outputs: [1, 2, 3, 4].map((index) => path13.join(resultDirectory, `visual-${index}.png`)), final, temporary: `${final}.tmp` };
+  }
+  /** Runs in the background: Codex never comes to the front for a Quick Visual run. */
+  async dispatch(taskId, batchId, title, prompt2) {
+    try {
+      const message2 = await prompt2() + this.codex.studioChannel(taskId);
+      const receipt = await this.codexDesktop.dispatch(`growth-studio.task.${taskId}`, title, message2, this.projectRoot, { openOnCreate: false });
+      const current = this.store.getTask(taskId);
+      if (current) this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision);
+      this.store.markQuickVisualBatchRunning(batchId);
+      this.store.addEvent({ level: "success", eventType: "quick_visual.started", title: "Quick Visual generation started", detail: `${title} \xB7 ${receipt.threadId}` });
+    } catch (error) {
+      const message2 = error instanceof Error ? error.message : String(error);
+      const current = this.store.getTask(taskId);
+      if (current) this.store.updateTask(taskId, { lastError: message2 }, current.revision);
+      this.store.markQuickVisualBatchFailed(batchId, message2);
+      this.store.addEvent({ level: "failed", eventType: "quick_visual.failed", title: "Quick Visual generation failed", detail: message2 });
+    }
+  }
+  async batchPrompt(batch, brand, offer, contentDraft, sourceUrl, run2) {
+    const outputs = run2.outputs.slice(0, batch.quantity);
+    const prompt2 = await this.prompts.application(QUICK_VISUAL_APPLICATION_KEY, "visual-batch", {
+      sourceUrl,
+      useCase: batch.useCase,
+      brief: JSON.stringify(batch.brief),
+      style: batch.style,
+      aspectRatio: batch.aspectRatio,
+      customInstruction: batch.customInstruction || "none",
+      referenceList: run2.references.length ? run2.references.join(", ") : "none",
+      brandContext: brand,
+      offer,
+      contentDraft,
+      quantity: batch.quantity,
+      outputPaths: outputs.map((item, index) => `${index + 1}. ${item}`).join(" ; "),
+      temporaryResultPathJson: run2.temporary,
+      resultPathJson: run2.final,
+      taskIdJson: batch.taskId,
+      resultTitleJson: `Quick Visual \xB7 ${batch.title}`,
+      batchIdJson: batch.id,
+      imagesShape: JSON.stringify(outputs.map((output, index) => ({ title: `Bi\u1EBFn th\u1EC3 ${index + 1}`, altText: `H\xECnh \u1EA3nh ${batch.title}, bi\u1EBFn th\u1EC3 ${index + 1}`, path: output })))
+    });
+    return prompt2.text;
+  }
+};
+
+// src/mini-apps/quick-visual/server/index.ts
+var server_default6 = defineMiniApp({
+  manifest: manifest6,
+  schema: schema6,
+  register(sdk) {
+    const service2 = new QuickVisualService(createQuickVisualRepository(sdk.store), sdk.kernel, sdk.codex, sdk.prompts, sdk.dataRoot, sdk.reconcileResults);
+    return { router: createQuickVisualRouter({ service: service2, port: sdk.port }) };
+  }
+});
+
 // src/mini-apps/research/server/repository.ts
 var createResearchRepository = (store2) => store2;
 
 // src/mini-apps/research/server/routes.ts
-var import_express3 = __toESM(require_express2(), 1);
+var import_express7 = __toESM(require_express2(), 1);
 function createResearchRouter({ service: service2, store: store2, port: port2 }) {
-  const router = (0, import_express3.Router)();
+  const router = (0, import_express7.Router)();
   router.get("/api/research/summary", async (_request, response, next) => {
     try {
       response.json(await service2.researchSummary());
@@ -77975,8 +79463,8 @@ function createResearchRouter({ service: service2, store: store2, port: port2 })
 }
 
 // src/mini-apps/research/server/service.ts
-import fs12 from "node:fs/promises";
-import path9 from "node:path";
+import fs15 from "node:fs/promises";
+import path14 from "node:path";
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 function configuredProfileLine(profile) {
@@ -77995,9 +79483,9 @@ function isPrivateAddress(address) {
   const normalized = address.toLowerCase();
   if (normalized.startsWith("::ffff:")) return isPrivateAddress(normalized.slice("::ffff:".length));
   if (normalized === "::1" || normalized === "::" || normalized.startsWith("fc") || normalized.startsWith("fd") || /^fe[89ab]/.test(normalized)) return true;
-  const parts = normalized.split(".").map(Number);
-  if (parts.length !== 4 || parts.some((part) => !Number.isInteger(part))) return false;
-  return parts[0] === 0 || parts[0] === 10 || parts[0] === 127 || parts[0] === 169 && parts[1] === 254 || parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31 || parts[0] === 192 && parts[1] === 168 || parts[0] === 100 && parts[1] >= 64 && parts[1] <= 127;
+  const parts2 = normalized.split(".").map(Number);
+  if (parts2.length !== 4 || parts2.some((part) => !Number.isInteger(part))) return false;
+  return parts2[0] === 0 || parts2[0] === 10 || parts2[0] === 127 || parts2[0] === 169 && parts2[1] === 254 || parts2[0] === 172 && parts2[1] >= 16 && parts2[1] <= 31 || parts2[0] === 192 && parts2[1] === 168 || parts2[0] === 100 && parts2[1] >= 64 && parts2[1] <= 127;
 }
 async function assertPublicRemoteUrl(value) {
   const url = new URL(value);
@@ -78084,20 +79572,20 @@ var ResearchService = class {
     await this.prompts.assertApplication(RESEARCH_APPLICATION_KEY);
     const run2 = this.store.createResearchRun(input, options);
     const task = this.store.getTask(run2.taskId);
-    const resultDirectory = path9.join(this.projectRoot, ".growth-studio", "task-results");
-    const resultPath = path9.join(resultDirectory, `${task.id}.json`);
+    const resultDirectory = path14.join(this.projectRoot, ".growth-studio", "task-results");
+    const resultPath = path14.join(resultDirectory, `${task.id}.json`);
     const temporaryResultPath = `${resultPath}.tmp`;
-    await fs12.mkdir(resultDirectory, { recursive: true });
+    await fs15.mkdir(resultDirectory, { recursive: true });
     const connections = run2.connectionIds.map((id) => this.store.getConnection(id)).filter((item) => Boolean(item));
     const profiles = run2.profileSnapshots;
-    const baseline11 = run2.baselineRunId ? this.store.getResearchRun(run2.baselineRunId) : null;
-    const baselineContext = baseline11 ? [
-      `Previous run: ${baseline11.title} (${baseline11.completedAt ?? baseline11.createdAt})`,
-      `Previous coverage: ${baseline11.coverage.summary || "No coverage summary"}`,
+    const baseline10 = run2.baselineRunId ? this.store.getResearchRun(run2.baselineRunId) : null;
+    const baselineContext = baseline10 ? [
+      `Previous run: ${baseline10.title} (${baseline10.completedAt ?? baseline10.createdAt})`,
+      `Previous coverage: ${baseline10.coverage.summary || "No coverage summary"}`,
       `Previous captures:
-${baseline11.snapshots.slice(0, 50).map((snapshot) => `  - ${snapshot.canonicalUrl} | hash=${snapshot.contentHash} | captured=${snapshot.capturedAt}`).join("\n") || "  - None"}`,
+${baseline10.snapshots.slice(0, 50).map((snapshot) => `  - ${snapshot.canonicalUrl} | hash=${snapshot.contentHash} | captured=${snapshot.capturedAt}`).join("\n") || "  - None"}`,
       `Previous findings:
-${baseline11.items.slice(0, 100).map((item) => `  - [${item.kind}] ${item.title}: ${item.body.slice(0, 400)}`).join("\n") || "  - None"}`
+${baseline10.items.slice(0, 100).map((item) => `  - [${item.kind}] ${item.title}: ${item.body.slice(0, 400)}`).join("\n") || "  - None"}`
     ].join("\n") : "No previous run is available; establish the first evidence baseline.";
     const connectionAccess = connections.map((connection) => {
       if (connection.provider === "browser-session") return `Logged-in website | ${connection.name} | platform=${connection.scope.platform || "website"} | identity=${connection.scope.identityLabel || "unspecified"} | start=${connection.scope.startUrl || "unspecified"} | access=supervised IAB`;
@@ -78216,11 +79704,11 @@ ${baseline11.items.slice(0, 100).map((item) => `  - [${item.kind}] ${item.title}
   async runResearchMonitor(id, sourceUrl, openOnCreate = true) {
     const monitor = this.store.getResearchMonitor(id);
     if (!monitor || monitor.archivedAt) throw new Error("Research monitor not found");
-    const baseline11 = this.store.latestResearchMonitorRun(id);
+    const baseline10 = this.store.latestResearchMonitorRun(id);
     this.store.recordResearchMonitorRun(id);
     return this.startResearch(monitor, sourceUrl, {
       monitorId: id,
-      baselineRunId: baseline11?.id ?? null,
+      baselineRunId: baseline10?.id ?? null,
       openOnCreate
     });
   }
@@ -78329,2079 +79817,23 @@ ${baseline11.items.slice(0, 100).map((item) => `  - [${item.kind}] ${item.title}
   }
 };
 
-// src/mini-apps/image-studio/server/repository.ts
-var createImageStudioRepository = (store2) => store2;
-
-// src/mini-apps/image-studio/server/routes.ts
-var import_express4 = __toESM(require_express2(), 1);
-import path10 from "node:path";
-function sendPicture(response, file, mimeType) {
-  response.sendFile(file, { dotfiles: "allow", headers: { "content-type": mimeType, "cache-control": "private, max-age=31536000, immutable" } }, (error) => {
-    if (error && !response.headersSent) response.status(404).set("cache-control", "no-store").json({ error: "Image file is missing" });
-  });
-}
-function createImageStudioRouter({ service: service2, port: port2 }) {
-  const router = (0, import_express4.Router)();
-  router.get("/api/image-studio/requests", (_request, response, next) => {
-    try {
-      response.json(service2.listRequests());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/image-studio/requests", async (request2, response, next) => {
-    try {
-      response.status(201).json(await service2.createRequest(request2.body ?? {}));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/image-studio/requests/:taskId/resend", async (request2, response, next) => {
-    try {
-      response.json(await service2.resend(String(request2.params.taskId)));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/image-studio/requests/:taskId/images", launcherOnly(port2), async (request2, response, next) => {
-    try {
-      response.status(201).json(await service2.saveOptions(String(request2.params.taskId), request2.body?.images));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/image-studio/recipes", async (_request, response, next) => {
-    try {
-      response.json(await service2.recipes());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/image-studio/brand", (_request, response, next) => {
-    try {
-      response.json(service2.brand());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/image-studio/requests/:taskId/values", (request2, response, next) => {
-    try {
-      response.json(service2.updateValues(String(request2.params.taskId), request2.body?.values));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/image-studio/photos", (_request, response, next) => {
-    try {
-      response.json(service2.myPhotos());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/image-studio/photos", async (request2, response, next) => {
-    try {
-      response.status(201).json(await service2.addMyPhotos(request2.body?.kind, request2.body?.images));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.delete("/api/image-studio/photos/:id", async (request2, response, next) => {
-    try {
-      response.json(await service2.removeMyPhoto(String(request2.params.id)));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/image-studio/photos/:id/file", (request2, response) => {
-    const file = service2.myPhotoFile(String(request2.params.id));
-    if (!file) return void response.status(404).set("cache-control", "no-store").json({ error: "Photo not found" });
-    sendPicture(response, file.path, file.mimeType);
-  });
-  router.get("/api/image-studio/style", (_request, response, next) => {
-    try {
-      response.json(service2.styleImages());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/image-studio/style", async (request2, response, next) => {
-    try {
-      response.status(201).json(await service2.addStyleImages(request2.body?.images));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.delete("/api/image-studio/style/:id", async (request2, response, next) => {
-    try {
-      response.json(await service2.removeStyleImage(String(request2.params.id)));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/image-studio/style/:id/file", (request2, response) => {
-    const file = service2.styleFile(String(request2.params.id));
-    if (!file) return void response.status(404).set("cache-control", "no-store").json({ error: "Style image not found" });
-    sendPicture(response, file.path, file.mimeType);
-  });
-  router.get("/api/image-studio/library", (_request, response, next) => {
-    try {
-      response.json(service2.library());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/image-studio/images/:id/approve", async (request2, response, next) => {
-    try {
-      response.json(await service2.approve(String(request2.params.id), request2.body?.finalBase64));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/image-studio/images/:id/variations", async (request2, response, next) => {
-    try {
-      response.json(await service2.revise(String(request2.params.id), null, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/image-studio/images/:id/revise", async (request2, response, next) => {
-    try {
-      response.json(await service2.revise(String(request2.params.id), request2.body?.note));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/image-studio/images/:id/file", (request2, response) => {
-    const file = service2.file(String(request2.params.id), request2.query.final === "1");
-    if (!file) return void response.status(404).set("cache-control", "no-store").json({ error: "Image not found" });
-    if (request2.query.download === "1") response.attachment(`kallob-image-${file.asset.id.slice(0, 8)}${path10.extname(file.path)}`);
-    sendPicture(response, file.path, file.mimeType);
-  });
-  return router;
-}
-
-// src/mini-apps/image-studio/server/service.ts
-import fs13 from "node:fs/promises";
-import path11 from "node:path";
-import { randomUUID as randomUUID4 } from "node:crypto";
-
-// src/mini-apps/image-studio/contract.ts
-var recipeGroups = ["sell", "store", "personal", "season", "content"];
-
-// src/mini-apps/image-studio/overlay-text.ts
-function priceNumber(raw) {
-  const digits = raw.replace(/\D/g, "");
-  return digits ? Number(digits) : null;
-}
-function formatPrice(raw) {
-  const value = priceNumber(raw);
-  if (value === null) return raw.trim();
-  return `${value.toLocaleString("vi-VN").replace(/,/g, ".")}\u0111`;
-}
-function formatDate(raw) {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw.trim());
-  return match ? `${match[3]}/${match[2]}` : raw.trim();
-}
-function displayValue(field, raw) {
-  if (!field) return raw.trim();
-  if (field.type === "price") return formatPrice(raw);
-  if (field.type === "date") return formatDate(raw);
-  return raw.trim();
-}
-function discountPercent(oldRaw, newRaw) {
-  const before = priceNumber(oldRaw);
-  const after = priceNumber(newRaw);
-  if (!before || after === null || after >= before) return null;
-  return Math.round((before - after) / before * 100);
-}
-function fillLine(template, fields, values) {
-  let missing = false;
-  const line = template.replace(/\{\{([A-Za-z][A-Za-z0-9]*)\}\}/g, (_match, key) => {
-    const raw = values[key]?.trim() ?? "";
-    if (!raw) missing = true;
-    return displayValue(fields.find((field) => field.key === key), raw);
-  });
-  return missing ? null : line.trim() || null;
-}
-function overlayWords(overlay, fields, values) {
-  const fill = (template) => template ? fillLine(template, fields, values) : null;
-  const price = (key) => {
-    const raw = key ? values[key]?.trim() ?? "" : "";
-    return raw ? formatPrice(raw) : null;
-  };
-  return {
-    title: fill(overlay.title),
-    oldPrice: price(overlay.oldPrice),
-    newPrice: price(overlay.newPrice),
-    discount: overlay.oldPrice && overlay.newPrice ? discountPercent(values[overlay.oldPrice] ?? "", values[overlay.newPrice] ?? "") : null,
-    quote: fill(overlay.quote),
-    lines: (overlay.lines ?? []).map((line) => fillLine(line, fields, values)).filter((line) => Boolean(line))
-  };
-}
-function overlayWordList(words) {
-  return [
-    words.title,
-    words.quote,
-    words.oldPrice ? `${words.oldPrice} (struck through)` : null,
-    words.newPrice,
-    words.discount !== null ? `-${words.discount}% badge` : null,
-    ...words.lines
-  ].filter((word) => Boolean(word));
-}
-
-// src/mini-apps/image-studio/server/service.ts
-var IMAGE_APPLICATION_KEY = "image-studio";
-var OPTIONS_PER_ROUND = 1;
-var MAX_IMAGES_PER_ROUND = 4;
-var MAX_STUDIO_INPUTS = 4;
-var MAX_REFERENCE_BYTES = 10 * 1024 * 1024;
-var MAX_OPTION_BYTES = 25 * 1024 * 1024;
-var MAX_FINAL_BYTES = 30 * 1024 * 1024;
-var MAX_OPTIONS_PER_SAVE = 6;
-var MAX_STYLE_IMAGES = 8;
-var MAX_MY_PHOTOS = 40;
-var imageSizes = {
-  square: { label: "Square (feed post)", aspectRatio: "1:1" },
-  portrait: { label: "Portrait (feed post)", aspectRatio: "4:5" },
-  landscape: { label: "Landscape (banner, cover)", aspectRatio: "16:9" },
-  story: { label: "Story / Reels", aspectRatio: "9:16" }
-};
-var extensions = { "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp" };
-function sniffImageType(bytes) {
-  if (bytes.length >= 8 && bytes[0] === 137 && bytes[1] === 80 && bytes[2] === 78 && bytes[3] === 71) return "image/png";
-  if (bytes.length >= 3 && bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255) return "image/jpeg";
-  if (bytes.length >= 12 && String.fromCharCode(...bytes.subarray(0, 4)) === "RIFF" && String.fromCharCode(...bytes.subarray(8, 12)) === "WEBP") return "image/webp";
-  return null;
-}
-var RECIPE_PREFIX = "image-recipe-";
-var inputKinds = ["product", "portrait", "screenshot", "shop", "any"];
-var fieldTypes = ["text", "longtext", "price", "date"];
-var myPhotoKinds = ["portrait", "product", "other"];
-var bilingual = (input) => ({ vi: String(input?.vi ?? ""), en: String(input?.en ?? "") });
-function parseImageRecipe(json) {
-  try {
-    const value = JSON.parse(json);
-    if (!value.key || !recipeGroups.includes(value.group) || !Array.isArray(value.fields)) return null;
-    const input = value.input;
-    const overlay = value.overlay ?? {};
-    const output = value.output ?? {};
-    const layout = ["price", "banner", "quote", "none"].includes(String(overlay.layout)) ? overlay.layout : "none";
-    const zone = ["bottom", "top", "center"].includes(String(overlay.zone)) ? overlay.zone : "bottom";
-    const text2 = (key) => typeof overlay[key] === "string" ? String(overlay[key]) : void 0;
+// src/mini-apps/research/server/index.ts
+var server_default7 = defineMiniApp({
+  manifest: manifest7,
+  schema: schema7,
+  register(sdk) {
+    const repository = createResearchRepository(sdk.store);
+    const service2 = new ResearchService(repository, sdk.kernel, sdk.codex, sdk.prompts, sdk.dataRoot, sdk.reconcileResults);
     return {
-      key: String(value.key),
-      group: value.group,
-      name: bilingual(value.name),
-      icon: String(value.icon ?? ""),
-      size: typeof value.size === "string" && value.size in imageSizes ? value.size : "square",
-      input: input && inputKinds.includes(input.kind) ? { kind: input.kind, required: Boolean(input.required), max: Math.min(Math.max(Number(input.max) || 1, 1), 3), label: bilingual(input.label), hint: bilingual(input.hint) } : null,
-      output: { purpose: bilingual(output.purpose), deliverable: bilingual(output.deliverable), channels: bilingual(output.channels) },
-      fields: value.fields.filter((field) => field?.key).slice(0, 3).map((field) => ({
-        key: String(field.key),
-        type: fieldTypes.includes(field.type) ? field.type : "text",
-        label: bilingual(field.label),
-        placeholder: bilingual(field.placeholder),
-        required: Boolean(field.required),
-        default: String(field.default ?? "")
-      })),
-      overlay: { layout, zone, title: text2("title"), oldPrice: text2("oldPrice"), newPrice: text2("newPrice"), quote: text2("quote"), lines: Array.isArray(overlay.lines) ? overlay.lines.map(String) : void 0 },
-      fixes: Array.isArray(value.fixes) ? value.fixes.map(bilingual).filter((fix) => fix.vi) : [],
-      seasons: Array.isArray(value.seasons) ? value.seasons.map((season) => ({ from: String(season.from ?? ""), to: String(season.to ?? "") })).filter((season) => /^\d{2}-\d{2}$/.test(season.from) && /^\d{2}-\d{2}$/.test(season.to)) : [],
-      designNotes: String(value.designNotes ?? ""),
-      order: Number.isFinite(Number(value.order)) ? Number(value.order) : 999
-    };
-  } catch {
-    return null;
-  }
-}
-var zoneText = {
-  bottom: "the lower 35\u201340% of the frame",
-  top: "the upper 35\u201340% of the frame",
-  center: "the central area of the frame (about 70% of the width and 45% of the height)"
-};
-function textPlan(recipe, values, brandName) {
-  if (!recipe || recipe.overlay.layout === "none") return "none";
-  const words = overlayWordList(overlayWords(recipe.overlay, recipe.fields, values)).map((word) => JSON.stringify(word));
-  if (brandName) words.push(`the shop name ${JSON.stringify(brandName)} (small)`);
-  const badge = recipe.overlay.layout === "price" && recipe.overlay.oldPrice ? " and the top-right corner (a round discount badge)" : "";
-  return `Studio draws these words on top afterwards: ${words.join(", ")}. Keep ${zoneText[recipe.overlay.zone]}${badge} calm and clear for them.`;
-}
-function dataList(recipe, values) {
-  if (!recipe) return "none";
-  const lines = recipe.fields.filter((field) => values[field.key]?.trim()).map((field) => `- ${field.label.en}: ${displayValue(field, values[field.key])}`);
-  return lines.length ? lines.join("\n") : "none";
-}
-function decodeUpload(upload) {
-  const bytes = Buffer.from(String(upload?.dataBase64 ?? ""), "base64");
-  const mimeType = sniffImageType(bytes);
-  if (!mimeType) throw new Error("Images must be PNG, JPEG or WebP");
-  if (bytes.length > MAX_REFERENCE_BYTES) throw new Error("Each image must be at most 10 MB");
-  return { bytes, mimeType, name: String(upload?.name ?? "").trim().slice(0, 120) };
-}
-function shortLine(text2, max) {
-  const line = text2.replace(/\s+/g, " ").trim();
-  return line.length > max ? `${line.slice(0, max - 1).trimEnd()}\u2026` : line;
-}
-function recipeHeadline(recipe, values) {
-  const summary = recipe.fields.filter((field) => values[field.key]).slice(0, 2).map((field) => displayValue(field, values[field.key]));
-  return [recipe.name.vi, ...summary].join(" \xB7 ");
-}
-var VARIATION_NOTE = "Bi\u1EBFn th\u1EC3 m\u1EDBi: c\xF9ng m\u1EE5c \u0111\xEDch, c\xF9ng s\u1EA3n ph\u1EA9m ho\u1EB7c c\xF9ng ng\u01B0\u1EDDi, nh\u01B0ng b\u1ED1 c\u1EE5c, g\xF3c ch\u1EE5p ho\u1EB7c b\u1ED1i c\u1EA3nh kh\xE1c h\u1EB3n c\xE1c ph\u01B0\u01A1ng \xE1n tr\u01B0\u1EDBc.";
-var ImageStudioService = class {
-  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, attention = silentAttention) {
-    this.store = store2;
-    this.codex = codex;
-    this.codexDesktop = codexDesktop2;
-    this.prompts = prompts;
-    this.projectRoot = projectRoot2;
-    this.attention = attention;
-  }
-  store;
-  codex;
-  codexDesktop;
-  prompts;
-  projectRoot;
-  attention;
-  /** A request whose options wait for the founder's pick, as a notification. */
-  pickNotice(taskId) {
-    const task = this.store.getTask(taskId);
-    if (!task) return null;
-    return { key: `images:${taskId}`, kind: "images", taskId, title: task.title, body: "", target: { miniApp: { id: "image-studio", section: "running" } } };
-  }
-  /** At start-up: the bell shows every request waiting for a pick, and nothing else. */
-  reconcileAttention() {
-    const waiting = this.store.listTasks(500).filter((task) => task.source.type === "image-studio" && task.status === "review" && !task.question);
-    this.attention.reconcile("images", waiting.map((task) => this.pickNotice(task.id)));
-  }
-  folder(...parts) {
-    return path11.join(this.projectRoot, ".growth-studio", "images", ...parts);
-  }
-  taskFolder(taskId) {
-    return this.folder(taskId);
-  }
-  imageTask(taskId) {
-    const task = this.store.getTask(taskId);
-    if (!task || task.source.type !== "image-studio") throw new Error("Image request not found");
-    return task;
-  }
-  async writeAsset(taskId, kind, round, caption, bytes, mimeType) {
-    const id = randomUUID4();
-    const fileName = `${id}.${extensions[mimeType]}`;
-    await fs13.mkdir(this.taskFolder(taskId), { recursive: true });
-    await fs13.writeFile(path11.join(this.taskFolder(taskId), fileName), bytes);
-    return this.store.addImageAsset({ id, taskId, kind, round, caption, fileName, mimeType, bytes: bytes.length });
-  }
-  /** The recipes Kallob Cloud serves with Image Studio, in their catalog order. */
-  async recipes() {
-    return (await this.recipeDefinitions()).map(({ designNotes: _notes, order: _order, ...recipe }) => recipe);
-  }
-  async recipeDefinitions() {
-    const prompts = await this.prompts.applicationPromptsWithPrefix(IMAGE_APPLICATION_KEY, RECIPE_PREFIX);
-    return prompts.map((prompt2) => parseImageRecipe(prompt2.template)).filter((recipe) => recipe !== null).sort((a, b) => a.order - b.order);
-  }
-  /** The brand Studio draws with: name, logo and colours from Brand Profile. */
-  brand() {
-    const profile = this.store.getBrandProfile();
-    const identity = this.store.getBrandGuideline("identity");
-    const palette = identity && identity.kind === "identity" ? identity.palette.filter((color) => /^#[0-9a-f]{6}$/i.test(color.hex)) : [];
-    const pick = (pattern) => palette.find((color) => pattern.test(`${color.role} ${color.name}`))?.hex ?? null;
-    const logoId = identity && identity.kind === "identity" && identity.logoAssetId ? identity.logoAssetId : this.store.listBrandAssets().find((asset) => asset.role === "logo" && !asset.archivedAt)?.id ?? null;
-    return {
-      name: profile?.name?.trim() ?? "",
-      logoUrl: logoId ? `/api/brand-assets/${encodeURIComponent(logoId)}/file` : null,
-      primary: pick(/primary|chính|chủ đạo/i) ?? palette[0]?.hex ?? null,
-      accent: pick(/accent|nhấn|phụ/i) ?? palette[1]?.hex ?? null
+      router: createResearchRouter({ service: service2, store: repository, port: sdk.port }),
+      start: () => service2.startResearchMonitorLifecycle(`http://127.0.0.1:${sdk.port}/mini-apps/research/monitors`),
+      stop: () => service2.stopResearchMonitorLifecycle()
     };
   }
-  /** Checks the founder's answers against the recipe's fields. */
-  values(fields, given) {
-    const raw = given && typeof given === "object" ? given : {};
-    const values = {};
-    for (const field of fields) {
-      const value = String(raw[field.key] ?? "").trim();
-      if (value.length > (field.type === "longtext" ? 600 : 200)) throw new Error(`${field.label.en} is too long`);
-      if (field.required && !value) throw new Error(`Fill in ${field.label.en}`);
-      if (value && field.type === "price" && !/\d/.test(value)) throw new Error(`${field.label.en} must be a price`);
-      if (value && field.type === "date" && !/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error(`${field.label.en} must be a date`);
-      values[field.key] = value;
-    }
-    return values;
-  }
-  /** Starts a request: a task, its photos, then Codex in the background. */
-  async createRequest(input) {
-    const recipe = input?.recipe ? (await this.recipeDefinitions()).find((candidate) => candidate.key === input.recipe) ?? null : null;
-    if (input?.recipe && !recipe) throw new Error("This image recipe is not available");
-    const values = recipe ? this.values(recipe.fields, input.values) : {};
-    const brief = recipe ? "" : String(input?.brief ?? "").trim();
-    if (!recipe && (!brief || brief.length > 2e3)) throw new Error("Describe the image in at most 2000 characters");
-    const note = String(input?.note ?? "").trim();
-    if (note.length > 1e3) throw new Error("Keep the note under 1000 characters");
-    const size = typeof input?.size === "string" && input.size in imageSizes ? input.size : recipe?.size ?? "square";
-    const count = Math.min(Math.max(Math.trunc(Number(input?.count) || OPTIONS_PER_ROUND), 1), MAX_IMAGES_PER_ROUND);
-    const uploads = (Array.isArray(input?.uploads) ? input.uploads : []).map((upload) => ({ ...decodeUpload(upload), save: myPhotoKinds.includes(upload?.save) ? upload.save : null }));
-    const photos = (Array.isArray(input?.photoIds) ? input.photoIds : []).map((id) => {
-      const found = this.store.getMyPhoto(String(id));
-      if (!found) throw new Error("A chosen photo is no longer in My photos");
-      return found;
-    });
-    const assets = (Array.isArray(input?.assetIds) ? input.assetIds : []).map((id) => {
-      const found = this.store.getImageAsset(String(id));
-      if (!found) throw new Error("A chosen image is no longer in Studio");
-      return found;
-    });
-    const inputCount = uploads.length + photos.length + assets.length;
-    const maxInputs = recipe ? recipe.input?.max ?? 0 : MAX_STUDIO_INPUTS;
-    if (inputCount > maxInputs) throw new Error(maxInputs ? `Attach at most ${maxInputs} ${maxInputs === 1 ? "photo" : "photos"}` : "This recipe does not take photos");
-    if (recipe?.input?.required && !inputCount) throw new Error(`Add ${recipe.input.label.en.toLowerCase()}`);
-    const styles = input?.useStyle === false ? [] : this.store.listStyleImages();
-    await this.prompts.assertApplication(IMAGE_APPLICATION_KEY);
-    const snapshot = recipe ? { key: recipe.key, group: recipe.group, name: recipe.name, icon: recipe.icon, overlay: recipe.overlay, fixes: recipe.fixes, fields: recipe.fields } : void 0;
-    const headline = recipe ? recipeHeadline(recipe, values) : null;
-    const inputKind = inputCount ? recipe?.input?.kind ?? "any" : "none";
-    const task = this.store.createTask({
-      title: `T\u1EA1o \u1EA3nh \xB7 ${shortLine(headline ?? brief, 120)}`,
-      description: recipe ? [headline, note].filter(Boolean).join("\n") : [brief, note].filter(Boolean).join("\n"),
-      priority: "medium",
-      source: {
-        type: "image-studio",
-        referenceId: null,
-        label: "Image Studio \xB7 Codex",
-        evidence: [],
-        affectedGroups: ["marketing"],
-        imageBrief: headline ?? brief,
-        imageSize: size,
-        imageStyleCount: styles.length,
-        ...headline ? { imageHeadline: headline } : {},
-        ...snapshot ? { imageRecipe: snapshot, imageValues: values } : {},
-        ...note ? { imageNote: note } : {},
-        imageInputKind: inputKind,
-        imageCount: count
-      }
-    });
-    const references = [];
-    for (const upload of uploads) {
-      references.push(await this.writeAsset(task.id, "reference", 0, upload.name, upload.bytes, upload.mimeType));
-      if (upload.save) await this.saveMyPhoto(upload.save, upload.name, upload.bytes, upload.mimeType).catch(() => void 0);
-    }
-    for (const photo of photos) {
-      const bytes = await fs13.readFile(this.folder("mine", photo.fileName));
-      references.push(await this.writeAsset(task.id, "reference", 0, photo.photo.name, bytes, photo.photo.mimeType));
-    }
-    for (const asset of assets) {
-      const bytes = await fs13.readFile(path11.join(this.taskFolder(asset.asset.taskId), asset.fileName));
-      references.push(await this.writeAsset(task.id, "reference", 0, asset.asset.caption, bytes, asset.asset.mimeType));
-    }
-    this.store.addEvent({ level: "success", eventType: "image.request_created", title: "Image request created", detail: task.title });
-    void this.dispatch(task.id, references, styles);
-    return this.request(task.id);
-  }
-  /** A request that never reached Codex (the hand-off failed) is sent again, as it was asked. */
-  async resend(taskId) {
-    const task = this.imageTask(taskId);
-    if (task.status === "archived" || task.status === "done") throw new Error("This image request is closed");
-    if (task.codexThreadId) throw new Error("Codex already has this request; ask it to continue instead");
-    const references = this.store.listImageAssets(taskId).filter((asset) => asset.kind === "reference");
-    const styles = (task.source.imageStyleCount ?? 0) > 0 ? this.store.listStyleImages() : [];
-    await this.dispatch(taskId, references, styles);
-    return this.request(taskId);
-  }
-  async dispatch(taskId, references, styles) {
-    const task = this.store.getTask(taskId);
-    if (!task) return;
-    const source = task.source;
-    const size = source.imageSize ?? "square";
-    const recipe = source.imageRecipe ?? null;
-    const values = source.imageValues ?? {};
-    const count = source.imageCount ?? OPTIONS_PER_ROUND;
-    try {
-      const definition = recipe ? (await this.recipeDefinitions()).find((candidate) => candidate.key === recipe.key) ?? null : null;
-      const folder = this.taskFolder(taskId);
-      const inputList = references.length ? references.map((reference) => `- ${JSON.stringify(path11.join(folder, this.store.getImageAsset(reference.id).fileName))}${reference.caption ? ` (${reference.caption})` : ""}`).join("\n") : "none";
-      const styleList = styles.length ? styles.map((style) => `- ${JSON.stringify(this.folder("style", style.fileName))}`).join("\n") : "none";
-      const prompt2 = await this.prompts.application(IMAGE_APPLICATION_KEY, "image-create", {
-        recipeName: recipe ? `${recipe.name.vi} (${recipe.name.en})` : "Studio (free brief)",
-        outputPurpose: definition?.output.purpose.en || "As the founder's brief says.",
-        outputDeliverable: `${definition?.output.deliverable.en || "Images that follow the brief."}${count > 1 ? ` ${count} of them, each a genuinely different direction.` : ""}`,
-        outputChannels: definition?.output.channels.en || "As the brief says.",
-        brief: recipe ? "none" : source.imageBrief ?? task.description,
-        sizeLabel: imageSizes[size].label,
-        aspectRatio: imageSizes[size].aspectRatio,
-        note: source.imageNote || "none",
-        inputKind: references.length ? source.imageInputKind && source.imageInputKind !== "none" ? source.imageInputKind : "any" : "none",
-        inputList,
-        designNotes: definition?.designNotes || "No recipe: follow the brief, the note and the rules above.",
-        // Codex always looks at current designs online before drawing.
-        freshResearch: "yes",
-        styleList,
-        optionCount: count,
-        dataList: dataList(recipe, values),
-        textPlan: textPlan(recipe, values, this.store.getBrandProfile()?.name?.trim() ?? ""),
-        taskIdJson: taskId
-      });
-      const receipt = await this.codexDesktop.dispatch(`growth-studio.task.${taskId}`, `Growth Studio \xB7 ${task.title}`, prompt2.text + this.codex.studioChannel(taskId), this.projectRoot, { openOnCreate: false });
-      const latest = this.store.getTask(taskId);
-      if (!latest) return;
-      this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, latest.revision);
-      this.store.addEvent({ level: "success", eventType: "image.request_started", title: "Codex is making image options", detail: `${latest.title} \xB7 ${receipt.threadId} \xB7 Kallob Cloud prompt v${prompt2.version}` });
-    } catch (error) {
-      const message2 = error instanceof Error ? error.message : "Could not start the image request in Codex";
-      const latest = this.store.getTask(taskId);
-      if (latest) this.store.updateTask(taskId, { lastError: message2 }, latest.revision);
-      this.store.addEvent({ level: "failed", eventType: "image.request_failed", title: "Could not start the image request", detail: message2 });
-    }
-  }
-  /** Changes the words drawn on a request's pictures (a price, a date) without a new round. */
-  updateValues(taskId, given) {
-    const task = this.imageTask(taskId);
-    const recipe = task.source.imageRecipe;
-    if (!recipe) throw new Error("This request has no words to change");
-    const values = this.values(recipe.fields, given);
-    this.store.setImageValues(taskId, values, recipeHeadline(recipe, values));
-    return this.request(taskId);
-  }
-  styleImages() {
-    return this.store.listStyleImages().map((style) => style.image);
-  }
-  /** Adds pictures to the saved style set that requests follow. */
-  async addStyleImages(input) {
-    const uploads = (Array.isArray(input) ? input : []).map(decodeUpload);
-    if (!uploads.length) throw new Error("Add at least one style image");
-    if (this.store.listStyleImages().length + uploads.length > MAX_STYLE_IMAGES) throw new Error(`Keep at most ${MAX_STYLE_IMAGES} style images`);
-    await fs13.mkdir(this.folder("style"), { recursive: true });
-    for (const upload of uploads) {
-      const id = randomUUID4();
-      const fileName = `${id}.${extensions[upload.mimeType]}`;
-      await fs13.writeFile(this.folder("style", fileName), upload.bytes);
-      this.store.addStyleImage({ id, name: upload.name, fileName, mimeType: upload.mimeType, bytes: upload.bytes.length });
-    }
-    this.store.addEvent({ level: "success", eventType: "image.style_added", title: "Style images added", detail: `${uploads.length} images` });
-    return this.styleImages();
-  }
-  async removeStyleImage(id) {
-    const found = this.store.getStyleImage(id);
-    if (!found) throw new Error("Style image not found");
-    this.store.removeStyleImage(id);
-    await fs13.unlink(this.folder("style", found.fileName)).catch(() => void 0);
-    this.store.addEvent({ level: "warning", eventType: "image.style_removed", title: "Style image removed", detail: found.image.name || found.image.id });
-    return this.styleImages();
-  }
-  styleFile(id) {
-    const found = this.store.getStyleImage(id);
-    return found ? { path: this.folder("style", found.fileName), mimeType: found.image.mimeType } : null;
-  }
-  myPhotos() {
-    return this.store.listMyPhotos();
-  }
-  async saveMyPhoto(kind, name, bytes, mimeType) {
-    if (this.store.listMyPhotos().length >= MAX_MY_PHOTOS) throw new Error(`Keep at most ${MAX_MY_PHOTOS} photos`);
-    const id = randomUUID4();
-    const fileName = `${id}.${extensions[mimeType]}`;
-    await fs13.mkdir(this.folder("mine"), { recursive: true });
-    await fs13.writeFile(this.folder("mine", fileName), bytes);
-    return this.store.addMyPhoto({ id, kind, name, fileName, mimeType, bytes: bytes.length });
-  }
-  /** Keeps the founder's own photos (a portrait, a product, a logo) for later requests. */
-  async addMyPhotos(kindInput, input) {
-    const kind = myPhotoKinds.includes(kindInput) ? kindInput : null;
-    if (!kind) throw new Error("Say what the photo is: portrait, product or other");
-    const uploads = (Array.isArray(input) ? input : []).map(decodeUpload);
-    if (!uploads.length) throw new Error("Add at least one photo");
-    if (this.store.listMyPhotos().length + uploads.length > MAX_MY_PHOTOS) throw new Error(`Keep at most ${MAX_MY_PHOTOS} photos`);
-    for (const upload of uploads) await this.saveMyPhoto(kind, upload.name, upload.bytes, upload.mimeType);
-    this.store.addEvent({ level: "success", eventType: "image.photos_added", title: "Photos added to My photos", detail: `${uploads.length} ${kind}` });
-    return this.myPhotos();
-  }
-  async removeMyPhoto(id) {
-    const found = this.store.getMyPhoto(id);
-    if (!found) throw new Error("Photo not found");
-    this.store.removeMyPhoto(id);
-    await fs13.unlink(this.folder("mine", found.fileName)).catch(() => void 0);
-    return this.myPhotos();
-  }
-  myPhotoFile(id) {
-    const found = this.store.getMyPhoto(id);
-    return found ? { path: this.folder("mine", found.fileName), mimeType: found.photo.mimeType } : null;
-  }
-  /** Codex's options for a request (image_asset_save): copied into Studio as the next round. */
-  async saveOptions(taskId, input) {
-    const task = this.imageTask(taskId);
-    if (task.status === "archived") throw new Error("This image request is archived");
-    const images = Array.isArray(input) ? input : [];
-    if (!images.length || images.length > MAX_OPTIONS_PER_SAVE) throw new Error(`Save between 1 and ${MAX_OPTIONS_PER_SAVE} images at once`);
-    const files = await Promise.all(images.map(async (image) => {
-      const file = String(image?.path ?? "").trim();
-      if (!path11.isAbsolute(file)) throw new Error("Each image needs the absolute path of the generated file");
-      const stat = await fs13.stat(file).catch(() => null);
-      if (!stat?.isFile()) throw new Error(`No image file at ${file}`);
-      if (stat.size > MAX_OPTION_BYTES) throw new Error(`${file} is larger than 25 MB`);
-      const bytes = await fs13.readFile(file);
-      const mimeType = sniffImageType(bytes);
-      if (!mimeType) throw new Error(`${file} is not a PNG, JPEG or WebP image`);
-      return { bytes, mimeType, caption: String(image?.caption ?? "").trim().slice(0, 200) };
-    }));
-    const round = this.store.nextImageRound(taskId);
-    const saved = [];
-    for (const file of files) saved.push(await this.writeAsset(taskId, "option", round, file.caption, file.bytes, file.mimeType));
-    const latest = this.store.getTask(taskId);
-    if (latest.lastError) this.store.updateTask(taskId, { lastError: null }, latest.revision);
-    this.codex.moveTask(taskId, "review", { clearQuestion: true });
-    const notice = this.pickNotice(taskId);
-    if (notice) this.attention.request(notice);
-    this.store.addEvent({ level: "success", eventType: "image.options_saved", title: "Image options ready to choose", detail: `${task.title} \xB7 round ${round} \xB7 ${saved.length} images` });
-    return { round, images: saved };
-  }
-  /** Asks Codex for new options that apply a change (or new variations) to one option. */
-  async revise(assetId, noteInput, variation = false) {
-    const found = this.store.getImageAsset(assetId);
-    if (!found || found.asset.kind !== "option") throw new Error("Image option not found");
-    const task = this.imageTask(found.asset.taskId);
-    if (task.status === "archived") throw new Error("This image request is archived");
-    if (!task.codexThreadId) throw new Error("This request is not linked to a Codex conversation yet");
-    const sender = this.codexDesktop.queueMessage;
-    if (!sender) throw new Error("Sending to Codex is not available in this runtime");
-    const note = variation ? VARIATION_NOTE : String(noteInput ?? "").trim();
-    if (!note || note.length > 1e3) throw new Error("Say what to change in at most 1000 characters");
-    const prompt2 = await this.prompts.application(IMAGE_APPLICATION_KEY, "image-change", {
-      baseImagePathJson: path11.join(this.taskFolder(task.id), found.fileName),
-      note,
-      textPlan: textPlan(task.source.imageRecipe ?? null, task.source.imageValues ?? {}, this.store.getBrandProfile()?.name?.trim() ?? ""),
-      optionCount: OPTIONS_PER_ROUND,
-      taskIdJson: task.id
-    });
-    await sender.call(this.codexDesktop, task.codexThreadId, prompt2.text);
-    const latest = this.store.getTask(task.id);
-    this.store.updateTask(task.id, { status: "active", question: null, lastError: null }, latest.revision);
-    this.attention.close(`images:${task.id}`);
-    this.store.addEvent({ level: "success", eventType: variation ? "image.variation_requested" : "image.revision_requested", title: variation ? "Asked Codex for new variations" : "Asked Codex for a changed image", detail: `${task.title} \xB7 ${note.slice(0, 200)}` });
-    return this.request(task.id);
-  }
-  /**
-   * Puts an option into the library; the request is then done. `finalBase64`
-   * is the picture with the recipe's words drawn on it (a PNG from the page).
-   */
-  async approve(assetId, finalBase64) {
-    const found = this.store.getImageAsset(assetId);
-    if (!found || found.asset.kind !== "option") throw new Error("Image option not found");
-    const task = this.imageTask(found.asset.taskId);
-    let finalFileName = null;
-    if (typeof finalBase64 === "string" && finalBase64) {
-      const bytes = Buffer.from(finalBase64, "base64");
-      if (sniffImageType(bytes) !== "image/png") throw new Error("The finished picture must be a PNG");
-      if (bytes.length > MAX_FINAL_BYTES) throw new Error("The finished picture is too large");
-      finalFileName = `${found.asset.id}-final.png`;
-      await fs13.writeFile(path11.join(this.taskFolder(task.id), finalFileName), bytes);
-    }
-    const asset = this.store.approveImageAsset(assetId, finalFileName);
-    this.codex.moveTask(task.id, "done", { clearQuestion: true });
-    this.store.addEvent({ level: "success", eventType: "image.approved", title: "Image approved into the library", detail: task.title });
-    return asset;
-  }
-  request(taskId) {
-    const task = this.imageTask(taskId);
-    const assets = this.store.listImageAssets(taskId);
-    return { task: this.codex.withRunning(task), references: assets.filter((asset) => asset.kind === "reference"), options: assets.filter((asset) => asset.kind === "option") };
-  }
-  listRequests() {
-    return this.store.listTasks(500).filter((task) => task.source.type === "image-studio" && task.status !== "archived").map((task) => this.request(task.id));
-  }
-  library() {
-    return this.store.listLibraryImages();
-  }
-  /** Where a picture is on disk, to serve it to the Studio page; `final` prefers the finished picture. */
-  file(assetId, final = false) {
-    const found = this.store.getImageAsset(assetId);
-    if (!found) return null;
-    const finished = final && found.finalFileName;
-    return { path: path11.join(this.taskFolder(found.asset.taskId), finished ? found.finalFileName : found.fileName), mimeType: finished ? "image/png" : found.asset.mimeType, asset: found.asset };
-  }
-};
-
-// src/mini-apps/quick-content/server/repository.ts
-var createQuickContentRepository = (store2) => store2;
-
-// src/mini-apps/quick-content/server/routes.ts
-var import_express5 = __toESM(require_express2(), 1);
-function createQuickContentRouter({ service: service2, port: port2 }) {
-  const router = (0, import_express5.Router)();
-  router.get("/api/quick-content/context-options", (_request, response) => response.json(service2.contextOptions()));
-  router.get("/api/quick-content/insights", (_request, response, next) => {
-    try {
-      response.json(service2.insights());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/quick-content/settings", (_request, response, next) => {
-    try {
-      response.json(service2.store.getQuickContentSettings());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/quick-content/settings", (request2, response, next) => {
-    try {
-      const { revision, ...input } = request2.body ?? {};
-      response.json(service2.store.updateQuickContentSettings(input, revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/angle-plans", (request2, response, next) => {
-    void service2.createAnglePlan(request2.body ?? {}).then((value) => response.status(202).json(value)).catch(next);
-  });
-  router.get("/api/quick-content/angle-plans/:id", (request2, response, next) => {
-    void service2.getAnglePlan(request2.params.id).then((value) => response.json(value)).catch(next);
-  });
-  router.get("/api/quick-content/batches", (request2, response, next) => {
-    void service2.listBatches({ query: String(request2.query.q ?? ""), status: String(request2.query.status ?? ""), archived: request2.query.archived === "1", sourceApp: String(request2.query.sourceApp ?? "quick-content") }).then((value) => response.json(value)).catch(next);
-  });
-  router.get("/api/quick-content/batches/:id", (request2, response, next) => {
-    void service2.getBatch(request2.params.id).then((value) => value ? response.json(value) : response.status(404).json({ error: "Quick Content batch not found" })).catch(next);
-  });
-  router.post("/api/quick-content/batches", (request2, response, next) => {
-    void service2.createBatch(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/quick-content/batches`).then((value) => response.status(201).json(value)).catch(next);
-  });
-  router.post("/api/quick-content/batches/:id/archive", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickContentBatch(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/batches/:id/restore", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickContentBatch(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/quick-content/drafts/:id", (request2, response, next) => {
-    try {
-      const value = service2.store.getQuickContentDraft(request2.params.id);
-      value ? response.json(value) : response.status(404).json({ error: "Quick Content draft not found" });
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/quick-content/drafts/:id", (request2, response, next) => {
-    try {
-      response.json(service2.store.updateQuickContentDraft(request2.params.id, { body: request2.body?.body }, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/drafts/:id/transition", (request2, response, next) => {
-    try {
-      response.json(service2.store.transitionQuickContentDraft(request2.params.id, request2.body?.status, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/drafts/:id/archive", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickContentDraft(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/drafts/:id/restore", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickContentDraft(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/drafts/:id/regenerate", (request2, response, next) => {
-    void service2.regenerateDraft(request2.params.id, request2.body?.note, `http://127.0.0.1:${port2}/mini-apps/quick-content/batches`).then((value) => response.status(201).json(value)).catch(next);
-  });
-  router.get("/api/quick-content/recipes", (request2, response, next) => {
-    try {
-      response.json(service2.store.listQuickContentRecipes({ archived: request2.query.archived === "1" }));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/recipes", (request2, response, next) => {
-    try {
-      response.status(201).json(service2.store.createQuickContentRecipe(request2.body ?? {}));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/quick-content/recipes/:id", (request2, response, next) => {
-    try {
-      const { revision, ...input } = request2.body ?? {};
-      response.json(service2.store.updateQuickContentRecipe(request2.params.id, input, revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/recipes/:id/archive", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickContentRecipe(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-content/recipes/:id/restore", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickContentRecipe(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  return router;
-}
-
-// src/mini-apps/quick-content/server/service.ts
-import fs14 from "node:fs/promises";
-import path12 from "node:path";
-import { randomUUID as randomUUID5 } from "node:crypto";
-var QUICK_CONTENT_APPLICATION_KEY = "quick-content";
-var ANGLE_PLAN_FAILURE = "Codex ch\u01B0a t\u1EA1o \u0111\u01B0\u1EE3c h\u01B0\u1EDBng vi\u1EBFt h\u1EE3p l\u1EC7. H\xE3y th\u1EED l\u1EA1i.";
-var QuickContentService = class {
-  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, reconcileResults) {
-    this.store = store2;
-    this.codex = codex;
-    this.codexDesktop = codexDesktop2;
-    this.prompts = prompts;
-    this.projectRoot = projectRoot2;
-    this.reconcileResults = reconcileResults;
-  }
-  store;
-  codex;
-  codexDesktop;
-  prompts;
-  projectRoot;
-  reconcileResults;
-  async listBatches(input = {}) {
-    await this.reconcileResults();
-    return this.store.listQuickContentBatches(input);
-  }
-  async getBatch(id) {
-    await this.reconcileResults();
-    return this.store.getQuickContentBatch(id);
-  }
-  contextOptions() {
-    const offers = this.store.listOffers({ status: "active", limit: 200 }).items.map((offer) => ({ id: offer.id, name: offer.name, summary: offer.summary, revision: offer.revision }));
-    return { offers };
-  }
-  insights() {
-    return this.store.getQuickContentInsights();
-  }
-  async createAnglePlan(input) {
-    const idea = String(input.idea ?? "").trim();
-    const supportingContext = String(input.supportingContext ?? "").trim();
-    if (!idea || idea.length > 8e3) throw new Error("Quick Content idea is required and must stay under 8000 characters");
-    if (supportingContext.length > 2e4) throw new Error("Quick Content supporting context must stay under 20000 characters");
-    const angleCount = Number(input.angleCount ?? 6);
-    if (angleCount !== 3 && angleCount !== 6) throw new Error("Quick Content angle count must be 3 or 6");
-    await this.prompts.assertApplication(QUICK_CONTENT_APPLICATION_KEY);
-    const id = randomUUID5();
-    const timestamp2 = (/* @__PURE__ */ new Date()).toISOString();
-    const plan = { id, idea, coreMessage: "", angles: [], angleCount, status: "queued", error: null, createdAt: timestamp2, updatedAt: timestamp2 };
-    await this.writeAnglePlanState({ ...plan, supportingContext });
-    void this.dispatchAnglePlan(plan, supportingContext);
-    return plan;
-  }
-  async getAnglePlan(id) {
-    if (!/^[a-f0-9-]{36}$/i.test(id)) throw new Error("Quick Content angle plan not found");
-    const paths = this.anglePlanPaths(id);
-    const state = await this.readJson(paths.state);
-    if (!state) throw new Error("Quick Content angle plan not found");
-    if (state.status === "failed") return this.publicAnglePlan(state);
-    const result = await this.readJson(paths.result);
-    if (!result) return this.publicAnglePlan(state);
-    return this.acceptAnglePlanResult(state, result);
-  }
-  publicAnglePlan(state) {
-    return { id: state.id, idea: state.idea, coreMessage: state.coreMessage, angles: state.angles, angleCount: state.angleCount ?? 6, status: state.status, error: state.error, createdAt: state.createdAt, updatedAt: state.updatedAt };
-  }
-  async acceptAnglePlanResult(state, result) {
-    try {
-      const normalized = this.normalizeAnglePlanResult(state.id, result, state.angleCount ?? 6);
-      const ready = { ...state, ...normalized, status: "ready", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
-      await this.writeAnglePlanState(ready);
-      return this.publicAnglePlan(ready);
-    } catch (error) {
-      await fs14.rm(this.anglePlanPaths(state.id).result, { force: true }).catch(() => void 0);
-      const failed = { ...state, coreMessage: "", angles: [], status: "failed", error: ANGLE_PLAN_FAILURE, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
-      await this.writeAnglePlanState(failed);
-      this.store.addEvent({ level: "failed", eventType: "quick_content.angle_plan.failed", title: "Quick Content angle planning failed", detail: error instanceof Error ? error.message : String(error) });
-      return this.publicAnglePlan(failed);
-    }
-  }
-  normalizeAnglePlanResult(id, input, angleCount) {
-    const result = input;
-    const coreMessage = String(result.coreMessage ?? "").trim();
-    if (result.schemaVersion !== "quick-content-angle-plan-v1" || result.planId !== id || !coreMessage || coreMessage.length > 3e3 || !Array.isArray(result.angles) || result.angles.length !== angleCount) throw new Error("Quick Content angle plan result is invalid");
-    const angles = result.angles.map((raw, index) => {
-      const angle = raw;
-      const normalized = { id: String(angle.id ?? `angle-${index + 1}`).trim(), title: String(angle.title ?? "").trim(), rationale: String(angle.rationale ?? "").trim(), approach: String(angle.approach ?? "").trim() };
-      if (normalized.id !== `angle-${index + 1}` || !normalized.title || normalized.title.length > 240 || !normalized.rationale || normalized.rationale.length > 2e3 || !normalized.approach || normalized.approach.length > 2e3) throw new Error("Quick Content angle plan contains an invalid angle");
-      return normalized;
-    });
-    if (new Set(angles.map((angle) => angle.id)).size !== angles.length || new Set(angles.map((angle) => angle.title.toLocaleLowerCase())).size !== angles.length) throw new Error("Quick Content angle plan must contain distinct angles");
-    const operationalBlocker = [coreMessage, ...angles.flatMap((angle) => [angle.title, angle.rationale, angle.approach])].join("\n");
-    const blockerTitles = /* @__PURE__ */ new Set(["b\u1ECB ch\u1EB7n", "ch\u01B0a x\u1EED l\xFD", "\u0111\xFAng ph\u1EA1m vi"]);
-    const onlyBlockerTitles = angles.every((angle) => blockerTitles.has(angle.title.toLocaleLowerCase()));
-    if (onlyBlockerTitles || /growth_catalog|growth_engine_get|kallob cloud is not connected|không thể lập kế hoạch|công cụ.{0,40}không.{0,20}khả dụng/i.test(operationalBlocker)) throw new Error("Quick Content angle plan returned an operational blocker instead of content angles");
-    return { coreMessage, angles };
-  }
-  async createBatch(input, sourceUrl) {
-    const batchId = randomUUID5();
-    const parsedSource = new URL(sourceUrl);
-    if (parsedSource.protocol !== "http:" || !["127.0.0.1", "localhost", "[::1]"].includes(parsedSource.hostname)) throw new Error("Quick Content source must be the local Growth Studio");
-    if (input.sourceApp === "personal-brand") parsedSource.pathname = "/mini-apps/personal-brand/content";
-    sourceUrl = parsedSource.toString();
-    const offer = input.offerId ? this.store.getOffer(String(input.offerId)) : null;
-    if (input.offerId && (!offer || offer.archivedAt || offer.status !== "active")) throw new Error("Quick Content requires an active Offer when one is selected");
-    await this.prompts.assertApplication(QUICK_CONTENT_APPLICATION_KEY);
-    const brandSnapshot = this.store.getBrandProfile() ? this.store.createBrandContextSnapshot() : null;
-    const task = this.store.createTask({
-      title: `${input.sourceApp === "personal-brand" ? "Personal Brand" : "Quick Content"} \xB7 ${String(input.coreMessage ?? input.idea ?? "").trim().slice(0, 140) || "Untitled batch"}`,
-      description: String(input.idea ?? "").trim(),
-      priority: "medium",
-      source: { type: "quick-content", referenceId: batchId, label: input.sourceApp === "personal-brand" ? "Personal Brand \xB7 Trao gi\xE1 tr\u1ECB" : "Quick Content \xB7 Content Production", evidence: [], affectedGroups: ["marketing"], quickContentBatchId: batchId }
-    });
-    const batch = this.store.createQuickContentBatch({ ...input, id: batchId, taskId: task.id, brandContextSnapshotId: brandSnapshot?.id ?? null, offerRevision: offer?.revision ?? null });
-    const resultPath = await this.prepareResultPath(task.id);
-    const context = brandSnapshot ? JSON.stringify({ profile: brandSnapshot.profile, records: brandSnapshot.records, claims: brandSnapshot.claims, guidelines: brandSnapshot.guidelines, gaps: brandSnapshot.gaps }) : "No approved Brand Profile snapshot is available.";
-    void this.dispatch(task.id, batch.id, `Growth Studio \xB7 Quick Content \xB7 ${batch.title}`, () => this.batchPrompt(batch, context, offer ? JSON.stringify(offer) : "No Offer selected.", sourceUrl, resultPath.temporary, resultPath.final));
-    return { batch };
-  }
-  anglePlanPaths(id) {
-    const directory = path12.join(this.projectRoot, ".growth-studio", "quick-content-angle-plans");
-    return { directory, state: path12.join(directory, `${id}.state.json`), result: path12.join(directory, `${id}.json`), temporary: path12.join(directory, `${id}.json.tmp`) };
-  }
-  async readJson(file) {
-    try {
-      return JSON.parse(await fs14.readFile(file, "utf8"));
-    } catch (error) {
-      if (error.code === "ENOENT") return null;
-      throw error;
-    }
-  }
-  async writeAnglePlanState(state) {
-    const paths = this.anglePlanPaths(state.id);
-    await fs14.mkdir(paths.directory, { recursive: true });
-    await fs14.writeFile(paths.state, JSON.stringify(state, null, 2), "utf8");
-  }
-  async dispatchAnglePlan(plan, supportingContext) {
-    const paths = this.anglePlanPaths(plan.id);
-    try {
-      await this.writeAnglePlanState({ ...plan, status: "running", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), supportingContext });
-      this.store.addEvent({ level: "success", eventType: "quick_content.angle_plan.started", title: "Quick Content angle planning started", detail: `${plan.idea.slice(0, 120)} \xB7 durable Codex task` });
-      const prompt2 = await this.anglePlanPrompt(plan, supportingContext, paths.temporary, paths.result);
-      const receipt = await this.codexDesktop.dispatch(`growth-studio.angle.${plan.id}`, `Growth Studio \xB7 Content angles \xB7 ${plan.idea.slice(0, 60)}`, prompt2, this.projectRoot, { openOnCreate: false });
-      const running = { ...plan, status: "running", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), supportingContext, codexThreadId: receipt.threadId, codexMessageId: receipt.messageId };
-      await this.writeAnglePlanState(running);
-      if (!this.codexDesktop.isRunning) return;
-      for (let attempt = 0; attempt < 1200 && this.codexDesktop.isRunning(receipt.threadId); attempt += 1) await new Promise((resolve) => setTimeout(resolve, 500));
-      const rawResult = await this.readJson(paths.result);
-      if (!rawResult) throw new Error("Codex task finished without a Quick Content angle plan artifact");
-      const settled = await this.acceptAnglePlanResult(running, rawResult);
-      if (settled.status !== "ready") return;
-      this.store.addEvent({ level: "success", eventType: "quick_content.angle_plan.ready", title: "Quick Content angle plan ready", detail: plan.idea.slice(0, 160) });
-    } catch (error) {
-      const detail = error instanceof Error ? error.message : String(error);
-      await fs14.rm(paths.temporary, { force: true }).catch(() => void 0);
-      await fs14.rm(paths.result, { force: true }).catch(() => void 0);
-      await this.writeAnglePlanState({ ...plan, status: "failed", error: ANGLE_PLAN_FAILURE, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), supportingContext });
-      this.store.addEvent({ level: "failed", eventType: "quick_content.angle_plan.failed", title: "Quick Content angle planning failed", detail });
-    }
-  }
-  async regenerateDraft(id, note, sourceUrl) {
-    const draft = this.store.getQuickContentDraft(id);
-    if (!draft || draft.archivedAt) throw new Error("Quick Content draft is unavailable");
-    const batch = this.store.getQuickContentBatch(draft.batchId);
-    if (!batch || batch.archivedAt) throw new Error("Quick Content batch is unavailable");
-    const instruction = String(note ?? "").trim();
-    if (!instruction || instruction.length > 4e3) throw new Error("Regeneration note is required and must stay under 4000 characters");
-    await this.prompts.assertApplication(QUICK_CONTENT_APPLICATION_KEY);
-    const task = this.store.createTask({
-      title: `Quick Content revision \xB7 ${draft.angle}`.slice(0, 180),
-      description: instruction,
-      priority: "medium",
-      source: { type: "quick-content", referenceId: `${batch.id}:${draft.id}:${draft.version + 1}`, label: "Quick Content \xB7 Draft revision", evidence: [], affectedGroups: ["marketing"], quickContentBatchId: batch.id, quickContentDraftId: draft.id }
-    });
-    const resultPath = await this.prepareResultPath(task.id);
-    void this.dispatch(task.id, batch.id, `Growth Studio \xB7 Quick Content revision \xB7 ${draft.angle}`, () => this.regenerationPrompt(batch, draft, instruction, sourceUrl, resultPath.temporary, resultPath.final, task.id));
-    return { taskId: task.id };
-  }
-  async prepareResultPath(taskId) {
-    const directory = path12.join(this.projectRoot, ".growth-studio", "task-results");
-    await fs14.mkdir(directory, { recursive: true });
-    const final = path12.join(directory, `${taskId}.json`);
-    return { final, temporary: `${final}.tmp` };
-  }
-  /** Runs in the background: Codex never comes to the front for a Quick Content run. */
-  async dispatch(taskId, batchId, title, prompt2) {
-    try {
-      const message2 = await prompt2() + this.codex.studioChannel(taskId);
-      const receipt = await this.codexDesktop.dispatch(`growth-studio.task.${taskId}`, title, message2, this.projectRoot, { openOnCreate: false });
-      const current = this.store.getTask(taskId);
-      if (current) this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision);
-      this.store.markQuickContentBatchRunning(batchId);
-      this.store.addEvent({ level: "success", eventType: "quick_content.started", title: "Quick Content generation started", detail: `${title} \xB7 ${receipt.threadId}` });
-    } catch (error) {
-      const message2 = error instanceof Error ? error.message : String(error);
-      const current = this.store.getTask(taskId);
-      if (current) this.store.updateTask(taskId, { lastError: message2 }, current.revision);
-      this.store.markQuickContentBatchFailed(batchId, message2);
-      this.store.addEvent({ level: "failed", eventType: "quick_content.failed", title: "Quick Content generation failed", detail: message2 });
-    }
-  }
-  async anglePlanPrompt(plan, supportingContext, temporaryResultPath, resultPath) {
-    const settings = this.store.getQuickContentSettings();
-    const prompt2 = await this.prompts.application(QUICK_CONTENT_APPLICATION_KEY, "angle-plan", {
-      idea: plan.idea,
-      supportingContext: supportingContext || "none",
-      audience: settings.audience,
-      objective: settings.objective,
-      channel: settings.channel,
-      tone: settings.tone,
-      angleCount: plan.angleCount,
-      planIdJson: plan.id,
-      temporaryResultPathJson: temporaryResultPath,
-      resultPathJson: resultPath
-    });
-    return prompt2.text;
-  }
-  async batchPrompt(batch, context, offer, sourceUrl, temporaryResultPath, resultPath) {
-    const confirmedAngles = batch.selectedAngles.length ? batch.selectedAngles.map((angle, index) => `${index + 1}. ${angle.title}
-Why: ${angle.rationale}
-Approach: ${angle.approach}`).join("\n\n") : "No angle plan was confirmed; derive distinct angles from the brief.";
-    const prompt2 = await this.prompts.application(QUICK_CONTENT_APPLICATION_KEY, "content-batch", {
-      quantity: batch.quantity,
-      sourceUrl,
-      idea: batch.idea,
-      coreMessage: batch.coreMessage,
-      audience: batch.audience,
-      objective: batch.objective,
-      channel: batch.channel,
-      structure: batch.structure,
-      length: batch.length,
-      tone: batch.tone,
-      callToAction: batch.callToAction || "none",
-      supportingContext: batch.supportingContext || "none",
-      confirmedAngles,
-      brandContext: context,
-      offer,
-      temporaryResultPathJson: temporaryResultPath,
-      resultPathJson: resultPath,
-      taskIdJson: batch.taskId,
-      resultTitleJson: `Quick Content \xB7 ${batch.title}`,
-      batchIdJson: batch.id,
-      coreMessageJson: batch.coreMessage
-    });
-    return prompt2.text;
-  }
-  async regenerationPrompt(batch, draft, note, sourceUrl, temporaryResultPath, resultPath, taskId) {
-    const prompt2 = await this.prompts.application(QUICK_CONTENT_APPLICATION_KEY, "draft-revision", {
-      sourceUrl,
-      coreMessage: batch.coreMessage,
-      audience: batch.audience,
-      channel: batch.channel,
-      tone: batch.tone,
-      structure: batch.structure,
-      angle: draft.angle,
-      currentBody: draft.body,
-      note,
-      temporaryResultPathJson: temporaryResultPath,
-      resultPathJson: resultPath,
-      taskIdJson: taskId,
-      resultTitleJson: `Quick Content revision \xB7 ${draft.angle}`,
-      batchIdJson: batch.id,
-      coreMessageJson: batch.coreMessage,
-      draftIdJson: draft.id,
-      angleJson: draft.angle,
-      rationaleJson: draft.rationale
-    });
-    return prompt2.text;
-  }
-};
-
-// src/mini-apps/quick-visual/server/repository.ts
-var createQuickVisualRepository = (store2) => store2;
-
-// src/mini-apps/quick-visual/server/routes.ts
-var import_express6 = __toESM(require_express2(), 1);
-function sendImage(response, value) {
-  if (!value) return response.status(404).json({ error: "Image not found" });
-  response.setHeader("Content-Type", value.mime_type);
-  response.setHeader("Content-Disposition", `inline; filename="${value.filename.replace(/["\r\n]/g, "")}"`);
-  response.setHeader("Cache-Control", "private, max-age=60");
-  return response.send(Buffer.from(value.data));
-}
-function createQuickVisualRouter({ service: service2, port: port2 }) {
-  const router = (0, import_express6.Router)();
-  router.get("/api/quick-visual/context-options", (_request, response, next) => {
-    try {
-      response.json(service2.contextOptions());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/quick-visual/batches", (request2, response, next) => {
-    void service2.listBatches({ query: String(request2.query.q ?? ""), status: String(request2.query.status ?? ""), archived: request2.query.archived === "1" }).then((value) => response.json(value)).catch(next);
-  });
-  router.get("/api/quick-visual/batches/:id", (request2, response, next) => {
-    void service2.getBatch(request2.params.id).then((value) => value ? response.json(value) : response.status(404).json({ error: "Quick Visual batch not found" })).catch(next);
-  });
-  router.post("/api/quick-visual/batches", (request2, response, next) => {
-    void service2.createBatch(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/quick-visual/images`).then((value) => response.status(201).json(value)).catch(next);
-  });
-  router.post("/api/quick-visual/batches/:id/archive", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickVisualBatch(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-visual/batches/:id/restore", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickVisualBatch(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/quick-visual/references/:id/file", (request2, response) => sendImage(response, service2.store.getQuickVisualReferenceData(request2.params.id)));
-  router.get("/api/quick-visual/images/:id/file", (request2, response) => sendImage(response, service2.store.getQuickVisualImageData(request2.params.id)));
-  router.get("/api/quick-visual/images/:id/versions/:version/file", (request2, response) => sendImage(response, service2.store.getQuickVisualImageData(request2.params.id, Number(request2.params.version))));
-  router.get("/api/quick-visual/images/:id", (request2, response) => {
-    const value = service2.store.getQuickVisualImage(request2.params.id);
-    return value ? response.json(value) : response.status(404).json({ error: "Quick Visual image not found" });
-  });
-  router.post("/api/quick-visual/images/:id/transition", (request2, response, next) => {
-    try {
-      response.json(service2.store.transitionQuickVisualImage(request2.params.id, request2.body?.status, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-visual/images/:id/archive", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickVisualImage(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-visual/images/:id/restore", (request2, response, next) => {
-    try {
-      response.json(service2.store.archiveQuickVisualImage(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/quick-visual/images/:id/regenerate", (request2, response, next) => {
-    void service2.regenerateImage(request2.params.id, request2.body?.note, `http://127.0.0.1:${port2}/mini-apps/quick-visual/images`).then((value) => response.status(201).json(value)).catch(next);
-  });
-  return router;
-}
-
-// src/mini-apps/quick-visual/server/service.ts
-import fs15 from "node:fs/promises";
-import path13 from "node:path";
-import { randomUUID as randomUUID6 } from "node:crypto";
-function safeFilename(value, fallback) {
-  const cleaned = path13.basename(value).replace(/[^A-Za-z0-9._-]+/g, "-").slice(0, 120);
-  return cleaned || fallback;
-}
-var QUICK_VISUAL_APPLICATION_KEY = "quick-visual";
-var QuickVisualService = class {
-  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, reconcileResults) {
-    this.store = store2;
-    this.codex = codex;
-    this.codexDesktop = codexDesktop2;
-    this.prompts = prompts;
-    this.projectRoot = projectRoot2;
-    this.reconcileResults = reconcileResults;
-  }
-  store;
-  codex;
-  codexDesktop;
-  prompts;
-  projectRoot;
-  reconcileResults;
-  async listBatches(input = {}) {
-    await this.reconcileResults();
-    return this.store.listQuickVisualBatches(input);
-  }
-  async getBatch(id) {
-    await this.reconcileResults();
-    return this.store.getQuickVisualBatch(id);
-  }
-  contextOptions() {
-    const offers = this.store.listOffers({ status: "active", limit: 200 }).items.map((offer) => ({ id: offer.id, name: offer.name, summary: offer.summary, revision: offer.revision }));
-    const contentDrafts = this.store.listQuickContentBatches({ status: "review", limit: 100 }).items.flatMap((batch) => (this.store.getQuickContentBatch(batch.id)?.drafts ?? []).filter((draft) => draft.status === "approved" && !draft.archivedAt).map((draft) => ({ id: draft.id, label: `${batch.title} \xB7 ${draft.angle}`, body: draft.body, version: draft.version })));
-    const brandAssets = this.store.listBrandAssets().map((asset) => ({ id: asset.id, label: asset.filename, role: asset.role, url: asset.url }));
-    return { offers, contentDrafts, brandAssets };
-  }
-  async createBatch(input, sourceUrl) {
-    const batchId = randomUUID6();
-    const parsedSource = new URL(sourceUrl);
-    if (parsedSource.protocol !== "http:" || !["127.0.0.1", "localhost", "[::1]"].includes(parsedSource.hostname)) throw new Error("Quick Visual source must be the local Growth Studio");
-    const offer = input.offerId ? this.store.getOffer(String(input.offerId)) : null;
-    if (input.offerId && (!offer || offer.archivedAt || offer.status !== "active")) throw new Error("Quick Visual requires an active Offer when one is selected");
-    const contentDraft = input.quickContentDraftId ? this.store.getQuickContentDraft(String(input.quickContentDraftId)) : null;
-    if (input.quickContentDraftId && (!contentDraft || contentDraft.archivedAt || contentDraft.status !== "approved")) throw new Error("Quick Visual requires an approved Quick Content draft when one is selected");
-    await this.prompts.assertApplication(QUICK_VISUAL_APPLICATION_KEY);
-    const brandSnapshot = input.useBrandContext && this.store.getBrandProfile() ? this.store.createBrandContextSnapshot() : null;
-    const uploads = (Array.isArray(input.references) ? input.references : []).map((reference) => ({ filename: String(reference.filename ?? ""), data: Buffer.from(String(reference.dataBase64 ?? ""), "base64") }));
-    const selectedAssets = (Array.isArray(input.brandAssetIds) ? input.brandAssetIds : []).map((id) => this.store.getBrandAssetData(String(id))).map((value, index) => {
-      if (!value || value.asset.archivedAt) throw new Error(`Selected Brand Asset ${index + 1} is unavailable`);
-      return { filename: value.asset.filename, data: value.data };
-    });
-    const task = this.store.createTask({ title: `Quick Visual \xB7 ${Object.values(input.brief ?? {}).find(Boolean)?.slice(0, 130) || "Untitled visual"}`, description: JSON.stringify(input.brief ?? {}), priority: "medium", source: { type: "quick-visual", referenceId: batchId, label: "Quick Visual \xB7 Content Production", evidence: [], affectedGroups: ["marketing"], quickVisualBatchId: batchId } });
-    const batch = this.store.createQuickVisualBatch({ ...input, references: input.references ?? [], brandAssetIds: input.brandAssetIds ?? [], id: batchId, taskId: task.id, brandContextSnapshotId: brandSnapshot?.id ?? null, offerRevision: offer?.revision ?? null, quickContentDraftVersion: contentDraft?.version ?? null, referenceData: [...selectedAssets, ...uploads] });
-    const run2 = await this.prepareRun(batch.id, task.id, [...selectedAssets, ...uploads]);
-    const context = brandSnapshot ? JSON.stringify({ profile: brandSnapshot.profile, records: brandSnapshot.records, claims: brandSnapshot.claims, guidelines: brandSnapshot.guidelines, gaps: brandSnapshot.gaps }) : "No Brand Profile context selected.";
-    void this.dispatch(task.id, batch.id, `Growth Studio \xB7 Quick Visual \xB7 ${batch.title}`, () => this.batchPrompt(batch, context, offer ? JSON.stringify(offer) : "No Offer selected.", contentDraft?.body ?? "No Quick Content draft selected.", sourceUrl, run2));
-    return { batch };
-  }
-  async regenerateImage(id, note, sourceUrl) {
-    const image = this.store.getQuickVisualImage(id);
-    if (!image || image.archivedAt) throw new Error("Quick Visual image is unavailable");
-    const batch = this.store.getQuickVisualBatch(image.batchId);
-    if (!batch || batch.archivedAt) throw new Error("Quick Visual batch is unavailable");
-    const instruction = String(note ?? "").trim();
-    if (!instruction || instruction.length > 4e3) throw new Error("Regeneration note is required and must stay under 4000 characters");
-    await this.prompts.assertApplication(QUICK_VISUAL_APPLICATION_KEY);
-    const task = this.store.createTask({ title: `Quick Visual revision \xB7 ${image.title}`.slice(0, 180), description: instruction, priority: "medium", source: { type: "quick-visual", referenceId: `${batch.id}:${image.id}:${image.version + 1}`, label: "Quick Visual \xB7 Image revision", evidence: [], affectedGroups: ["marketing"], quickVisualBatchId: batch.id, quickVisualImageId: image.id } });
-    const currentData = this.store.getQuickVisualImageData(image.id);
-    const run2 = await this.prepareRun(batch.id, task.id, [{ filename: `current-${currentData.filename}`, data: currentData.data }, ...batch.references.map((reference) => {
-      const stored = this.store.getQuickVisualReferenceData(reference.id);
-      return { filename: stored.filename, data: stored.data };
-    })]);
-    const output = run2.outputs[0];
-    const prompt2 = () => this.prompts.application(QUICK_VISUAL_APPLICATION_KEY, "visual-revision", {
-      sourceUrl,
-      brief: JSON.stringify(batch.brief),
-      style: batch.style,
-      aspectRatio: batch.aspectRatio,
-      note: instruction,
-      referenceList: run2.references.join(", "),
-      outputPathJson: output,
-      temporaryResultPathJson: run2.temporary,
-      resultPathJson: run2.final,
-      taskIdJson: task.id,
-      resultTitleJson: `Quick Visual revision \xB7 ${image.title}`,
-      batchIdJson: batch.id,
-      imagesShape: JSON.stringify([{ imageId: image.id, title: image.title, altText: image.altText, path: output }])
-    }).then((rendered) => rendered.text);
-    void this.dispatch(task.id, batch.id, `Growth Studio \xB7 Quick Visual revision \xB7 ${image.title}`, prompt2);
-    return { taskId: task.id };
-  }
-  async prepareRun(batchId, taskId, references) {
-    const directory = path13.join(this.projectRoot, ".growth-studio", "quick-visual-runs", taskId);
-    await fs15.mkdir(directory, { recursive: true });
-    const referencePaths = [];
-    for (const [index, reference] of references.entries()) {
-      const target = path13.join(directory, `reference-${index + 1}-${safeFilename(reference.filename, "image")}`);
-      await fs15.writeFile(target, reference.data);
-      referencePaths.push(target);
-    }
-    const resultDirectory = path13.join(this.projectRoot, ".growth-studio", "quick-visual-results", batchId, taskId);
-    await fs15.mkdir(resultDirectory, { recursive: true });
-    const final = path13.join(this.projectRoot, ".growth-studio", "task-results", `${taskId}.json`);
-    await fs15.mkdir(path13.dirname(final), { recursive: true });
-    return { references: referencePaths, outputs: [1, 2, 3, 4].map((index) => path13.join(resultDirectory, `visual-${index}.png`)), final, temporary: `${final}.tmp` };
-  }
-  /** Runs in the background: Codex never comes to the front for a Quick Visual run. */
-  async dispatch(taskId, batchId, title, prompt2) {
-    try {
-      const message2 = await prompt2() + this.codex.studioChannel(taskId);
-      const receipt = await this.codexDesktop.dispatch(`growth-studio.task.${taskId}`, title, message2, this.projectRoot, { openOnCreate: false });
-      const current = this.store.getTask(taskId);
-      if (current) this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision);
-      this.store.markQuickVisualBatchRunning(batchId);
-      this.store.addEvent({ level: "success", eventType: "quick_visual.started", title: "Quick Visual generation started", detail: `${title} \xB7 ${receipt.threadId}` });
-    } catch (error) {
-      const message2 = error instanceof Error ? error.message : String(error);
-      const current = this.store.getTask(taskId);
-      if (current) this.store.updateTask(taskId, { lastError: message2 }, current.revision);
-      this.store.markQuickVisualBatchFailed(batchId, message2);
-      this.store.addEvent({ level: "failed", eventType: "quick_visual.failed", title: "Quick Visual generation failed", detail: message2 });
-    }
-  }
-  async batchPrompt(batch, brand, offer, contentDraft, sourceUrl, run2) {
-    const outputs = run2.outputs.slice(0, batch.quantity);
-    const prompt2 = await this.prompts.application(QUICK_VISUAL_APPLICATION_KEY, "visual-batch", {
-      sourceUrl,
-      useCase: batch.useCase,
-      brief: JSON.stringify(batch.brief),
-      style: batch.style,
-      aspectRatio: batch.aspectRatio,
-      customInstruction: batch.customInstruction || "none",
-      referenceList: run2.references.length ? run2.references.join(", ") : "none",
-      brandContext: brand,
-      offer,
-      contentDraft,
-      quantity: batch.quantity,
-      outputPaths: outputs.map((item, index) => `${index + 1}. ${item}`).join(" ; "),
-      temporaryResultPathJson: run2.temporary,
-      resultPathJson: run2.final,
-      taskIdJson: batch.taskId,
-      resultTitleJson: `Quick Visual \xB7 ${batch.title}`,
-      batchIdJson: batch.id,
-      imagesShape: JSON.stringify(outputs.map((output, index) => ({ title: `Bi\u1EBFn th\u1EC3 ${index + 1}`, altText: `H\xECnh \u1EA3nh ${batch.title}, bi\u1EBFn th\u1EC3 ${index + 1}`, path: output })))
-    });
-    return prompt2.text;
-  }
-};
-
-// src/mini-apps/personal-brand/server/repository.ts
-var createPersonalBrandArticleRepository = (store2) => store2;
-var createPersonalBrandAuditRepository = (store2) => store2;
-var createPersonalBrandLibraryRepository = (store2) => store2;
-
-// src/mini-apps/personal-brand/server/routes.ts
-var import_express7 = __toESM(require_express2(), 1);
-function createPersonalBrandArticleRouter({ service: service2, audits, library, port: port2 }) {
-  const router = (0, import_express7.Router)();
-  router.post("/api/personal-brand/article-plans", (request2, response, next) => {
-    void service2.createPlan(request2.body ?? {}).then((value) => response.status(202).json(value)).catch(next);
-  });
-  router.get("/api/personal-brand/article-plans/:id", (request2, response, next) => {
-    void service2.getPlan(request2.params.id).then((value) => response.json(value)).catch(next);
-  });
-  router.get("/api/personal-brand/articles", (request2, response, next) => {
-    void service2.listArticles({ query: String(request2.query.q ?? ""), archived: request2.query.archived === "1" }).then((value) => response.json(value)).catch(next);
-  });
-  router.get("/api/personal-brand/articles/:id", (request2, response, next) => {
-    void service2.getArticle(request2.params.id).then((value) => value ? response.json(value) : response.status(404).json({ error: "Personal Brand article not found" })).catch(next);
-  });
-  router.post("/api/personal-brand/articles", (request2, response, next) => {
-    void service2.createArticle(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/personal-brand/content`).then((value) => response.status(201).json(value)).catch(next);
-  });
-  router.patch("/api/personal-brand/articles/:id", (request2, response, next) => {
-    try {
-      response.json(service2.store.updatePersonalBrandArticle(request2.params.id, { body: request2.body?.body }, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/articles/:id/transition", (request2, response, next) => {
-    try {
-      response.json(service2.store.transitionPersonalBrandArticle(request2.params.id, request2.body?.status, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/articles/:id/archive", (request2, response, next) => {
-    try {
-      response.json(service2.store.archivePersonalBrandArticle(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/articles/:id/restore", (request2, response, next) => {
-    try {
-      response.json(service2.store.archivePersonalBrandArticle(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/personal-brand/materials", (request2, response, next) => {
-    try {
-      response.json(library.store.listPersonalBrandMaterials({ query: String(request2.query.q ?? ""), archived: request2.query.archived === "1", origin: request2.query.origin ? String(request2.query.origin) : void 0, status: request2.query.status ? String(request2.query.status) : void 0 }));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/personal-brand/materials/:id", (request2, response, next) => {
-    try {
-      const value = library.store.getPersonalBrandMaterial(request2.params.id);
-      value ? response.json(value) : response.status(404).json({ error: "Personal Brand material not found" });
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/materials", (request2, response, next) => {
-    void library.createMaterial(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/personal-brand/materials`).then((value) => response.status(202).json(value)).catch(next);
-  });
-  router.patch("/api/personal-brand/materials/:id", (request2, response, next) => {
-    void library.updateMaterial(request2.params.id, request2.body ?? {}, request2.body?.revision, `http://127.0.0.1:${port2}/mini-apps/personal-brand/materials`).then((value) => response.status(202).json(value)).catch(next);
-  });
-  router.post("/api/personal-brand/materials/:id/analysis/retry", (request2, response, next) => {
-    void library.retryMaterialAnalysis(request2.params.id, String(request2.body?.taskId ?? ""), `http://127.0.0.1:${port2}/mini-apps/personal-brand/materials`).then((value) => response.status(202).json(value)).catch(next);
-  });
-  router.post("/api/personal-brand/materials/:id/transition", (request2, response, next) => {
-    try {
-      response.json(library.store.transitionPersonalBrandMaterial(request2.params.id, request2.body?.status, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/materials/:id/archive", (request2, response, next) => {
-    try {
-      response.json(library.store.archivePersonalBrandMaterial(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/materials/:id/restore", (request2, response, next) => {
-    try {
-      response.json(library.store.archivePersonalBrandMaterial(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/personal-brand/seeds", (request2, response, next) => {
-    try {
-      response.json(library.store.listPersonalBrandSeeds({ query: String(request2.query.q ?? ""), archived: request2.query.archived === "1", status: request2.query.status ? String(request2.query.status) : void 0 }));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/personal-brand/seeds/:id", (request2, response, next) => {
-    try {
-      const value = library.store.getPersonalBrandSeed(request2.params.id);
-      value ? response.json(value) : response.status(404).json({ error: "Personal Brand seed not found" });
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/seeds", (request2, response, next) => {
-    try {
-      response.status(201).json(library.store.createPersonalBrandSeed(request2.body ?? {}));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/personal-brand/seeds/:id", (request2, response, next) => {
-    try {
-      response.json(library.store.updatePersonalBrandSeed(request2.params.id, request2.body ?? {}, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/seeds/:id/transition", (request2, response, next) => {
-    try {
-      response.json(library.store.transitionPersonalBrandSeed(request2.params.id, request2.body?.status, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/seeds/:id/archive", (request2, response, next) => {
-    try {
-      response.json(library.store.archivePersonalBrandSeed(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/seeds/:id/restore", (request2, response, next) => {
-    try {
-      response.json(library.store.archivePersonalBrandSeed(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/personal-brand/audits", (request2, response, next) => {
-    void audits.listAudits({ query: String(request2.query.q ?? ""), archived: request2.query.archived === "1" }).then((value) => response.json(value)).catch(next);
-  });
-  router.get("/api/personal-brand/audits/:id", (request2, response, next) => {
-    void audits.getAudit(request2.params.id).then((value) => value ? response.json(value) : response.status(404).json({ error: "Personal Brand audit not found" })).catch(next);
-  });
-  router.post("/api/personal-brand/audits", (request2, response, next) => {
-    void audits.createAudit(request2.body ?? {}, `http://127.0.0.1:${port2}/mini-apps/personal-brand/audits`).then((value) => response.status(201).json(value)).catch(next);
-  });
-  router.post("/api/personal-brand/audits/:id/archive", (request2, response, next) => {
-    try {
-      response.json(audits.store.archivePersonalBrandAudit(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/personal-brand/audits/:id/restore", (request2, response, next) => {
-    try {
-      response.json(audits.store.archivePersonalBrandAudit(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  return router;
-}
-
-// src/mini-apps/personal-brand/server/service.ts
-import fs16 from "node:fs/promises";
-import path14 from "node:path";
-import { randomUUID as randomUUID7 } from "node:crypto";
-
-// src/mini-apps/personal-brand/contract.ts
-var personalBrandValueTypes2 = ["knowledge", "information", "motivation", "connection", "direct_support"];
-var personalBrandChannelIds = [
-  "facebook",
-  "zalo",
-  "instagram",
-  "tiktok",
-  "youtube",
-  "threads",
-  "x",
-  "linkedin"
-];
-
-// src/mini-apps/personal-brand/server/service.ts
-var APPLICATION_KEY = "personal-brand";
-var PLAN_FAILURE = "Codex ch\u01B0a t\u1EA1o \u0111\u01B0\u1EE3c h\u01B0\u1EDBng vi\u1EBFt h\u1EE3p l\u1EC7. H\xE3y th\u1EED l\u1EA1i.";
-var PersonalBrandArticleService = class {
-  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, reconcileResults) {
-    this.store = store2;
-    this.codex = codex;
-    this.codexDesktop = codexDesktop2;
-    this.prompts = prompts;
-    this.projectRoot = projectRoot2;
-    this.reconcileResults = reconcileResults;
-  }
-  store;
-  codex;
-  codexDesktop;
-  prompts;
-  projectRoot;
-  reconcileResults;
-  async listArticles(input = {}) {
-    await this.reconcileResults();
-    return this.store.listPersonalBrandArticles(input);
-  }
-  async getArticle(id) {
-    await this.reconcileResults();
-    return this.store.getPersonalBrandArticle(id);
-  }
-  async createPlan(input) {
-    const idea = this.text(input.idea, "Nguy\xEAn li\u1EC7u ch\xEDnh", 8e3, true);
-    const supportingContext = this.text(input.supportingContext, "Th\xF4ng tin th\xEAm", 2e4);
-    const audience = this.text(input.audience, "Ng\u01B0\u1EDDi \u0111\u1ECDc", 2e3);
-    const channel = this.text(input.channel, "K\xEAnh", 120, true);
-    const valueType = String(input.valueType ?? "");
-    if (!personalBrandValueTypes2.includes(valueType)) throw new Error("H\xE3y ch\u1ECDn m\u1ED9t lo\u1EA1i gi\xE1 tr\u1ECB h\u1EE3p l\u1EC7.");
-    await this.prompts.assertApplication(APPLICATION_KEY);
-    const timestamp2 = (/* @__PURE__ */ new Date()).toISOString();
-    const state = { id: randomUUID7(), idea, supportingContext, audience, channel, valueType, coreMessage: "", angles: [], status: "queued", error: null, createdAt: timestamp2, updatedAt: timestamp2 };
-    await this.writePlan(state);
-    void this.dispatchPlan(state);
-    return this.publicPlan(state);
-  }
-  async getPlan(id) {
-    if (!/^[a-f0-9-]{36}$/i.test(id)) throw new Error("Kh\xF4ng t\xECm th\u1EA5y h\u01B0\u1EDBng vi\u1EBFt.");
-    const state = await this.readJson(this.planPaths(id).state);
-    if (!state) throw new Error("Kh\xF4ng t\xECm th\u1EA5y h\u01B0\u1EDBng vi\u1EBFt.");
-    if (state.status === "failed") return this.publicPlan(state);
-    const result = await this.readJson(this.planPaths(id).result);
-    if (!result) return this.publicPlan(state);
-    return this.acceptPlan(state, result);
-  }
-  async createArticle(input, sourceUrl) {
-    const valueType = String(input.valueType ?? "");
-    if (!personalBrandValueTypes2.includes(valueType)) throw new Error("H\xE3y ch\u1ECDn m\u1ED9t lo\u1EA1i gi\xE1 tr\u1ECB h\u1EE3p l\u1EC7.");
-    const angle = this.normalizeAngle(input.angle);
-    const payload = {
-      idea: this.text(input.idea, "Nguy\xEAn li\u1EC7u ch\xEDnh", 8e3, true),
-      supportingContext: this.text(input.supportingContext, "Th\xF4ng tin th\xEAm", 2e4),
-      coreMessage: this.text(input.coreMessage, "Th\xF4ng \u0111i\u1EC7p c\u1ED1t l\xF5i", 3e3, true),
-      angle,
-      valueType,
-      audience: this.text(input.audience, "Ng\u01B0\u1EDDi \u0111\u1ECDc", 2e3),
-      channel: this.text(input.channel, "K\xEAnh", 120, true)
-    };
-    await this.prompts.assertApplication(APPLICATION_KEY);
-    const id = randomUUID7();
-    const task = this.store.createTask({
-      title: `Personal Brand \xB7 ${angle.title}`.slice(0, 180),
-      description: payload.idea,
-      priority: "medium",
-      source: { type: "personal-brand", referenceId: id, label: "Personal Brand \xB7 Trao gi\xE1 tr\u1ECB", evidence: [], affectedGroups: ["marketing"], personalBrandArticleId: id }
-    });
-    const snapshot = this.store.getBrandProfile() ? this.store.createBrandContextSnapshot() : null;
-    const article = this.store.createPersonalBrandArticle({ ...payload, id, taskId: task.id, brandContextSnapshotId: snapshot?.id ?? null });
-    const paths = await this.resultPaths(task.id);
-    const brandContext = snapshot ? JSON.stringify({ profile: snapshot.profile, records: snapshot.records, claims: snapshot.claims, guidelines: snapshot.guidelines, gaps: snapshot.gaps }) : "No approved Brand Profile snapshot is available.";
-    void this.dispatchArticle(article.id, task.id, angle.title, async () => {
-      const prompt2 = await this.prompts.application(APPLICATION_KEY, "article-draft", {
-        sourceUrl,
-        idea: payload.idea,
-        supportingContext: payload.supportingContext || "none",
-        coreMessage: payload.coreMessage,
-        angle: payload.angle.title,
-        rationale: payload.angle.rationale,
-        approach: payload.angle.approach,
-        valueType: payload.valueType,
-        audience: payload.audience || "the intended Personal Brand audience",
-        channel: payload.channel,
-        brandContext,
-        taskIdJson: task.id,
-        resultTitleJson: payload.angle.title,
-        temporaryResultPathJson: paths.temporary,
-        resultPathJson: paths.final
-      });
-      return prompt2.text;
-    });
-    return { article };
-  }
-  async dispatchPlan(state) {
-    const paths = this.planPaths(state.id);
-    try {
-      await this.writePlan({ ...state, status: "running", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString() });
-      const prompt2 = await this.prompts.application(APPLICATION_KEY, "angle-plan", {
-        idea: state.idea,
-        supportingContext: state.supportingContext || "none",
-        audience: state.audience || "the intended Personal Brand audience",
-        channel: state.channel,
-        valueType: state.valueType,
-        planIdJson: state.id,
-        temporaryResultPathJson: paths.temporary,
-        resultPathJson: paths.result
-      });
-      const receipt = await this.codexDesktop.dispatch(`growth-studio.pb-plan.${state.id}`, `Personal Brand \xB7 H\u01B0\u1EDBng vi\u1EBFt \xB7 ${state.idea.slice(0, 55)}`, prompt2.text, this.projectRoot, { openOnCreate: false });
-      const running = { ...state, status: "running", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), codexThreadId: receipt.threadId, codexMessageId: receipt.messageId };
-      await this.writePlan(running);
-      if (!this.codexDesktop.isRunning) return;
-      for (let attempt = 0; attempt < 1200 && this.codexDesktop.isRunning(receipt.threadId); attempt += 1) await new Promise((resolve) => setTimeout(resolve, 500));
-      const raw = await this.readJson(paths.result);
-      if (!raw) throw new Error("Codex finished without a Personal Brand angle plan");
-      await this.acceptPlan(running, raw);
-    } catch (error) {
-      await fs16.rm(paths.temporary, { force: true }).catch(() => void 0);
-      await fs16.rm(paths.result, { force: true }).catch(() => void 0);
-      await this.writePlan({ ...state, status: "failed", error: PLAN_FAILURE, updatedAt: (/* @__PURE__ */ new Date()).toISOString() });
-      this.store.addEvent({ level: "failed", eventType: "personal_brand.article_plan.failed", title: "Personal Brand angle planning failed", detail: error instanceof Error ? error.message : String(error) });
-    }
-  }
-  async dispatchArticle(articleId, taskId, title, makePrompt) {
-    try {
-      const message2 = await makePrompt() + this.codex.studioChannel(taskId);
-      const receipt = await this.codexDesktop.dispatch(`growth-studio.task.${taskId}`, `Personal Brand \xB7 ${title}`, message2, this.projectRoot, { openOnCreate: false });
-      const current = this.store.getTask(taskId);
-      if (current) this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision);
-      this.store.markPersonalBrandArticleRunning(articleId);
-      this.store.addEvent({ level: "success", eventType: "personal_brand.article.started", title: "Personal Brand article started", detail: `${title} \xB7 ${receipt.threadId}` });
-    } catch (error) {
-      const message2 = error instanceof Error ? error.message : String(error);
-      const current = this.store.getTask(taskId);
-      if (current) this.store.updateTask(taskId, { lastError: message2 }, current.revision);
-      this.store.markPersonalBrandArticleFailed(articleId, message2);
-      this.store.addEvent({ level: "failed", eventType: "personal_brand.article.failed", title: "Personal Brand article failed", detail: message2 });
-    }
-  }
-  publicPlan(state) {
-    return { id: state.id, idea: state.idea, coreMessage: state.coreMessage, angles: state.angles, status: state.status, error: state.error, createdAt: state.createdAt, updatedAt: state.updatedAt };
-  }
-  async acceptPlan(state, input) {
-    try {
-      const result = input;
-      if (result.schemaVersion !== "personal-brand-angle-plan-v1" || result.planId !== state.id) throw new Error("Invalid Personal Brand plan");
-      const coreMessage = this.text(result.coreMessage, "Th\xF4ng \u0111i\u1EC7p c\u1ED1t l\xF5i", 3e3, true);
-      if (!Array.isArray(result.angles) || result.angles.length !== 3) throw new Error("Personal Brand plan must contain exactly three angles");
-      const angles = result.angles.map((value) => this.normalizeAngle(value));
-      if (angles.some((angle, index) => angle.id !== `angle-${index + 1}`) || new Set(angles.map((angle) => angle.title.toLocaleLowerCase())).size !== angles.length) throw new Error("Personal Brand angles must be distinct and sequential");
-      const ready = { ...state, coreMessage, angles, status: "ready", error: null, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
-      await this.writePlan(ready);
-      this.store.addEvent({ level: "success", eventType: "personal_brand.article_plan.ready", title: "Personal Brand angles ready", detail: state.idea.slice(0, 160) });
-      return this.publicPlan(ready);
-    } catch (error) {
-      await fs16.rm(this.planPaths(state.id).result, { force: true }).catch(() => void 0);
-      const failed = { ...state, coreMessage: "", angles: [], status: "failed", error: PLAN_FAILURE, updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
-      await this.writePlan(failed);
-      this.store.addEvent({ level: "failed", eventType: "personal_brand.article_plan.failed", title: "Personal Brand angle planning failed", detail: error instanceof Error ? error.message : String(error) });
-      return this.publicPlan(failed);
-    }
-  }
-  normalizeAngle(input) {
-    const value = input && typeof input === "object" ? input : {};
-    return {
-      id: this.text(value.id, "M\xE3 h\u01B0\u1EDBng vi\u1EBFt", 120, true),
-      title: this.text(value.title, "T\xEAn h\u01B0\u1EDBng vi\u1EBFt", 240, true),
-      rationale: this.text(value.rationale, "L\xFD do ch\u1ECDn h\u01B0\u1EDBng vi\u1EBFt", 2e3, true),
-      approach: this.text(value.approach, "C\xE1ch tri\u1EC3n khai", 2e3, true)
-    };
-  }
-  text(value, label, limit2, required = false) {
-    const normalized = typeof value === "string" ? value.trim() : "";
-    if (required && !normalized) throw new Error(`${label} l\xE0 b\u1EAFt bu\u1ED9c.`);
-    if (normalized.length > limit2) throw new Error(`${label} v\u01B0\u1EE3t qu\xE1 ${limit2} k\xFD t\u1EF1.`);
-    return normalized;
-  }
-  planPaths(id) {
-    const directory = path14.join(this.projectRoot, ".growth-studio", "personal-brand-angle-plans");
-    return { directory, state: path14.join(directory, `${id}.state.json`), temporary: path14.join(directory, `${id}.json.tmp`), result: path14.join(directory, `${id}.json`) };
-  }
-  async resultPaths(taskId) {
-    const directory = path14.join(this.projectRoot, ".growth-studio", "task-results");
-    await fs16.mkdir(directory, { recursive: true });
-    const final = path14.join(directory, `${taskId}.json`);
-    return { final, temporary: `${final}.tmp` };
-  }
-  async readJson(file) {
-    try {
-      return JSON.parse(await fs16.readFile(file, "utf8"));
-    } catch (error) {
-      if (error.code === "ENOENT") return null;
-      throw error;
-    }
-  }
-  async writePlan(state) {
-    const paths = this.planPaths(state.id);
-    await fs16.mkdir(paths.directory, { recursive: true });
-    await fs16.writeFile(paths.state, JSON.stringify(state, null, 2), "utf8");
-  }
-};
-
-// src/mini-apps/personal-brand/server/audit-service.ts
-import path15 from "node:path";
-import { randomUUID as randomUUID8 } from "node:crypto";
-var APPLICATION_KEY2 = "personal-brand";
-var PersonalBrandAuditService = class {
-  constructor(store2, codex, codexDesktop2, prompts, projectRoot2, reconcileResults) {
-    this.store = store2;
-    this.codex = codex;
-    this.codexDesktop = codexDesktop2;
-    this.prompts = prompts;
-    this.projectRoot = projectRoot2;
-    this.reconcileResults = reconcileResults;
-  }
-  store;
-  codex;
-  codexDesktop;
-  prompts;
-  projectRoot;
-  reconcileResults;
-  async listAudits(input = {}) {
-    await this.reconcileResults();
-    return this.store.listPersonalBrandAudits(input);
-  }
-  async getAudit(id) {
-    await this.reconcileResults();
-    return this.store.getPersonalBrandAudit(id);
-  }
-  async createAudit(input, sourceUrl) {
-    const channels = this.normalizeChannels(input.channels);
-    if (this.store.listPersonalBrandAudits().items.some((audit2) => audit2.status === "queued" || audit2.status === "running")) {
-      throw new Error("M\u1ED9t l\u1EA7n Audit hi\u1EC7n di\u1EC7n kh\xE1c \u0111ang ch\u1EA1y. H\xE3y ch\u1EDD l\u1EA7n \u0111\xF3 ho\xE0n t\u1EA5t.");
-    }
-    await this.prompts.assertApplication(APPLICATION_KEY2);
-    const id = randomUUID8();
-    const channelNames = channels.map((channel) => this.channelName(channel.id)).join(", ");
-    const task = this.store.createTask({
-      title: `Personal Brand \xB7 Audit hi\u1EC7n di\u1EC7n \xB7 ${channelNames}`.slice(0, 180),
-      description: `Qu\xE9t l\u1EA1i ${channels.length} k\xEAnh c\xE1 nh\xE2n b\u1EB1ng tr\xECnh duy\u1EC7t IAB \u0111\xE3 \u0111\u0103ng nh\u1EADp.`,
-      priority: "high",
-      source: { type: "personal-brand-audit", referenceId: id, label: "Personal Brand \xB7 Audit hi\u1EC7n di\u1EC7n", evidence: channels.map((channel) => channel.profileUrl), affectedGroups: ["marketing"], personalBrandAuditId: id }
-    });
-    const audit = this.store.createPersonalBrandAudit({ id, taskId: task.id, channels });
-    void this.dispatchAudit(audit.id, task.id, channels, sourceUrl);
-    return { audit };
-  }
-  async dispatchAudit(auditId, taskId, channels, sourceUrl) {
-    try {
-      const resultPath = path15.join(this.projectRoot, ".growth-studio", "task-results", `${taskId}.json`);
-      const prompt2 = await this.prompts.application(APPLICATION_KEY2, "presence-audit", {
-        sourceUrl,
-        channelsJson: JSON.stringify(channels.map((channel) => ({ channel: this.channelName(channel.id), profileUrl: channel.profileUrl })), null, 2),
-        taskIdJson: taskId,
-        resultTitleJson: `Audit hi\u1EC7n di\u1EC7n \xB7 ${new Intl.DateTimeFormat("vi-VN", { dateStyle: "short", timeStyle: "short" }).format(/* @__PURE__ */ new Date())}`,
-        temporaryResultPathJson: `${resultPath}.tmp`,
-        resultPathJson: resultPath
-      });
-      const receipt = await this.codexDesktop.dispatch(
-        `growth-studio.task.${taskId}`,
-        `Personal Brand \xB7 Audit hi\u1EC7n di\u1EC7n`,
-        prompt2.text + this.codex.studioChannel(taskId),
-        this.projectRoot,
-        { delivery: "foreground", browserUrl: channels[0].profileUrl }
-      );
-      const current = this.store.getTask(taskId);
-      if (current) this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision);
-      this.store.markPersonalBrandAuditRunning(auditId);
-      this.store.addEvent({ level: "success", eventType: "personal_brand.audit.started", title: "Personal Brand presence audit started", detail: `${channels.length} channels \xB7 supervised IAB` });
-    } catch (error) {
-      const message2 = error instanceof Error ? error.message : String(error);
-      const current = this.store.getTask(taskId);
-      if (current) this.store.updateTask(taskId, { lastError: message2 }, current.revision);
-      this.store.markPersonalBrandAuditFailed(auditId, message2);
-      this.store.addEvent({ level: "failed", eventType: "personal_brand.audit.failed", title: "Personal Brand presence audit failed", detail: message2 });
-    }
-  }
-  normalizeChannels(input) {
-    if (!Array.isArray(input) || input.length === 0) throw new Error("H\xE3y ch\u1ECDn \xEDt nh\u1EA5t m\u1ED9t k\xEAnh v\xE0 l\u01B0u \u0111\u01B0\u1EDDng d\u1EABn profile tr\u01B0\u1EDBc khi Audit.");
-    const seen = /* @__PURE__ */ new Set();
-    return input.map((candidate) => {
-      const value = candidate && typeof candidate === "object" ? candidate : {};
-      const id = String(value.id ?? "");
-      if (!personalBrandChannelIds.includes(id) || seen.has(id)) throw new Error("Danh s\xE1ch k\xEAnh Audit kh\xF4ng h\u1EE3p l\u1EC7.");
-      seen.add(id);
-      const profileUrl = String(value.profileUrl ?? "").trim();
-      let parsed;
-      try {
-        parsed = new URL(profileUrl);
-      } catch {
-        throw new Error(`\u0110\u01B0\u1EDDng d\u1EABn profile ${this.channelName(id)} kh\xF4ng h\u1EE3p l\u1EC7.`);
-      }
-      if (parsed.protocol !== "https:" && parsed.protocol !== "http:") throw new Error(`\u0110\u01B0\u1EDDng d\u1EABn profile ${this.channelName(id)} ph\u1EA3i b\u1EAFt \u0111\u1EA7u b\u1EB1ng http:// ho\u1EB7c https://.`);
-      return { id, profileUrl: parsed.toString() };
-    });
-  }
-  channelName(id) {
-    return id === "facebook" ? "Facebook" : id === "zalo" ? "Zalo" : id === "instagram" ? "Instagram" : id === "tiktok" ? "TikTok" : id === "youtube" ? "YouTube" : id === "threads" ? "Threads" : id === "x" ? "X" : "LinkedIn";
-  }
-};
-
-// src/mini-apps/personal-brand/server/library-service.ts
-import path16 from "node:path";
-var APPLICATION_KEY3 = "personal-brand";
-var PersonalBrandLibraryService = class {
-  constructor(store2, codex, codexDesktop2, prompts, projectRoot2) {
-    this.store = store2;
-    this.codex = codex;
-    this.codexDesktop = codexDesktop2;
-    this.prompts = prompts;
-    this.projectRoot = projectRoot2;
-  }
-  store;
-  codex;
-  codexDesktop;
-  prompts;
-  projectRoot;
-  async createMaterial(input, sourceUrl) {
-    await this.prompts.assertApplication(APPLICATION_KEY3);
-    const material = this.store.createPersonalBrandMaterial(input);
-    return this.queueAnalysis(material, sourceUrl);
-  }
-  async updateMaterial(id, input, expectedRevision, sourceUrl) {
-    await this.prompts.assertApplication(APPLICATION_KEY3);
-    const material = this.store.updatePersonalBrandMaterial(id, input, expectedRevision);
-    return this.queueAnalysis(material, sourceUrl);
-  }
-  async retryMaterialAnalysis(materialId, taskId, sourceUrl) {
-    await this.prompts.assertApplication(APPLICATION_KEY3);
-    const material = this.store.getPersonalBrandMaterial(materialId);
-    if (!material) throw new Error("Personal Brand material not found");
-    const task = this.store.getTask(taskId);
-    if (!task || task.source.type !== "personal-brand-material" || task.source.personalBrandMaterialId !== materialId) {
-      throw new Error("Personal Brand material task not found");
-    }
-    if (task.status !== "inbox" && task.status !== "active") throw new Error("Personal Brand material task cannot be retried");
-    this.store.updateTask(taskId, { lastError: null }, task.revision);
-    const dispatched = await this.dispatchMaterial(material, taskId, sourceUrl);
-    if (dispatched.lastError) throw new Error(dispatched.lastError);
-    return { material, taskId, startedAt: dispatched.codexAssignedAt ?? dispatched.updatedAt };
-  }
-  queueAnalysis(material, sourceUrl) {
-    const task = this.store.createTask({
-      title: `Personal Brand \xB7 B\xF3c t\xE1ch \xFD t\u01B0\u1EDFng \xB7 ${material.title}`.slice(0, 180),
-      description: material.format === "research" ? `Nghi\xEAn c\u1EE9u v\xE0 t\u1EA1o Content Seeds: ${material.content}` : `Ph\xE2n t\xEDch t\u01B0 li\u1EC7u v\xE0 t\u1EA1o Content Seeds: ${material.title}`,
-      priority: "medium",
-      source: {
-        type: "personal-brand-material",
-        referenceId: `${material.id}:v${material.revision}`,
-        label: "Personal Brand \xB7 B\xF3c t\xE1ch Content Seeds",
-        evidence: material.sourceUrl ? [material.sourceUrl] : [],
-        affectedGroups: ["marketing"],
-        personalBrandMaterialId: material.id
-      }
-    });
-    void this.dispatchMaterial(material, task.id, sourceUrl);
-    return { material, taskId: task.id, startedAt: task.createdAt };
-  }
-  async dispatchMaterial(material, taskId, sourceUrl) {
-    try {
-      const resultPath = path16.join(this.projectRoot, ".growth-studio", "task-results", `${taskId}.json`);
-      const prompt2 = await this.prompts.application(APPLICATION_KEY3, "material-seeds", {
-        sourceUrl,
-        taskIdJson: taskId,
-        materialIdJson: material.id,
-        resultTitleJson: `Content Seeds \xB7 ${material.title}`,
-        materialTitle: material.title,
-        materialOrigin: material.origin,
-        materialType: material.format,
-        materialSourceUrl: material.sourceUrl || "(kh\xF4ng c\xF3)",
-        materialContent: material.content || "(kh\xF4ng c\xF3 tr\xEDch \u0111o\u1EA1n)",
-        temporaryResultPathJson: `${resultPath}.tmp`,
-        resultPathJson: resultPath
-      });
-      const beforeDispatch = this.store.getTask(taskId);
-      const taskKey = beforeDispatch?.codexThreadId ? `kgs.pb.${taskId}.r${beforeDispatch.revision}` : `growth-studio.task.${taskId}`;
-      const receipt = await this.codexDesktop.dispatch(
-        taskKey,
-        `Personal Brand \xB7 B\xF3c t\xE1ch Content Seeds`,
-        prompt2.text + this.codex.studioChannel(taskId),
-        this.projectRoot,
-        { openOnCreate: false }
-      );
-      const current = this.store.getTask(taskId);
-      const dispatched = current ? this.store.updateTask(taskId, { status: "active", codexThreadId: receipt.threadId, codexMessageId: receipt.messageId, codexAssignedAt: receipt.queuedAt, lastError: null }, current.revision) : null;
-      this.store.addEvent({ level: "success", eventType: "personal_brand.material.analysis_started", title: "Personal Brand material analysis started", detail: material.title });
-      return dispatched ?? this.store.getTask(taskId);
-    } catch (error) {
-      const message2 = error instanceof Error ? error.message : String(error);
-      const current = this.store.getTask(taskId);
-      const failed = current ? this.store.updateTask(taskId, { lastError: message2 }, current.revision) : null;
-      this.store.addEvent({ level: "failed", eventType: "personal_brand.material.analysis_failed", title: "Personal Brand material analysis failed", detail: message2 });
-      return failed ?? this.store.getTask(taskId);
-    }
-  }
-};
-
-// src/mini-apps/crm/server/repository.ts
-var createCrmRepository = (store2) => store2;
-
-// src/mini-apps/crm/server/routes.ts
-var import_express8 = __toESM(require_express2(), 1);
-function createCrmRouter(store2) {
-  const router = (0, import_express8.Router)();
-  router.get("/api/crm/overview", (_request, response, next) => {
-    try {
-      response.json(store2.getCrmOverview());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/crm/customers", (request2, response, next) => {
-    try {
-      const stage = String(request2.query.stage ?? "");
-      response.json(store2.listCrmCustomers({ query: String(request2.query.q ?? ""), stage, archived: request2.query.archived === "1", limit: Number(request2.query.limit ?? 200) }));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/crm/customers/:id", (request2, response, next) => {
-    try {
-      const customer = store2.getCrmCustomer(request2.params.id);
-      if (!customer) return response.status(404).json({ error: "CRM customer not found" });
-      response.json(customer);
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/customers", (request2, response, next) => {
-    try {
-      response.status(201).json(store2.createCrmCustomer(request2.body ?? {}));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/crm/customers/:id", (request2, response, next) => {
-    try {
-      const { revision, ...input } = request2.body ?? {};
-      response.json(store2.updateCrmCustomer(request2.params.id, input, revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/customers/:id/transition", (request2, response, next) => {
-    try {
-      response.json(store2.transitionCrmCustomer(request2.params.id, request2.body?.stage, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/customers/:id/archive", (request2, response, next) => {
-    try {
-      response.json(store2.archiveCrmCustomer(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/customers/:id/restore", (request2, response, next) => {
-    try {
-      response.json(store2.archiveCrmCustomer(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/crm/opportunities", (request2, response, next) => {
-    try {
-      const stage = String(request2.query.stage ?? "");
-      response.json(store2.listCrmOpportunities({ query: String(request2.query.q ?? ""), stage, customerId: request2.query.customerId ? String(request2.query.customerId) : void 0, archived: request2.query.archived === "1", limit: Number(request2.query.limit ?? 200) }));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/crm/opportunities/:id", (request2, response, next) => {
-    try {
-      const opportunity = store2.getCrmOpportunity(request2.params.id);
-      if (!opportunity) return response.status(404).json({ error: "CRM opportunity not found" });
-      response.json(opportunity);
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/opportunities", (request2, response, next) => {
-    try {
-      response.status(201).json(store2.createCrmOpportunity(request2.body ?? {}));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/crm/opportunities/:id", (request2, response, next) => {
-    try {
-      const { revision, ...input } = request2.body ?? {};
-      response.json(store2.updateCrmOpportunity(request2.params.id, input, revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/opportunities/:id/transition", (request2, response, next) => {
-    try {
-      response.json(store2.transitionCrmOpportunity(request2.params.id, request2.body?.stage, request2.body?.revision, request2.body?.lostReason));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/opportunities/:id/archive", (request2, response, next) => {
-    try {
-      response.json(store2.archiveCrmOpportunity(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/opportunities/:id/restore", (request2, response, next) => {
-    try {
-      response.json(store2.archiveCrmOpportunity(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/interactions", (request2, response, next) => {
-    try {
-      response.status(201).json(store2.createCrmInteraction(request2.body ?? {}));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/crm/interactions/:id", (request2, response, next) => {
-    try {
-      const { revision, ...input } = request2.body ?? {};
-      response.json(store2.updateCrmInteraction(request2.params.id, input, revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/interactions/:id/archive", (request2, response, next) => {
-    try {
-      response.json(store2.archiveCrmInteraction(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/interactions/:id/restore", (request2, response, next) => {
-    try {
-      response.json(store2.archiveCrmInteraction(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/crm/tasks", (request2, response, next) => {
-    try {
-      response.status(201).json(store2.createCrmTask(request2.body ?? {}));
-    } catch (error) {
-      next(error);
-    }
-  });
-  return router;
-}
+});
 
 // src/mini-apps/zalo-chatbot/server/repository.ts
-import { createHash as createHash6, randomUUID as randomUUID9 } from "node:crypto";
+import { createHash as createHash6, randomUUID as randomUUID8 } from "node:crypto";
 import { DatabaseSync as DatabaseSync2 } from "node:sqlite";
 var now2 = () => (/* @__PURE__ */ new Date()).toISOString();
 var text = (value, label, max, required = true) => {
@@ -80422,7 +79854,7 @@ var ZaloChatbotRepository = class {
     this.db.close();
   }
   migrate() {
-    runMigrations(this.db, [schema9]);
+    runMigrations(this.db, [schema8]);
   }
   connection(connectionId) {
     const row = this.db.prepare("SELECT id, name, provider, status, scope_json FROM connections WHERE id = ?").get(connectionId);
@@ -80445,7 +79877,7 @@ var ZaloChatbotRepository = class {
   createChatbot(input) {
     if (!input.unofficialApiAcknowledged || !input.accountRiskAcknowledged || !input.nonPrimaryAccountAcknowledged) throw new Error("Accept all three experimental-use risk acknowledgements before continuing");
     const connection = this.connection(text(input.connectionId, "Zalo connection", 100));
-    const id = randomUUID9();
+    const id = randomUUID8();
     const timestamp2 = now2();
     this.db.prepare("INSERT INTO zalo_chatbots (id, name, connection_id, ai_display_name, disclosure_prefix, status, risk_acknowledged_at, revision, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'paused', ?, 1, ?, ?)").run(id, text(input.name, "Chatbot name", 120), connection.id, text(input.aiDisplayName || "Kallob Assistant", "AI display name", 80), text(input.disclosurePrefix || "[Tr\u1EE3 l\xFD AI]", "AI disclosure prefix", 80), timestamp2, timestamp2, timestamp2);
     return this.getChatbot(id);
@@ -80503,12 +79935,12 @@ var ZaloChatbotRepository = class {
       const customer = this.db.prepare("SELECT archived_at FROM crm_customers WHERE id = ?").get(customerId);
       if (!customer || customer.archived_at) throw new Error("Choose an active Mini CRM customer");
     }
-    const id = randomUUID9();
+    const id = randomUUID8();
     const timestamp2 = now2();
     this.db.exec("BEGIN IMMEDIATE");
     try {
       this.db.prepare("INSERT INTO zalo_chatbot_targets (id, chatbot_id, zalo_user_id, display_name, avatar, customer_id, status, revision, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 'active', 1, ?, ?)").run(id, chatbot.id, text(input.zaloUserId, "Zalo user", 100), text(input.displayName, "Zalo display name", 160), text(input.avatar, "Avatar URL", 2e3, false), customerId, timestamp2, timestamp2);
-      this.db.prepare("INSERT INTO zalo_chatbot_conversations (id, chatbot_id, target_id, latest_message_text, latest_message_at, latest_inbound_message_id, revision, created_at, updated_at) VALUES (?, ?, ?, '', ?, '', 1, ?, ?)").run(randomUUID9(), chatbot.id, id, timestamp2, timestamp2, timestamp2);
+      this.db.prepare("INSERT INTO zalo_chatbot_conversations (id, chatbot_id, target_id, latest_message_text, latest_message_at, latest_inbound_message_id, revision, created_at, updated_at) VALUES (?, ?, ?, '', ?, '', 1, ?, ?)").run(randomUUID8(), chatbot.id, id, timestamp2, timestamp2, timestamp2);
       this.db.exec("COMMIT");
     } catch (error) {
       this.db.exec("ROLLBACK");
@@ -80533,13 +79965,13 @@ var ZaloChatbotRepository = class {
       }
       let conversation = this.db.prepare("SELECT id FROM zalo_chatbot_conversations WHERE chatbot_id = ? AND target_id = ?").get(current.chatbotId, id);
       if (!conversation) {
-        conversationId = randomUUID9();
+        conversationId = randomUUID8();
         this.db.prepare("INSERT INTO zalo_chatbot_conversations (id, chatbot_id, target_id, latest_message_text, latest_message_at, latest_inbound_message_id, revision, created_at, updated_at) VALUES (?, ?, ?, '', ?, '', 1, ?, ?)").run(conversationId, current.chatbotId, id, timestamp2, timestamp2, timestamp2);
         conversation = { id: conversationId };
       } else conversationId = String(conversation.id);
       for (const item of messages2) {
         const result = this.db.prepare("INSERT OR IGNORE INTO zalo_chatbot_messages (id, conversation_id, event_key, provider_message_id, direction, sender_id, sender_name, text, observed_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(
-          randomUUID9(),
+          randomUUID8(),
           conversationId,
           text(item.eventKey, "Event key", 220),
           text(item.providerMessageId, "Provider message ID", 200),
@@ -80634,12 +80066,12 @@ var ZaloChatbotRepository = class {
     const match = this.db.prepare(`SELECT b.id AS chatbot_id, t.id AS target_id FROM zalo_chatbots b JOIN connections c ON c.id = b.connection_id JOIN zalo_chatbot_targets t ON t.chatbot_id = b.id WHERE b.connection_id = ? AND b.status = 'active' AND b.archived_at IS NULL AND t.zalo_user_id = ? AND t.status = 'active' AND t.archived_at IS NULL AND json_extract(c.scope_json, '$.accountId') = ? LIMIT 1`).get(event.connectionId, event.senderId, event.accountId);
     if (!match) return { accepted: false, duplicate: false, conversation: null };
     const timestamp2 = now2();
-    const messageId = randomUUID9();
+    const messageId = randomUUID8();
     this.db.exec("BEGIN IMMEDIATE");
     try {
       let conversation = this.db.prepare("SELECT id FROM zalo_chatbot_conversations WHERE chatbot_id = ? AND target_id = ?").get(String(match.chatbot_id), String(match.target_id));
       if (!conversation) {
-        const id = randomUUID9();
+        const id = randomUUID8();
         this.db.prepare("INSERT INTO zalo_chatbot_conversations (id, chatbot_id, target_id, latest_message_text, latest_message_at, latest_inbound_message_id, revision, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)").run(id, String(match.chatbot_id), String(match.target_id), text(event.text, "Message text", 8e3), event.observedAt, messageId, timestamp2, timestamp2);
         conversation = { id };
       } else {
@@ -80662,7 +80094,7 @@ var ZaloChatbotRepository = class {
     if (!conversation || conversation.archivedAt) throw new Error("Zalo conversation not found");
     if (conversation.latestInboundMessageId !== sourceMessageId) throw new Error("A newer incoming message arrived; create a fresh draft");
     const timestamp2 = now2();
-    const id = randomUUID9();
+    const id = randomUUID8();
     this.db.prepare("UPDATE zalo_chatbot_proposals SET status = 'superseded', revision = revision + 1, updated_at = ?, reviewed_at = ? WHERE conversation_id = ? AND status = 'pending'").run(timestamp2, timestamp2, conversationId);
     this.db.prepare("INSERT INTO zalo_chatbot_proposals (id, conversation_id, source_message_id, text, risk, reason, context_hash, status, revision, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 1, ?, ?)").run(id, conversationId, sourceMessageId, text(draft.text, "Reply draft", 8e3), draft.risk, text(draft.reason, "Draft reason", 1e3, false), createHash6("sha256").update(JSON.stringify(context)).digest("hex"), timestamp2, timestamp2);
     return this.proposal(this.db.prepare("SELECT * FROM zalo_chatbot_proposals WHERE id = ?").get(id));
@@ -80690,7 +80122,7 @@ var ZaloChatbotRepository = class {
     const blocked = this.db.prepare("SELECT id FROM zalo_chatbot_deliveries WHERE conversation_id = ? AND status IN ('queued', 'claimed', 'send_uncertain') LIMIT 1").get(current.conversationId);
     if (blocked) throw new Error("This conversation already has a pending or uncertain delivery");
     const chatbot = this.getChatbot(conversation.chatbotId);
-    const deliveryId = randomUUID9();
+    const deliveryId = randomUUID8();
     if (!chatbot || chatbot.status !== "active") throw new Error("Activate the Chatbot before approving a reply");
     this.db.exec("BEGIN IMMEDIATE");
     try {
@@ -80737,7 +80169,7 @@ var ZaloChatbotRepository = class {
         this.db.prepare("UPDATE zalo_chatbot_deliveries SET status = 'sent', provider_message_id = ?, evidence = ?, updated_at = ?, finished_at = ? WHERE id = ? AND status = 'claimed'").run(outcome.receipt.providerMessageId, outcome.receipt.evidence, timestamp2, timestamp2, id);
         const conversation = this.getConversation(current.conversationId);
         const chatbot = this.getChatbot(conversation.chatbotId);
-        this.db.prepare("INSERT INTO zalo_chatbot_messages (id, conversation_id, event_key, provider_message_id, direction, sender_id, sender_name, text, observed_at, created_at) VALUES (?, ?, ?, ?, 'outgoing', ?, ?, ?, ?, ?)").run(randomUUID9(), current.conversationId, `sent:${id}`, outcome.receipt.providerMessageId, chatbot.accountId, chatbot.aiDisplayName, current.text, timestamp2, timestamp2);
+        this.db.prepare("INSERT INTO zalo_chatbot_messages (id, conversation_id, event_key, provider_message_id, direction, sender_id, sender_name, text, observed_at, created_at) VALUES (?, ?, ?, ?, 'outgoing', ?, ?, ?, ?, ?)").run(randomUUID8(), current.conversationId, `sent:${id}`, outcome.receipt.providerMessageId, chatbot.accountId, chatbot.aiDisplayName, current.text, timestamp2, timestamp2);
         this.db.prepare("UPDATE zalo_chatbot_conversations SET latest_message_text = ?, latest_message_at = ?, revision = revision + 1, updated_at = ? WHERE id = ?").run(current.text, timestamp2, timestamp2, current.conversationId);
       } else this.db.prepare("UPDATE zalo_chatbot_deliveries SET status = ?, last_error = ?, updated_at = ?, finished_at = ? WHERE id = ? AND status = ?").run(outcome.status, text(outcome.error, "Delivery error", 1200), timestamp2, timestamp2, id, "claimed");
       this.db.exec("COMMIT");
@@ -80753,22 +80185,178 @@ var ZaloChatbotRepository = class {
   }
 };
 
+// src/mini-apps/zalo-chatbot/server/routes.ts
+var import_express8 = __toESM(require_express2(), 1);
+function createZaloChatbotRouter(service2) {
+  const router = (0, import_express8.Router)();
+  const store2 = service2.repository;
+  router.get("/api/zalo-chatbot/overview", (_request, response, next) => {
+    try {
+      response.json(store2.overview());
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/zalo-chatbot/chatbots", (request2, response, next) => {
+    try {
+      response.json(store2.listChatbots(request2.query.archived === "1"));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/chatbots", (request2, response, next) => {
+    try {
+      response.status(201).json(store2.createChatbot(request2.body ?? {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/zalo-chatbot/chatbots/:id", (request2, response, next) => {
+    try {
+      const { revision, ...input } = request2.body ?? {};
+      response.json(store2.updateChatbot(request2.params.id, input, revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/chatbots/:id/transition", async (request2, response, next) => {
+    try {
+      const result = store2.transitionChatbot(request2.params.id, request2.body?.status, request2.body?.revision);
+      await service2.refreshListeners();
+      response.json(result);
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/chatbots/:id/archive", async (request2, response, next) => {
+    try {
+      const result = store2.archiveChatbot(request2.params.id, request2.body?.revision);
+      await service2.refreshListeners();
+      response.json(result);
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/chatbots/:id/restore", (request2, response, next) => {
+    try {
+      response.json(store2.archiveChatbot(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/zalo-chatbot/chatbots/:id/friends", (request2, response, next) => {
+    service2.discoverFriends(request2.params.id).then((items) => response.json(items), next);
+  });
+  router.get("/api/zalo-chatbot/targets", (request2, response, next) => {
+    try {
+      response.json(store2.listTargets({ chatbotId: request2.query.chatbotId ? String(request2.query.chatbotId) : void 0, archived: request2.query.archived === "1" }));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/targets", (request2, response, next) => {
+    service2.createTarget(request2.body ?? {}).then((result) => response.status(201).json(result), next);
+  });
+  router.patch("/api/zalo-chatbot/targets/:id", (request2, response, next) => {
+    try {
+      const { revision, ...input } = request2.body ?? {};
+      response.json(store2.updateTarget(request2.params.id, input, revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/targets/:id/transition", (request2, response, next) => {
+    try {
+      response.json(store2.transitionTarget(request2.params.id, request2.body?.status, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/targets/:id/archive", (request2, response, next) => {
+    try {
+      response.json(store2.archiveTarget(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/targets/:id/restore", (request2, response, next) => {
+    try {
+      response.json(store2.archiveTarget(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/targets/:id/refresh", (request2, response, next) => {
+    service2.refreshTarget(request2.params.id).then((result) => response.json(result), next);
+  });
+  router.get("/api/zalo-chatbot/conversations", (request2, response, next) => {
+    try {
+      response.json(store2.listConversations({ archived: request2.query.archived === "1", query: String(request2.query.q ?? ""), limit: Number(request2.query.limit ?? 200) }));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/conversations/refresh", (_request, response, next) => {
+    service2.refreshConversations().then((result) => response.json(result), next);
+  });
+  router.get("/api/zalo-chatbot/conversations/:id", (request2, response, next) => {
+    try {
+      const item = store2.getConversation(request2.params.id);
+      item ? response.json(item) : response.status(404).json({ error: "Zalo conversation not found" });
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/conversations/:id/draft", (request2, response, next) => {
+    service2.createDraft(request2.params.id).then((result) => response.json(result), next);
+  });
+  router.post("/api/zalo-chatbot/conversations/:id/archive", (request2, response, next) => {
+    try {
+      response.json(store2.archiveConversation(request2.params.id, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/conversations/:id/restore", (request2, response, next) => {
+    try {
+      response.json(store2.archiveConversation(request2.params.id, request2.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/zalo-chatbot/proposals/:id", (request2, response, next) => {
+    try {
+      response.json(store2.updateProposal(request2.params.id, request2.body?.text, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/zalo-chatbot/proposals/:id/review", (request2, response, next) => {
+    try {
+      response.json(store2.reviewProposal(request2.params.id, request2.body?.action, request2.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  return router;
+}
+
 // src/mini-apps/zalo-chatbot/server/agent.ts
 import { spawn as spawn2 } from "node:child_process";
 import { existsSync as existsSync2 } from "node:fs";
 import { mkdtemp, readFile as readFile2, rm as rm2, writeFile as writeFile3 } from "node:fs/promises";
 import { tmpdir, homedir as homedir2 } from "node:os";
-import path17 from "node:path";
+import path15 from "node:path";
 var candidates = [
   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
   "/Applications/Codex.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
   "/Applications/ChatGPT.app/Contents/Resources/codex",
   "/Applications/Codex.app/Contents/Resources/codex",
-  path17.join(homedir2(), ".local", "bin", "codex"),
+  path15.join(homedir2(), ".local", "bin", "codex"),
   "/opt/homebrew/bin/codex",
   "/usr/local/bin/codex"
 ];
-var schema10 = {
+var schema9 = {
   type: "object",
   additionalProperties: false,
   required: ["text", "risk", "reason"],
@@ -80812,11 +80400,11 @@ var CodexZaloDraftAgent = class {
   binary;
   async draft(context) {
     if (!this.binary) throw new Error("Codex CLI is unavailable; open or install the Codex desktop app");
-    const directory = await mkdtemp(path17.join(tmpdir(), "kgs-zalo-draft-"));
-    const schemaPath = path17.join(directory, "schema.json");
-    const outputPath = path17.join(directory, "result.json");
+    const directory = await mkdtemp(path15.join(tmpdir(), "kgs-zalo-draft-"));
+    const schemaPath = path15.join(directory, "schema.json");
+    const outputPath = path15.join(directory, "result.json");
     try {
-      await writeFile3(schemaPath, JSON.stringify(schema10), "utf8");
+      await writeFile3(schemaPath, JSON.stringify(schema9), "utf8");
       await new Promise((resolve, reject) => {
         const child = spawn2(this.binary, ["exec", "--json", "--sandbox", "read-only", "--ignore-user-config", "-c", "features.shell_tool=false", "-c", 'approval_policy="never"', "-c", 'web_search="disabled"', "--skip-git-repo-check", "--color", "never", "-C", directory, "--output-schema", schemaPath, "-o", outputPath, "-"], { stdio: ["pipe", "ignore", "pipe"] });
         let errorText2 = "";
@@ -81004,206 +80592,926 @@ var ZaloChatbotService = class {
   }
 };
 
-// src/mini-apps/zalo-chatbot/server/routes.ts
-var import_express9 = __toESM(require_express2(), 1);
-function createZaloChatbotRouter(service2) {
-  const router = (0, import_express9.Router)();
-  const store2 = service2.repository;
-  router.get("/api/zalo-chatbot/overview", (_request, response, next) => {
-    try {
-      response.json(store2.overview());
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/zalo-chatbot/chatbots", (request2, response, next) => {
-    try {
-      response.json(store2.listChatbots(request2.query.archived === "1"));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/chatbots", (request2, response, next) => {
-    try {
-      response.status(201).json(store2.createChatbot(request2.body ?? {}));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/zalo-chatbot/chatbots/:id", (request2, response, next) => {
-    try {
-      const { revision, ...input } = request2.body ?? {};
-      response.json(store2.updateChatbot(request2.params.id, input, revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/chatbots/:id/transition", async (request2, response, next) => {
-    try {
-      const result = store2.transitionChatbot(request2.params.id, request2.body?.status, request2.body?.revision);
-      await service2.refreshListeners();
-      response.json(result);
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/chatbots/:id/archive", async (request2, response, next) => {
-    try {
-      const result = store2.archiveChatbot(request2.params.id, request2.body?.revision);
-      await service2.refreshListeners();
-      response.json(result);
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/chatbots/:id/restore", (request2, response, next) => {
-    try {
-      response.json(store2.archiveChatbot(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.get("/api/zalo-chatbot/chatbots/:id/friends", (request2, response, next) => {
-    service2.discoverFriends(request2.params.id).then((items) => response.json(items), next);
-  });
-  router.get("/api/zalo-chatbot/targets", (request2, response, next) => {
-    try {
-      response.json(store2.listTargets({ chatbotId: request2.query.chatbotId ? String(request2.query.chatbotId) : void 0, archived: request2.query.archived === "1" }));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/targets", (request2, response, next) => {
-    service2.createTarget(request2.body ?? {}).then((result) => response.status(201).json(result), next);
-  });
-  router.patch("/api/zalo-chatbot/targets/:id", (request2, response, next) => {
-    try {
-      const { revision, ...input } = request2.body ?? {};
-      response.json(store2.updateTarget(request2.params.id, input, revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/targets/:id/transition", (request2, response, next) => {
-    try {
-      response.json(store2.transitionTarget(request2.params.id, request2.body?.status, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/targets/:id/archive", (request2, response, next) => {
-    try {
-      response.json(store2.archiveTarget(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/targets/:id/restore", (request2, response, next) => {
-    try {
-      response.json(store2.archiveTarget(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/targets/:id/refresh", (request2, response, next) => {
-    service2.refreshTarget(request2.params.id).then((result) => response.json(result), next);
-  });
-  router.get("/api/zalo-chatbot/conversations", (request2, response, next) => {
-    try {
-      response.json(store2.listConversations({ archived: request2.query.archived === "1", query: String(request2.query.q ?? ""), limit: Number(request2.query.limit ?? 200) }));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/conversations/refresh", (_request, response, next) => {
-    service2.refreshConversations().then((result) => response.json(result), next);
-  });
-  router.get("/api/zalo-chatbot/conversations/:id", (request2, response, next) => {
-    try {
-      const item = store2.getConversation(request2.params.id);
-      item ? response.json(item) : response.status(404).json({ error: "Zalo conversation not found" });
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/conversations/:id/draft", (request2, response, next) => {
-    service2.createDraft(request2.params.id).then((result) => response.json(result), next);
-  });
-  router.post("/api/zalo-chatbot/conversations/:id/archive", (request2, response, next) => {
-    try {
-      response.json(store2.archiveConversation(request2.params.id, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/conversations/:id/restore", (request2, response, next) => {
-    try {
-      response.json(store2.archiveConversation(request2.params.id, request2.body?.revision, true));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.patch("/api/zalo-chatbot/proposals/:id", (request2, response, next) => {
-    try {
-      response.json(store2.updateProposal(request2.params.id, request2.body?.text, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  router.post("/api/zalo-chatbot/proposals/:id/review", (request2, response, next) => {
-    try {
-      response.json(store2.reviewProposal(request2.params.id, request2.body?.action, request2.body?.revision));
-    } catch (error) {
-      next(error);
-    }
-  });
-  return router;
-}
+// src/mini-apps/zalo-chatbot/server/index.ts
+var server_default8 = defineMiniApp({
+  manifest: manifest8,
+  schema: schema8,
+  register(sdk) {
+    const service2 = new ZaloChatbotService(new ZaloChatbotRepository(sdk.databasePath), sdk.store, sdk.integrations.zaloZca);
+    return {
+      router: createZaloChatbotRouter(service2),
+      start: () => {
+        void service2.start();
+      },
+      stop: () => service2.stop()
+    };
+  }
+});
 
 // src/mini-apps/server-registry.ts
-function createMiniAppRuntime({ store: store2, kernel: kernel2, codexDesktop: codexDesktop2, prompts, attention, projectRoot: projectRoot2, port: port2, reconcileResults, databasePath: databasePath2, zaloZca: zaloZca2 }) {
-  const router = (0, import_express10.Router)();
-  const brandProfileRepository = createBrandProfileRepository(store2);
-  const offersRepository = createOffersRepository(store2);
-  const researchRepository = createResearchRepository(store2);
-  const imageStudioRepository = createImageStudioRepository(store2);
-  const quickContentRepository = createQuickContentRepository(store2);
-  const quickVisualRepository = createQuickVisualRepository(store2);
-  const personalBrandArticleRepository = createPersonalBrandArticleRepository(store2);
-  const personalBrandAuditRepository = createPersonalBrandAuditRepository(store2);
-  const personalBrandLibraryRepository = createPersonalBrandLibraryRepository(store2);
-  const crmRepository = createCrmRepository(store2);
-  const zaloChatbotRepository = new ZaloChatbotRepository(databasePath2);
-  const zaloChatbot = new ZaloChatbotService(zaloChatbotRepository, store2, zaloZca2);
-  const offers = new OffersService(offersRepository, kernel2, codexDesktop2, prompts, projectRoot2, reconcileResults);
-  const research = new ResearchService(researchRepository, kernel2, codexDesktop2, prompts, projectRoot2, reconcileResults);
-  const imageStudio = new ImageStudioService(imageStudioRepository, kernel2, codexDesktop2, prompts, projectRoot2, attention);
-  const quickContent = new QuickContentService(quickContentRepository, kernel2, codexDesktop2, prompts, projectRoot2, reconcileResults);
-  const quickVisual = new QuickVisualService(quickVisualRepository, kernel2, codexDesktop2, prompts, projectRoot2, reconcileResults);
-  const personalBrandArticles = new PersonalBrandArticleService(personalBrandArticleRepository, kernel2, codexDesktop2, prompts, projectRoot2, reconcileResults);
-  const personalBrandAudits = new PersonalBrandAuditService(personalBrandAuditRepository, kernel2, codexDesktop2, prompts, projectRoot2, reconcileResults);
-  const personalBrandLibrary = new PersonalBrandLibraryService(personalBrandLibraryRepository, kernel2, codexDesktop2, prompts, projectRoot2);
-  router.use(createBrandProfileRouter(brandProfileRepository));
-  router.use(createOffersRouter({ service: offers, store: offersRepository, port: port2 }));
-  router.use(createResearchRouter({ service: research, store: researchRepository, port: port2 }));
-  router.use(createImageStudioRouter({ service: imageStudio, port: port2 }));
-  router.use(createQuickContentRouter({ service: quickContent, port: port2 }));
-  router.use(createQuickVisualRouter({ service: quickVisual, port: port2 }));
-  router.use(createPersonalBrandArticleRouter({ service: personalBrandArticles, audits: personalBrandAudits, library: personalBrandLibrary, port: port2 }));
-  router.use(createCrmRouter(crmRepository));
-  router.use(createZaloChatbotRouter(zaloChatbot));
+var builtInMiniApps = [server_default, server_default3, server_default7, server_default5, server_default6, server_default4, server_default2, server_default8];
+
+// src/mini-apps/manifests.ts
+var miniAppManifests = [manifest, manifest3, manifest7, manifest5, manifest6, manifest4, manifest2, manifest8];
+function studioVersions() {
   return {
-    router,
-    start: () => {
-      imageStudio.reconcileAttention();
-      research.startResearchMonitorLifecycle(`http://127.0.0.1:${port2}/mini-apps/research/monitors`);
-      void zaloChatbot.start();
-    },
-    stop: () => {
-      research.stopResearchMonitorLifecycle();
-      zaloChatbot.stop();
+    kernel: kernelManifest.version,
+    miniApps: Object.fromEntries(miniAppManifests.map((manifest9) => [manifest9.id, manifest9.version]))
+  };
+}
+
+// src/server/mini-app-host.ts
+var import_express9 = __toESM(require_express2(), 1);
+
+// src/mini-apps/sdk/versions.ts
+function parts(version) {
+  if (!/^\d+(\.\d+){0,2}$/.test(version)) return null;
+  const numbers = version.split(".").map(Number);
+  while (numbers.length < 3) numbers.push(0);
+  return numbers;
+}
+function compareVersionParts(a, b) {
+  const left = parts(a);
+  const right = parts(b);
+  if (!left || !right) throw new Error(`Not a version: ${!left ? a : b}`);
+  for (let index = 0; index < 3; index += 1) {
+    const difference = left[index] - right[index];
+    if (difference) return Math.sign(difference);
+  }
+  return 0;
+}
+function isVersion(value) {
+  return typeof value === "string" && parts(value) !== null;
+}
+function satisfies(version, range) {
+  if (!isVersion(version)) return false;
+  const trimmed = range.trim();
+  if (trimmed.startsWith("^")) {
+    const floor = trimmed.slice(1);
+    if (!isVersion(floor)) return false;
+    return parts(version)[0] === parts(floor)[0] && compareVersionParts(version, floor) >= 0;
+  }
+  const comparators = trimmed.split(/\s+/).filter(Boolean);
+  if (!comparators.length) return false;
+  return comparators.every((comparator) => {
+    const match = /^(>=|<=|>|<|=)?(\d+(?:\.\d+){0,2})$/.exec(comparator);
+    if (!match) return false;
+    const order = compareVersionParts(version, match[2]);
+    switch (match[1] ?? "=") {
+      case ">=":
+        return order >= 0;
+      case ">":
+        return order > 0;
+      case "<=":
+        return order <= 0;
+      case "<":
+        return order < 0;
+      default:
+        return order === 0;
+    }
+  });
+}
+
+// src/server/mini-app-host.ts
+function createMiniAppHost(input) {
+  const states = /* @__PURE__ */ new Map();
+  const enabled = /* @__PURE__ */ new Map();
+  const seen = /* @__PURE__ */ new Set();
+  for (const app2 of input.apps) {
+    const { id, version } = app2.module.manifest;
+    if (seen.has(id)) throw new Error(`Mini-app ${id} is loaded twice`);
+    seen.add(id);
+    const tooOld = app2.module.manifest.requiresCore && !satisfies(input.coreVersion, app2.module.manifest.requiresCore);
+    if (tooOld) states.set(id, { id, version, source: app2.source, state: "disabled", reason: `needs core ${app2.module.manifest.requiresCore}, this Studio has ${input.coreVersion}` });
+    else enabled.set(id, app2);
+  }
+  for (let changed = true; changed; ) {
+    changed = false;
+    for (const [id, app2] of enabled) {
+      for (const [name, range] of Object.entries(app2.module.manifest.requires ?? {})) {
+        const provided2 = [...enabled.values()].some((other) => other !== app2 && satisfies(other.module.manifest.exports?.[name] ?? "", range));
+        if (!provided2) {
+          enabled.delete(id);
+          states.set(id, { id, version: app2.module.manifest.version, source: app2.source, state: "disabled", reason: `needs ${name} ${range}` });
+          changed = true;
+          break;
+        }
+      }
+    }
+  }
+  const provided = /* @__PURE__ */ new Map();
+  const miniApps2 = {
+    use(name, range) {
+      const match = (provided.get(name) ?? []).find((entry) => satisfies(entry.version, range));
+      return match?.implementation ?? null;
     }
   };
+  const router = (0, import_express9.Router)();
+  const instances = [];
+  const codexTools = /* @__PURE__ */ new Map();
+  const taskKinds = /* @__PURE__ */ new Map();
+  const apps = [...input.apps];
+  const register = (id, app2) => {
+    const instance = app2.module.register({ ...input.sdkFor(app2.module), miniApps: miniApps2 });
+    for (const [name, version] of Object.entries(app2.module.manifest.exports ?? {})) {
+      if (!instance.exports || !(name in instance.exports)) throw new Error(`Mini-app ${id} declares ${name} ${version} but does not export it`);
+      provided.set(name, [...provided.get(name) ?? [], { version, implementation: instance.exports[name], provider: id }]);
+    }
+    if (instance.router) router.use(instance.router);
+    for (const tool of instance.codexTools ?? []) {
+      if (codexTools.has(tool.definition.name)) console.error(`Mini-app ${id} serves Codex tool ${tool.definition.name}, which another mini-app already serves; ignored`);
+      else codexTools.set(tool.definition.name, tool);
+    }
+    for (const kind of instance.taskKinds ?? []) {
+      if (taskKinds.has(kind.type)) console.error(`Mini-app ${id} claims task kind ${kind.type}, which another mini-app already owns; ignored`);
+      else taskKinds.set(kind.type, kind);
+    }
+    instances.push({ id, instance });
+    states.set(id, { id, version: app2.module.manifest.version, source: app2.source, state: "running" });
+    return instance;
+  };
+  for (const [id, app2] of enabled) register(id, app2);
+  return {
+    router,
+    miniApps: miniApps2,
+    states: () => apps.map((app2) => states.get(app2.module.manifest.id)),
+    /**
+     * Adds a mini-app installed while this Studio runs (one it did not have;
+     * a new version of a running one needs a restart). It runs when the core
+     * and the interfaces it requires are there, and starts its background work.
+     */
+    async add(app2) {
+      const { id, version, requiresCore, requires } = app2.module.manifest;
+      if (states.has(id)) throw new Error(`Mini-app ${id} is already loaded`);
+      apps.push(app2);
+      const missing = Object.entries(requires ?? {}).find(([name, range]) => !(provided.get(name) ?? []).some((entry) => satisfies(entry.version, range)));
+      const reason = requiresCore && !satisfies(input.coreVersion, requiresCore) ? `needs core ${requiresCore}, this Studio has ${input.coreVersion}` : missing ? `needs ${missing[0]} ${missing[1]}` : null;
+      if (reason) {
+        states.set(id, { id, version, source: app2.source, state: "disabled", reason });
+        return states.get(id);
+      }
+      const instance = register(id, app2);
+      try {
+        await instance.start?.();
+      } catch (error) {
+        console.error(`Mini-app ${id} could not start its background work`, error);
+      }
+      return states.get(id);
+    },
+    /** The Codex tools running mini-apps serve, by name. */
+    codexTools,
+    /** The task kinds running mini-apps own, by source type. */
+    taskKinds,
+    async start() {
+      for (const { id, instance } of instances) {
+        try {
+          await instance.start?.();
+        } catch (error) {
+          console.error(`Mini-app ${id} could not start its background work`, error);
+        }
+      }
+    },
+    async stop() {
+      for (const { id, instance } of instances) {
+        try {
+          await instance.stop?.();
+        } catch (error) {
+          console.error(`Mini-app ${id} could not stop its background work`, error);
+        }
+      }
+    }
+  };
+}
+
+// src/server/mini-app-packages.ts
+import { existsSync as existsSync6, readdirSync as readdirSync4, readFileSync as readFileSync4 } from "node:fs";
+import path19 from "node:path";
+import { fileURLToPath as fileURLToPath3, pathToFileURL as pathToFileURL2 } from "node:url";
+
+// src/mini-apps/packages.json
+var packages_default = ["image-studio"];
+
+// src/plugin/app-versions.ts
+import { cpSync, existsSync as existsSync3, mkdirSync as mkdirSync2, readdirSync as readdirSync2, readFileSync as readFileSync2, renameSync as renameSync2, rmSync as rmSync2, statSync, writeFileSync as writeFileSync2 } from "node:fs";
+import path16 from "node:path";
+var appHome = (dataRoot) => path16.join(dataRoot, "app");
+function packageHome(dataRoot, pkg) {
+  if (pkg === void 0) return appHome(dataRoot);
+  if (!/^[a-z0-9][a-z0-9-]{0,63}$/.test(pkg)) throw new Error(`Not a mini-app package id: ${pkg}`);
+  return path16.join(appHome(dataRoot), "mini-apps", pkg);
+}
+var versionsDirectory = (dataRoot, pkg) => path16.join(packageHome(dataRoot, pkg), "versions");
+var versionDirectory = (dataRoot, version, pkg) => path16.join(versionsDirectory(dataRoot, pkg), version);
+var pointerFile = (dataRoot, pkg) => path16.join(packageHome(dataRoot, pkg), "current.json");
+var VERSION2 = /^\d+\.\d+\.\d+$/;
+function compareVersions(a, b) {
+  const left = a.split(".").map(Number);
+  const right = b.split(".").map(Number);
+  for (let index = 0; index < 3; index += 1) {
+    const difference = (left[index] ?? 0) - (right[index] ?? 0);
+    if (difference) return Math.sign(difference);
+  }
+  return 0;
+}
+function readVersionInfo(directory) {
+  try {
+    const info = JSON.parse(readFileSync2(path16.join(directory, "VERSION.json"), "utf8"));
+    if (!VERSION2.test(info.version) || typeof info.buildId !== "string" || !info.buildId) return null;
+    if (!existsSync3(path16.join(directory, "server.mjs"))) return null;
+    return info;
+  } catch {
+    return null;
+  }
+}
+function readCurrent(dataRoot, pkg) {
+  try {
+    const pointer = JSON.parse(readFileSync2(pointerFile(dataRoot, pkg), "utf8"));
+    if (!VERSION2.test(pointer.current)) return null;
+    return { current: pointer.current, previous: pointer.previous && VERSION2.test(pointer.previous) ? pointer.previous : null };
+  } catch {
+    return null;
+  }
+}
+function writeCurrent(dataRoot, pointer, pkg) {
+  mkdirSync2(packageHome(dataRoot, pkg), { recursive: true });
+  const temporary = `${pointerFile(dataRoot, pkg)}.${process.pid}.tmp`;
+  writeFileSync2(temporary, `${JSON.stringify(pointer, null, 2)}
+`);
+  renameSync2(temporary, pointerFile(dataRoot, pkg));
+}
+function currentApp(dataRoot, pkg) {
+  const pointer = readCurrent(dataRoot, pkg);
+  if (!pointer) return null;
+  const directory = versionDirectory(dataRoot, pointer.current, pkg);
+  const info = readVersionInfo(directory);
+  return info && info.version === pointer.current ? { version: info.version, directory, info } : null;
+}
+function installFromDirectory(dataRoot, source, pkg) {
+  const info = readVersionInfo(source);
+  if (!info) throw new Error(`${source} is not a built Growth Studio (VERSION.json and server.mjs are required)`);
+  const target = versionDirectory(dataRoot, info.version, pkg);
+  const existing = readVersionInfo(target);
+  if (existing?.buildId === info.buildId) return { version: info.version, directory: target, info: existing };
+  mkdirSync2(versionsDirectory(dataRoot, pkg), { recursive: true });
+  const staging = `${target}.${process.pid}-${Date.now().toString(36)}.staging`;
+  cpSync(source, staging, { recursive: true, filter: (from) => path16.basename(from) !== ".DS_Store" });
+  if (existing) {
+    const replaced = `${target}.${process.pid}-${Date.now().toString(36)}.replaced`;
+    renameSync2(target, replaced);
+    renameSync2(staging, target);
+    rmSync2(replaced, { recursive: true, force: true });
+  } else {
+    try {
+      renameSync2(staging, target);
+    } catch (error) {
+      rmSync2(staging, { recursive: true, force: true });
+      if (readVersionInfo(target)?.buildId !== info.buildId) throw error;
+    }
+  }
+  return { version: info.version, directory: target, info };
+}
+function resolveApp(dataRoot, seedDirectory, pkg) {
+  const installed = currentApp(dataRoot, pkg);
+  const seed = seedDirectory ? readVersionInfo(seedDirectory) : null;
+  const adoptSeed = seed && (!installed || compareVersions(seed.version, installed.version) > 0 || seed.version === installed.version && seed.buildId !== installed.info.buildId);
+  if (adoptSeed) {
+    const app2 = installFromDirectory(dataRoot, seedDirectory, pkg);
+    const pointer = readCurrent(dataRoot, pkg);
+    writeCurrent(dataRoot, { current: app2.version, previous: pointer && pointer.current !== app2.version ? pointer.current : pointer?.previous ?? null }, pkg);
+    if (pkg === void 0 && pointer && pointer.current !== app2.version) writeUpdateNotice(dataRoot, { from: pointer.current, to: app2.version });
+    pruneVersions(dataRoot, pkg);
+    return app2;
+  }
+  if (installed) return installed;
+  throw new Error("Growth Studio is not installed: the plugin has no seed app and nothing is installed yet");
+}
+var noticeFile = (dataRoot) => path16.join(appHome(dataRoot), "update-notice.json");
+function writeUpdateNotice(dataRoot, notice) {
+  mkdirSync2(appHome(dataRoot), { recursive: true });
+  writeFileSync2(noticeFile(dataRoot), `${JSON.stringify({ ...notice, at: (/* @__PURE__ */ new Date()).toISOString() }, null, 2)}
+`);
+}
+function readUpdateNotice(dataRoot) {
+  try {
+    const notice = JSON.parse(readFileSync2(noticeFile(dataRoot), "utf8"));
+    return VERSION2.test(notice.from) && VERSION2.test(notice.to) ? notice : null;
+  } catch {
+    return null;
+  }
+}
+function clearUpdateNotice(dataRoot) {
+  rmSync2(noticeFile(dataRoot), { force: true });
+}
+var startedFile = (dataRoot) => path16.join(appHome(dataRoot), "last-started.json");
+function noteStudioStarted(dataRoot, version) {
+  if (!VERSION2.test(version)) return;
+  let last = null;
+  try {
+    last = JSON.parse(readFileSync2(startedFile(dataRoot), "utf8")).version ?? null;
+  } catch {
+    last = null;
+  }
+  if (last === version) return;
+  const from = last ?? readCurrent(dataRoot)?.previous ?? null;
+  if (from && VERSION2.test(from) && compareVersions(version, from) > 0 && !readUpdateNotice(dataRoot)) writeUpdateNotice(dataRoot, { from, to: version });
+  mkdirSync2(appHome(dataRoot), { recursive: true });
+  writeFileSync2(startedFile(dataRoot), `${JSON.stringify({ version, at: (/* @__PURE__ */ new Date()).toISOString() }, null, 2)}
+`);
+}
+function pruneVersions(dataRoot, pkg) {
+  const pointer = readCurrent(dataRoot, pkg);
+  if (!pointer) return;
+  const keep = new Set([pointer.current, pointer.previous].filter(Boolean));
+  let entries = [];
+  try {
+    entries = readdirSync2(versionsDirectory(dataRoot, pkg));
+  } catch {
+    return;
+  }
+  const now3 = Date.now();
+  for (const entry of entries) {
+    if (keep.has(entry)) continue;
+    const full = path16.join(versionsDirectory(dataRoot, pkg), entry);
+    if (VERSION2.test(entry)) {
+      rmSync2(full, { recursive: true, force: true });
+      continue;
+    }
+    try {
+      if (now3 - statSync(full).mtimeMs > 10 * 6e4) rmSync2(full, { recursive: true, force: true });
+    } catch {
+    }
+  }
+}
+
+// src/server/updater/updater.ts
+import { spawn as spawn3 } from "node:child_process";
+import { copyFileSync, existsSync as existsSync5, mkdirSync as mkdirSync4, openSync as openSync2, readFileSync as readFileSync3, rmSync as rmSync4, writeFileSync as writeFileSync3 } from "node:fs";
+import path18 from "node:path";
+
+// src/server/updater/installer.ts
+import { execFile as execFile2 } from "node:child_process";
+import { createWriteStream, existsSync as existsSync4, lstatSync, mkdirSync as mkdirSync3, readdirSync as readdirSync3, rmSync as rmSync3, statSync as statSync2 } from "node:fs";
+import path17 from "node:path";
+import { Readable, Transform } from "node:stream";
+import { pipeline } from "node:stream/promises";
+import { fileURLToPath as fileURLToPath2, pathToFileURL } from "node:url";
+import { promisify as promisify2 } from "node:util";
+
+// src/server/updater/release.ts
+import { createHash as createHash7, createPublicKey, verify } from "node:crypto";
+import { createReadStream } from "node:fs";
+var RELEASE_PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAXL1rETV9FrSLFIy3yStzEN4SMiKeHLj73iZvf44N56U=
+-----END PUBLIC KEY-----
+`;
+var VERSION3 = /^\d+\.\d+\.\d+$/;
+var DIGEST = /^[0-9a-f]{64}$/;
+var PACKAGE_ID = /^[a-z0-9][a-z0-9-]{0,63}$/;
+function signedPayload(release) {
+  return release.id === void 0 ? `kallob-growth-studio
+${release.version}
+${release.buildId}
+${release.sha256}
+${release.size}` : `kallob-growth-mini-app
+${release.id}
+${release.version}
+${release.buildId}
+${release.sha256}
+${release.size}`;
+}
+function parseRelease(input) {
+  const value = input;
+  if (!value || typeof value !== "object") return null;
+  if (typeof value.version !== "string" || !VERSION3.test(value.version)) return null;
+  if (typeof value.buildId !== "string" || !/^[\w.-]{1,120}$/.test(value.buildId)) return null;
+  if (typeof value.sha256 !== "string" || !DIGEST.test(value.sha256)) return null;
+  if (typeof value.size !== "number" || !Number.isSafeInteger(value.size) || value.size <= 0 || value.size > 200 * 1024 * 1024) return null;
+  if (typeof value.signature !== "string" || !value.signature) return null;
+  if (typeof value.url !== "string" || !/^(https?|file):\/\//.test(value.url)) return null;
+  return { version: value.version, buildId: value.buildId, sha256: value.sha256, size: value.size, signature: value.signature, url: value.url };
+}
+function parseMiniAppRelease(input, id) {
+  const release = parseRelease(input);
+  const declared = input?.id;
+  if (!release || !PACKAGE_ID.test(id) || declared !== void 0 && declared !== id) return null;
+  return { ...release, id };
+}
+function verifyReleaseSignature(release, publicKeyPem = RELEASE_PUBLIC_KEY) {
+  try {
+    return verify(null, Buffer.from(signedPayload(release)), createPublicKey(publicKeyPem), Buffer.from(release.signature, "base64"));
+  } catch {
+    return false;
+  }
+}
+async function fileDigest(file) {
+  const hash = createHash7("sha256");
+  for await (const chunk of createReadStream(file)) hash.update(chunk);
+  return hash.digest("hex");
+}
+
+// src/server/updater/installer.ts
+var run = promisify2(execFile2);
+var ReleaseRejectedError = class extends Error {
+  constructor(message2) {
+    super(message2);
+    this.name = "ReleaseRejectedError";
+  }
+};
+var CORE_ENTRIES = /* @__PURE__ */ new Set(["server.mjs", "public", "VERSION.json"]);
+var MINI_APP_ENTRIES = /* @__PURE__ */ new Set(["server.mjs", "client.js", "client.css", "assets", "VERSION.json"]);
+async function installRelease(dataRoot, release, options = {}) {
+  const pkg = "id" in release ? release.id : void 0;
+  const label = pkg ? `Mini-app ${pkg} ${release.version}` : `Studio ${release.version}`;
+  const existing = readVersionInfo(versionDirectory(dataRoot, release.version, pkg));
+  if (existing?.buildId === release.buildId) return { version: release.version, directory: versionDirectory(dataRoot, release.version, pkg), info: existing };
+  if (!verifyReleaseSignature(release, options.publicKey)) throw new ReleaseRejectedError(`${label} is not signed by Kallob`);
+  const work = path17.join(appHome(dataRoot), "downloads", `${pkg ?? "core"}-${release.version}-${process.pid}-${Date.now().toString(36)}`);
+  mkdirSync3(work, { recursive: true });
+  try {
+    const archive = path17.join(work, "package.tgz");
+    await download(release, label, archive, options.fetchImpl ?? fetch);
+    const size = statSync2(archive).size;
+    if (size !== release.size) throw new ReleaseRejectedError(`${label} download is ${size} bytes, expected ${release.size}`);
+    if (await fileDigest(archive) !== release.sha256) throw new ReleaseRejectedError(`${label} download does not match its digest`);
+    const unpacked = path17.join(work, "unpacked");
+    mkdirSync3(unpacked);
+    await extract(archive, unpacked, label, pkg ? MINI_APP_ENTRIES : CORE_ENTRIES);
+    if (!pkg && !existsSync4(path17.join(unpacked, "public", "index.html"))) throw new ReleaseRejectedError(`${label} package has no UI`);
+    const info = readVersionInfo(unpacked);
+    if (!info || info.version !== release.version || info.buildId !== release.buildId || pkg && info.id !== pkg) {
+      throw new ReleaseRejectedError(`${label} package declares ${info ? `${pkg ? `${String(info.id)} ` : ""}${info.version} (${info.buildId})` : "no version"}`);
+    }
+    if (pkg) await selfCheckMiniApp(path17.join(unpacked, "server.mjs"), pkg, release, label, options.nodePath ?? process.execPath);
+    else await selfCheck(path17.join(unpacked, "server.mjs"), release, options.nodePath ?? process.execPath);
+    return installFromDirectory(dataRoot, unpacked, pkg);
+  } finally {
+    rmSync3(work, { recursive: true, force: true });
+  }
+}
+async function download(release, label, target, fetchImpl) {
+  if (release.url.startsWith("file://")) {
+    const source = fileURLToPath2(release.url);
+    await pipeline((await import("node:fs")).createReadStream(source), limit(release.size), createWriteStream(target));
+    return;
+  }
+  const response = await fetchImpl(release.url, { signal: AbortSignal.timeout(5 * 6e4) });
+  if (!response.ok || !response.body) throw new Error(`Could not download ${label} (${response.status})`);
+  await pipeline(Readable.fromWeb(response.body), limit(release.size), createWriteStream(target));
+}
+function limit(size) {
+  let received = 0;
+  return new Transform({
+    transform(chunk, _encoding, callback) {
+      received += chunk.length;
+      if (received > size) callback(new ReleaseRejectedError("The download is larger than announced"));
+      else callback(null, chunk);
+    }
+  });
+}
+async function extract(archive, target, label, entries) {
+  const { stdout } = await run("tar", ["-tzf", archive], { maxBuffer: 16 * 1024 * 1024 });
+  for (const raw of stdout.split(/\r?\n/)) {
+    const entry = raw.trim().replace(/^\.\//, "");
+    if (!entry || entry === "." || entry === "./") continue;
+    const parts2 = entry.split("/").filter(Boolean);
+    if (entry.startsWith("/") || /^[A-Za-z]:/.test(entry) || entry.includes("\\") || parts2.includes("..") || !entries.has(parts2[0])) {
+      throw new ReleaseRejectedError(`${label} package contains an unexpected path: ${raw}`);
+    }
+  }
+  await run("tar", ["-xzf", archive, "-C", target]);
+  const walk2 = (directory) => {
+    for (const name of readdirSync3(directory)) {
+      const full = path17.join(directory, name);
+      const stat = lstatSync(full);
+      if (stat.isSymbolicLink()) throw new ReleaseRejectedError(`${label} package contains a link: ${path17.relative(target, full)}`);
+      if (stat.isDirectory()) walk2(full);
+    }
+  };
+  walk2(target);
+}
+async function selfCheckMiniApp(serverEntry, id, release, label, nodePath) {
+  const script = 'const m = await import(process.argv[1]); const d = m.default; if (!d || typeof d.register !== "function") throw new Error("no defineMiniApp default export"); console.log(JSON.stringify(d.manifest))';
+  let stdout = "";
+  try {
+    ({ stdout } = await run(nodePath, ["--input-type=module", "-e", script, pathToFileURL(serverEntry).href], { timeout: 3e4 }));
+  } catch (error) {
+    throw new ReleaseRejectedError(`${label} failed its self-check: ${error instanceof Error ? error.message.split("\n")[0] : String(error)}`);
+  }
+  const line = stdout.trim().split(/\r?\n/).pop() ?? "";
+  let manifest9 = {};
+  try {
+    manifest9 = JSON.parse(line);
+  } catch {
+  }
+  if (manifest9.id !== id || manifest9.version !== release.version) throw new ReleaseRejectedError(`${label} self-check reported ${line || "nothing"}`);
+}
+async function selfCheck(serverEntry, release, nodePath) {
+  let stdout = "";
+  try {
+    ({ stdout } = await run(nodePath, [serverEntry, "--self-check"], { timeout: 3e4, env: { ...process.env, KGS_SELF_CHECK: "1" } }));
+  } catch (error) {
+    throw new ReleaseRejectedError(`Studio ${release.version} failed its self-check: ${error instanceof Error ? error.message.split("\n")[0] : String(error)}`);
+  }
+  const line = stdout.trim().split(/\r?\n/).pop() ?? "";
+  let report = {};
+  try {
+    report = JSON.parse(line);
+  } catch {
+  }
+  if (report.version !== release.version || report.buildId !== release.buildId) throw new ReleaseRejectedError(`Studio ${release.version} self-check reported ${line || "nothing"}`);
+}
+
+// src/server/updater/updater.ts
+var SEMVER = /^\d+\.\d+\.\d+$/;
+function parseAnnouncement(body) {
+  const value = body ?? {};
+  const release = parseRelease("release" in value ? value.release : body);
+  const studio = typeof value.required?.studio === "string" && SEMVER.test(value.required.studio) ? value.required.studio : null;
+  const miniApps2 = {};
+  const listed = value.required?.miniApps;
+  if (listed && typeof listed === "object") {
+    for (const [id, version] of Object.entries(listed)) if (typeof version === "string" && SEMVER.test(version)) miniApps2[id] = version;
+  }
+  const packages2 = {};
+  if (value.packages && typeof value.packages === "object") {
+    for (const [id, announced] of Object.entries(value.packages)) {
+      const parsed = parseMiniAppRelease(announced, id);
+      const requiresCore = announced.requiresCore;
+      if (parsed) packages2[id] = { ...parsed, requiresCore: typeof requiresCore === "string" && requiresCore ? requiresCore : null };
+    }
+  }
+  return { release, packages: packages2, required: { studio, miniApps: miniApps2 } };
+}
+var FeedReleaseSource = class {
+  constructor(url) {
+    this.url = url;
+  }
+  url;
+  async latest() {
+    const body = this.url.startsWith("file://") ? JSON.parse(readFileSync3(new URL(this.url), "utf8")) : await (await fetch(this.url, { signal: AbortSignal.timeout(15e3) })).json();
+    return parseAnnouncement(body);
+  }
+};
+var lastMigrationFile = (dataRoot, pkg) => path18.join(packageHome(dataRoot, pkg), "last-migration.json");
+var failedFile = (dataRoot) => path18.join(appHome(dataRoot), "failed.json");
+var failedKey = (release) => release.id ? `${release.id}@${release.version}` : release.version;
+var StudioUpdater = class {
+  constructor(options) {
+    this.options = options;
+  }
+  options;
+  phase = "idle";
+  available = null;
+  availablePackages = [];
+  installed = null;
+  readyPackages = /* @__PURE__ */ new Map();
+  checkedAt = null;
+  error = null;
+  preparing = null;
+  required = { studio: null, miniApps: {} };
+  checkedAtMs = 0;
+  timer = null;
+  status() {
+    return {
+      enabled: this.options.enabled,
+      version: this.options.version,
+      buildId: this.options.buildId,
+      phase: this.phase,
+      available: this.available ? { version: this.available.version, buildId: this.available.buildId } : null,
+      ready: this.installed?.version ?? null,
+      miniApps: {
+        available: this.availablePackages.map((release) => ({ id: release.id, version: release.version })),
+        ready: [...this.readyPackages.values()].map((app2) => ({ id: app2.id, version: app2.version }))
+      },
+      checkedAt: this.checkedAt,
+      error: this.error
+    };
+  }
+  /** Checks shortly after start and then every few hours, downloading what it finds. */
+  startBackgroundChecks(firstDelayMs = 3e4, everyMs = 6 * 60 * 6e4) {
+    if (!this.options.enabled || this.timer) return;
+    const tick = () => {
+      void this.prepare().catch(() => void 0);
+    };
+    this.timer = setTimeout(tick, firstDelayMs);
+    this.timer.unref();
+    const interval = setInterval(tick, everyMs);
+    interval.unref();
+  }
+  /** Asks the release source for a newer Studio and newer mini-app packages. */
+  async check() {
+    if (!this.options.enabled) return null;
+    const source = this.options.source();
+    if (!source) return null;
+    if (this.phase === "idle" || this.phase === "failed") this.phase = "checking";
+    try {
+      const announcement = await source.latest({ version: this.options.version, buildId: this.options.buildId });
+      const release = announcement.release;
+      this.required = announcement.required;
+      this.checkedAtMs = Date.now();
+      this.checkedAt = new Date(this.checkedAtMs).toISOString();
+      const newer = release && compareVersions(release.version, this.options.version) > 0 && !this.failedBefore(release) ? release : null;
+      this.available = newer;
+      this.availablePackages = Object.values(announcement.packages).filter((candidate) => {
+        const local = readCurrent(this.options.dataRoot, candidate.id)?.current ?? null;
+        return (!local || compareVersions(candidate.version, local) > 0) && !this.failedBefore(candidate);
+      });
+      if (this.phase === "checking") this.phase = "idle";
+      return newer;
+    } catch (error) {
+      this.fail(error);
+      return null;
+    }
+  }
+  /**
+   * Whether a mini-app may open on this Studio: Kallob Cloud's required
+   * version for it (or for the Studio) against the local one. Uses an answer
+   * at most `maxAgeMs` old; without Kallob Cloud nothing is required.
+   */
+  async requirement(id, localVersion, maxAgeMs = 6e4) {
+    if (this.options.enabled && Date.now() - this.checkedAtMs >= maxAgeMs) await this.check();
+    const required = this.required.miniApps[id] ?? null;
+    const studioTooOld = Boolean(this.required.studio && compareVersions(this.options.version, this.required.studio) < 0);
+    const miniAppTooOld = Boolean(required && (!localVersion || compareVersions(localVersion, required) < 0));
+    return { id, local: localVersion, required, updateRequired: this.options.enabled && (studioTooOld || miniAppTooOld) };
+  }
+  /**
+   * Checks, then downloads and installs the newer core and packages without
+   * switching to them. A package that needs a newer core than the one that
+   * will run waits for that core.
+   */
+  prepare() {
+    if (this.preparing) return this.preparing;
+    this.preparing = (async () => {
+      const release = await this.check();
+      let core = null;
+      if (release) {
+        if (this.installed?.info.buildId === release.buildId) core = this.installed;
+        else core = await this.install(release, () => installRelease(this.options.dataRoot, release, this.installOptions()));
+        if (core) this.installed = core;
+      }
+      const kernel2 = core ? kernelOf(core) ?? this.options.kernelVersion : this.options.kernelVersion;
+      for (const candidate of this.availablePackages) {
+        if (this.readyPackages.get(candidate.id)?.info.buildId === candidate.buildId) continue;
+        if (candidate.requiresCore && kernel2 && !satisfies(kernel2, candidate.requiresCore)) continue;
+        const app2 = await this.install(candidate, () => installRelease(this.options.dataRoot, candidate, this.installOptions()));
+        if (!app2) continue;
+        if (!readCurrent(this.options.dataRoot, candidate.id) && this.options.addMiniApp) {
+          writeCurrent(this.options.dataRoot, { current: app2.version, previous: null }, candidate.id);
+          this.availablePackages = this.availablePackages.filter((item) => item.id !== candidate.id);
+          const runs = await this.options.addMiniApp(candidate.id).catch((error) => {
+            console.error(`Mini-app ${candidate.id} did not load`, error);
+            return false;
+          });
+          if (!runs) this.markFailed(candidate, new Error(`Mini-app ${candidate.id} ${candidate.version} did not run`));
+          continue;
+        }
+        this.readyPackages.set(candidate.id, { ...app2, id: candidate.id });
+      }
+      const packages2 = [...this.readyPackages.values()].filter((app2) => {
+        const requiresCore = app2.info.requiresCore;
+        return !(typeof requiresCore === "string" && kernel2 && !satisfies(kernel2, requiresCore));
+      });
+      if (this.phase !== "failed") this.phase = core || packages2.length ? "ready" : "idle";
+      return { core, packages: packages2 };
+    })().finally(() => {
+      this.preparing = null;
+    });
+    return this.preparing;
+  }
+  async install(release, run2) {
+    this.phase = "downloading";
+    try {
+      const app2 = await run2();
+      this.error = null;
+      return app2;
+    } catch (error) {
+      this.fail(error);
+      this.markFailed(release, error);
+      return null;
+    }
+  }
+  installOptions() {
+    return { publicKey: this.options.publicKey, nodePath: this.options.nodePath };
+  }
+  /**
+   * What a switch would move: everything newer, or for one mini-app only its
+   * package (and the core, when Kallob Cloud requires a newer one or the
+   * package needs it). Installs first what is not installed yet.
+   */
+  async plan(scope = {}) {
+    const ready = await this.prepare();
+    const packages2 = scope.miniApp ? ready.packages.filter((app2) => app2.id === scope.miniApp) : ready.packages;
+    const studioRequired = Boolean(this.required.studio && compareVersions(this.options.version, this.required.studio) < 0);
+    const packageNeedsCore = packages2.some((app2) => {
+      const requiresCore = app2.info.requiresCore;
+      return typeof requiresCore === "string" && this.options.kernelVersion !== void 0 && !satisfies(this.options.kernelVersion, requiresCore);
+    });
+    return { core: scope.miniApp && !studioRequired && !packageNeedsCore ? null : ready.core, packages: packages2 };
+  }
+  /**
+   * Switches to what `plan(scope)` names. Resolves `false` when there is
+   * nothing to switch to; otherwise this process ends (the new server, or
+   * after a failed switch the previous one, takes over the port).
+   */
+  async apply(scope = {}) {
+    const plan = await this.plan(scope);
+    if (!plan.core && !plan.packages.length) return false;
+    this.phase = "switching";
+    await this.switchTo(plan);
+    return true;
+  }
+  async switchTo(plan) {
+    const { dataRoot, port: port2 } = this.options;
+    const exit = this.options.exit ?? ((code) => process.exit(code));
+    const startedAt = (/* @__PURE__ */ new Date()).toISOString();
+    const previous = this.options.version;
+    const corePointer = readCurrent(dataRoot);
+    const packagePointers = new Map(plan.packages.map((app2) => [app2.id, readCurrent(dataRoot, app2.id)]));
+    if (plan.core) {
+      writeCurrent(dataRoot, { current: plan.core.version, previous });
+      writeUpdateNotice(dataRoot, { from: previous, to: plan.core.version });
+    }
+    for (const app2 of plan.packages) {
+      const pointer = packagePointers.get(app2.id) ?? null;
+      writeCurrent(dataRoot, { current: app2.version, previous: pointer && pointer.current !== app2.version ? pointer.current : pointer?.previous ?? null }, app2.id);
+    }
+    await this.options.stop();
+    const entry = path18.join(plan.core ? plan.core.directory : versionDirectory(dataRoot, previous), "server.mjs");
+    const child = this.spawnServer(entry);
+    let exited = false;
+    child.once("exit", () => {
+      exited = true;
+    });
+    const outcome = await this.waitForSwitch(plan.core?.info.buildId ?? this.options.buildId, plan.packages, () => exited);
+    if (outcome.ok) {
+      exit(0);
+      return;
+    }
+    try {
+      if (child.pid) process.kill(child.pid, "SIGTERM");
+    } catch {
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1e3));
+    this.restoreDatabase(plan, startedAt);
+    if (plan.core) {
+      clearUpdateNotice(dataRoot);
+      writeCurrent(dataRoot, corePointer ?? { current: previous, previous: null });
+    }
+    for (const app2 of plan.packages) {
+      const pointer = packagePointers.get(app2.id);
+      if (pointer) writeCurrent(dataRoot, pointer, app2.id);
+      else rmSync4(path18.join(packageHome(dataRoot, app2.id), "current.json"), { force: true });
+    }
+    const broken = outcome.notRunning.length ? plan.packages.filter((app2) => outcome.notRunning.includes(app2.id)) : [...plan.core ? [plan.core] : [], ...plan.packages];
+    for (const app2 of broken) {
+      const id = "id" in app2 ? app2.id : void 0;
+      this.markFailed({ id, version: app2.version, buildId: app2.info.buildId }, new Error(id ? `Mini-app ${id} ${app2.version} did not run` : `Studio ${app2.version} did not start on port ${port2}`));
+    }
+    this.spawnServer(path18.join(versionDirectory(dataRoot, previous), "server.mjs"));
+    exit(0);
+  }
+  spawnServer(entry) {
+    const state = path18.join(this.options.dataRoot, ".growth-studio");
+    mkdirSync4(state, { recursive: true });
+    const log = openSync2(path18.join(state, "server.log"), "a");
+    const child = spawn3(this.options.nodePath ?? process.execPath, [entry], {
+      cwd: this.options.dataRoot,
+      env: { ...process.env, KGS_ROOT: this.options.dataRoot, PORT: String(this.options.port) },
+      detached: true,
+      windowsHide: true,
+      stdio: ["ignore", log, log]
+    });
+    child.unref();
+    if (child.pid) writeFileSync3(path18.join(state, "server.pid"), String(child.pid));
+    return child;
+  }
+  /**
+   * Waits for the server to answer as `buildId` and run each switched package
+   * at its new version. Gives up at once if the server exits (it crashed on
+   * start); `notRunning` names the packages that did not run on a server
+   * that did come up.
+   */
+  async waitForSwitch(buildId2, packages2, exited) {
+    const origin = `http://127.0.0.1:${this.options.port}`;
+    const deadline = Date.now() + (this.options.healthTimeoutMs ?? 9e4);
+    while (Date.now() < deadline && !exited()) {
+      try {
+        const response = await fetch(`${origin}/api/health`, { signal: AbortSignal.timeout(1500) });
+        if (response.ok && (await response.json()).buildId === buildId2) {
+          if (!packages2.length) return { ok: true, notRunning: [] };
+          const listed = (await (await fetch(`${origin}/api/mini-apps`, { signal: AbortSignal.timeout(5e3) })).json()).miniApps ?? [];
+          const notRunning = packages2.filter((app2) => !listed.some((state) => state.id === app2.id && state.version === app2.version && state.state === "running")).map((app2) => app2.id);
+          return { ok: notRunning.length === 0, notRunning };
+        }
+      } catch {
+      }
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+    return { ok: false, notRunning: [] };
+  }
+  /** Puts back the earliest database copy taken during this switch (by the core or a package migrating), if any. */
+  restoreDatabase(plan, startedAt) {
+    const targets = [
+      ...plan.core ? [{ buildId: plan.core.info.buildId }] : [],
+      ...plan.packages.map((app2) => ({ pkg: app2.id, buildId: app2.info.buildId }))
+    ];
+    const copies = targets.flatMap((target) => {
+      try {
+        const record = JSON.parse(readFileSync3(lastMigrationFile(this.options.dataRoot, target.pkg), "utf8"));
+        return record.buildId === target.buildId && record.at >= startedAt && record.backupPath && existsSync5(record.backupPath) ? [record] : [];
+      } catch {
+        return [];
+      }
+    }).sort((a, b) => a.at.localeCompare(b.at));
+    const earliest = copies[0];
+    if (!earliest?.backupPath) return;
+    const database = this.options.databasePath;
+    for (const suffix of ["-wal", "-shm"]) rmSync4(`${database}${suffix}`, { force: true });
+    copyFileSync(earliest.backupPath, database);
+  }
+  failedBefore(release) {
+    try {
+      const failed = JSON.parse(readFileSync3(failedFile(this.options.dataRoot), "utf8"));
+      return failed[failedKey(release)]?.buildId === release.buildId;
+    } catch {
+      return false;
+    }
+  }
+  markFailed(release, error) {
+    let failed = {};
+    try {
+      failed = JSON.parse(readFileSync3(failedFile(this.options.dataRoot), "utf8"));
+    } catch {
+    }
+    failed[failedKey(release)] = { buildId: release.buildId, reason: error instanceof Error ? error.message : String(error), at: (/* @__PURE__ */ new Date()).toISOString() };
+    mkdirSync4(appHome(this.options.dataRoot), { recursive: true });
+    writeFileSync3(failedFile(this.options.dataRoot), `${JSON.stringify(failed, null, 2)}
+`);
+  }
+  fail(error) {
+    this.phase = "failed";
+    this.error = error instanceof Error ? error.message : String(error);
+  }
+};
+function kernelOf(app2) {
+  const kernel2 = app2.info.kernel;
+  return typeof kernel2 === "string" && SEMVER.test(kernel2) ? kernel2 : void 0;
+}
+function recordMigration(dataRoot, record, pkg) {
+  mkdirSync4(packageHome(dataRoot, pkg), { recursive: true });
+  writeFileSync3(lastMigrationFile(dataRoot, pkg), `${JSON.stringify(record, null, 2)}
+`);
+}
+
+// src/server/mini-app-packages.ts
+async function loadMiniAppPackages(input) {
+  const apps = [];
+  const failures = [];
+  const ids = input.pluginBundle ? installedOrSeeded(input.dataRoot, input.appRoot) : packages_default;
+  for (const id of ids) {
+    try {
+      apps.push(await loadMiniAppPackage(input, id));
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      console.error(`Mini-app package ${id} did not load: ${reason}`);
+      failures.push({ id, reason });
+    }
+  }
+  return { apps, failures };
+}
+async function loadMiniAppPackage(input, id) {
+  const { module, files } = input.pluginBundle ? await importInstalled(input, id) : { module: await importSource(id), files: void 0 };
+  if (module.manifest.id !== id) throw new Error(`the package declares ${module.manifest.id}`);
+  const migrated = runMigrations(input.db, [module.schema], {
+    backup: input.databasePath === ":memory:" ? null : (db) => backupDatabase(db, path19.join(path19.dirname(input.databasePath), "backups")),
+    appVersion: input.appVersion
+  });
+  if (input.pluginBundle && migrated.applied.length && files) {
+    const info = JSON.parse(readFileSync4(path19.join(files.directory, "VERSION.json"), "utf8"));
+    recordMigration(input.dataRoot, { version: info.version, buildId: info.buildId, backupPath: migrated.backupPath, at: (/* @__PURE__ */ new Date()).toISOString() }, id);
+  }
+  return { module, source: "package", ...files ? { files } : {} };
+}
+function installedOrSeeded(dataRoot, appRoot2) {
+  const list = (directory) => existsSync6(directory) ? readdirSync4(directory).filter((name) => /^[a-z0-9][a-z0-9-]*$/.test(name)) : [];
+  return [.../* @__PURE__ */ new Set([...list(path19.join(appHome(dataRoot), "mini-apps")), ...list(path19.join(appRoot2, "mini-apps"))])].sort();
+}
+async function importInstalled(input, id) {
+  const seed = path19.join(input.appRoot, "mini-apps", id);
+  const installed = resolveApp(input.dataRoot, existsSync6(seed) ? seed : null, id);
+  const loaded = await import(pathToFileURL2(path19.join(installed.directory, "server.mjs")).href);
+  if (!loaded.default?.manifest || typeof loaded.default.register !== "function") throw new Error("server.mjs has no defineMiniApp default export");
+  const client = installed.info.client;
+  const files = {
+    directory: installed.directory,
+    client: client && typeof client.script === "string" ? { script: client.script, style: typeof client.style === "string" ? client.style : null } : null
+  };
+  return { module: loaded.default, files };
+}
+async function importSource(id) {
+  const entry = path19.join(path19.dirname(fileURLToPath3(import.meta.url)), "..", "mini-apps", id, "server", "index.ts");
+  return (await import(pathToFileURL2(entry).href)).default;
 }
 
 // src/server/kernel/notifications.ts
@@ -81319,445 +81627,6 @@ var cloudTools = [
 ];
 var cloudToolNames = new Set(cloudTools.map((tool) => tool.name));
 
-// src/server/updater/updater.ts
-import { spawn as spawn3 } from "node:child_process";
-import { copyFileSync, existsSync as existsSync5, mkdirSync as mkdirSync4, openSync as openSync2, readFileSync as readFileSync3, rmSync as rmSync3, writeFileSync as writeFileSync2 } from "node:fs";
-import path20 from "node:path";
-
-// src/plugin/app-versions.ts
-import { cpSync, existsSync as existsSync3, mkdirSync as mkdirSync2, readdirSync, readFileSync as readFileSync2, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
-import path18 from "node:path";
-var appHome = (dataRoot) => path18.join(dataRoot, "app");
-var versionsDirectory = (dataRoot) => path18.join(appHome(dataRoot), "versions");
-var versionDirectory = (dataRoot, version) => path18.join(versionsDirectory(dataRoot), version);
-var pointerFile = (dataRoot) => path18.join(appHome(dataRoot), "current.json");
-var VERSION2 = /^\d+\.\d+\.\d+$/;
-function compareVersions(a, b) {
-  const left = a.split(".").map(Number);
-  const right = b.split(".").map(Number);
-  for (let index = 0; index < 3; index += 1) {
-    const difference = (left[index] ?? 0) - (right[index] ?? 0);
-    if (difference) return Math.sign(difference);
-  }
-  return 0;
-}
-function readVersionInfo(directory) {
-  try {
-    const info = JSON.parse(readFileSync2(path18.join(directory, "VERSION.json"), "utf8"));
-    if (!VERSION2.test(info.version) || typeof info.buildId !== "string" || !info.buildId) return null;
-    if (!existsSync3(path18.join(directory, "server.mjs"))) return null;
-    return info;
-  } catch {
-    return null;
-  }
-}
-function readCurrent(dataRoot) {
-  try {
-    const pointer = JSON.parse(readFileSync2(pointerFile(dataRoot), "utf8"));
-    if (!VERSION2.test(pointer.current)) return null;
-    return { current: pointer.current, previous: pointer.previous && VERSION2.test(pointer.previous) ? pointer.previous : null };
-  } catch {
-    return null;
-  }
-}
-function writeCurrent(dataRoot, pointer) {
-  mkdirSync2(appHome(dataRoot), { recursive: true });
-  const temporary = `${pointerFile(dataRoot)}.${process.pid}.tmp`;
-  writeFileSync(temporary, `${JSON.stringify(pointer, null, 2)}
-`);
-  renameSync(temporary, pointerFile(dataRoot));
-}
-function installFromDirectory(dataRoot, source) {
-  const info = readVersionInfo(source);
-  if (!info) throw new Error(`${source} is not a built Growth Studio (VERSION.json and server.mjs are required)`);
-  const target = versionDirectory(dataRoot, info.version);
-  const existing = readVersionInfo(target);
-  if (existing?.buildId === info.buildId) return { version: info.version, directory: target, info: existing };
-  mkdirSync2(versionsDirectory(dataRoot), { recursive: true });
-  const staging = `${target}.${process.pid}-${Date.now().toString(36)}.staging`;
-  cpSync(source, staging, { recursive: true, filter: (from) => path18.basename(from) !== ".DS_Store" });
-  if (existing) {
-    const replaced = `${target}.${process.pid}-${Date.now().toString(36)}.replaced`;
-    renameSync(target, replaced);
-    renameSync(staging, target);
-    rmSync(replaced, { recursive: true, force: true });
-  } else {
-    try {
-      renameSync(staging, target);
-    } catch (error) {
-      rmSync(staging, { recursive: true, force: true });
-      if (readVersionInfo(target)?.buildId !== info.buildId) throw error;
-    }
-  }
-  return { version: info.version, directory: target, info };
-}
-
-// src/server/updater/installer.ts
-import { execFile as execFile2 } from "node:child_process";
-import { createWriteStream, existsSync as existsSync4, lstatSync, mkdirSync as mkdirSync3, readdirSync as readdirSync2, rmSync as rmSync2, statSync as statSync2 } from "node:fs";
-import path19 from "node:path";
-import { Readable, Transform } from "node:stream";
-import { pipeline } from "node:stream/promises";
-import { fileURLToPath as fileURLToPath2 } from "node:url";
-import { promisify as promisify2 } from "node:util";
-
-// src/server/updater/release.ts
-import { createHash as createHash7, createPublicKey, verify } from "node:crypto";
-import { createReadStream } from "node:fs";
-var RELEASE_PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----
-MCowBQYDK2VwAyEAXL1rETV9FrSLFIy3yStzEN4SMiKeHLj73iZvf44N56U=
------END PUBLIC KEY-----
-`;
-var VERSION3 = /^\d+\.\d+\.\d+$/;
-var DIGEST = /^[0-9a-f]{64}$/;
-function signedPayload(release) {
-  return `kallob-growth-studio
-${release.version}
-${release.buildId}
-${release.sha256}
-${release.size}`;
-}
-function parseRelease(input) {
-  const value = input;
-  if (!value || typeof value !== "object") return null;
-  if (typeof value.version !== "string" || !VERSION3.test(value.version)) return null;
-  if (typeof value.buildId !== "string" || !/^[\w.-]{1,120}$/.test(value.buildId)) return null;
-  if (typeof value.sha256 !== "string" || !DIGEST.test(value.sha256)) return null;
-  if (typeof value.size !== "number" || !Number.isSafeInteger(value.size) || value.size <= 0 || value.size > 200 * 1024 * 1024) return null;
-  if (typeof value.signature !== "string" || !value.signature) return null;
-  if (typeof value.url !== "string" || !/^(https?|file):\/\//.test(value.url)) return null;
-  return { version: value.version, buildId: value.buildId, sha256: value.sha256, size: value.size, signature: value.signature, url: value.url };
-}
-function verifyReleaseSignature(release, publicKeyPem = RELEASE_PUBLIC_KEY) {
-  try {
-    return verify(null, Buffer.from(signedPayload(release)), createPublicKey(publicKeyPem), Buffer.from(release.signature, "base64"));
-  } catch {
-    return false;
-  }
-}
-async function fileDigest(file) {
-  const hash = createHash7("sha256");
-  for await (const chunk of createReadStream(file)) hash.update(chunk);
-  return hash.digest("hex");
-}
-
-// src/server/updater/installer.ts
-var run = promisify2(execFile2);
-var ReleaseRejectedError = class extends Error {
-  constructor(message2) {
-    super(message2);
-    this.name = "ReleaseRejectedError";
-  }
-};
-var PACKAGE_ENTRIES = /* @__PURE__ */ new Set(["server.mjs", "public", "VERSION.json"]);
-async function installRelease(dataRoot, release, options = {}) {
-  const existing = readVersionInfo(versionDirectory(dataRoot, release.version));
-  if (existing?.buildId === release.buildId) return { version: release.version, directory: versionDirectory(dataRoot, release.version), info: existing };
-  if (!verifyReleaseSignature(release, options.publicKey)) throw new ReleaseRejectedError(`Studio ${release.version} is not signed by Kallob`);
-  const work = path19.join(appHome(dataRoot), "downloads", `${release.version}-${process.pid}-${Date.now().toString(36)}`);
-  mkdirSync3(work, { recursive: true });
-  try {
-    const archive = path19.join(work, `studio-${release.version}.tgz`);
-    await download(release, archive, options.fetchImpl ?? fetch);
-    const size = statSync2(archive).size;
-    if (size !== release.size) throw new ReleaseRejectedError(`Studio ${release.version} download is ${size} bytes, expected ${release.size}`);
-    if (await fileDigest(archive) !== release.sha256) throw new ReleaseRejectedError(`Studio ${release.version} download does not match its digest`);
-    const unpacked = path19.join(work, "unpacked");
-    mkdirSync3(unpacked);
-    await extract(archive, unpacked);
-    const info = readVersionInfo(unpacked);
-    if (!info || info.version !== release.version || info.buildId !== release.buildId) throw new ReleaseRejectedError(`Studio ${release.version} package declares ${info ? `${info.version} (${info.buildId})` : "no version"}`);
-    await selfCheck(path19.join(unpacked, "server.mjs"), release, options.nodePath ?? process.execPath);
-    return installFromDirectory(dataRoot, unpacked);
-  } finally {
-    rmSync2(work, { recursive: true, force: true });
-  }
-}
-async function download(release, target, fetchImpl) {
-  if (release.url.startsWith("file://")) {
-    const source = fileURLToPath2(release.url);
-    await pipeline((await import("node:fs")).createReadStream(source), limit(release.size), createWriteStream(target));
-    return;
-  }
-  const response = await fetchImpl(release.url, { signal: AbortSignal.timeout(5 * 6e4) });
-  if (!response.ok || !response.body) throw new Error(`Could not download Studio ${release.version} (${response.status})`);
-  await pipeline(Readable.fromWeb(response.body), limit(release.size), createWriteStream(target));
-}
-function limit(size) {
-  let received = 0;
-  return new Transform({
-    transform(chunk, _encoding, callback) {
-      received += chunk.length;
-      if (received > size) callback(new ReleaseRejectedError("Studio download is larger than announced"));
-      else callback(null, chunk);
-    }
-  });
-}
-async function extract(archive, target) {
-  const { stdout } = await run("tar", ["-tzf", archive], { maxBuffer: 16 * 1024 * 1024 });
-  for (const raw of stdout.split(/\r?\n/)) {
-    const entry = raw.trim().replace(/^\.\//, "");
-    if (!entry || entry === "." || entry === "./") continue;
-    const parts = entry.split("/").filter(Boolean);
-    if (entry.startsWith("/") || /^[A-Za-z]:/.test(entry) || entry.includes("\\") || parts.includes("..") || !PACKAGE_ENTRIES.has(parts[0])) {
-      throw new ReleaseRejectedError(`Studio package contains an unexpected path: ${raw}`);
-    }
-  }
-  await run("tar", ["-xzf", archive, "-C", target]);
-  const walk2 = (directory) => {
-    for (const name of readdirSync2(directory)) {
-      const full = path19.join(directory, name);
-      const stat = lstatSync(full);
-      if (stat.isSymbolicLink()) throw new ReleaseRejectedError(`Studio package contains a link: ${path19.relative(target, full)}`);
-      if (stat.isDirectory()) walk2(full);
-    }
-  };
-  walk2(target);
-  if (!existsSync4(path19.join(target, "public", "index.html"))) throw new ReleaseRejectedError("Studio package has no UI");
-}
-async function selfCheck(serverEntry, release, nodePath) {
-  let stdout = "";
-  try {
-    ({ stdout } = await run(nodePath, [serverEntry, "--self-check"], { timeout: 3e4, env: { ...process.env, KGS_SELF_CHECK: "1" } }));
-  } catch (error) {
-    throw new ReleaseRejectedError(`Studio ${release.version} failed its self-check: ${error instanceof Error ? error.message.split("\n")[0] : String(error)}`);
-  }
-  const line = stdout.trim().split(/\r?\n/).pop() ?? "";
-  let report = {};
-  try {
-    report = JSON.parse(line);
-  } catch {
-  }
-  if (report.version !== release.version || report.buildId !== release.buildId) throw new ReleaseRejectedError(`Studio ${release.version} self-check reported ${line || "nothing"}`);
-}
-
-// src/server/updater/updater.ts
-function parseAnnouncement(body) {
-  const value = body ?? {};
-  const release = parseRelease("release" in value ? value.release : body);
-  const studio = typeof value.required?.studio === "string" && /^\d+\.\d+\.\d+$/.test(value.required.studio) ? value.required.studio : null;
-  const miniApps2 = {};
-  const listed = value.required?.miniApps;
-  if (listed && typeof listed === "object") {
-    for (const [id, version] of Object.entries(listed)) if (typeof version === "string" && /^\d+\.\d+\.\d+$/.test(version)) miniApps2[id] = version;
-  }
-  return { release, required: { studio, miniApps: miniApps2 } };
-}
-var FeedReleaseSource = class {
-  constructor(url) {
-    this.url = url;
-  }
-  url;
-  async latest() {
-    const body = this.url.startsWith("file://") ? JSON.parse(readFileSync3(new URL(this.url), "utf8")) : await (await fetch(this.url, { signal: AbortSignal.timeout(15e3) })).json();
-    return parseAnnouncement(body);
-  }
-};
-var lastMigrationFile = (dataRoot) => path20.join(appHome(dataRoot), "last-migration.json");
-var failedFile = (dataRoot) => path20.join(appHome(dataRoot), "failed.json");
-var StudioUpdater = class {
-  constructor(options) {
-    this.options = options;
-  }
-  options;
-  phase = "idle";
-  available = null;
-  installed = null;
-  checkedAt = null;
-  error = null;
-  preparing = null;
-  required = { studio: null, miniApps: {} };
-  checkedAtMs = 0;
-  timer = null;
-  status() {
-    return {
-      enabled: this.options.enabled,
-      version: this.options.version,
-      buildId: this.options.buildId,
-      phase: this.phase,
-      available: this.available ? { version: this.available.version, buildId: this.available.buildId } : null,
-      ready: this.installed?.version ?? null,
-      checkedAt: this.checkedAt,
-      error: this.error
-    };
-  }
-  /** Checks shortly after start and then every few hours, downloading what it finds. */
-  startBackgroundChecks(firstDelayMs = 3e4, everyMs = 6 * 60 * 6e4) {
-    if (!this.options.enabled || this.timer) return;
-    const tick = () => {
-      void this.prepare().catch(() => void 0);
-    };
-    this.timer = setTimeout(tick, firstDelayMs);
-    this.timer.unref();
-    const interval = setInterval(tick, everyMs);
-    interval.unref();
-  }
-  /** Asks the release source for a newer Studio. */
-  async check() {
-    if (!this.options.enabled) return null;
-    const source = this.options.source();
-    if (!source) return null;
-    if (this.phase === "idle" || this.phase === "failed") this.phase = "checking";
-    try {
-      const announcement = await source.latest({ version: this.options.version, buildId: this.options.buildId });
-      const release = announcement.release;
-      this.required = announcement.required;
-      this.checkedAtMs = Date.now();
-      this.checkedAt = new Date(this.checkedAtMs).toISOString();
-      const newer = release && compareVersions(release.version, this.options.version) > 0 && !this.failedBefore(release) ? release : null;
-      this.available = newer;
-      if (this.phase === "checking") this.phase = "idle";
-      return newer;
-    } catch (error) {
-      this.fail(error);
-      return null;
-    }
-  }
-  /**
-   * Whether a mini-app may open on this Studio: Kallob Cloud's required
-   * version for it (or for the Studio) against the local one. Uses an answer
-   * at most `maxAgeMs` old; without Kallob Cloud nothing is required.
-   */
-  async requirement(id, localVersion, maxAgeMs = 6e4) {
-    if (this.options.enabled && Date.now() - this.checkedAtMs >= maxAgeMs) await this.check();
-    const required = this.required.miniApps[id] ?? null;
-    const studioTooOld = Boolean(this.required.studio && compareVersions(this.options.version, this.required.studio) < 0);
-    const miniAppTooOld = Boolean(required && (!localVersion || compareVersions(localVersion, required) < 0));
-    return { id, local: localVersion, required, updateRequired: this.options.enabled && (studioTooOld || miniAppTooOld) };
-  }
-  /** Checks, then downloads and installs the newer release without switching to it. */
-  prepare() {
-    if (this.preparing) return this.preparing;
-    this.preparing = (async () => {
-      const release = await this.check();
-      if (!release) return null;
-      if (this.installed?.info.buildId === release.buildId) return this.installed;
-      this.phase = "downloading";
-      try {
-        this.installed = await installRelease(this.options.dataRoot, release, { publicKey: this.options.publicKey, nodePath: this.options.nodePath });
-        this.phase = "ready";
-        this.error = null;
-        return this.installed;
-      } catch (error) {
-        this.fail(error);
-        this.markFailed(release, error);
-        return null;
-      }
-    })().finally(() => {
-      this.preparing = null;
-    });
-    return this.preparing;
-  }
-  /**
-   * Installs the newer release if needed and switches to it. Resolves `false`
-   * when there is nothing to switch to; otherwise this process ends (the new
-   * server, or after a failed switch the previous one, takes over the port).
-   */
-  async apply() {
-    const app2 = await this.prepare();
-    if (!app2) return false;
-    this.phase = "switching";
-    await this.switchTo(app2);
-    return true;
-  }
-  async switchTo(app2) {
-    const { dataRoot, port: port2 } = this.options;
-    const exit = this.options.exit ?? ((code) => process.exit(code));
-    const previous = this.options.version;
-    const pointer = readCurrent(dataRoot);
-    writeCurrent(dataRoot, { current: app2.version, previous });
-    await this.options.stop();
-    const child = this.spawnServer(path20.join(app2.directory, "server.mjs"));
-    let exited = false;
-    child.once("exit", () => {
-      exited = true;
-    });
-    if (await this.waitForHealth(app2.info.buildId, () => exited)) {
-      exit(0);
-      return;
-    }
-    try {
-      if (child.pid) process.kill(child.pid, "SIGTERM");
-    } catch {
-    }
-    await new Promise((resolve) => setTimeout(resolve, 1e3));
-    this.restoreDatabase(app2);
-    writeCurrent(dataRoot, pointer ?? { current: previous, previous: null });
-    this.markFailed({ version: app2.version, buildId: app2.info.buildId }, new Error(`Studio ${app2.version} did not start on port ${port2}`));
-    this.spawnServer(path20.join(versionDirectory(dataRoot, previous), "server.mjs"));
-    exit(0);
-  }
-  spawnServer(entry) {
-    const state = path20.join(this.options.dataRoot, ".growth-studio");
-    mkdirSync4(state, { recursive: true });
-    const log = openSync2(path20.join(state, "server.log"), "a");
-    const child = spawn3(this.options.nodePath ?? process.execPath, [entry], {
-      cwd: this.options.dataRoot,
-      env: { ...process.env, KGS_ROOT: this.options.dataRoot, PORT: String(this.options.port) },
-      detached: true,
-      windowsHide: true,
-      stdio: ["ignore", log, log]
-    });
-    child.unref();
-    if (child.pid) writeFileSync2(path20.join(state, "server.pid"), String(child.pid));
-    return child;
-  }
-  /** Waits for the new server to answer as `buildId`; gives up at once if it exits (it crashed on start). */
-  async waitForHealth(buildId2, exited) {
-    const deadline = Date.now() + (this.options.healthTimeoutMs ?? 9e4);
-    while (Date.now() < deadline && !exited()) {
-      try {
-        const response = await fetch(`http://127.0.0.1:${this.options.port}/api/health`, { signal: AbortSignal.timeout(1500) });
-        if (response.ok && (await response.json()).buildId === buildId2) return true;
-      } catch {
-      }
-      await new Promise((resolve) => setTimeout(resolve, 300));
-    }
-    return false;
-  }
-  /** Puts back the database copy the failed version took before migrating, if it migrated. */
-  restoreDatabase(app2) {
-    let record = null;
-    try {
-      record = JSON.parse(readFileSync3(lastMigrationFile(this.options.dataRoot), "utf8"));
-    } catch {
-      return;
-    }
-    if (record.buildId !== app2.info.buildId || !record.backupPath || !existsSync5(record.backupPath)) return;
-    const database = this.options.databasePath;
-    for (const suffix of ["-wal", "-shm"]) rmSync3(`${database}${suffix}`, { force: true });
-    copyFileSync(record.backupPath, database);
-  }
-  failedBefore(release) {
-    try {
-      const failed = JSON.parse(readFileSync3(failedFile(this.options.dataRoot), "utf8"));
-      return failed[release.version]?.buildId === release.buildId;
-    } catch {
-      return false;
-    }
-  }
-  markFailed(release, error) {
-    let failed = {};
-    try {
-      failed = JSON.parse(readFileSync3(failedFile(this.options.dataRoot), "utf8"));
-    } catch {
-    }
-    failed[release.version] = { buildId: release.buildId, reason: error instanceof Error ? error.message : String(error), at: (/* @__PURE__ */ new Date()).toISOString() };
-    mkdirSync4(appHome(this.options.dataRoot), { recursive: true });
-    writeFileSync2(failedFile(this.options.dataRoot), `${JSON.stringify(failed, null, 2)}
-`);
-  }
-  fail(error) {
-    this.phase = "failed";
-    this.error = error instanceof Error ? error.message : String(error);
-  }
-};
-function recordMigration(dataRoot, record) {
-  mkdirSync4(appHome(dataRoot), { recursive: true });
-  writeFileSync2(lastMigrationFile(dataRoot), `${JSON.stringify(record, null, 2)}
-`);
-}
-
 // src/server/updater/cloud-source.ts
 var CloudReleaseSource = class {
   constructor(cloud) {
@@ -81765,7 +81634,7 @@ var CloudReleaseSource = class {
   }
   cloud;
   async latest(running) {
-    const nothing = { release: null, required: { studio: null, miniApps: {} } };
+    const nothing = { release: null, packages: {}, required: { studio: null, miniApps: {} } };
     try {
       return parseAnnouncement(await this.cloud.callTool("growth_studio_release", { version: running.version, build_id: running.buildId }));
     } catch (error) {
@@ -81783,9 +81652,10 @@ if (process.argv.includes("--self-check")) {
 }
 mkdirSync5(projectRoot, { recursive: true });
 process.chdir(projectRoot);
-var app = (0, import_express11.default)();
-var databasePath = process.env.KGS_DB_PATH ?? path21.join(projectRoot, ".growth-studio", "growth-studio.db");
+var app = (0, import_express10.default)();
+var databasePath = process.env.KGS_DB_PATH ?? path20.join(projectRoot, ".growth-studio", "growth-studio.db");
 var store = new StudioStore(databasePath, { appVersion: buildId });
+if (pluginBundle) noteStudioStarted(projectRoot, studioVersion);
 if (store.migrations.applied.length) {
   if (pluginBundle) recordMigration(projectRoot, { version: studioVersion, buildId, backupPath: store.migrations.backupPath, at: (/* @__PURE__ */ new Date()).toISOString() });
   console.log(`Database migrated: ${store.migrations.applied.map((step) => `${step.module}/${step.id}`).join(", ")}${store.migrations.backupPath ? ` (copy before migrating: ${store.migrations.backupPath})` : ""}`);
@@ -81797,14 +81667,14 @@ var credentials2 = new CredentialVault();
 var googleDrive = new GoogleDriveConnector(credentials2, `http://127.0.0.1:${port}/api/integrations/google-drive/callback`);
 var sourceGrowthMcpOverrides = pluginBundle ? [] : [
   `mcp_servers.kallob-growth.command=${JSON.stringify(process.execPath)}`,
-  `mcp_servers.kallob-growth.args=${JSON.stringify(["--import", "tsx", path21.join(appRoot, "src", "plugin", "launcher.ts")])}`,
+  `mcp_servers.kallob-growth.args=${JSON.stringify(["--import", "tsx", path20.join(appRoot, "src", "plugin", "launcher.ts")])}`,
   `mcp_servers.kallob-growth.cwd=${JSON.stringify(appRoot)}`,
   `mcp_servers.kallob-growth.env.PORT=${JSON.stringify(String(port))}`,
   `mcp_servers.kallob-growth.env.KGS_ROOT=${JSON.stringify(projectRoot)}`,
   `mcp_servers.kallob-growth.env.KALLOB_CLOUD_API_ORIGIN=${JSON.stringify(cloudApiOrigin)}`
 ];
 var codexDesktop = new CodexDesktopBridge({
-  registryPath: path21.join(projectRoot, ".growth-studio", "codex-desktop-tasks.json"),
+  registryPath: path20.join(projectRoot, ".growth-studio", "codex-desktop-tasks.json"),
   // Source checkouts do not have the packaged plugin's MCP manifest. Give every
   // durable Codex task the same local kallob-growth launcher explicitly.
   configOverrides: sourceGrowthMcpOverrides,
@@ -81824,10 +81694,12 @@ var updater = new StudioUpdater({
   dataRoot: projectRoot,
   version: studioVersion,
   buildId,
+  kernelVersion: kernelManifest.version,
   port,
   databasePath,
   source: () => process.env.KGS_UPDATE_FEED ? new FeedReleaseSource(process.env.KGS_UPDATE_FEED) : new CloudReleaseSource(kallobCloud),
-  stop: () => stopServing()
+  stop: () => stopServing(),
+  addMiniApp: (id) => addInstalledMiniApp(id)
 });
 var forcedUpdate = null;
 function forceUpdate() {
@@ -81839,9 +81711,39 @@ function forceUpdate() {
 }
 var zaloZca = new ZaloZcaConnector(credentials2);
 var kernel = new ProductKernel(store, googleDrive, codexDesktop, projectRoot, new ComposioConnector(credentials2), new ScrapeCreatorsConnector(credentials2), zaloZca, methodPrompts);
-var miniApps = createMiniAppRuntime({ store, kernel, codexDesktop, prompts: methodPrompts, attention: attentionPort(events, (kind, current) => notifications.reconcile(kind, current)), projectRoot, port, reconcileResults: () => kernel.reconcileTaskResults(), databasePath, zaloZca });
+var miniAppAttention = attentionPort(events, (kind, current) => notifications.reconcile(kind, current));
+var packages = await loadMiniAppPackages({ pluginBundle, dataRoot: projectRoot, appRoot, db: store.database, databasePath, appVersion: buildId });
+var miniApps = createMiniAppHost({
+  apps: [...builtInMiniApps.map((module) => ({ module, source: "built-in" })), ...packages.apps],
+  coreVersion: kernelManifest.version,
+  sdkFor: (module) => ({
+    manifest: module.manifest,
+    db: store.database,
+    store,
+    kernel,
+    // A mini-app's tasks remember which app and version made them (an update waits for its running work).
+    tasks: {
+      createTask: (input) => store.createTask(input.source ? { ...input, source: { ...input.source, app: { id: module.manifest.id, version: module.manifest.version } } } : input),
+      getTask: (id) => store.getTask(id),
+      listTasks: (limit2) => store.listTasks(limit2),
+      updateTask: (id, patch, expectedRevision) => store.updateTask(id, patch, expectedRevision)
+    },
+    events: store,
+    codex: codexDesktop,
+    prompts: methodPrompts,
+    attention: miniAppAttention,
+    reconcileResults: () => kernel.reconcileTaskResults(),
+    integrations: { zaloZca },
+    dataRoot: projectRoot,
+    databasePath,
+    port,
+    router: () => import_express10.default.Router(),
+    launcherOnly: launcherOnly(port)
+  })
+});
+kernel.useTaskKinds(miniApps.taskKinds);
 app.disable("x-powered-by");
-app.use(import_express11.default.json({ limit: "12mb" }));
+app.use(import_express10.default.json({ limit: "12mb" }));
 app.get("/api/notifications", (_request, response) => {
   response.set("cache-control", "no-store").json(notifications.list());
 });
@@ -81858,14 +81760,30 @@ app.get("/api/notifications/stream", (request2, response) => {
   });
 });
 app.get("/api/health", (_request, response) => {
-  response.json({ ok: true, app: "Kallob Growth Studio", version: studioVersion, buildId, versions: studioVersions(), apiOrigin: cloudApiOrigin, pid: process.pid, root: projectRoot });
+  response.json({ ok: true, app: "Kallob Growth Studio", version: studioVersion, buildId, versions: { kernel: kernelManifest.version, miniApps: Object.fromEntries(miniApps.states().map((state) => [state.id, state.version])) }, apiOrigin: cloudApiOrigin, pid: process.pid, root: projectRoot });
 });
 app.get("/api/updates", (_request, response) => {
   response.json(updater.status());
 });
+app.get("/api/updates/notice", (_request, response) => {
+  const notice = readUpdateNotice(projectRoot);
+  response.json({ notice: notice && notice.to === studioVersion ? notice : null });
+});
+app.post("/api/updates/notice/dismiss", (_request, response) => {
+  clearUpdateNotice(projectRoot);
+  response.json({ notice: null });
+});
+function busyMiniApps() {
+  const running = new Set(codexDesktop.runningThreads());
+  const busy = /* @__PURE__ */ new Set();
+  for (const task of store.listTasks(500)) {
+    if (task.codexThreadId && running.has(task.codexThreadId) && task.status !== "archived") busy.add(task.source.app?.id ?? task.source.type);
+  }
+  return busy;
+}
 app.get("/api/updates/mini-apps/:id", (request2, response, next) => {
-  const local = studioVersions().miniApps[request2.params.id] ?? null;
-  updater.requirement(request2.params.id, local).then((requirement) => response.json(requirement), next);
+  const local = miniApps.states().find((state) => state.id === request2.params.id && state.state === "running")?.version ?? null;
+  updater.requirement(request2.params.id, local).then((requirement) => response.json({ ...requirement, busy: busyMiniApps().has(request2.params.id) }), next);
 });
 app.post("/api/updates/check", (_request, response, next) => {
   updater.check().then(() => {
@@ -81873,17 +81791,21 @@ app.post("/api/updates/check", (_request, response, next) => {
     response.json(updater.status());
   }, next);
 });
-app.post("/api/updates/apply", (_request, response, next) => {
-  updater.prepare().then((app2) => {
-    if (!app2) return response.json({ switching: false, status: updater.status() });
-    response.status(202).json({ switching: true, version: app2.version });
+app.post("/api/updates/apply", (request2, response, next) => {
+  const miniApp = typeof request2.body?.miniApp === "string" ? request2.body.miniApp : void 0;
+  if (miniApp && request2.body?.now !== true && busyMiniApps().has(miniApp)) {
+    return response.status(409).json({ error: "This mini-app has Codex work in progress; it updates when that is done.", code: "busy" });
+  }
+  updater.plan({ miniApp }).then((plan) => {
+    if (!plan.core && !plan.packages.length) return response.json({ switching: false, status: updater.status() });
+    response.status(202).json({ switching: true, version: plan.core?.version ?? null, miniApps: plan.packages.map((app2) => ({ id: app2.id, version: app2.version })) });
     setTimeout(() => {
-      void updater.apply().catch((error) => console.error("Studio update failed", error));
+      void updater.apply({ miniApp }).catch((error) => console.error("Studio update failed", error));
     }, 100);
   }, next);
 });
 app.get("/api/kallob-cloud/status", (_request, response, next) => {
-  kallobCloud.status().then((status) => response.json(status), next);
+  kallobCloud.status().then(async (status) => response.json({ ...status, account: status.connected ? await kallobCloud.signedInAccount().catch(() => null) : null })).catch(next);
 });
 app.post("/api/kallob-cloud/connect", (_request, response, next) => {
   kallobCloud.beginConnect().then((receipt) => response.json(receipt), next);
@@ -82327,6 +82249,31 @@ app.post("/api/context-reviews/:id/findings/:findingId/task", (request2, respons
     next(error);
   }
 });
+var packageClients = /* @__PURE__ */ new Map();
+var packageFiles = import_express10.default.Router();
+function servePackageFiles(loaded) {
+  if (!loaded.files?.client) return;
+  const base = `/mini-app-packages/${loaded.module.manifest.id}/${loaded.module.manifest.version}`;
+  packageFiles.use(base, import_express10.default.static(loaded.files.directory, { index: false, dotfiles: "deny", immutable: true, maxAge: "365d" }));
+  packageClients.set(loaded.module.manifest.id, { script: `${base}/${loaded.files.client.script}`, style: loaded.files.client.style ? `${base}/${loaded.files.client.style}` : null });
+}
+packages.apps.forEach(servePackageFiles);
+app.use(packageFiles);
+async function addInstalledMiniApp(id) {
+  const loaded = await loadMiniAppPackage({ pluginBundle, dataRoot: projectRoot, appRoot, db: store.database, databasePath, appVersion: buildId }, id);
+  const state = await miniApps.add(loaded);
+  if (state.state === "running") servePackageFiles(loaded);
+  packages.failures = packages.failures.filter((failure) => failure.id !== id);
+  console.log(`Added mini-app ${id} ${state.version} (${state.state}${state.reason ? `: ${state.reason}` : ""})`);
+  return state.state === "running";
+}
+app.get("/api/mini-apps", (_request, response) => {
+  response.json({
+    core: kernelManifest.version,
+    miniApps: miniApps.states().map((state) => ({ ...state, client: state.state === "running" ? packageClients.get(state.id) ?? null : null })),
+    failedPackages: packages.failures
+  });
+});
 app.use(miniApps.router);
 app.get("/api/tasks", (request2, response, next) => {
   try {
@@ -82364,13 +82311,21 @@ app.post("/api/tasks/:id/assign-codex", async (request2, response, next) => {
   }
 });
 var launcherOnly2 = launcherOnly(port);
-var studioCodexTools = cloudTools;
 app.get("/api/plugin/tools", launcherOnly2, (_request, response) => {
-  response.json({ tools: studioCodexTools });
+  response.json({ tools: [...[...miniApps.codexTools.values()].map((tool) => tool.definition), ...cloudTools] });
 });
 app.post("/api/plugin/tools/:name", launcherOnly2, async (request2, response) => {
   const name = String(request2.params.name);
-  if (!studioCodexTools.some((tool) => tool.name === name)) {
+  const miniAppTool = miniApps.codexTools.get(name);
+  if (miniAppTool) {
+    const args = request2.body?.arguments && typeof request2.body.arguments === "object" ? request2.body.arguments : {};
+    try {
+      return response.json({ toolResult: await miniAppTool.call(args) });
+    } catch (error) {
+      return response.status(400).json({ error: error instanceof Error ? error.message : String(error), code: "tool_failed" });
+    }
+  }
+  if (!cloudTools.some((tool) => tool.name === name)) {
     return response.status(404).json({ error: `Growth Studio has no tool ${name}. Update Growth Studio.`, code: "unknown_tool" });
   }
   const outcome = await callCodexCloudTool(kallobCloud, {
@@ -82510,7 +82465,7 @@ app.post("/api/codex-bridge/requests/:id/cancel", (request2, response, next) => 
   }
 });
 if (production) {
-  app.use(import_express11.default.static(staticRoot));
+  app.use(import_express10.default.static(staticRoot));
   app.use("/assets", (_request, response) => {
     response.status(404).end();
   });
@@ -82532,7 +82487,7 @@ app.use((error, _request, response, _next) => {
   response.status(status).json({ error: message2 });
 });
 await googleDrive.initialize();
-await kernel.ensureStarterConnection(path21.resolve(projectRoot, "..", "program-resources"));
+await kernel.ensureStarterConnection(path20.resolve(projectRoot, "..", "program-resources"));
 if (pluginBundle) await kernel.ensureFirstRunContextWorkspace();
 await kernel.startLocalFolderLifecycle();
 notifications.reconcileKernel();
@@ -82540,10 +82495,12 @@ kernel.startTaskResultWatcher();
 codexDesktop.setTurnListener((outcome) => {
   void kernel.handleCodexTurnEnded(outcome).catch((error) => console.error("Could not follow up a Codex turn", error));
 });
-miniApps.start();
+var resumedTurns = codexDesktop.resumeTurns();
+if (resumedTurns) console.log(`Following ${resumedTurns} Codex turn(s) left by the previous start`);
+void miniApps.start();
 var server = await listenWhenFree();
 console.log(`Kallob Growth Studio is running at http://127.0.0.1:${port}`);
-updater.startBackgroundChecks();
+updater.startBackgroundChecks(5e3);
 async function listenWhenFree() {
   for (let attempt = 0; ; attempt += 1) {
     try {
@@ -82559,7 +82516,7 @@ async function listenWhenFree() {
 }
 async function stopServing() {
   kernel.stopLocalFolderLifecycle();
-  miniApps.stop();
+  await miniApps.stop();
   await new Promise((resolve) => {
     server.close(() => resolve());
     server.closeAllConnections();
@@ -82571,11 +82528,10 @@ var shutdown = () => {
   if (shuttingDown) return;
   shuttingDown = true;
   kernel.stopLocalFolderLifecycle();
-  miniApps.stop();
-  server.close(() => {
+  void miniApps.stop().finally(() => server.close(() => {
     store.close();
     process.exit(0);
-  });
+  }));
   setTimeout(() => process.exit(1), 5e3).unref();
 };
 process.once("SIGINT", shutdown);
