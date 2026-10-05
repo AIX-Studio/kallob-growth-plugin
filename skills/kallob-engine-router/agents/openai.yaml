@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kallob Engine Router"
+  short_description: "Route and run the right local-first business engine"
+  default_prompt: "Choose and run the smallest Kallob engine workflow for my business outcome."

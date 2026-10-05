@@ -1,0 +1,21 @@
+{
+  "name": "kallob-growth",
+  "interface": {
+    "displayName": "Kallob Growth"
+  },
+  "plugins": [
+    {
+      "name": "kallob-business-ai-engine-packs",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/AIX-Studio/kallob-growth-plugin",
+        "ref": "growth-plugin-v0.10.0"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

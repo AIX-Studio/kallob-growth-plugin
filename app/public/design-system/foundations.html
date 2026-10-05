@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="vi" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KGS Design System — Nền tảng</title>
+    <link rel="stylesheet" href="/design-system/design-system.css" />
+    <script defer src="/design-system/design-system.js"></script>
+  </head>
+  <body>
+    <div class="ds-shell">
+      <aside class="ds-sidebar">
+        <a class="ds-brand" href="/design-system/"><span class="ds-brand-mark">K</span><span><strong>KGS Design System</strong><small>Growth Studio · Local</small></span></a>
+        <nav class="ds-nav" aria-label="Điều hướng Design System">
+          <div class="ds-nav-label">Reference</div>
+          <a href="/design-system/">Tổng quan</a>
+          <a class="active" href="/design-system/foundations.html">Nền tảng</a>
+          <a href="/design-system/components.html">Components</a>
+          <a href="/design-system/patterns.html">Patterns</a>
+        </nav>
+        <div class="ds-sidebar-footer"><button class="ds-button secondary" type="button" data-theme-toggle>Đổi giao diện</button></div>
+      </aside>
+      <main class="ds-main">
+        <header class="ds-topbar"><span>Kallob / Design System / Nền tảng</span><span class="ds-status">Foundations</span></header>
+        <div class="ds-content">
+          <section class="ds-hero compact">
+            <div class="ds-eyebrow">Foundations</div>
+            <h1>Nền tảng thị giác</h1>
+            <p>Token tạo ra nhịp điệu nhất quán giữa shell, mini-app, drawer, form và bảng dữ liệu. Mỗi giá trị phải có vai trò rõ, không được tuỳ hứng theo từng màn hình.</p>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Color</span><h2>Màu theo ngữ nghĩa</h2></div><p>Accent chỉ dùng để chỉ hành động, lựa chọn hoặc tín hiệu có ý nghĩa.</p></div>
+            <div class="ds-swatches">
+              <div class="ds-swatch"><i style="--swatch:#0b1210"></i><strong>Background</strong><code>#0B1210</code></div>
+              <div class="ds-swatch"><i style="--swatch:#121b18"></i><strong>Card</strong><code>#121B18</code></div>
+              <div class="ds-swatch"><i style="--swatch:#edf4f0"></i><strong>Foreground</strong><code>#EDF4F0</code></div>
+              <div class="ds-swatch"><i style="--swatch:#2bb6aa"></i><strong>Primary</strong><code>#2BB6AA</code></div>
+              <div class="ds-swatch"><i style="--swatch:#93a09b"></i><strong>Muted</strong><code>#93A09B</code></div>
+              <div class="ds-swatch"><i style="--swatch:#1c302a"></i><strong>Selected</strong><code>#1C302A</code></div>
+              <div class="ds-swatch"><i style="--swatch:#58c991"></i><strong>Success</strong><code>#58C991</code></div>
+              <div class="ds-swatch"><i style="--swatch:#d6a64b"></i><strong>Warning</strong><code>#D6A64B</code></div>
+              <div class="ds-swatch"><i style="--swatch:#ef6f78"></i><strong>Danger</strong><code>#EF6F78</code></div>
+            </div>
+            <div class="ds-do-dont">
+              <div class="do"><strong>Nên</strong><p>Dùng primary cho CTA chính, selected state và focus ring.</p></div>
+              <div class="dont"><strong>Không nên</strong><p>Dùng teal làm màu trang trí cho mọi heading, border và icon.</p></div>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Typography</span><h2>Thang chữ có vai trò</h2></div><p>Không dùng chữ nhỏ để “nhét vừa”. Hãy sửa cấu trúc hoặc wrapping trước.</p></div>
+            <div class="ds-callout"><strong>Mặc định toàn KGS</strong><p>Inter Body 13/20 cho nội dung và giá trị; Control 13/20 cho các trường nhập liệu; Label 12/16 cho nhãn. Chỉ đổi cỡ chữ bằng một vai trò có tên trong thang bên dưới.</p></div>
+            <div class="ds-type-table">
+              <div class="ds-type-row"><span>Page title</span><strong class="sample-page">Thị trường</strong><code>36px / 42px</code></div>
+              <div class="ds-type-row"><span>Section title</span><strong class="sample-section">Nhóm người cần lắng nghe</strong><code>22px / 28px</code></div>
+              <div class="ds-type-row"><span>Small title</span><strong class="sample-small-title">Định nghĩa phạm vi</strong><code>19px / 25px</code></div>
+              <div class="ds-type-row"><span>Body large</span><span class="sample-body-large">Một câu mô tả giúp người dùng định hướng.</span><code>15px / 25px</code></div>
+              <div class="ds-type-row"><span>Body</span><span class="sample-body">Nội dung vận hành, mô tả và dữ liệu trong form.</span><code>13px / 20px</code></div>
+              <div class="ds-type-row"><span>Label</span><strong class="sample-label">TÊN PHẠM VI LẮNG NGHE</strong><code>12px / 16px</code></div>
+              <div class="ds-type-row"><span>Caption</span><span class="sample-caption">Cập nhật 19:26 · 03/10/26</span><code>11px / 16px</code></div>
+              <div class="ds-type-row"><span>Micro</span><span class="sample-micro">V1 · LOCAL</span><code>10px / 14px</code></div>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Spacing</span><h2>Nhịp 4px</h2></div><p>Khoảng cách thể hiện quan hệ: gần cho liên quan, xa cho chuyển nhóm.</p></div>
+            <div class="ds-spacing-list">
+              <div><code>4</code><i style="--space:4px"></i><span>Icon gap nhỏ</span></div>
+              <div><code>8</code><i style="--space:8px"></i><span>Control nội bộ</span></div>
+              <div><code>12</code><i style="--space:12px"></i><span>Field compact</span></div>
+              <div><code>16</code><i style="--space:16px"></i><span>Component gap</span></div>
+              <div><code>24</code><i style="--space:24px"></i><span>Nhóm nội dung</span></div>
+              <div><code>36</code><i style="--space:36px"></i><span>Section</span></div>
+              <div><code>48</code><i style="--space:48px"></i><span>Page rhythm</span></div>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Geometry</span><h2>Radius, border và elevation</h2></div></div>
+            <div class="ds-grid three">
+              <article class="ds-card radius-demo"><h3>8px · Controls</h3><p>Input, button, chip lớn và các control có tương tác.</p></article>
+              <article class="ds-card radius-demo large"><h3>14px · Surfaces</h3><p>Panel, collection, drawer section và grouped content.</p></article>
+              <article class="ds-card shadow-demo"><h3>Elevation · Overlay</h3><p>Chỉ drawer, menu và overlay tách khỏi mặt phẳng nội dung.</p></article>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Accessibility</span><h2>Đọc được, điều khiển được</h2></div></div>
+            <div class="ds-checklist">
+              <label><input type="checkbox" checked disabled /> Text thông thường đạt tương phản tối thiểu 4.5:1</label>
+              <label><input type="checkbox" checked disabled /> Focus ring luôn thấy được trên nền tối và sáng</label>
+              <label><input type="checkbox" checked disabled /> Trạng thái có text hoặc icon, không truyền đạt chỉ bằng màu</label>
+              <label><input type="checkbox" checked disabled /> Target tương tác tối thiểu 40px; ưu tiên 44px trên mobile</label>
+              <label><input type="checkbox" checked disabled /> Heading theo thứ tự, label gắn đúng với control</label>
+              <label><input type="checkbox" checked disabled /> Animation tôn trọng prefers-reduced-motion; sidebar đổi trạng thái tức thời và không dùng animation</label>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

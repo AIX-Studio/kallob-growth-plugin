@@ -1,0 +1,26 @@
+{
+  "name": "kallob-business-ai-engine-packs",
+  "version": "0.10.0",
+  "description": "Run Kallob Business AI engines from the Kallob Cloud engine library on your own local workspace.",
+  "author": {
+    "name": "AIX Studio / Kallob"
+  },
+  "license": "Proprietary",
+  "keywords": ["business-ai", "engine-packs", "sme", "local-first"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Kallob Engine Router",
+    "shortDescription": "One router for Kallob Business AI engine guides",
+    "longDescription": "Route a business outcome to the right Kallob engine from the Kallob Cloud engine library (your plan decides which engines are open) and run it on one shared local-first Business AI workspace. Your work stays on this machine.",
+    "developerName": "AIX Studio / Kallob",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Route my business outcome to the right Kallob engine.",
+      "Choose the smallest coherent set of engines for my business foundation.",
+      "Run the selected engine using my shared Business AI workspace."
+    ],
+    "brandColor": "#0E2B24"
+  },
+  "mcpServers": "./.mcp.json"
+}

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="vi" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KGS Design System — Tổng quan</title>
+    <link rel="stylesheet" href="/design-system/design-system.css" />
+    <script defer src="/design-system/design-system.js"></script>
+  </head>
+  <body>
+    <div class="ds-shell">
+      <aside class="ds-sidebar">
+        <a class="ds-brand" href="/design-system/">
+          <span class="ds-brand-mark">K</span>
+          <span><strong>KGS Design System</strong><small>Growth Studio · Local</small></span>
+        </a>
+        <nav class="ds-nav" aria-label="Điều hướng Design System">
+          <div class="ds-nav-label">Reference</div>
+          <a class="active" href="/design-system/">Tổng quan</a>
+          <a href="/design-system/foundations.html">Nền tảng</a>
+          <a href="/design-system/components.html">Components</a>
+          <a href="/design-system/patterns.html">Patterns</a>
+        </nav>
+        <div class="ds-sidebar-footer">
+          <button class="ds-button secondary" type="button" data-theme-toggle>Đổi giao diện</button>
+        </div>
+      </aside>
+
+      <main class="ds-main">
+        <header class="ds-topbar">
+          <span>Kallob / Design System</span>
+          <span class="ds-status">Reference · v0.1</span>
+        </header>
+
+        <div class="ds-content">
+          <section class="ds-hero">
+            <div class="ds-eyebrow">Kallob Growth Studio</div>
+            <h1>Một ngôn ngữ giao diện thống nhất cho công việc nghiêm túc.</h1>
+            <p>Design System này chuẩn hoá cách KGS trình bày dữ liệu, biểu mẫu, bảng kê, trạng thái và các luồng xem–sửa. Mục tiêu là rõ ràng, nhất quán và đủ đậm đặc mà không làm chữ nhỏ đi.</p>
+            <div class="ds-actions">
+              <a class="ds-button primary" href="/design-system/components.html">Xem components</a>
+              <a class="ds-button secondary" href="/design-system/patterns.html">Xem page patterns</a>
+            </div>
+          </section>
+
+          <section class="ds-callout">
+            <strong>Nguồn chuẩn</strong>
+            <p>Token và primitive đang chạy trong sản phẩm là nguồn triển khai. Tài liệu này giải thích cách dùng; các trang HTML là reference trực quan để review trước khi mở rộng giao diện.</p>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading">
+              <div><span>Principles</span><h2>Ba nguyên tắc không thương lượng</h2></div>
+            </div>
+            <div class="ds-grid three">
+              <article class="ds-card">
+                <div class="ds-card-index">01</div>
+                <h3>View-first</h3>
+                <p>Người dùng đọc và quyết định trước, chỉ chuyển sang edit khi thực sự cần. View và edit phải giữ cùng cấu trúc thông tin.</p>
+              </article>
+              <article class="ds-card">
+                <div class="ds-card-index">02</div>
+                <h3>Dense, not tiny</h3>
+                <p>Tăng mật độ bằng bố cục, khoảng cách và phân cấp — không bằng cách thu nhỏ nhãn hay nội dung xuống mức khó đọc.</p>
+              </article>
+              <article class="ds-card">
+                <div class="ds-card-index">03</div>
+                <h3>Reuse before invention</h3>
+                <p>Dùng primitive có sẵn, mở rộng primitive gần nhất khi thiếu một khả năng nhỏ, và tránh tạo CSS riêng cho từng trang.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading">
+              <div><span>System map</span><h2>Tra cứu theo lớp</h2></div>
+            </div>
+            <div class="ds-grid three">
+              <a class="ds-link-card" href="/design-system/foundations.html">
+                <span class="ds-eyebrow">01 · Foundations</span>
+                <h3>Màu, chữ, khoảng cách</h3>
+                <p>Token nền tảng, độ tương phản, radius, elevation và quy tắc responsive.</p>
+                <strong>Mở nền tảng →</strong>
+              </a>
+              <a class="ds-link-card" href="/design-system/components.html">
+                <span class="ds-eyebrow">02 · Components</span>
+                <h3>Controls và surfaces</h3>
+                <p>Button, field, select, tabs, status, toolbar, bảng kê và trạng thái rỗng.</p>
+                <strong>Mở components →</strong>
+              </a>
+              <a class="ds-link-card" href="/design-system/patterns.html">
+                <span class="ds-eyebrow">03 · Patterns</span>
+                <h3>Page và lifecycle</h3>
+                <p>Page shell, managed collection, preview drawer, view/edit parity và responsive.</p>
+                <strong>Mở patterns →</strong>
+              </a>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading">
+              <div><span>Review gate</span><h2>Checklist trước khi merge</h2></div>
+            </div>
+            <div class="ds-checklist">
+              <label><input type="checkbox" checked disabled /> Đã tìm primitive tương đương trong KGS</label>
+              <label><input type="checkbox" checked disabled /> Dùng token thay vì hard-code màu và cỡ chữ</label>
+              <label><input type="checkbox" checked disabled /> Label tối thiểu 12px, control tối thiểu 13px</label>
+              <label><input type="checkbox" checked disabled /> View và edit có cùng nhóm, cùng thứ tự trường</label>
+              <label><input type="checkbox" checked disabled /> Bảng có selector, padding và cột thẳng hàng</label>
+              <label><input type="checkbox" checked disabled /> Không thêm nested scroll khi primitive hiện tại đủ dùng</label>
+              <label><input type="checkbox" checked disabled /> Keyboard focus rõ và trạng thái không chỉ dựa vào màu</label>
+              <label><input type="checkbox" checked disabled /> Đã kiểm tra desktop và viewport hẹp</label>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

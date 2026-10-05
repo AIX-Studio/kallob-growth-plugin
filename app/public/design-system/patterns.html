@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="vi" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KGS Design System — Patterns</title>
+    <link rel="stylesheet" href="/design-system/design-system.css" />
+    <script defer src="/design-system/design-system.js"></script>
+  </head>
+  <body>
+    <div class="ds-shell">
+      <aside class="ds-sidebar">
+        <a class="ds-brand" href="/design-system/"><span class="ds-brand-mark">K</span><span><strong>KGS Design System</strong><small>Growth Studio · Local</small></span></a>
+        <nav class="ds-nav" aria-label="Điều hướng Design System">
+          <div class="ds-nav-label">Reference</div>
+          <a href="/design-system/">Tổng quan</a>
+          <a href="/design-system/foundations.html">Nền tảng</a>
+          <a href="/design-system/components.html">Components</a>
+          <a class="active" href="/design-system/patterns.html">Patterns</a>
+        </nav>
+        <div class="ds-sidebar-footer"><button class="ds-button secondary" type="button" data-theme-toggle>Đổi giao diện</button></div>
+      </aside>
+      <main class="ds-main">
+        <header class="ds-topbar"><span>Kallob / Design System / Patterns</span><span class="ds-status">Product patterns</span></header>
+        <div class="ds-content">
+          <section class="ds-hero compact">
+            <div class="ds-eyebrow">Patterns</div>
+            <h1>Từ primitive đến luồng hoàn chỉnh</h1>
+            <p>Patterns chuẩn hoá quan hệ giữa header, tabs, collection, drawer, form và vòng đời của một bản ghi. Chúng ngăn mỗi mini-app tự phát minh một cách trình bày riêng.</p>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Page anatomy</span><h2>Workspace tiêu chuẩn</h2></div></div>
+            <div class="ds-page-demo">
+              <header><div><span class="ds-eyebrow">Research Studio</span><h3>Customer Voice</h3><p>Lắng nghe vấn đề, ngôn ngữ, phản đối và outcome mong muốn.</p></div><button class="ds-button primary" type="button">+ Nghiên cứu mới</button></header>
+              <div class="ds-tabs"><button class="active" type="button">Nội dung <em>0</em></button><button type="button">Hoạt động nghiên cứu <em>0</em></button><button type="button">Phạm vi lắng nghe <em>1</em></button></div>
+              <div class="ds-page-body">
+                <div class="ds-toolbar"><div class="ds-search"><span>⌕</span><input aria-label="Tìm phạm vi" placeholder="Tìm phạm vi hoặc hồ sơ…" /></div><button class="ds-button secondary" type="button">Lưu trữ</button></div>
+                <div class="ds-empty"><strong>Chưa có nội dung đã thu thập</strong><p>Nội dung sẽ xuất hiện sau khi một lượt nghiên cứu trả về snapshot hợp lệ.</p></div>
+              </div>
+            </div>
+            <ol class="ds-steps"><li><strong>Header</strong><span>Danh tính page và CTA chính</span></li><li><strong>Workspace tabs</strong><span>Chuyển ngữ cảnh cấp cao</span></li><li><strong>Toolbar</strong><span>Tìm, lọc, chế độ xem</span></li><li><strong>Content surface</strong><span>List, grid, empty hoặc detail</span></li></ol>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Entity lifecycle</span><h2>View và edit giữ nguyên mental model</h2></div><p>Cùng nhóm, cùng thứ tự, cùng từ vựng.</p></div>
+            <div class="ds-compare">
+              <article class="ds-detail-demo">
+                <span class="ds-eyebrow">Read</span><h3>Nhóm người cần lắng nghe</h3>
+                <dl><div><dt>Nhóm khách hàng</dt><dd>Founder và chủ doanh nghiệp SME</dd></div><div><dt>Persona / vai trò</dt><dd>Program Owner AI nội bộ</dd></div><div><dt>Địa lý</dt><dd>Việt Nam</dd></div></dl>
+              </article>
+              <article class="ds-detail-demo">
+                <span class="ds-eyebrow">Edit</span><h3>Nhóm người cần lắng nghe</h3>
+                <label class="ds-field"><span>Nhóm khách hàng</span><input value="Founder và chủ doanh nghiệp SME" /></label>
+                <label class="ds-field"><span>Persona / vai trò</span><input value="Program Owner AI nội bộ" /></label>
+                <label class="ds-field"><span>Địa lý</span><input value="Việt Nam" /></label>
+              </article>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Drawer</span><h2>Preview và edit drawer</h2></div><p>Mặc định mở ở width gọn; header tích hợp identity bên trái và action bên phải. Header đứng yên, body là vùng cuộn dọc.</p></div>
+            <div class="ds-drawer-demo">
+              <div class="ds-drawer-backdrop"><span>Workspace phía sau</span></div>
+              <aside>
+                <header><div><span class="ds-eyebrow">Customer Voice</span><h3>Tiếng nói AI Transformation operator Việt Nam</h3><small>Phạm vi lắng nghe · v2</small></div><div class="ds-drawer-header-actions"><button class="ds-button secondary" type="button">Chỉnh sửa</button><button class="ds-button primary" type="button">Nghiên cứu</button><div class="ds-drawer-icons"><button type="button" aria-label="Mở rộng">↗</button><button type="button" aria-label="Đóng">×</button></div></div></header>
+                <div class="ds-drawer-content"><h4>Tóm tắt</h4><p>Phạm vi lắng nghe nhu cầu, ngôn ngữ, rào cản và outcome mong muốn của người đang biến AI thành workflow vận hành thực tế.</p><h4>Nhóm người cần lắng nghe</h4><p>Founder, owner-operator và người phụ trách AI Transformation trong doanh nghiệp SME Việt Nam.</p></div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Sticky & scroll</span><h2>Một scroll owner, ba lớp sticky</h2></div></div>
+            <div class="ds-sticky-stack"><div><strong>1 · App topbar</strong><span>Điều hướng toàn app</span></div><div><strong>2 · Page identity</strong><span>Tiêu đề và hành động chính khi cần</span></div><div><strong>3 · Workspace tabs</strong><span>Giữ ngữ cảnh đang làm việc</span></div><div class="scroll-owner"><strong>Scroll owner</strong><span>Main workspace hoặc drawer body — không phải cả hai lồng nhau.</span></div></div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Responsive</span><h2>Co cấu trúc, không co khả năng đọc</h2></div></div>
+            <div class="ds-grid three">
+              <article class="ds-card"><h3>≥ 1180px</h3><p>Sidebar cố định, content nhiều cột, drawer có thể dùng rail metadata.</p></article>
+              <article class="ds-card"><h3>768–1179px</h3><p>Giảm cột, action được wrap; title vẫn có toàn bộ chiều rộng cần thiết.</p></article>
+              <article class="ds-card"><h3>&lt; 768px</h3><p>Sidebar thành header, table chuyển row stack, drawer chiếm toàn viewport.</p></article>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Guardrails</span><h2>Dấu hiệu lệch chuẩn</h2></div></div>
+            <div class="ds-do-dont">
+              <div class="do"><strong>Nên</strong><ul><li>List/table ngay cả khi mới có một bản ghi</li><li>Header và row dùng cùng grid template</li><li>Action nằm trong vùng riêng, title được wrap tự nhiên</li><li>Dùng shared drawer, tabs, fields và collection primitives</li></ul></div>
+              <div class="dont"><strong>Không nên</strong><ul><li>Đổi bản ghi thành card tuỳ hứng</li><li>Tạo tab hai cấp cho cùng một tập nội dung</li><li>Thu chữ xuống 9–10px để vừa layout</li><li>Thêm sticky offset, overlay hoặc scroll region riêng theo page</li></ul></div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

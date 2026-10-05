@@ -1,0 +1,43 @@
+schema_version: 1
+workspace_id: "{{WORKSPACE_ID}}"
+workspace_name: "{{WORKSPACE_NAME}}"
+created_at: "{{CREATED_AT}}"
+language: "{{LANGUAGE}}"
+timezone: "{{TIMEZONE}}"
+
+shared:
+  business_context: shared/business-context.md
+  objectives_metrics: shared/objectives-and-metrics.md
+  customers_offers: shared/customers-and-offers.md
+  organization_approvals: shared/organization-and-approvals.md
+  claims_policies: shared/claims-and-policies.md
+  tools_data: shared/tools-and-data.md
+  source_library: shared/source-library.md
+  cross_domain_learnings: shared/cross-domain-learnings.md
+
+domains:
+  content_marketing: domains/content-marketing/context.md
+  marketing_growth: domains/marketing-growth/context.md
+  sales_support: domains/sales-support/context.md
+  operations: domains/operations/context.md
+  leadership_management: domains/leadership-management/context.md
+  people_talent: domains/people-talent/context.md
+  finance_cashflow: domains/finance-cashflow/context.md
+  product_innovation: domains/product-innovation/context.md
+  partner_community: domains/partner-community/context.md
+
+overlays:
+  fnb_operations: overlays/fnb-operations/context.md
+  retail_growth: overlays/retail-growth/context.md
+  professional_services: overlays/professional-services/context.md
+  education_training: overlays/education-training/context.md
+  real_estate_sales: overlays/real-estate-sales/context.md
+  clinic_administration: overlays/clinic-administration/context.md
+  manufacturing_operations: overlays/manufacturing-operations/context.md
+  ecommerce_growth: overlays/ecommerce-growth/context.md
+
+directories:
+  inputs: inputs
+  runs: runs
+  outputs: outputs
+  archive: archive

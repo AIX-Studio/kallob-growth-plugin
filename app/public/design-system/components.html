@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="vi" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KGS Design System — Components</title>
+    <link rel="stylesheet" href="/design-system/design-system.css" />
+    <script defer src="/design-system/design-system.js"></script>
+  </head>
+  <body>
+    <div class="ds-shell">
+      <aside class="ds-sidebar">
+        <a class="ds-brand" href="/design-system/"><span class="ds-brand-mark">K</span><span><strong>KGS Design System</strong><small>Growth Studio · Local</small></span></a>
+        <nav class="ds-nav" aria-label="Điều hướng Design System">
+          <div class="ds-nav-label">Reference</div>
+          <a href="/design-system/">Tổng quan</a>
+          <a href="/design-system/foundations.html">Nền tảng</a>
+          <a class="active" href="/design-system/components.html">Components</a>
+          <a href="/design-system/patterns.html">Patterns</a>
+        </nav>
+        <div class="ds-sidebar-footer"><button class="ds-button secondary" type="button" data-theme-toggle>Đổi giao diện</button></div>
+      </aside>
+      <main class="ds-main">
+        <header class="ds-topbar"><span>Kallob / Design System / Components</span><span class="ds-status">Component reference</span></header>
+        <div class="ds-content">
+          <section class="ds-hero compact">
+            <div class="ds-eyebrow">Components</div>
+            <h1>Cùng một hành vi, cùng một hình thức</h1>
+            <p>Component phải khớp với ngữ nghĩa tương tác. Mọi ví dụ dưới đây đều dùng chung token, hit area, focus state và quy tắc nội dung.</p>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Actions</span><h2>Buttons</h2></div><p>Mỗi vùng chỉ có một hành động chính.</p></div>
+            <div class="ds-demo-stack">
+              <div class="ds-demo-row">
+                <button class="ds-button primary" type="button">Lưu phạm vi</button>
+                <button class="ds-button secondary" type="button">Chỉnh sửa</button>
+                <button class="ds-button danger" type="button">Xoá</button>
+                <button class="ds-button icon" type="button" aria-label="Đóng">×</button>
+                <button class="ds-button secondary" type="button" disabled>Đang lưu…</button>
+              </div>
+              <p class="ds-note">Primary hoàn tất bước chính; secondary hỗ trợ; danger dành cho hành động huỷ dữ liệu và phải có xác nhận phù hợp.</p>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Forms</span><h2>Field anatomy</h2></div><p>Desktop: mỗi field một hàng, label 34% bên trái và control co giãn bên phải; màn hẹp mới xếp label lên trên.</p></div>
+            <div class="ds-form-demo">
+              <div class="ds-form-group-heading"><span>Customer Voice</span><h3>Tóm tắt</h3></div>
+              <label class="ds-field full">
+                <span>Tên phạm vi lắng nghe <b>*</b></span>
+                <input value="Tiếng nói founder, SME leader & AI Transformation operator Việt Nam" />
+                <small>Tên ngắn, phân biệt được với các phạm vi khác.</small>
+              </label>
+              <div class="ds-form-grid">
+                <label class="ds-field"><span>Trang hoặc cộng đồng tham chiếu</span><input value="https://kallob.net/" /></label>
+                <label class="ds-field"><span>Trạng thái</span><select><option>Đang sử dụng</option><option>Bản nháp</option></select></label>
+              </div>
+              <label class="ds-field full">
+                <span>Ai được lắng nghe và để quyết định điều gì</span>
+                <textarea>Phạm vi lắng nghe nhu cầu, ngôn ngữ, rào cản và outcome mong muốn của người đang biến AI thành workflow và năng lực vận hành thực tế.</textarea>
+              </label>
+              <label class="ds-field full error">
+                <span>URL nguồn bắt buộc <b>*</b></span>
+                <input aria-invalid="true" value="kallob" />
+                <small>Nhập URL đầy đủ, bắt đầu bằng https://</small>
+              </label>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Decisions</span><h2>Action dialog</h2></div><p>Mọi xác nhận và nhập thêm ngữ cảnh dùng primitive KGS; không dùng dialog mặc định của browser.</p></div>
+            <div class="ds-dialog-stage">
+              <article class="ds-dialog-card" role="presentation">
+                <header><div><span class="ds-eyebrow">THAY ĐỔI CHƯA LƯU</span><h3>Bỏ thay đổi chưa lưu?</h3><p>Những thay đổi trong form này sẽ mất. Bạn vẫn có thể quay lại và lưu trước khi đóng.</p></div><button class="ds-button icon" type="button" aria-label="Đóng">×</button></header>
+                <div class="ds-dialog-actions"><button class="ds-button secondary" type="button">Hủy</button><button class="ds-button danger" type="button">Bỏ thay đổi</button></div>
+              </article>
+            </div>
+            <p class="ds-note">Title nêu quyết định; message nêu hậu quả và khả năng phục hồi. Primitive sở hữu overlay, focus trap, Escape, return focus và action stacking trên mobile.</p>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Choice</span><h2>Search, select và picker</h2></div></div>
+            <div class="ds-grid two">
+              <article class="ds-card">
+                <h3>Search field</h3>
+                <div class="ds-search"><span>⌕</span><input aria-label="Tìm kiếm" placeholder="Tìm phạm vi hoặc hồ sơ…" /></div>
+                <p>Dùng cho tập dữ liệu mở. Placeholder mô tả đối tượng tìm kiếm.</p>
+              </article>
+              <article class="ds-card">
+                <h3>Bounded select</h3>
+                <label class="ds-field"><span>Intent</span><select><option>Customer Voice</option><option>Thị trường</option><option>Đối thủ</option></select></label>
+                <p>Dùng khi tập lựa chọn nhỏ, ổn định và không cần tìm kiếm.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Navigation</span><h2>Tabs và segmented control</h2></div></div>
+            <div class="ds-demo-stack">
+              <div class="ds-tabs" role="tablist" aria-label="Ví dụ tab">
+                <button class="active" type="button">Nội dung <em>15</em></button>
+                <button type="button">Hoạt động nghiên cứu <em>1</em></button>
+                <button type="button">Phạm vi lắng nghe <em>1</em></button>
+              </div>
+              <div class="ds-segmented" aria-label="Chế độ hiển thị">
+                <button class="active" type="button">Thẻ</button><button type="button">Danh sách</button>
+              </div>
+              <p class="ds-note">Tabs chuyển workspace cấp cao. Segmented control chỉ đổi cách hiển thị trong cùng dữ liệu.</p>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Status</span><h2>Chips</h2></div></div>
+            <div class="ds-demo-row">
+              <span class="ds-chip neutral">Bản nháp</span>
+              <span class="ds-chip info">Đang nghiên cứu</span>
+              <span class="ds-chip success">Đã duyệt</span>
+              <span class="ds-chip warning">Cần bổ sung</span>
+              <span class="ds-chip danger">Lỗi</span>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Collections</span><h2>Managed list</h2></div><p>Selector, header và row dùng cùng một grid.</p></div>
+            <div class="ds-collection">
+              <div class="ds-toolbar"><div class="ds-search"><span>⌕</span><input aria-label="Tìm trong danh sách" placeholder="Tìm phạm vi…" /></div><button class="ds-button secondary" type="button">Lưu trữ</button></div>
+              <div class="ds-table-head"><span><input type="checkbox" aria-label="Chọn tất cả" /></span><span>Phạm vi nghiên cứu</span><span>Loại</span><span>Trạng thái</span><span aria-hidden="true"></span></div>
+              <div class="ds-table-row"><span><input type="checkbox" aria-label="Chọn phạm vi thị trường" /></span><span><strong>AI Transformation cho SME Việt Nam</strong><small>Founder, owner-operator và knowledge work</small></span><span>Thị trường</span><span><span class="ds-chip success">Đang dùng</span></span><button class="ds-row-open" type="button" aria-label="Mở chi tiết">→</button></div>
+              <div class="ds-table-row"><span><input type="checkbox" aria-label="Chọn phạm vi customer voice" /></span><span><strong>Tiếng nói AI Transformation operator</strong><small>Nhu cầu, rào cản và outcome</small></span><span>Customer Voice</span><span><span class="ds-chip neutral">Bản nháp</span></span><button class="ds-row-open" type="button" aria-label="Mở chi tiết">→</button></div>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>States</span><h2>Mỗi component phải đủ trạng thái</h2></div></div>
+            <div class="ds-state-grid">
+              <div><strong>Default</strong><span>Trạng thái nghỉ</span></div><div><strong>Hover</strong><span>Phản hồi con trỏ</span></div>
+              <div><strong>Focus</strong><span>Ring cho keyboard</span></div><div><strong>Disabled</strong><span>Không thể thao tác</span></div>
+              <div><strong>Loading</strong><span>Giữ kích thước control</span></div><div><strong>Error</strong><span>Nguyên nhân + cách sửa</span></div>
+              <div><strong>Empty</strong><span>Giải thích + next action</span></div><div><strong>Success</strong><span>Xác nhận thay đổi</span></div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

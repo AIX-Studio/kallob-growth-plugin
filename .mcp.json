@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "kallob-growth": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "./app/launcher.mjs"
+      ],
+      "cwd": ".",
+      "env": {
+        "KALLOB_CLOUD_API_ORIGIN": "https://api.kallob.net"
+      }
+    }
+  }
+}
