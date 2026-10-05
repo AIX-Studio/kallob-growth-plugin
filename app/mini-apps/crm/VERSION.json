@@ -1,0 +1,14 @@
+{
+  "id": "crm",
+  "version": "1.1.0",
+  "buildId": "89da6fd-muvcuikl",
+  "requiresCore": ">=1.4.0 <2",
+  "exports": {
+    "crm.customers": "1.0"
+  },
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

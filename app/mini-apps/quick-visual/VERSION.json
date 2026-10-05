@@ -1,0 +1,12 @@
+{
+  "id": "quick-visual",
+  "version": "1.1.0",
+  "buildId": "89da6fd-muvcuvgi",
+  "requiresCore": ">=1.5.0 <2",
+  "exports": {},
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

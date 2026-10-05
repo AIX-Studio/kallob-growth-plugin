@@ -1,0 +1,12 @@
+{
+  "id": "zalo-chatbot",
+  "version": "1.1.0",
+  "buildId": "89da6fd-muvcwnjb",
+  "requiresCore": ">=1.10.0 <2",
+  "exports": {},
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

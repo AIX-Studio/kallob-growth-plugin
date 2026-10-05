@@ -1,0 +1,12 @@
+{
+  "id": "personal-brand",
+  "version": "1.1.0",
+  "buildId": "89da6fd-muvcvl2k",
+  "requiresCore": ">=1.7.0 <2",
+  "exports": {},
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

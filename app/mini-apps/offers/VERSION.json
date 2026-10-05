@@ -1,0 +1,14 @@
+{
+  "id": "offers",
+  "version": "1.1.0",
+  "buildId": "89da6fd-muvcu5rw",
+  "requiresCore": ">=1.3.0 <2",
+  "exports": {
+    "offers.catalog": "1.0"
+  },
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}
