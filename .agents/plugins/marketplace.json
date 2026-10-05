@@ -9,7 +9,7 @@
       "source": {
         "source": "url",
         "url": "https://github.com/AIX-Studio/kallob-growth-plugin",
-        "ref": "growth-plugin-v0.11.0"
+        "ref": "growth-plugin-v0.12.1"
       },
       "policy": {
         "installation": "AVAILABLE",

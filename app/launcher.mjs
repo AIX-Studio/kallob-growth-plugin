@@ -18,7 +18,7 @@ var staticRoot = path.join(appRoot, pluginBundle ? "public" : "dist");
 var projectRoot = path.resolve(process.env.KGS_ROOT ?? (pluginBundle ? path.join(os.homedir(), ".kallob-growth") : path.join(appRoot, "dev")));
 var port = Number(process.env.PORT ?? (pluginBundle ? 8795 : 8790));
 var production = pluginBundle || process.env.KGS_MODE === "production";
-var buildId = true ? "c08fb25-muv5kkkr" : "source";
+var buildId = true ? "8762ccd-muv70e1r" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/plugin/app-versions.ts
@@ -116,10 +116,29 @@ function resolveApp(dataRoot, seedDirectory, pkg) {
   throw new Error("Growth Studio is not installed: the plugin has no seed app and nothing is installed yet");
 }
 var noticeFile = (dataRoot) => path2.join(appHome(dataRoot), "update-notice.json");
-function writeUpdateNotice(dataRoot, notice) {
+function addUpdateNotice(dataRoot, items) {
+  if (!items.length) return;
+  const merged = new Map((readUpdateNotice(dataRoot)?.items ?? []).map((item) => [item.id, item]));
+  for (const item of items) {
+    const known = merged.get(item.id);
+    merged.set(item.id, known ? { id: item.id, from: known.from, to: item.to } : item);
+  }
   mkdirSync(appHome(dataRoot), { recursive: true });
-  writeFileSync(noticeFile(dataRoot), `${JSON.stringify({ ...notice, at: (/* @__PURE__ */ new Date()).toISOString() }, null, 2)}
+  writeFileSync(noticeFile(dataRoot), `${JSON.stringify({ items: [...merged.values()], at: (/* @__PURE__ */ new Date()).toISOString() }, null, 2)}
 `);
+}
+function writeUpdateNotice(dataRoot, notice) {
+  addUpdateNotice(dataRoot, [{ id: "core", from: notice.from, to: notice.to }]);
+}
+function readUpdateNotice(dataRoot) {
+  try {
+    const raw = JSON.parse(readFileSync(noticeFile(dataRoot), "utf8"));
+    const items = Array.isArray(raw.items) ? raw.items : raw.from && raw.to ? [{ id: "core", from: raw.from, to: raw.to }] : [];
+    const valid = items.filter((item) => typeof item?.id === "string" && VERSION.test(item.to) && (item.from === null || VERSION.test(item.from)));
+    return valid.length ? { items: valid, at: raw.at ?? (/* @__PURE__ */ new Date()).toISOString() } : null;
+  } catch {
+    return null;
+  }
 }
 function pruneVersions(dataRoot, pkg) {
   const pointer = readCurrent(dataRoot, pkg);
@@ -136,7 +155,7 @@ function pruneVersions(dataRoot, pkg) {
     if (keep.has(entry)) continue;
     const full = path2.join(versionsDirectory(dataRoot, pkg), entry);
     if (VERSION.test(entry)) {
-      rmSync(full, { recursive: true, force: true });
+      if (compareVersions(entry, pointer.current) < 0) rmSync(full, { recursive: true, force: true });
       continue;
     }
     try {

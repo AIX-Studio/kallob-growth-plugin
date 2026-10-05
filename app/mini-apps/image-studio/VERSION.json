@@ -1,7 +1,7 @@
 {
   "id": "image-studio",
-  "version": "1.0.0",
-  "buildId": "c08fb25-muv5kmgh",
+  "version": "1.0.2",
+  "buildId": "8762ccd-muv70fx3",
   "requiresCore": ">=1.1.0 <2",
   "exports": {},
   "requires": {},

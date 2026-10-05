@@ -9,9 +9,28 @@ function defineMiniApp(module) {
 // src/mini-apps/image-studio/manifest.ts
 var manifest = {
   id: "image-studio",
-  version: "1.0.0",
+  version: "1.0.2",
   requiresCore: ">=1.1.0 <2"
 };
+
+// src/mini-apps/image-studio/release-notes.json
+var release_notes_default = [
+  {
+    version: "1.0.2",
+    vi: "Sau m\u1ED7i l\u1EA7n Image Studio c\u1EADp nh\u1EADt, Studio cho b\u1EA1n bi\u1EBFt c\xF3 g\xEC m\u1EDBi.",
+    en: "After every Image Studio update, Studio tells you what is new."
+  },
+  {
+    version: "1.0.1",
+    vi: "Th\xEAm ki\u1EC3u \u1EA3nh B\xECa t\u1EA1p ch\xED trong nh\xF3m C\xE1 nh\xE2n: ch\xE2n dung c\u1EE7a b\u1EA1n th\xE0nh b\xECa t\u1EA1p ch\xED, c\xF3 t\xEAn v\xE0 m\u1ED9t d\xF2ng t\xEDt.",
+    en: "New Magazine cover style under Personal: your portrait as a magazine cover with your name and a headline."
+  },
+  {
+    version: "1.0.0",
+    vi: "Image Studio gi\u1EDD l\xE0 m\u1ED9t mini-app ri\xEAng, t\u1EF1 c\u1EADp nh\u1EADt m\xE0 kh\xF4ng c\u1EA7n c\u1EADp nh\u1EADt c\u1EA3 Growth Studio.",
+    en: "Image Studio is now its own mini-app and updates without updating all of Growth Studio."
+  }
+];
 
 // src/mini-apps/image-studio/server/codex.ts
 function imageAssetSaveTool(service) {
@@ -910,6 +929,7 @@ var ImageStudioService = class {
 var index_default = defineMiniApp({
   manifest,
   schema,
+  releaseNotes: release_notes_default,
   register(sdk) {
     const service = new ImageStudioService(createImageStudioRepository(sdk), sdk.kernel, sdk.codex, sdk.prompts, sdk.dataRoot, sdk.attention);
     return {
