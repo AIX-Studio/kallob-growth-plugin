@@ -1,4 +1,4 @@
-# Kallob Growth Studio 0.23.0
+# Kallob Growth Studio 0.24.0
 
 Kallob Growth Studio for Codex: Kallob's mini-apps for your business, run by Codex on your own machine. Your work stays on this machine; your Kallob plan decides which mini-apps you can use after you sign in.
 
@@ -13,4 +13,4 @@ Quit and reopen Codex, then ask it to "open Growth Studio". Growth Studio needs 
 
 Growth Studio updates itself from Kallob Cloud. Your data lives in `~/.kallob-growth`.
 
-Package 0.23.0, seed Studio 0.46.0 (c99b4f9-mv2a3ofp), built from `c99b4f9` of the private kallob-growth-studio repository by `scripts/release-plugin.mjs`. Do not edit this repository by hand.
+Package 0.24.0, seed Studio 0.47.0 (62a55dd-mv2f8xd6), built from `62a55dd` of the private kallob-growth-studio repository by `scripts/release-plugin.mjs`. Do not edit this repository by hand.

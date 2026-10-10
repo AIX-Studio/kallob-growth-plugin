@@ -1,7 +1,7 @@
 {
   "id": "crm",
   "version": "1.9.0",
-  "buildId": "c99b4f9-mv2a4juz",
+  "buildId": "62a55dd-mv2f9rck",
   "requiresCore": ">=2.19.0 <3",
   "exports": {
     "crm.customers": "1.2",

@@ -51149,8 +51149,8 @@ var DEV_REQUIRED_ENV = ["PORT", "KGS_ROOT", "KALLOB_CLOUD_API_ORIGIN"];
 function missingDevEnvironment(env = process.env) {
   return pluginBundle ? [] : DEV_REQUIRED_ENV.filter((name) => !env[name]?.trim());
 }
-var buildId = true ? "c99b4f9-mv2a3ofp" : "source";
-var studioVersion = true ? "0.46.0" : "source";
+var buildId = true ? "62a55dd-mv2f8xd6" : "source";
+var studioVersion = true ? "0.47.0" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/server/integrations/keychain.ts
@@ -52655,6 +52655,8 @@ var CodexDesktopBridge = class {
   enableSearch;
   focusRestore;
   section;
+  frontmost;
+  returnWatch;
   constructor(options = {}) {
     this.registryPath = path7.resolve(options.registryPath ?? process.env.CODEX_DESKTOP_BRIDGE_REGISTRY ?? DEFAULT_REGISTRY);
     this.binary = options.binary;
@@ -52666,6 +52668,8 @@ var CodexDesktopBridge = class {
     this.enableSearch = options.enableSearch ?? false;
     this.focusRestore = options.focusRestore !== void 0 ? options.focusRestore : process.platform === "darwin" && !options.openBinary ? { delayMs: 1200 } : null;
     this.section = options.section?.trim() || null;
+    this.frontmost = options.frontmost ?? (() => this.frontmostApp());
+    this.returnWatch = options.returnWatch ?? { pollMs: 1e3, timeoutMs: 6e4 };
   }
   /** The bundle id of the app in front (macOS `lsappinfo`, no Automation permission); null when unknown. */
   async frontmostApp() {
@@ -52883,14 +52887,57 @@ var CodexDesktopBridge = class {
       if (target.protocol !== "http:" && target.protocol !== "https:") throw new CodexDesktopError("\u0110\u01B0\u1EDDng d\u1EABn IAB c\u1EE7a task ph\u1EA3i d\xF9ng http:// ho\u1EB7c https://.");
       deepLink.searchParams.set("browserUrl", target.toString());
     }
-    const previous = options.returnFocus && this.focusRestore ? await this.frontmostApp() : null;
+    const previous = options.returnFocus && this.focusRestore ? await this.frontmost() : null;
+    const opener = previous === this.bundleId ? await this.openerThread() : null;
+    const before = opener && opener !== validId ? await this.latestTurn(validId) : null;
     const completed = await runProcess(this.openBinary, ["-g", "-b", this.bundleId, deepLink.toString()], { timeoutMs: this.timeoutMs });
     if (completed.exitCode !== 0) throw new CodexDesktopError("\u0110\xE3 t\u1EA1o task nh\u01B0ng ch\u01B0a m\u1EDF \u0111\u01B0\u1EE3c Codex desktop.");
     if (previous && previous !== this.bundleId && this.focusRestore) {
       await new Promise((resolve) => setTimeout(resolve, this.focusRestore.delayMs));
       await runProcess("open", ["-b", previous], { timeoutMs: 5e3 }).catch(() => void 0);
+    } else if (opener && opener !== validId) {
+      void this.returnToOpener(validId, opener, before?.turnId ?? null).catch(() => void 0);
     }
     return true;
+  }
+  /**
+   * Remembers the Codex conversation the founder opened Studio from (the
+   * plugin's growth_studio_open). An invalid id clears it.
+   */
+  async setOpener(threadId) {
+    const id = threadId ? validThreadId(threadId) : null;
+    return this.withRegistryLock(async () => {
+      const registry = await this.readRegistry();
+      registry.opener = id ? { thread_id: id, at: (/* @__PURE__ */ new Date()).toISOString() } : null;
+      await this.writeRegistry(registry);
+      return { threadId: id };
+    });
+  }
+  async openerThread() {
+    try {
+      return validThreadId((await this.withRegistryLock(() => this.readRegistry())).opener?.thread_id);
+    } catch {
+      return null;
+    }
+  }
+  /**
+   * Codex runs a supervised task only while its conversation is open, then
+   * keeps the turn going when the founder looks elsewhere. Once a new turn of
+   * the task has started (its items show up), the conversation Studio was
+   * opened from comes back on screen. A turn that never shows up leaves the
+   * task on screen: going back too early could keep it from starting.
+   */
+  async returnToOpener(taskThreadId, opener, beforeTurnId) {
+    const deadline = Date.now() + this.returnWatch.timeoutMs;
+    while (Date.now() < deadline) {
+      await new Promise((resolve) => setTimeout(resolve, this.returnWatch.pollMs));
+      const turn = await this.latestTurn(taskThreadId);
+      if (turn && turn.turnId !== beforeTurnId && turn.itemCount > 0) {
+        await runProcess(this.openBinary, ["-g", "-b", this.bundleId, `codex://threads/${opener}`], { timeoutMs: this.timeoutMs });
+        return true;
+      }
+    }
+    return false;
   }
   /**
    * Sends a message into a Codex task and returns at once; Codex works on it
@@ -68443,7 +68490,7 @@ init_define_KGS_CORE_CONTENT();
 
 // src/server/kernel/manifest.ts
 init_define_KGS_CORE_CONTENT();
-var kernelManifest = { id: "kernel", version: "2.25.0" };
+var kernelManifest = { id: "kernel", version: "2.26.0" };
 
 // src/server/kernel/migrations/0001-baseline.ts
 init_define_KGS_CORE_CONTENT();
@@ -75219,6 +75266,11 @@ function scopedSecrets(store2, id) {
 // src/server/release-notes.json
 var release_notes_default = [
   {
+    version: "0.47.0",
+    vi: "Khi b\u1EA1n \u0111ang m\u1EDF Growth Studio ngay trong Codex v\xE0 Studio ph\u1EA3i m\u1EDF m\u1ED9t task c\u1EA7n tr\xECnh duy\u1EC7t c\u1EE7a Codex (k\u1EBFt n\u1ED1i Facebook Page, \u0111\u0103ng b\xE0i l\xEAn trang c\xE1 nh\xE2n, qu\xE9t Facebook\u2026), Codex ch\u1EC9 hi\u1EC7n task \u0111\xF3 \u0111\u1EBFn khi n\xF3 b\u1EAFt \u0111\u1EA7u ch\u1EA1y, r\u1ED3i t\u1EF1 quay v\u1EC1 cu\u1ED9c chat b\u1EA1n \u0111ang d\xF9ng; task ti\u1EBFp t\u1EE5c ch\u1EA1y ng\u1EA7m v\xE0 Studio b\xE1o b\u1EA1n khi c\u1EA7n. C\u1EA7n plugin 0.24.0.",
+    en: "When you use Growth Studio inside Codex and Studio has to open a task that needs Codex's browser (connecting a Facebook Page, posting on your profile, scanning Facebook\u2026), Codex shows that task only until it starts, then returns to the conversation you were in; the task keeps running in the background and Studio tells you when you are needed. Needs plugin 0.24.0."
+  },
+  {
     version: "0.46.0",
     vi: "H\xE0nh \u0111\u1ED9ng b\xEAn ngo\xE0i c\xF3 th\u1EC3 \u0111\u01B0\u1EE3c h\u1EB9n gi\u1EDD: h\xE0ng \u0111\u1EE3i gi\u1EEF \u0111\u1EBFn \u0111\xFAng gi\u1EDD r\u1ED3i m\u1EDBi th\u1EF1c hi\u1EC7n, v\u1EABn qua m\u1ECDi b\u01B0\u1EDBc ki\u1EC3m tra nh\u01B0 c\u0169. T\xE0i kho\u1EA3n d\xF9ng chung m\u1EDBi: Facebook c\xE1 nh\xE2n. K\u1EBFt n\u1ED1i b\u1EB1ng c\xE1ch nh\u1EADp t\xEAn t\xE0i kho\u1EA3n \u0111ang \u0111\u0103ng nh\u1EADp trong tr\xECnh duy\u1EC7t c\u1EE7a Codex; m\u1ED7i b\xE0i \u0111\u0103ng l\xE0 m\u1ED9t task Codex c\xF3 gi\xE1m s\xE1t, ch\u1EC9 c\xF3 ch\u1EEF. \u0110\u0103ng b\xE0i qua Growth Studio c\xF3 th\u1EC3 \u0111\u1EB7t l\u1ECBch: Page do Facebook t\u1EF1 \u0111\u0103ng \u0111\xFAng gi\u1EDD (t\u1EEB 10 ph\xFAt \u0111\u1EBFn 30 ng\xE0y t\u1EDBi), trang c\xE1 nh\xE2n do Growth Studio gi\u1EEF \u0111\u1EBFn gi\u1EDD. C\u1EA7n cho Personal Brand 1.13.0.",
     en: "External actions can wait for a time: the queue holds one until then and releases it under the same checks. New shared account: personal Facebook, connected by typing the name of the account signed in to Codex's browser; each post is a supervised Codex task, text only. Posts through Growth Studio can be scheduled: Facebook publishes a Page post on time itself (10 minutes to 30 days ahead), Growth Studio holds a personal one until its time. Needed by Personal Brand 1.13.0."
@@ -76223,6 +76275,9 @@ app2.post("/api/tasks/:id/question/dismiss", (request2, response, next) => {
   } catch (error) {
     next(error);
   }
+});
+app2.post("/api/codex/opener", launcherOnly2, (request2, response, next) => {
+  codexDesktop.setOpener(String(request2.body?.threadId ?? "") || null).then((opener) => response.json(opener), next);
 });
 app2.post("/api/tasks/:id/open-codex", async (request2, response, next) => {
   try {

@@ -1,7 +1,7 @@
 {
   "id": "personal-brand",
   "version": "1.13.0",
-  "buildId": "c99b4f9-mv2a5puy",
+  "buildId": "62a55dd-mv2faw09",
   "requiresCore": ">=2.25.0 <3",
   "exports": {
     "personal-brand.library-source": "1.0"
