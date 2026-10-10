@@ -1,12 +1,24 @@
 {
   "id": "crm",
-  "version": "1.2.0",
-  "buildId": "f900ed0-muvk2go3",
-  "requiresCore": ">=2.0.0 <3",
+  "version": "1.9.0",
+  "buildId": "4c625a1-mv25wtyo",
+  "requiresCore": ">=2.19.0 <3",
   "exports": {
-    "crm.customers": "1.0"
+    "crm.customers": "1.2",
+    "crm.chat": "1.0",
+    "crm.handoffs": "1.0",
+    "crm.catalog": "1.0"
   },
   "requires": {},
+  "connections": {
+    "zalo-personal": {
+      "range": "^1.1",
+      "operations": [
+        "list",
+        "message"
+      ]
+    }
+  },
   "client": {
     "script": "client.js",
     "style": "client.css"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kallob Growth Studio"
+  short_description: "Open Growth Studio and work on the tasks it hands to Codex"
+  default_prompt: "Open Kallob Growth Studio."

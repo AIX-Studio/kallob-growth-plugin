@@ -1,0 +1,12 @@
+{
+  "id": "asset-studio",
+  "version": "0.3.0",
+  "buildId": "4c625a1-mv261nql",
+  "requiresCore": ">=2.22.0 <3",
+  "exports": {},
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

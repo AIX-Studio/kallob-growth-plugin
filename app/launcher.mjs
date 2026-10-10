@@ -18,7 +18,9 @@ var staticRoot = path.join(appRoot, pluginBundle ? "public" : "dist");
 var projectRoot = path.resolve(process.env.KGS_ROOT ?? (pluginBundle ? path.join(os.homedir(), ".kallob-growth") : path.join(appRoot, "dev")));
 var port = Number(process.env.PORT ?? (pluginBundle ? 8795 : 8790));
 var production = pluginBundle || process.env.KGS_MODE === "production";
-var buildId = true ? "f900ed0-muvk1odi" : "source";
+var devEntitlementsOpen = !production && process.env.KGS_DEV_ENTITLEMENTS === "all";
+var mcpServerName = pluginBundle ? "kallob-growth" : "kallob-growth-dev";
+var buildId = true ? "4c625a1-mv25vzmo" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/plugin/app-versions.ts
@@ -165,50 +167,11 @@ function pruneVersions(dataRoot, pkg) {
   }
 }
 
-// src/server/kallob-cloud/client.ts
-var PENDING_TTL_MS = 10 * 60 * 1e3;
-var REFRESH_MARGIN_MS = 30 * 1e3;
-
 // src/server/kallob-cloud/codex-tools.ts
 var LAUNCHER_HEADER = "x-kallob-growth-launcher";
 
-// src/plugin/cloud-tools.ts
-var readOnly = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
-var cloudTools = [
-  {
-    name: "growth_catalog",
-    title: "Growth Catalog",
-    description: "List Kallob Growth applications, engine packs and engines (no guide bodies) with the person's access: `access` is free or paid, `available` says whether they may use the item now. Also returns reference document versions and the shared kernel prompt templates.",
-    inputSchema: { type: "object", properties: {}, additionalProperties: false },
-    annotations: readOnly
-  },
-  {
-    name: "growth_engine_get",
-    title: "Growth Engine Guide",
-    description: "Read the full current guide of one Kallob Growth engine (markdown, parsed sections and version) with its pack context and the reference contracts an engine run needs. Fails when the person's plan does not include the engine.",
-    inputSchema: {
-      type: "object",
-      properties: { engine_id: { type: "string", pattern: "^[a-z0-9][a-z0-9-]*/[a-z0-9][a-z0-9-]*$", description: "Engine id like pack/02-slug." } },
-      required: ["engine_id"],
-      additionalProperties: false
-    },
-    annotations: readOnly
-  },
-  {
-    name: "growth_application_get",
-    title: "Growth Application",
-    description: "Read one Kallob Growth application with its bound engines and its method prompt templates. Fails when the person's plan does not include the application.",
-    inputSchema: {
-      type: "object",
-      properties: { application_key: { type: "string", pattern: "^[a-z0-9][a-z0-9-]*$", description: "Application key." } },
-      required: ["application_key"],
-      additionalProperties: false
-    },
-    annotations: readOnly
-  }
-];
-var cloudToolNames = new Set(cloudTools.map((tool) => tool.name));
-var NOT_CONNECTED_HINT = 'Kallob engines need a Kallob connection. Call growth_studio_open with view "settings", open the url, and ask the person to click Connect Kallob; then try again.';
+// src/plugin/mcp-result.ts
+var NOT_CONNECTED_HINT = 'This needs a Kallob connection. Call growth_studio_open with view "settings", open the url, and ask the person to click Connect Kallob; then try again.';
 function toMcpResult(status, body) {
   const toolResult = status >= 200 && status < 300 && body && typeof body === "object" ? body.toolResult : void 0;
   if (toolResult && typeof toolResult.text === "string") {
@@ -223,11 +186,11 @@ function toMcpResult(status, body) {
 }
 
 // src/plugin/launcher.ts
-var SERVER_NAME = "kallob-growth";
+var SERVER_NAME = mcpServerName;
 var origin = `http://127.0.0.1:${port}`;
 var stateDir = path3.join(projectRoot, ".growth-studio");
 var pidFile = path3.join(stateDir, "server.pid");
-var VIEWS = ["overview", "work", "results", "mini-apps", "engines", "knowledge", "settings"];
+var VIEWS = ["overview", "work", "results", "mini-apps", "knowledge", "settings"];
 var MINI_APPS = ["offers", "image-studio", "brand-profile", "research", "quick-content", "quick-visual", "personal-brand", "crm", "zalo-chatbot"];
 var MINI_APP_ID = /^[a-z0-9][a-z0-9-]{0,63}$/;
 function targetApp() {
@@ -276,6 +239,7 @@ async function ensureServer() {
     const target = targetApp();
     const running = await health();
     if (running && isCurrent(running, target)) return noteServer(running);
+    if (!pluginBundle) throw new Error(`The development Growth Studio is not running on port ${port} (data ${projectRoot}, Kallob ${cloudApiOrigin}). Start it with npm run dev in this checkout.`);
     if (running) await stopOutdated(running);
     mkdirSync2(stateDir, { recursive: true });
     const log = openSync(path3.join(stateDir, "server.log"), "a");
@@ -316,12 +280,11 @@ async function studioTools() {
     }
   } catch {
   }
-  return cloudTools;
+  return [];
 }
 async function listTools() {
-  const own = tools.filter((tool) => !cloudToolNames.has(tool.name));
-  const served = (await studioTools()).filter((tool) => !own.some((local) => local.name === tool.name));
-  return [...own, ...served];
+  const served = (await studioTools()).filter((tool) => !tools.some((local) => local.name === tool.name));
+  return [...tools, ...served];
 }
 async function callStudioTool(name, args, meta) {
   await ensureServer();
@@ -331,14 +294,13 @@ async function callStudioTool(name, args, meta) {
     body: JSON.stringify({ arguments: args, threadId: callingThreadId(meta) }),
     signal: AbortSignal.timeout(6e4)
   });
-  if (response.status === 404 && cloudToolNames.has(name)) return callCloudTool(name, args);
   return toMcpResult(response.status, await response.json().catch(() => ({})));
 }
 var tools = [
   {
     name: "growth_studio_open",
     title: "Open Kallob Growth Studio",
-    description: "Start Kallob Growth Studio on this machine if it is not running and return the URL to open in the in-app browser. Use when the person wants to see or work in Growth Studio (work, results, mini-apps such as Offers, Image Studio, Brand Profile or Research Studio, the engine library, settings). After calling, open the returned url in the in-app browser.",
+    description: "Start Kallob Growth Studio on this machine if it is not running and return the URL to open in the in-app browser. Use when the person wants to see or work in Growth Studio (work, results, mini-apps such as Offers, Image Studio, Brand Profile or Research Studio, settings). After calling, open the returned url in the in-app browser.",
     inputSchema: {
       type: "object",
       properties: {
@@ -372,8 +334,7 @@ var tools = [
       additionalProperties: false
     },
     annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
-  },
-  ...cloudTools
+  }
 ];
 async function studioPost(pathname, body) {
   return fetch(`${origin}${pathname}`, {
@@ -386,16 +347,6 @@ async function studioPost(pathname, body) {
 function callingThreadId(meta) {
   const value = meta?.threadId ?? meta?.sessionId;
   return typeof value === "string" && value ? value : null;
-}
-async function callCloudTool(name, args) {
-  await ensureServer();
-  const response = await fetch(`${origin}/api/kallob-cloud/tools/${name}`, {
-    method: "POST",
-    headers: { "content-type": "application/json", [LAUNCHER_HEADER]: "1" },
-    body: JSON.stringify(args),
-    signal: AbortSignal.timeout(3e4)
-  });
-  return toMcpResult(response.status, await response.json().catch(() => ({})));
 }
 async function callTool(name, args, meta) {
   if (name === "growth_task_ask") {

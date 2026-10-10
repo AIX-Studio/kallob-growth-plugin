@@ -9,13 +9,38 @@ function defineMiniApp(module) {
 // src/mini-apps/brand-profile/manifest.ts
 var manifest = {
   id: "brand-profile",
-  version: "1.2.0",
-  requiresCore: ">=2.0.0 <3",
-  exports: { "brand-profile.context": "1.3" }
+  version: "1.6.0",
+  requiresCore: ">=2.8.0 <3",
+  exports: { "brand-profile.context": "1.6" }
 };
 
 // src/mini-apps/brand-profile/release-notes.json
 var release_notes_default = [
+  {
+    version: "1.6.0",
+    vi: "S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5 chuy\u1EC3n sang Mini CRM (Mini CRM \u2192 S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5): Brand Profile kh\xF4ng c\xF2n trang n\xE0y v\xE0 m\u1EE9c s\u1EB5n s\xE0ng (c\xF9ng hai c\u1ED5ng Nghi\xEAn c\u1EE9u, Xu\u1EA5t b\u1EA3n) kh\xF4ng c\xF2n \u0111\xF2i ph\u1EA3i c\xF3 s\u1EA3n ph\u1EA9m. D\u1EEF li\u1EC7u s\u1EA3n ph\u1EA9m v\xE0 \u1EA3nh v\u1EABn gi\u1EEF nguy\xEAn, v\u1EABn ch\u1ECDn \u0111\u01B0\u1EE3c v\xE0o Brand Context; Mini CRM, Websites v\xE0 c\xE1c mini-app kh\xE1c c\xF9ng d\xF9ng m\u1ED9t ngu\u1ED3n.",
+    en: "Products & Services moved to Mini CRM (Mini CRM \u2192 Products & Services): Brand Profile no longer has that page and its readiness (and the Research and Publishing gates) no longer needs products. Product records and photos stay as they are and can still be chosen for Brand Context; Mini CRM, Websites and the other mini-apps share one source."
+  },
+  {
+    version: "1.5.0",
+    vi: "Danh s\xE1ch s\u1EA3n ph\u1EA9m/d\u1ECBch v\u1EE5 hi\u1EC7n gi\xE1 c\u1EE7a t\u1EEBng m\u1EE5c (c\u1EA3 tr\xEAn \u0111i\u1EC7n tho\u1EA1i) thay cho c\u1ED9t Lo\u1EA1i.",
+    en: "The offerings list shows each item's price (on phones too) instead of the Type column."
+  },
+  {
+    version: "1.4.1",
+    vi: "T\xEAn v\xE0 m\xF4 t\u1EA3 c\u1EE7a mini-app trong danh s\xE1ch nay do Kallob qu\u1EA3n l\xFD; c\u1EA7n Growth Studio 0.29.0.",
+    en: "The mini-app's name and description in the list now come from Kallob; needs Growth Studio 0.29.0."
+  },
+  {
+    version: "1.4.0",
+    vi: "Th\u01B0 vi\u1EC7n s\u1EA3n ph\u1EA9m c\u1EE7a Websites d\xF9ng chung S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5 c\u1EE7a Brand Profile: th\xEAm, s\u1EEDa t\xEAn, m\xF4 t\u1EA3, gi\xE1 v\xE0 \u1EA3nh s\u1EA3n ph\u1EA9m \u1EDF Websites l\xE0 c\u1EADp nh\u1EADt ngay trong Brand Profile.",
+    en: "Websites' product library is Brand Profile's Products & Services: adding a product or changing its name, description, price or photos in Websites updates Brand Profile at once."
+  },
+  {
+    version: "1.3.0",
+    vi: "L\u01B0u \u1EA3nh c\u1EE7a th\u01B0 vi\u1EC7n Personal Brand c\xF9ng kho \u1EA3nh th\u01B0\u01A1ng hi\u1EC7u, nh\u01B0ng kh\xF4ng tr\u1ED9n v\xE0o danh s\xE1ch \u1EA3nh c\u1EE7a th\u01B0\u01A1ng hi\u1EC7u.",
+    en: "Stores Personal Brand library images alongside the brand's image store, without mixing them into the brand's own image lists."
+  },
   {
     version: "1.2.0",
     vi: "Ch\u1EA1y tr\xEAn Growth Studio 0.21: \u0111\u01B0\u1EE3c c\xE0i c\xF9ng l\xFAc khi Growth Studio c\u1EADp nh\u1EADt, kh\xF4ng ph\u1EA3i ch\u1EDD t\u1EA3i th\xEAm.",
@@ -165,11 +190,66 @@ var baseline = {
   }
 };
 
+// src/mini-apps/sdk/schema.ts
+var quote = (name) => `"${name.replace(/"/g, '""')}"`;
+function withForeignKeysOff(db, tables, change) {
+  db.exec("PRAGMA foreign_keys = OFF");
+  try {
+    db.exec("BEGIN IMMEDIATE");
+    try {
+      change();
+      const broken = tables.flatMap((table) => db.prepare(`PRAGMA foreign_key_check(${quote(table)})`).all());
+      if (broken.length) throw new Error(`Foreign keys broken after the change: ${[...new Set(broken.map((item) => `${item.table} \u2192 ${item.parent}`))].join(", ")}`);
+      db.exec("COMMIT");
+    } catch (error) {
+      db.exec("ROLLBACK");
+      throw error;
+    }
+  } finally {
+    db.exec("PRAGMA foreign_keys = ON");
+  }
+}
+
+// src/mini-apps/brand-profile/server/migrations/0002-personal-media-role.ts
+var personalMediaRole = {
+  id: "0002-personal-media-role",
+  transaction: false,
+  up(db) {
+    const sql = String(db.prepare("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'brand_assets'").get()?.sql ?? "");
+    if (!sql || sql.includes("personal_media")) return;
+    withForeignKeysOff(db, ["brand_assets"], () => {
+      db.exec(`
+        DROP INDEX IF EXISTS brand_assets_listing_idx;
+        DROP INDEX IF EXISTS brand_assets_dedupe_idx;
+        CREATE TABLE brand_assets__rebuild (
+          id TEXT PRIMARY KEY,
+          role TEXT NOT NULL CHECK (role IN ('logo', 'visual_reference', 'product_media', 'competitor_logo', 'personal_media')),
+          record_id TEXT REFERENCES brand_records(id),
+          filename TEXT NOT NULL,
+          mime_type TEXT NOT NULL,
+          byte_size INTEGER NOT NULL,
+          sha256 TEXT NOT NULL,
+          data BLOB NOT NULL,
+          created_at TEXT NOT NULL,
+          archived_at TEXT,
+          UNIQUE(role, record_id, sha256)
+        );
+        INSERT INTO brand_assets__rebuild (id, role, record_id, filename, mime_type, byte_size, sha256, data, created_at, archived_at)
+          SELECT id, role, record_id, filename, mime_type, byte_size, sha256, data, created_at, archived_at FROM brand_assets;
+        DROP TABLE brand_assets;
+        ALTER TABLE brand_assets__rebuild RENAME TO brand_assets;
+        CREATE INDEX brand_assets_listing_idx ON brand_assets(role, record_id, archived_at, created_at DESC);
+        CREATE UNIQUE INDEX brand_assets_dedupe_idx ON brand_assets(role, IFNULL(record_id, ''), sha256);
+      `);
+    });
+  }
+};
+
 // src/mini-apps/brand-profile/server/migrations/index.ts
 var schema = {
   id: manifest.id,
   dependsOn: ["kernel"],
-  migrations: [baseline]
+  migrations: [baseline, personalMediaRole]
 };
 
 // src/mini-apps/brand-profile/server/store.ts
@@ -933,10 +1013,10 @@ var BrandProfileStore = class {
     const where = [input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL"];
     const values = [];
     if (input.role) {
-      if (!["logo", "visual_reference", "product_media", "competitor_logo"].includes(input.role)) throw new Error("Unsupported Brand asset role");
+      if (!["logo", "visual_reference", "product_media", "competitor_logo", "personal_media"].includes(input.role)) throw new Error("Unsupported Brand asset role");
       where.push("role = ?");
       values.push(input.role);
-    }
+    } else where.push("role != 'personal_media'");
     if (input.recordId) {
       where.push("record_id = ?");
       values.push(input.recordId);
@@ -944,7 +1024,7 @@ var BrandProfileStore = class {
     return this.db.prepare(`SELECT id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE ${where.join(" AND ")} ORDER BY created_at DESC, id`).all(...values).map((row) => this.toBrandAsset(row));
   }
   createBrandAsset(input) {
-    if (!["logo", "visual_reference", "product_media", "competitor_logo"].includes(input.role)) throw new Error("Unsupported Brand asset role");
+    if (!["logo", "visual_reference", "product_media", "competitor_logo", "personal_media"].includes(input.role)) throw new Error("Unsupported Brand asset role");
     const bytes = Buffer.from(input.data);
     if (!bytes.length || bytes.length > 8e6) throw new Error("Brand assets must be between 1 byte and 8 MB");
     const detected = detectImageAsset(bytes);
@@ -1036,12 +1116,6 @@ var BrandProfileStore = class {
         detail: `${counts.segment} ph\xE2n kh\xFAc \xB7 ${counts.persona} persona`
       },
       {
-        key: "offerings",
-        label: "S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5",
-        complete: Boolean(counts.offering),
-        detail: `${counts.offering} m\u1EE5c \u0111ang d\xF9ng`
-      },
-      {
         key: "claims",
         label: "Claims & Proof",
         complete: Boolean(counts.approvedClaims),
@@ -1059,7 +1133,6 @@ var BrandProfileStore = class {
       identity: "Ho\xE0n thi\u1EC7n v\xE0 k\xEDch ho\u1EA1t Quy chu\u1EA9n nh\u1EADn di\u1EC7n.",
       voice: "Ho\xE0n thi\u1EC7n v\xE0 k\xEDch ho\u1EA1t Quy chu\u1EA9n gi\u1ECDng th\u01B0\u01A1ng hi\u1EC7u.",
       audience: "T\u1EA1o \xEDt nh\u1EA5t m\u1ED9t ph\xE2n kh\xFAc v\xE0 m\u1ED9t persona Active.",
-      offerings: "T\u1EA1o \xEDt nh\u1EA5t m\u1ED9t S\u1EA3n ph\u1EA9m/D\u1ECBch v\u1EE5 Active.",
       claims: "Duy\u1EC7t \xEDt nh\u1EA5t m\u1ED9t claim c\xF3 proof.",
       market: "B\u1ED5 sung b\u1ED1i c\u1EA3nh th\u1ECB tr\u01B0\u1EDDng ho\u1EB7c h\u1ED3 s\u01A1 \u0111\u1ED1i th\u1EE7."
     };
@@ -1073,8 +1146,8 @@ var BrandProfileStore = class {
       profile,
       readinessScore: Math.round(complete.size / areas.length * 100),
       areas,
-      researchReady: ["profile", "audience", "offerings", "market"].every((key) => complete.has(key)),
-      publishingReady: ["profile", "identity", "voice", "offerings", "claims"].every((key) => complete.has(key)),
+      researchReady: ["profile", "audience", "market"].every((key) => complete.has(key)),
+      publishingReady: ["profile", "identity", "voice", "claims"].every((key) => complete.has(key)),
       gaps,
       counts,
       assets
@@ -1200,6 +1273,65 @@ var BrandProfileStore = class {
 function createBrandProfileRepository(sdk) {
   return new BrandProfileStore(sdk.db);
 }
+function recordInput(record) {
+  const { id: _id, status: _status, revision: _revision, currentRevision: _current, isHistorical: _historical, versions: _versions, createdAt: _created, updatedAt: _updated, archivedAt: _archived, ...input } = record;
+  return input;
+}
+function offering(store, id) {
+  const record = store.getBrandRecord(id);
+  if (!record || record.kind !== "offering" || record.archivedAt) throw new Error("This product is not in Brand Profile's Products & Services");
+  return record;
+}
+function anyProduct(store, id) {
+  const record = store.getBrandRecord(id);
+  if (!record || record.kind !== "offering") throw new Error("This product is not in Products & Services");
+  return record;
+}
+function productMedia(store, id) {
+  const asset = store.getBrandAssetData(id)?.asset;
+  if (!asset || asset.role !== "product_media") throw new Error("Only product photos may be changed here");
+  return asset;
+}
+function brandProducts(store) {
+  return {
+    list: (filter = {}) => store.listBrandRecords({ kind: "offering", query: filter.query ?? "", status: filter.status ?? "", archived: Boolean(filter.archived), limit: 500 }),
+    get: (id, revision) => {
+      const record = store.getBrandRecord(id, revision);
+      return record && record.kind === "offering" ? record : null;
+    },
+    create: (input) => store.createBrandRecord({ ...input, kind: "offering" }),
+    update: (id, input, revision) => {
+      anyProduct(store, id);
+      return store.updateBrandRecord(id, { ...input, kind: "offering" }, revision);
+    },
+    transition: (id, status, revision) => {
+      anyProduct(store, id);
+      return store.transitionBrandRecord(id, status, revision);
+    },
+    archive: (id, revision) => {
+      anyProduct(store, id);
+      return store.archiveBrandRecord(id, revision);
+    },
+    restore: (id, revision) => {
+      anyProduct(store, id);
+      return store.archiveBrandRecord(id, revision, true);
+    },
+    segments: () => store.listBrandRecords({ kind: "segment", status: "active", limit: 500 }).items,
+    media: (filter = {}) => store.listBrandAssets({ role: "product_media", recordId: filter.recordId, archived: Boolean(filter.archived) }),
+    uploadMedia: (recordId, filename, data) => {
+      offering(store, recordId);
+      return store.createBrandAsset({ role: "product_media", recordId, filename, data });
+    },
+    archiveMedia: (id) => {
+      productMedia(store, id);
+      return store.archiveBrandAsset(id);
+    },
+    restoreMedia: (id) => {
+      productMedia(store, id);
+      return store.archiveBrandAsset(id, true);
+    }
+  };
+}
 function brandProfileContext(store) {
   return {
     profile: () => store.getBrandProfile(),
@@ -1208,8 +1340,33 @@ function brandProfileContext(store) {
     record: (id) => store.getBrandRecord(id),
     records: (filter) => store.listBrandRecords({ kind: filter?.kind, query: filter?.query, archived: filter?.archived, limit: 500 }).items,
     assetData: (id) => store.getBrandAssetData(id),
+    createAsset: (input) => {
+      if (input.role !== "personal_media" && input.role !== "product_media") throw new Error("Only personal_media and product_media assets may be stored by another mini-app");
+      if (input.role === "product_media") offering(store, input.recordId);
+      return store.createBrandAsset({ role: input.role, recordId: input.role === "product_media" ? input.recordId : null, filename: input.filename, data: input.data });
+    },
+    archiveAsset: (id) => {
+      const asset = store.getBrandAssetData(id)?.asset;
+      if (!asset || asset.role !== "product_media" && asset.role !== "personal_media") throw new Error("Only product_media and personal_media assets may be archived by another mini-app");
+      return store.archiveBrandAsset(id);
+    },
+    createOffering: (input) => store.createBrandRecord({ kind: "offering", name: input.name, summary: input.summary ?? "", subtype: "", content: "", offeringStatus: "active", options: input.options ?? [] }),
+    updateOffering: (id, input, revision) => {
+      const current = offering(store, id);
+      return store.updateBrandRecord(id, {
+        ...recordInput(current),
+        ...input.name === void 0 ? {} : { name: input.name },
+        ...input.summary === void 0 ? {} : { summary: input.summary },
+        ...input.options === void 0 ? {} : { options: input.options }
+      }, revision);
+    },
+    archiveOffering: (id, revision) => {
+      offering(store, id);
+      return store.archiveBrandRecord(id, revision);
+    },
     createContextSnapshot: (input) => store.createBrandContextSnapshot(input),
-    contextSnapshot: (id) => store.getBrandContextSnapshot(id)
+    contextSnapshot: (id) => store.getBrandContextSnapshot(id),
+    products: brandProducts(store)
   };
 }
 

@@ -1,10 +1,35 @@
 {
   "id": "zalo-chatbot",
-  "version": "1.2.0",
-  "buildId": "f900ed0-muvk4mzs",
-  "requiresCore": ">=2.0.0 <3",
-  "exports": {},
+  "version": "1.13.0",
+  "buildId": "4c625a1-mv25z5gq",
+  "requiresCore": ">=2.19.0 <3",
+  "exports": {
+    "zalo-chatbot.crm-history": "1.0"
+  },
   "requires": {},
+  "connections": {
+    "facebook-page": {
+      "range": "^1.0",
+      "operations": [
+        "list",
+        "message"
+      ]
+    },
+    "zalo-oa": {
+      "range": "^1.0",
+      "operations": [
+        "list",
+        "message"
+      ]
+    },
+    "zalo-personal": {
+      "range": "^1.1",
+      "operations": [
+        "list",
+        "message"
+      ]
+    }
+  },
   "client": {
     "script": "client.js",
     "style": "client.css"

@@ -1,0 +1,14 @@
+{
+  "id": "library",
+  "version": "1.0.0",
+  "buildId": "4c625a1-mv262740",
+  "requiresCore": ">=2.8.0 <3",
+  "exports": {
+    "library.assets": "1.0"
+  },
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

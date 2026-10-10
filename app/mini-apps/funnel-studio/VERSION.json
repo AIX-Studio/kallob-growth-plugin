@@ -1,0 +1,31 @@
+{
+  "id": "funnel-studio",
+  "version": "1.2.1",
+  "buildId": "4c625a1-mv2618z7",
+  "requiresCore": ">=2.20.0 <3",
+  "exports": {
+    "funnel-studio.funnels": "1.0"
+  },
+  "requires": {},
+  "connections": {
+    "gmail": {
+      "range": "^1.0",
+      "operations": [
+        "list",
+        "send-email"
+      ]
+    }
+  },
+  "uses": {
+    "library.assets": {
+      "range": "^1.0",
+      "operations": [
+        "read"
+      ]
+    }
+  },
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

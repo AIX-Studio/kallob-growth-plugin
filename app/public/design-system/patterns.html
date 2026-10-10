@@ -4,19 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KGS Design System — Patterns</title>
-    <link rel="stylesheet" href="/design-system/design-system.css" />
-    <script defer src="/design-system/design-system.js"></script>
+    <link rel="stylesheet" href="./design-system.css" />
+    <script defer src="./design-system.js"></script>
   </head>
   <body>
     <div class="ds-shell">
       <aside class="ds-sidebar">
-        <a class="ds-brand" href="/design-system/"><span class="ds-brand-mark">K</span><span><strong>KGS Design System</strong><small>Growth Studio · Local</small></span></a>
+        <a class="ds-brand" href="./index.html"><span class="ds-brand-mark">K</span><span><strong>KGS Design System</strong><small>Growth Studio · Local</small></span></a>
         <nav class="ds-nav" aria-label="Điều hướng Design System">
           <div class="ds-nav-label">Reference</div>
-          <a href="/design-system/">Tổng quan</a>
-          <a href="/design-system/foundations.html">Nền tảng</a>
-          <a href="/design-system/components.html">Components</a>
-          <a class="active" href="/design-system/patterns.html">Patterns</a>
+          <a href="./index.html">Tổng quan</a>
+          <a href="./foundations.html">Nền tảng</a>
+          <a href="./components.html">Components</a>
+          <a class="active" href="./patterns.html">Patterns</a>
         </nav>
         <div class="ds-sidebar-footer"><button class="ds-button secondary" type="button" data-theme-toggle>Đổi giao diện</button></div>
       </aside>
@@ -27,6 +27,24 @@
             <div class="ds-eyebrow">Patterns</div>
             <h1>Từ primitive đến luồng hoàn chỉnh</h1>
             <p>Patterns chuẩn hoá quan hệ giữa header, tabs, collection, drawer, form và vòng đời của một bản ghi. Chúng ngăn mỗi mini-app tự phát minh một cách trình bày riêng.</p>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Mini-app orientation</span><h2>Bản đồ giá trị trước workspace vận hành</h2></div><p>Bản đồ bắt đầu từ giá trị cần tạo, đi qua xây dựng và phân phối, rồi khép vòng bằng kiểm soát và học hỏi.</p></div>
+            <div class="ds-journey-demo">
+              <nav aria-label="Ví dụ bản đồ vòng đời asset">
+                <button class="active" type="button"><b>01</b><span><strong>Giá trị & Định dạng</strong><small>Mục tiêu · Định dạng</small></span><em>4 định hướng</em></button>
+                <i>↓</i>
+                <button type="button"><b>02</b><span><strong>Thiết kế & Nội dung</strong><small>Đang tạo · Chờ duyệt</small></span><em>2 đang xây</em></button>
+                <i>↓</i>
+                <button type="button"><b>03</b><span><strong>Phân phối</strong><small>Phễu · Tài sản chờ</small></span><em>2 chưa phân phối</em></button>
+                <i>↓</i>
+                <button type="button"><b>04</b><span><strong>Theo dõi</strong><small>Tiếp cận · Chuyển đổi</small></span><em>12.9% CVR</em></button>
+                <i>↓</i>
+                <button type="button"><b>05</b><span><strong>Đúc kết</strong><small>Bài học · Quyết định</small></span><em>Chưa đúc kết</em></button>
+              </nav>
+              <article><header><span class="ds-journey-icon">01</span><div><span class="ds-eyebrow">GIÁ TRỊ</span><h3>Giá trị & Định dạng</h3><p>Bắt đầu từ thay đổi cần tạo ra cho người dùng, không bắt đầu từ công cụ sản xuất.</p></div><mark>Sẵn sàng bắt đầu</mark></header><div class="ds-journey-contracts"><section><span>MỤC TIÊU CỦA TÀI SẢN</span><p>Giúp founder tự đánh giá mức độ sẵn sàng ứng dụng AI.</p></section><section><span>ĐỊNH DẠNG</span><p>eBook</p></section></div><button class="ds-button primary" type="button">Tạo tài sản mới</button></article>
+            </div>
           </section>
 
           <section class="ds-section">
@@ -59,7 +77,7 @@
           </section>
 
           <section class="ds-section">
-            <div class="ds-section-heading"><div><span>Drawer</span><h2>Preview và edit drawer</h2></div><p>Mặc định mở ở width gọn; header tích hợp identity bên trái và action bên phải. Header đứng yên, body là vùng cuộn dọc.</p></div>
+            <div class="ds-section-heading"><div><span>Drawer</span><h2>Preview và edit drawer</h2></div><p>Mặc định mở ở width gọn và giữ trang phía sau nhìn thấy được; lớp bắt click bên ngoài phải trong suốt. Bản ghi và form đơn giản dùng preset drawer-compact 560px, giới hạn theo workspace. Chỉ khi bấm Mở rộng, drawer mới chiếm toàn workspace. Header tích hợp identity bên trái và action bên phải, đứng yên khi body cuộn dọc. Khi chỉnh sửa, Hủy/Lưu luôn nằm trên header, không ở cuối form. DocumentPreviewDrawer layout record dùng body 20px chung với form, không cộng padding giấy. Brief dùng SegmentedControl cho các phần nội dung và cột nhãn 180px theo yêu cầu; mặc định của các form khác vẫn là 34%.</p></div>
             <div class="ds-drawer-demo">
               <div class="ds-drawer-backdrop"><span>Workspace phía sau</span></div>
               <aside>
@@ -76,6 +94,15 @@
 
           <section class="ds-section">
             <div class="ds-section-heading"><div><span>Responsive</span><h2>Co cấu trúc, không co khả năng đọc</h2></div></div>
+            <p>Workspace chia hai panel dùng <code>ResizableSplit</code>: khai báo chiều rộng tối thiểu cho cả hai bên, thanh kéo 6px, phím ←/→ điều chỉnh 16px, Home/End tới giới hạn, nhấp đúp về mặc định. Inbox Zalo: danh sách tối thiểu 280px, chat tối thiểu 420px, danh sách mặc định 320px. Khi không đủ chỗ, chuyển sang một panel với nút quay lại; không ép chữ hoặc tạo cuộn ngang.</p>
+            <p>Chat compact: header chat 56px, dòng liên hệ 64px, avatar 36px. Header inbox hai hàng: selector account 40px toàn chiều rộng; số hội thoại và icon action 36px (glyph 16px, gap 8px) ở hàng dưới. Không bóp tên account cạnh ba action. Menu có avatar rộng tối thiểu 240px trong giới hạn viewport, tên một dòng. Tin nhắn phẳng không nền/viền, Body 13/20, metadata Caption, lề ngang 20px, tối đa 85% chiều rộng. Tin cùng người gửi cách 4px, đổi người gửi cách 12px. Test dùng cùng component tin nhắn: khách bên trái, AI bên phải, tên người gửi, thời gian và nhãn AI/Test; đánh giá đóng mặc định, không giả trạng thái đã gửi. Composer một hàng: Gợi ý AI, ô nhập tự giãn và Gửi. Bản nháp chờ duyệt và lỗi vẫn có khung rõ ràng.</p>
+            <p>Đánh giá dành riêng cho người vận hành dùng một disclosure Caption chung cho chat thật và test, đặt trước nội dung Agent trả lời (sau tên Agent nếu có). Bản nháp chờ duyệt cũng đặt đánh giá trước nội dung soạn. Giai đoạn AI đánh giá trên summary; căn cứ, mục tiêu, bước tiếp theo và quyết định/rủi ro ở các dòng nhãn–giá trị khi mở. Tất cả chữ trong khối dùng Caption 11/16, kể cả nhãn và giá trị; chỉ nhãn đậm hơn, không tăng cỡ chữ theo style mặc định của dt/dd. Panel hẹp xếp nhãn trên giá trị. Không thêm bong bóng/nền card/heading lớn; không lấy bộ nhớ hiện tại gán cho tin cũ. Header test chỉ có một dòng tên; ngữ cảnh, tài khoản và cảnh báo không gửi ra Zalo ở phần ngữ cảnh test.</p>
+            <p>Header inbox: Search, Test (nếu có), Thêm và menu ba chấm. Search chỉ mở khi cần, tự focus; Escape/Đóng xoá bộ lọc và trả focus về icon Search. Làm mới và Xem hội thoại đã lưu trữ nằm trong menu có nhãn; chế độ lưu trữ vẫn hiện rõ phạm vi. Header chat chỉ giữ danh tính, nút Chatbot và ba chấm; trạng thái thông thường cùng ngữ cảnh khách chuyển vào menu. Lỗi gửi/chờ người vận hành quyết định vẫn hiện trong vùng chat. Menu dùng chung disclosure, đóng khi bấm ngoài, rời focus hoặc Escape.</p>
+            <p>Chat nhóm ghim mục tiêu do người vận hành đặt ngay dưới header: Label, Body, padding 8/20px, nền card và một đường border. Chỉnh trực tiếp bằng FormField tự giãn, Lưu/Huỷ rõ ràng; mô tả nhóm, nhận diện thành viên CRM và phiên bản ở drawer ngữ cảnh. Tên người gửi, ngày giờ và metadata ở cùng hàng trước nội dung. Mỗi tin thành viên có một disclosure Caption “Đánh giá &amp; hành động tiếp theo” ngay bên dưới, căn đúng lề trái tin nhắn, dù trả lời hay chỉ quan sát. Trạng thái, kết luận, lỗi nằm bên trong khối mở rộng; không thêm hai dòng phụ hay lặp bên câu AI. Đánh giá bổ sung tin cũ không gửi tin. Bản nháp nhóm duyệt theo thứ tự nguồn, hiện người gửi, số lượng đang chờ và có/không mention.</p>
+            <p>Chat 1:1 và nhóm mở 40 tin mới nhất, cuộn tới cuối. Cuộn lên tải batch cũ và giữ vị trí tin đang đọc; tin mới chỉ kéo tới cuối khi người đọc đang gần cuối. Danh sách hội thoại tải 30 dòng mới nhất trước, cuộn xuống để lấy dòng cũ; số lượng trên header là tổng theo bộ lọc. Loading/lỗi/Thử lại đặt tại ranh giới tải, không làm mất lịch sử đã đọc. Phân trang giao diện không rút ngắn context hay hàng đợi AI.</p>
+            <p>Nội dung chat render Markdown bằng renderer chung: đoạn, danh sách, chữ đậm, link, code và bảng dùng nhịp compact; Body 13/20, heading Body large 15/25, code Caption 11/16. Code/bảng rộng cuộn bên trong tin nhắn. HTML không thực thi, link nguy hiểm bị lọc; ảnh chỉ là link bấm chủ động. Không đọc frontmatter của chat, không đổi nội dung lưu/gửi Zalo. Không lặp dòng chú thích về phạm vi đánh giá trên mỗi phản hồi.</p>
+            <p>CRM ghi đợt trao đổi có ý nghĩa, không sao chép nhật ký chat. Timeline có tiêu đề nghiệp vụ, tóm tắt Body, kết quả và bước tiếp theo dạng nhãn–giá trị. Nguồn, bằng chứng, phiên bản là disclosure Caption; mã kỹ thuật không nằm trong nội dung đọc. Thông tin khách tự khai, nhận định AI, mâu thuẫn và bác bỏ được phân biệt rõ; sửa thủ công khoá cập nhật tự động. Dùng lại drawer/form/confirmation/lưu trữ của CRM. Đợt trao đổi đang gom và bản xem trước gộp nhật ký cũ là trạng thái rõ ràng; chỉ áp dụng gộp sau xác nhận, giữ nguyên tin gốc và khả năng khôi phục.</p>
+            <p>Màn hình trống bên trong workspace: tiêu đề Small title 19/26, mô tả Body 13/20, icon 24–32px; không dùng hero heading. Account Selector: tên 14/20 strong, avatar 24px; đổi tài khoản sẽ đổi inbox và phạm vi Refresh. Chat 1:1 và Chat nhóm là hai trang riêng, dùng chung layout.</p>
             <div class="ds-grid three">
               <article class="ds-card"><h3>≥ 1180px</h3><p>Sidebar cố định, content nhiều cột, drawer có thể dùng rail metadata.</p></article>
               <article class="ds-card"><h3>768–1179px</h3><p>Giảm cột, action được wrap; title vẫn có toàn bộ chiều rộng cần thiết.</p></article>
@@ -86,8 +113,8 @@
           <section class="ds-section">
             <div class="ds-section-heading"><div><span>Guardrails</span><h2>Dấu hiệu lệch chuẩn</h2></div></div>
             <div class="ds-do-dont">
-              <div class="do"><strong>Nên</strong><ul><li>List/table ngay cả khi mới có một bản ghi</li><li>Header và row dùng cùng grid template</li><li>Action nằm trong vùng riêng, title được wrap tự nhiên</li><li>Dùng shared drawer, tabs, fields và collection primitives</li></ul></div>
-              <div class="dont"><strong>Không nên</strong><ul><li>Đổi bản ghi thành card tuỳ hứng</li><li>Tạo tab hai cấp cho cùng một tập nội dung</li><li>Thu chữ xuống 9–10px để vừa layout</li><li>Thêm sticky offset, overlay hoặc scroll region riêng theo page</li></ul></div>
+              <div class="do"><strong>Nên</strong><ul><li>List/table ngay cả khi mới có một bản ghi</li><li>Header và row dùng một biến column tracks và cùng column-gap</li><li>Action icon nằm trong cột cố định, căn giữa theo cùng một trục</li><li>Dùng shared drawer, tabs, fields và collection primitives</li></ul></div>
+              <div class="dont"><strong>Không nên</strong><ul><li>Đổi bản ghi thành card tuỳ hứng</li><li>Cho grid con tự tính cột hoặc quên lặp column-gap</li><li>Thu chữ xuống 9–10px để vừa layout</li><li>Thêm sticky offset, overlay hoặc scroll region riêng theo page</li></ul></div>
             </div>
           </section>
         </div>

@@ -1,8 +1,8 @@
 {
   "id": "research",
-  "version": "1.2.0",
-  "buildId": "f900ed0-muvk3xdu",
-  "requiresCore": ">=2.0.0 <3",
+  "version": "1.5.0",
+  "buildId": "4c625a1-mv25yfb5",
+  "requiresCore": ">=2.22.0 <3",
   "exports": {},
   "requires": {},
   "client": {

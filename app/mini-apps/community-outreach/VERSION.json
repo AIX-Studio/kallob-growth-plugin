@@ -1,0 +1,12 @@
+{
+  "id": "community-outreach",
+  "version": "1.2.0",
+  "buildId": "4c625a1-mv260u4r",
+  "requiresCore": ">=2.22.0 <3",
+  "exports": {},
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

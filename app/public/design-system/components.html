@@ -4,19 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KGS Design System — Components</title>
-    <link rel="stylesheet" href="/design-system/design-system.css" />
-    <script defer src="/design-system/design-system.js"></script>
+    <link rel="stylesheet" href="./design-system.css" />
+    <script defer src="./design-system.js"></script>
   </head>
   <body>
     <div class="ds-shell">
       <aside class="ds-sidebar">
-        <a class="ds-brand" href="/design-system/"><span class="ds-brand-mark">K</span><span><strong>KGS Design System</strong><small>Growth Studio · Local</small></span></a>
+        <a class="ds-brand" href="./index.html"><span class="ds-brand-mark">K</span><span><strong>KGS Design System</strong><small>Growth Studio · Local</small></span></a>
         <nav class="ds-nav" aria-label="Điều hướng Design System">
           <div class="ds-nav-label">Reference</div>
-          <a href="/design-system/">Tổng quan</a>
-          <a href="/design-system/foundations.html">Nền tảng</a>
-          <a class="active" href="/design-system/components.html">Components</a>
-          <a href="/design-system/patterns.html">Patterns</a>
+          <a href="./index.html">Tổng quan</a>
+          <a href="./foundations.html">Nền tảng</a>
+          <a class="active" href="./components.html">Components</a>
+          <a href="./patterns.html">Patterns</a>
         </nav>
         <div class="ds-sidebar-footer"><button class="ds-button secondary" type="button" data-theme-toggle>Đổi giao diện</button></div>
       </aside>
@@ -55,6 +55,7 @@
               <div class="ds-form-grid">
                 <label class="ds-field"><span>Trang hoặc cộng đồng tham chiếu</span><input value="https://kallob.net/" /></label>
                 <label class="ds-field"><span>Trạng thái</span><select><option>Đang sử dụng</option><option>Bản nháp</option></select></label>
+                <label class="ds-field"><span>Loại ảnh đã lưu (không thể đổi)</span><select disabled><option>Của mình</option></select></label>
               </div>
               <label class="ds-field full">
                 <span>Ai được lắng nghe và để quyết định điều gì</span>
@@ -68,6 +69,11 @@
             </div>
           </section>
 
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Image intake</span><h2>Upload-first</h2></div><p>Lưu ảnh trước; AI bổ sung chú thích sau. Không yêu cầu form metadata.</p></div>
+            <label class="ds-image-upload"><strong>Kéo thả ảnh vào đây hoặc bấm để chọn</strong><span>PNG, JPEG, WebP · tối đa 8 MB mỗi ảnh</span><input type="file" accept="image/png,image/jpeg,image/webp" multiple aria-label="Chọn hình ảnh" /></label>
+            <p class="ds-note">Focus và drag dùng primary/accent. Khi phân tích lỗi, ảnh vẫn được giữ và có thể thử lại. Chi tiết ảnh mở chỉ đọc.</p>
+          </section>
           <section class="ds-section">
             <div class="ds-section-heading"><div><span>Decisions</span><h2>Action dialog</h2></div><p>Mọi xác nhận và nhập thêm ngữ cảnh dùng primitive KGS; không dùng dialog mặc định của browser.</p></div>
             <div class="ds-dialog-stage">
@@ -133,6 +139,8 @@
 
           <section class="ds-section">
             <div class="ds-section-heading"><div><span>States</span><h2>Mỗi component phải đủ trạng thái</h2></div></div>
+            <div class="ds-inline-progress" role="status"><span aria-hidden="true">◌</span><span>Ảnh đã lưu. Codex đang tạo chú thích và diễn giải…</span></div>
+            <p class="ds-note">Tiến trình dùng Caption và màu trung tính; màu lỗi chỉ dành cho thao tác thất bại.</p>
             <div class="ds-state-grid">
               <div><strong>Default</strong><span>Trạng thái nghỉ</span></div><div><strong>Hover</strong><span>Phản hồi con trỏ</span></div>
               <div><strong>Focus</strong><span>Ring cho keyboard</span></div><div><strong>Disabled</strong><span>Không thể thao tác</span></div>

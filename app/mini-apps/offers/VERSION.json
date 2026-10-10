@@ -1,8 +1,8 @@
 {
   "id": "offers",
-  "version": "1.2.0",
-  "buildId": "f900ed0-muvk23i3",
-  "requiresCore": ">=2.0.0 <3",
+  "version": "1.5.0",
+  "buildId": "4c625a1-mv25wg95",
+  "requiresCore": ">=2.22.0 <3",
   "exports": {
     "offers.catalog": "1.0"
   },

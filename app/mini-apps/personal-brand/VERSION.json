@@ -1,10 +1,30 @@
 {
   "id": "personal-brand",
-  "version": "1.2.0",
-  "buildId": "f900ed0-muvk3k9z",
-  "requiresCore": ">=2.0.0 <3",
-  "exports": {},
+  "version": "1.12.0",
+  "buildId": "4c625a1-mv25y0ow",
+  "requiresCore": ">=2.22.0 <3",
+  "exports": {
+    "personal-brand.library-source": "1.0"
+  },
   "requires": {},
+  "connections": {
+    "facebook-page": {
+      "range": "^1.0",
+      "operations": [
+        "list",
+        "post"
+      ]
+    }
+  },
+  "uses": {
+    "library.assets": {
+      "range": "^1.0",
+      "operations": [
+        "read",
+        "write"
+      ]
+    }
+  },
   "client": {
     "script": "client.js",
     "style": "client.css"

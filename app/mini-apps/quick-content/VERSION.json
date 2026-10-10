@@ -1,8 +1,8 @@
 {
   "id": "quick-content",
-  "version": "1.2.0",
-  "buildId": "f900ed0-muvk36sn",
-  "requiresCore": ">=2.0.0 <3",
+  "version": "1.5.0",
+  "buildId": "4c625a1-mv25xlu3",
+  "requiresCore": ">=2.22.0 <3",
   "exports": {
     "quick-content.drafts": "1.0"
   },

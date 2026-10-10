@@ -1,9 +1,11 @@
 {
   "id": "quick-visual",
-  "version": "1.2.0",
-  "buildId": "f900ed0-muvk2tpw",
-  "requiresCore": ">=2.0.0 <3",
-  "exports": {},
+  "version": "1.6.0",
+  "buildId": "4c625a1-mv25x7pn",
+  "requiresCore": ">=2.22.0 <3",
+  "exports": {
+    "quick-visual.images": "1.0"
+  },
   "requires": {},
   "client": {
     "script": "client.js",

@@ -1,10 +1,20 @@
 {
   "id": "image-studio",
-  "version": "1.1.0",
-  "buildId": "f900ed0-muvk1qcz",
-  "requiresCore": ">=2.0.0 <3",
-  "exports": {},
+  "version": "1.6.0",
+  "buildId": "4c625a1-mv25w1t3",
+  "requiresCore": ">=2.22.0 <3",
+  "exports": {
+    "image-studio.requests": "1.0"
+  },
   "requires": {},
+  "uses": {
+    "library.assets": {
+      "range": "^1.0",
+      "operations": [
+        "write"
+      ]
+    }
+  },
   "client": {
     "script": "client.js",
     "style": "client.css"
