@@ -1,14 +1,21 @@
 {
   "id": "personal-brand",
-  "version": "1.12.0",
-  "buildId": "4c625a1-mv25y0ow",
-  "requiresCore": ">=2.22.0 <3",
+  "version": "1.13.0",
+  "buildId": "c99b4f9-mv2a5puy",
+  "requiresCore": ">=2.25.0 <3",
   "exports": {
     "personal-brand.library-source": "1.0"
   },
   "requires": {},
   "connections": {
     "facebook-page": {
+      "range": "^1.0",
+      "operations": [
+        "list",
+        "post"
+      ]
+    },
+    "facebook-profile": {
       "range": "^1.0",
       "operations": [
         "list",

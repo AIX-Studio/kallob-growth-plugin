@@ -145,11 +145,12 @@ function defineMiniApp(module) {
 // src/mini-apps/zalo-chatbot/manifest.ts
 var manifest = {
   id: "zalo-chatbot",
-  version: "1.13.0",
+  version: "1.15.0",
   // Kernel 2.16.0: Pages, OAs and personal Zalo are shared connections (spec 047 phase 2), every reply an external action.
   // Kernel 2.18.0: its prompts ship in content/prompts and render through sdk.prompts.ownPrompt (ADR 0006).
   // Kernel 2.19.0: it tells Mini CRM through `crm.ingest` events (ADR 0004).
-  requiresCore: ">=2.19.0 <3",
+  // Kernel 2.23.0: connecting a Facebook Page is a Codex task that sets up the founder's own Meta App.
+  requiresCore: ">=2.23.0 <3",
   connections: {
     "facebook-page": { range: "^1.0", operations: ["list", "message"] },
     "zalo-oa": { range: "^1.0", operations: ["list", "message"] },
@@ -161,6 +162,31 @@ var manifest = {
 
 // src/mini-apps/zalo-chatbot/release-notes.json
 var release_notes_default = [
+  {
+    version: "1.15.0",
+    vi: "Thi\u1EBFt l\u1EADp li\u1EC7t k\xEA m\u1ECDi k\xEAnh \u0111\xE3 k\u1EBFt n\u1ED1i (Facebook Page, Zalo OA, Zalo c\xE1 nh\xE2n), m\u1ED7i k\xEAnh m\u1ED9t n\xFAt B\u1EADt/T\u1EAFt Chatbot. B\u1EADt m\u1ED9t Page hay OA l\xE0 c\xF3 Chatbot ngay v\u1EDBi m\u1EB7c \u0111\u1ECBnh (t\xEAn theo k\xEAnh, b\u1EA1n duy\u1EC7t tr\u01B0\u1EDBc khi g\u1EEDi, AI so\u1EA1n cho h\u1ED9i tho\u1EA1i m\u1EDBi), kh\xF4ng c\u1EA7n \u0111i\u1EC1n form; Tu\u1EF3 ch\u1EC9nh \u0111\u1EC3 \u0111\u1ED5i t\xEAn, vai tr\xF2, c\xE1ch tr\u1EA3 l\u1EDDi. T\u1EAFt l\xE0 d\u1EEBng nghe k\xEAnh, h\u1ED9i tho\u1EA1i c\u0169 v\u1EABn gi\u1EEF. Zalo c\xE1 nh\xE2n v\u1EABn m\u1EDF form \u0111\u1EC3 x\xE1c nh\u1EADn r\u1EE7i ro. C\xF3 n\xFAt k\u1EBFt n\u1ED1i th\xEAm Facebook Page, Zalo OA, Zalo c\xE1 nh\xE2n ngay t\u1EA1i \u0111\xE2y.",
+    en: "Settings lists every connected channel (Facebook Pages, Zalo OAs, personal Zalo) with one Chatbot switch each. Turning on a Page or an OA gives it a Chatbot at once with defaults (named after the channel, you approve each reply, the AI drafts for new chats), no form; Customize changes its name, role and reply mode. Turning off stops listening and keeps past conversations. Personal Zalo still opens the form for its risk acknowledgements. Connect another Facebook Page, Zalo OA or personal Zalo right there."
+  },
+  {
+    version: "1.14.0",
+    vi: "N\xFAt K\u1EBFt n\u1ED1i Facebook giao vi\u1EC7c cho Codex: Codex t\u1EA1o Meta App c\u1EE7a ri\xEAng b\u1EA1n trong tr\xECnh duy\u1EC7t c\u1EE7a Codex v\xE0 k\u1EBFt n\u1ED1i Page, n\xEAn m\u1ECDi ng\u01B0\u1EDDi \u0111\u1EC1u k\u1EBFt n\u1ED1i \u0111\u01B0\u1EE3c (kh\xF4ng ch\u1EC9 ng\u01B0\u1EDDi th\u1EED nghi\u1EC7m app c\u1EE7a Kallob). C\u1EA7n Growth Studio 0.44.0.",
+    en: "The Connect Facebook button hands the work to Codex: it creates your own Meta App in Codex's browser and connects your Page, so everyone can connect (not only testers of Kallob's app). Needs Growth Studio 0.44.0."
+  },
+  {
+    version: "1.13.3",
+    vi: 'Hai lo\u1EA1i d\xF2ng nh\u1EADt k\xFD ti\u1EBFng Anh t\u1EEB nh\u1EEFng phi\xEAn b\u1EA3n Chatbot \u0111\u1EA7u ti\xEAn ("Allowed Zalo message received", "Zalo reply draft ready for review") c\u0169ng \u0111\u01B0\u1EE3c \u0111\u1ED5i sang ti\xEAu \u0111\u1EC1 ti\u1EBFng Vi\u1EC7t.',
+    en: `Two kinds of English log entries from the Chatbot's first versions ("Allowed Zalo message received", "Zalo reply draft ready for review") take Vietnamese titles too.`
+  },
+  {
+    version: "1.13.2",
+    vi: 'Nh\u1EADt k\xFD c\u1EE7a Chatbot g\u1ECDn v\xE0 th\u1ED1ng nh\u1EA5t: m\u1ECDi d\xF2ng vi\u1EBFt b\u1EB1ng ti\u1EBFng Vi\u1EC7t, ghi t\xEAn Chatbot \u0111ang g\u1EB7p l\u1ED7i, v\xE0 l\u1ED7i nh\u1EADn tin Zalo ch\u1EC9 ghi m\u1ED9t l\u1EA7n cho m\u1ED7i \u0111\u1EE3t thay v\xEC m\u1ED7i l\u1EA7n th\u1EED l\u1EA1i. C\xE1c d\xF2ng c\u0169 c\xF2n ghi "Zalo Chatbot" \u0111\xE3 \u0111\u01B0\u1EE3c xo\xE1; c\xE1c d\xF2ng ti\u1EBFng Anh c\u0169 \u0111\u01B0\u1EE3c \u0111\u1ED5i sang ti\xEAu \u0111\u1EC1 m\u1EDBi. Ti\xEAu \u0111\u1EC1 kh\xF4ng c\xF2n g\u1EAFn "Zalo" cho c\xE2u tr\u1EA3 l\u1EDDi g\u1EEDi qua Zalo OA hay Facebook Page.',
+    en: `The Chatbot's activity log reads one way: every entry is in Vietnamese, names the Chatbot with the problem, and a Zalo listening failure is logged once per streak instead of on every retry. Old entries that still said "Zalo Chatbot" are removed; older English entries take the new titles. Titles no longer say "Zalo" for replies sent through Zalo OA or a Facebook Page.`
+  },
+  {
+    version: "1.13.1",
+    vi: 'Th\xF4ng b\xE1o v\xE0 l\u1ED7i c\u1EE7a Chatbot ghi \u0111\xFAng t\xEAn Chatbot (tr\u01B0\u1EDBc \u0111\xE2y v\u1EABn ghi "Zalo Chatbot", nh\u01B0 "Zalo Chatbot could not start").',
+    en: 'Chatbot notices and errors now say Chatbot (they still said "Zalo Chatbot", as in "Zalo Chatbot could not start").'
+  },
   {
     version: "1.13.0",
     vi: "Chatbot b\xE1o cho Mini CRM b\u1EB1ng s\u1EF1 ki\u1EC7n thay v\xEC ghi th\u1EB3ng v\xE0o CRM: ai \u0111ang nh\u1EAFn qua Zalo c\xE1 nh\xE2n, kh\xE1ch n\xF3i g\xEC, ai trong nh\xF3m quan t\xE2m, v\xE0 li\xEAn h\u1EC7 b\u1EA1n l\u01B0u v\xE0o Mini CRM. Mini CRM \u0111ang t\u1EAFt th\xEC s\u1EF1 ki\u1EC7n ch\u1EDD \u0111\u1EBFn khi b\u1EADt l\u1EA1i, kh\xF4ng m\u1EA5t g\xEC; m\u1ED9t li\xEAn h\u1EC7 l\u01B0u khi CRM t\u1EAFt s\u1EBD hi\u1EC7n t\xEAn kh\xE1ch ti\u1EC1m n\u0103ng ngay khi CRM ch\u1EA1y. G\u1EE1 li\xEAn k\u1EBFt th\xEC li\xEAn h\u1EC7 kh\xF4ng t\u1EF1 g\u1EAFn l\u1EA1i. Facebook Page v\xE0 Zalo OA ch\u01B0a b\xE1o cho Mini CRM, nh\u01B0 tr\u01B0\u1EDBc. C\u1EA7n Growth Studio 0.40.0.",
@@ -2221,11 +2247,61 @@ var crmLinkPending = {
   }
 };
 
+// src/mini-apps/zalo-chatbot/server/migrations/activity-titles.ts
+var RETITLED = [
+  ["zalo_chatbot.dispatch_failed", "Zalo send queue failed", "Chatbot ch\u01B0a g\u1EEDi \u0111\u01B0\u1EE3c tin trong h\xE0ng ch\u1EDD"],
+  ["zalo_chatbot.listener_failed", "Chatbot listener needs attention", "Chatbot nh\u1EADn tin Zalo g\u1EB7p l\u1ED7i"],
+  ["zalo_chatbot.listener_failed", "Chatbot could not start", "Chatbot ch\u01B0a b\u1EAFt \u0111\u1EA7u nh\u1EADn tin Zalo \u0111\u01B0\u1EE3c"],
+  ["zalo_chatbot.transport_packet", "Zalo transport diagnostic", "Ch\u1EA9n \u0111o\xE1n k\u1EBFt n\u1ED1i Zalo"],
+  ["zalo_chatbot.listener_started", "Chatbot is listening", "Chatbot \u0111ang nh\u1EADn tin Zalo"],
+  ["zalo_chatbot.contact_sync_failed", "Allowed Zalo contact added; sync needs attention", "\u0110\xE3 th\xEAm li\xEAn h\u1EC7 Zalo nh\u01B0ng ch\u01B0a t\u1EA3i \u0111\u01B0\u1EE3c tin g\u1EA7n \u0111\xE2y"],
+  ["zalo_chatbot.contact_synced", "Allowed Zalo contact refreshed", "\u0110\xE3 t\u1EA3i l\u1EA1i li\xEAn h\u1EC7 Zalo"],
+  ["zalo_chatbot.message_received", "Zalo message received", "C\xF3 tin nh\u1EAFn Zalo m\u1EDBi"],
+  ["zalo_chatbot.message_received", "Allowed Zalo message received", "C\xF3 tin nh\u1EAFn Zalo m\u1EDBi"],
+  ["zalo_chatbot.policy_updated", "Conversation chatbot settings saved", "\u0110\xE3 l\u01B0u c\xE1ch Chatbot tr\u1EA3 l\u1EDDi h\u1ED9i tho\u1EA1i"],
+  ["zalo_chatbot.manual_queued", "Human message queued", "\u0110\xE3 x\u1EBFp tin b\u1EA1n g\u1EEDi v\xE0o h\xE0ng ch\u1EDD"],
+  ["zalo_chatbot.auto_reply_blocked", "Automatic reply needs review", "C\xE2u tr\u1EA3 l\u1EDDi t\u1EF1 \u0111\u1ED9ng c\u1EA7n b\u1EA1n duy\u1EC7t"],
+  ["zalo_chatbot.draft_failed", "Zalo reply draft failed", "Chatbot ch\u01B0a so\u1EA1n \u0111\u01B0\u1EE3c c\xE2u tr\u1EA3 l\u1EDDi"],
+  ["zalo_chatbot.draft_ready", "Zalo reply draft ready for review", "Ph\u1EA3n h\u1ED3i Chatbot ch\u1EDD duy\u1EC7t"],
+  ["zalo_chatbot.message_sent", "Approved Zalo reply sent", "\u0110\xE3 g\u1EEDi c\xE2u tr\u1EA3 l\u1EDDi b\u1EA1n duy\u1EC7t"]
+];
+function hasActivityLog(db) {
+  return Boolean(db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'integration_events'").get());
+}
+function retitleChatbotActivity(db) {
+  const retitle = db.prepare("UPDATE integration_events SET title = ? WHERE event_type = ? AND title = ?");
+  for (const [eventType, before, now2] of RETITLED) retitle.run(now2, eventType, before);
+  db.exec(`
+    UPDATE integration_events SET detail = replace(detail, ' recent messages imported', ' tin g\u1EA7n \u0111\xE2y')
+      WHERE event_type = 'zalo_chatbot.contact_synced';
+    UPDATE integration_events SET detail = replace(replace(replace(replace(detail, ' \xB7 review \xB7 ', ' \xB7 ch\u1EDD duy\u1EC7t \xB7 '), ' \xB7 auto \xB7 ', ' \xB7 t\u1EF1 g\u1EEDi \xB7 '), ' \xB7 disabled \xB7 ', ' \xB7 t\u1EAFt AI \xB7 '), ' \xB7 revision ', ' \xB7 b\u1EA3n ')
+      WHERE event_type = 'zalo_chatbot.policy_updated';
+  `);
+}
+
+// src/mini-apps/zalo-chatbot/server/migrations/0014-activity-in-vietnamese.ts
+var activityInVietnamese = {
+  id: "0014-activity-in-vietnamese",
+  up(db) {
+    if (!hasActivityLog(db)) return;
+    db.exec(`DELETE FROM integration_events WHERE event_type LIKE 'zalo\\_chatbot.%' ESCAPE '\\' AND (title LIKE '%Zalo Chatbot%' OR detail LIKE '%Zalo Chatbot%')`);
+    retitleChatbotActivity(db);
+  }
+};
+
+// src/mini-apps/zalo-chatbot/server/migrations/0015-oldest-activity-titles.ts
+var oldestActivityTitles = {
+  id: "0015-oldest-activity-titles",
+  up(db) {
+    if (hasActivityLog(db)) retitleChatbotActivity(db);
+  }
+};
+
 // src/mini-apps/zalo-chatbot/server/migrations/index.ts
 var schema = {
   id: manifest.id,
   dependsOn: ["kernel"],
-  migrations: [baseline, softCrossAppReferences, groupsAndReplies, memoryAndAssessment, newcomers, allChats, chatbotReplyDefaults, holdingReplies, ownChannels, zaloOaChannels, autoFaq, adoptedChannels, crmLinkPending]
+  migrations: [baseline, softCrossAppReferences, groupsAndReplies, memoryAndAssessment, newcomers, allChats, chatbotReplyDefaults, holdingReplies, ownChannels, zaloOaChannels, autoFaq, adoptedChannels, crmLinkPending, activityInVietnamese, oldestActivityTitles]
 };
 
 // src/mini-apps/zalo-chatbot/server/repository.ts
@@ -2869,8 +2945,8 @@ var ZaloChatbotRepository = class {
    */
   updateChatbot(id, input, revision) {
     const current = this.getChatbot(id);
-    if (!current || current.archivedAt) throw new Error("Zalo Chatbot not found");
-    if (revision === void 0 || revision !== current.revision) throw new Error("Zalo Chatbot changed since it was opened");
+    if (!current || current.archivedAt) throw new Error("Chatbot not found");
+    if (revision === void 0 || revision !== current.revision) throw new Error("Chatbot changed since it was opened");
     const role = text5(input.role ?? current.role, "Chatbot role", 300);
     const mission = text5(input.mission ?? current.mission, "Chatbot mission", 2e3);
     const defaultReplyMode = replyModeOf(input.defaultReplyMode, current.defaultReplyMode);
@@ -2879,7 +2955,7 @@ var ZaloChatbotRepository = class {
     this.db.exec("SAVEPOINT zalo_chatbot_update");
     try {
       const changed = this.db.prepare("UPDATE zalo_chatbots SET name = ?, ai_display_name = ?, disclosure_prefix = ?, revision = revision + 1, updated_at = ? WHERE id = ? AND revision = ? AND archived_at IS NULL").run(text5(input.name ?? current.name, "Chatbot name", 120), text5(input.aiDisplayName ?? current.aiDisplayName, "AI display name", 80), disclosurePrefixOf(input.disclosurePrefix, current.disclosurePrefix), timestamp, id, revision);
-      if (!changed.changes) throw new Error("Zalo Chatbot changed since it was opened");
+      if (!changed.changes) throw new Error("Chatbot changed since it was opened");
       this.db.prepare("UPDATE zalo_chatbots SET role=?, mission=?, default_reply_mode=?, ai_for_new_chats=? WHERE id=?").run(role, mission, defaultReplyMode, Number(aiForNewChats), id);
       if (defaultReplyMode !== current.defaultReplyMode) this.applyReplyMode(id, defaultReplyMode, timestamp);
       this.db.exec("RELEASE zalo_chatbot_update");
@@ -2906,7 +2982,7 @@ var ZaloChatbotRepository = class {
    */
   deleteChatbot(id, revision) {
     const row = this.db.prepare("SELECT id, name, revision FROM zalo_chatbots WHERE id = ?").get(id);
-    if (!row) throw new Error("Zalo Chatbot not found");
+    if (!row) throw new Error("Chatbot not found");
     if (revision === void 0 || revision !== int(row.revision)) throw new Error("Chatbot v\u1EEBa thay \u0111\u1ED5i; m\u1EDF l\u1EA1i r\u1ED3i th\u1EED xo\xE1 l\u1EA7n n\u1EEFa.");
     const conversations = "SELECT id FROM zalo_chatbot_conversations WHERE chatbot_id = ?";
     if (this.db.prepare(`SELECT 1 FROM zalo_chatbot_deliveries WHERE status = 'claimed' AND conversation_id IN (${conversations}) LIMIT 1`).get(id)) throw new Error("Chatbot \u0111ang g\u1EEDi m\u1ED9t tin nh\u1EAFn tr\xEAn Zalo. \u0110\u1EE3i v\xE0i gi\xE2y r\u1ED3i xo\xE1 l\u1EA1i.");
@@ -2943,19 +3019,21 @@ var ZaloChatbotRepository = class {
   heldReplies() {
     const open = "v.archived_at IS NULL AND b.archived_at IS NULL";
     const proposals = this.db.prepare(`SELECT p.id AS proposal_id, p.risk, v.id AS conversation_id, t.thread_kind, t.display_name, m.sender_id,
-        (p.risk = 'normal') AS blocked
+        CASE WHEN p.risk <> 'normal' THEN 0 WHEN v.reply_mode = 'auto' THEN 1 ELSE 2 END AS held
       FROM zalo_chatbot_proposals p JOIN zalo_chatbot_conversations v ON v.id = p.conversation_id JOIN zalo_chatbots b ON b.id = v.chatbot_id JOIN zalo_chatbot_targets t ON t.id = v.target_id
       LEFT JOIN zalo_chatbot_messages m ON m.id = p.source_message_id
       WHERE p.status = 'pending' AND p.participation = 'reply' AND ${open}
         AND (p.risk <> 'normal' OR (v.reply_mode = 'auto' AND v.chatbot_enabled = 1 AND p.context_hash <> '' AND p.source_message_id IS NOT NULL
-          AND ((t.thread_kind = 'group' AND m.analysis_state = 'blocked') OR (t.thread_kind <> 'group' AND v.analysis_status = 'blocked' AND v.analysis_source_id = p.source_message_id))))
+          AND ((t.thread_kind = 'group' AND m.analysis_state = 'blocked') OR (t.thread_kind <> 'group' AND v.analysis_status = 'blocked' AND v.analysis_source_id = p.source_message_id)))
+          OR (v.reply_mode = 'review' AND v.chatbot_enabled = 1))
       ORDER BY p.created_at, p.rowid`).all();
     const decisions = this.db.prepare(`SELECT v.id AS conversation_id, t.thread_kind, t.display_name
       FROM zalo_chatbot_conversations v JOIN zalo_chatbots b ON b.id = v.chatbot_id JOIN zalo_chatbot_targets t ON t.id = v.target_id
       WHERE v.human_decision_required = 1 AND ${open} ORDER BY v.updated_at`).all();
     const byConversation = /* @__PURE__ */ new Map();
-    const rank = { sensitive: 0, handoff: 0, auto_blocked: 1, decision: 2 };
-    for (const [row, reason] of [...proposals.map((row2) => [row2, Number(row2.blocked) ? "auto_blocked" : row2.risk === "handoff" ? "handoff" : "sensitive"]), ...decisions.map((row2) => [row2, "decision"])]) {
+    const rank = { sensitive: 0, handoff: 0, auto_blocked: 1, review: 2, decision: 3 };
+    const reasonOf = (row) => Number(row.held) === 1 ? "auto_blocked" : Number(row.held) === 2 ? "review" : row.risk === "handoff" ? "handoff" : "sensitive";
+    for (const [row, reason] of [...proposals.map((row2) => [row2, reasonOf(row2)]), ...decisions.map((row2) => [row2, "decision"])]) {
       const id = String(row.conversation_id);
       const entry = byConversation.get(id) ?? { row, reason, senders: /* @__PURE__ */ new Set() };
       if (rank[reason] < rank[entry.reason]) entry.reason = reason;
@@ -3020,8 +3098,8 @@ var ZaloChatbotRepository = class {
   transitionChatbot(id, status, revision) {
     if (!["active", "paused"].includes(status)) throw new Error("Unsupported Chatbot status");
     const current = this.getChatbot(id);
-    if (!current || current.archivedAt) throw new Error("Zalo Chatbot not found");
-    if (revision === void 0 || revision !== current.revision) throw new Error("Zalo Chatbot changed since it was opened");
+    if (!current || current.archivedAt) throw new Error("Chatbot not found");
+    if (revision === void 0 || revision !== current.revision) throw new Error("Chatbot changed since it was opened");
     if (current.status === status) return current;
     if (status === "active") {
       const connection = this.connection(current.connectionId);
@@ -3032,9 +3110,9 @@ var ZaloChatbotRepository = class {
   }
   archiveChatbot(id, revision, restore = false) {
     const current = this.getChatbot(id);
-    if (!current) throw new Error("Zalo Chatbot not found");
-    if (revision === void 0 || revision !== current.revision) throw new Error("Zalo Chatbot changed since it was opened");
-    if (restore ? !current.archivedAt : Boolean(current.archivedAt)) throw new Error("Zalo Chatbot archive state changed since it was opened");
+    if (!current) throw new Error("Chatbot not found");
+    if (revision === void 0 || revision !== current.revision) throw new Error("Chatbot changed since it was opened");
+    if (restore ? !current.archivedAt : Boolean(current.archivedAt)) throw new Error("Chatbot archive state changed since it was opened");
     this.db.prepare("UPDATE zalo_chatbots SET status = 'paused', archived_at = ?, revision = revision + 1, updated_at = ? WHERE id = ? AND revision = ?").run(restore ? null : now(), now(), id, revision);
     return this.getChatbot(id);
   }
@@ -3571,7 +3649,7 @@ var ZaloChatbotRepository = class {
    */
   mergeRecentThreads(chatbotId, items) {
     const chatbot = this.getChatbot(chatbotId);
-    if (!chatbot || chatbot.archivedAt) throw new Error("Zalo Chatbot not found");
+    if (!chatbot || chatbot.archivedAt) throw new Error("Chatbot not found");
     const created = [];
     for (const item of items) {
       const kind = item.threadKind === "group" ? "group" : "user";
@@ -3848,6 +3926,61 @@ var ZaloChatbotRepository = class {
   }
 };
 
+// src/mini-apps/zalo-chatbot/server/connections.ts
+function personalZalo(connection) {
+  return {
+    connectionId: connection.id,
+    provider: "zalo-zca",
+    name: connection.scope.displayName || connection.name,
+    accountId: connection.scope.accountId ?? "",
+    avatar: connection.scope.avatar ?? "",
+    health: connection.status === "paused" ? "paused" : connection.status === "active" ? "online" : "offline",
+    healthDetail: connection.lastError ?? ""
+  };
+}
+function chatbotConnections(kernel, channels, chatbots) {
+  const bots = chatbots.listChatbots(false);
+  const botOf = (connectionId) => {
+    const bot = bots.find((item) => item.connectionId === connectionId);
+    return bot ? { id: bot.id, name: bot.name, status: bot.status, revision: bot.revision } : null;
+  };
+  const pages = channelList(kernel, channels).filter((channel2) => channel2.status !== "archived").map((channel2) => ({
+    connectionId: channel2.id,
+    provider: channel2.provider,
+    name: channel2.displayName || channel2.name,
+    accountId: channel2.accountId,
+    avatar: channel2.avatar,
+    health: channel2.status === "paused" ? "paused" : channel2.health,
+    healthDetail: channel2.healthDetail,
+    chatbot: botOf(channel2.id)
+  }));
+  const personal = kernel.listConnections(false).filter((connection) => connection.provider === "zalo-zca" && connection.status !== "archived" && (connection.scope.hasCredentials === "true" || Boolean(botOf(connection.id)))).map((connection) => ({ ...personalZalo(connection), chatbot: botOf(connection.id) }));
+  return [...pages, ...personal];
+}
+var NeedsRiskAcknowledgement = class extends Error {
+};
+function enableConnection(kernel, channels, chatbots, connectionId, options = {}) {
+  const connection = chatbotConnections(kernel, channels, chatbots).find((item) => item.connectionId === connectionId);
+  if (!connection) throw new Error("Kh\xF4ng t\xECm th\u1EA5y k\xEAnh \u0111\xE3 k\u1EBFt n\u1ED1i");
+  const existing = chatbots.listChatbots(false).find((bot) => bot.connectionId === connectionId);
+  if (existing) return existing.status === "active" ? existing : chatbots.transitionChatbot(existing.id, "active", existing.revision);
+  const personal = connection.provider === "zalo-zca";
+  if (personal && !options.acknowledgeRisks) throw new NeedsRiskAcknowledgement("Zalo c\xE1 nh\xE2n c\u1EA7n x\xE1c nh\u1EADn ba r\u1EE7i ro tr\u01B0\u1EDBc khi b\u1EADt Chatbot.");
+  return chatbots.createChatbot({
+    ...personal ? { unofficialApiAcknowledged: true, accountRiskAcknowledged: true, nonPrimaryAccountAcknowledged: true } : {},
+    name: connection.name,
+    connectionId,
+    aiDisplayName: `Tr\u1EE3 l\xFD ${connection.name}`.slice(0, 80),
+    disclosurePrefix: "[Tr\u1EE3 l\xFD AI]",
+    defaultReplyMode: "review",
+    aiForNewChats: true
+  });
+}
+function disableConnection(chatbots, connectionId) {
+  const bot = chatbots.listChatbots(false).find((item) => item.connectionId === connectionId && item.status === "active");
+  return bot ? chatbots.transitionChatbot(bot.id, "paused", bot.revision) : null;
+}
+
 // src/mini-apps/zalo-chatbot/server/routes.ts
 function createZaloChatbotRouter(service, router, channels) {
   const store = service.repository;
@@ -4021,6 +4154,38 @@ function createZaloChatbotRouter(service, router, channels) {
       next(error);
     }
   });
+  if (channels?.kernel) {
+    const kernel = channels.kernel;
+    router.get("/api/zalo-chatbot/connections", (_request, response, next) => {
+      try {
+        response.json(chatbotConnections(kernel, channels.channels, store));
+      } catch (error) {
+        next(error);
+      }
+    });
+    router.post("/api/zalo-chatbot/connections/:id/enable", async (request, response, next) => {
+      try {
+        const bot = enableConnection(kernel, channels.channels, store, request.params.id, { acknowledgeRisks: request.body?.acknowledgeRisks === true });
+        await service.refreshListeners(true);
+        response.json(bot);
+      } catch (error) {
+        if (error instanceof NeedsRiskAcknowledgement) {
+          response.status(409).json({ error: error.message, code: "needs_risk_acknowledgement" });
+          return;
+        }
+        next(error);
+      }
+    });
+    router.post("/api/zalo-chatbot/connections/:id/disable", async (request, response, next) => {
+      try {
+        const bot = disableConnection(store, request.params.id);
+        await service.refreshListeners(true);
+        response.json({ chatbot: bot });
+      } catch (error) {
+        next(error);
+      }
+    });
+  }
   router.get("/api/zalo-chatbot/chatbots", (request, response, next) => {
     try {
       response.json(store.listChatbots(request.query.archived === "1"));
@@ -4484,7 +4649,7 @@ var ZaloChatbotService = class {
       key: `zalo-chatbot:waiting:${item.conversationId}`,
       kind: ZALO_ATTENTION_KIND,
       taskId: null,
-      title: item.reason === "auto_blocked" ? "Tr\u1EA3 l\u1EDDi t\u1EF1 \u0111\u1ED9ng \u0111ang ch\u1EDD b\u1EA1n duy\u1EC7t" : item.reason === "decision" ? "Chatbot \u0111ang ch\u1EDD b\u1EA1n quy\u1EBFt \u0111\u1ECBnh" : "Tin nh\u1EA1y c\u1EA3m c\u1EA7n b\u1EA1n duy\u1EC7t",
+      title: item.reason === "auto_blocked" ? "Tr\u1EA3 l\u1EDDi t\u1EF1 \u0111\u1ED9ng \u0111ang ch\u1EDD b\u1EA1n duy\u1EC7t" : item.reason === "review" ? "Chatbot \u0111\xE3 so\u1EA1n tr\u1EA3 l\u1EDDi, ch\u1EDD b\u1EA1n duy\u1EC7t" : item.reason === "decision" ? "Chatbot \u0111ang ch\u1EDD b\u1EA1n quy\u1EBFt \u0111\u1ECBnh" : "Tin nh\u1EA1y c\u1EA3m c\u1EA7n b\u1EA1n duy\u1EC7t",
       body: `${who}: ${snippet.length > 140 ? `${snippet.slice(0, 139)}\u2026` : snippet || "\u2026"}`,
       target: { miniApp: { id: "zalo-chatbot", section: item.threadKind === "group" ? "group-chat" : "conversations", item: item.conversationId } }
     };
@@ -4495,7 +4660,8 @@ var ZaloChatbotService = class {
    * updates that notification's text, quietly (the kernel's reconcile: no
    * toast, no second notification; a page already open shows the new text
    * once it reloads its notifications); when the wait ends it closes.
-   * Ordinary drafts waiting for review never ring.
+   * An ordinary draft rings too when its conversation is in review mode with the AI on (1.15.0): the
+   * founder chose to approve each reply, so a reply waiting for them must reach them.
    */
   syncAttention() {
     const current = this.repository.heldReplies().map((item) => this.attentionFor(item));
@@ -4746,7 +4912,7 @@ var ZaloChatbotService = class {
       } catch (error) {
         this.context.addEvent({ level: "failed", eventType: "zalo_chatbot.attention_failed", title: "Ch\u01B0a c\u1EADp nh\u1EADt \u0111\u01B0\u1EE3c th\xF4ng b\xE1o Chatbot", detail: String(error) });
       }
-      void this.dispatchOne().catch((error) => this.context.addEvent({ level: "failed", eventType: "zalo_chatbot.dispatch_failed", title: "Zalo send queue failed", detail: String(error) }));
+      void this.dispatchOne().catch((error) => this.context.addEvent({ level: "failed", eventType: "zalo_chatbot.dispatch_failed", title: "Chatbot ch\u01B0a g\u1EEDi \u0111\u01B0\u1EE3c tin trong h\xE0ng ch\u1EDD", detail: String(error) }));
     }, 1500);
   }
   stop() {
@@ -4799,11 +4965,11 @@ var ZaloChatbotService = class {
       const listener = { chatbotId: bot.id, stop: () => void 0 };
       this.listeners.set(bot.connectionId, listener);
       const mine = () => this.listeners.get(bot.connectionId) === listener;
-      const report = (eventType, title, error) => this.context.addEvent({ level: "failed", eventType, title, detail: String(error instanceof Error ? error.message : error) });
+      const report = (eventType, title, error) => this.context.addEvent({ level: "failed", eventType, title, detail: `${bot.name} \xB7 ${String(error instanceof Error ? error.message : error)}` });
       try {
         const stop = await this.transport.subscribe(bot.connectionId, bot.accountId, {
           message: (message) => {
-            if (mine()) void this.receiveLive(message).catch((error) => report("zalo_chatbot.listener_failed", "Zalo Chatbot listener needs attention", error));
+            if (mine()) void this.receiveLive(message).catch((error) => report("zalo_chatbot.listener_failed", "Chatbot nh\u1EADn tin Zalo g\u1EB7p l\u1ED7i", error));
           },
           backlog: (messages) => {
             if (mine()) this.receiveBacklog(bot, messages);
@@ -4815,10 +4981,10 @@ var ZaloChatbotService = class {
             if (mine()) this.onListenerState(bot, listener, state);
           },
           error: (error) => {
-            if (mine()) report("zalo_chatbot.listener_failed", "Zalo Chatbot listener needs attention", error);
+            if (mine()) report("zalo_chatbot.listener_failed", "Chatbot nh\u1EADn tin Zalo g\u1EB7p l\u1ED7i", error);
           },
           diagnostic: (detail) => {
-            if (mine()) this.context.addEvent({ level: "warning", eventType: "zalo_chatbot.transport_packet", title: "Zalo transport diagnostic", detail });
+            if (mine()) this.context.addEvent({ level: "warning", eventType: "zalo_chatbot.transport_packet", title: "Ch\u1EA9n \u0111o\xE1n k\u1EBFt n\u1ED1i Zalo", detail });
           }
         });
         if (!mine()) {
@@ -4828,13 +4994,13 @@ var ZaloChatbotService = class {
         listener.stop = stop;
         this.listenerFailures.delete(bot.connectionId);
         this.clearListenerProblem(bot.connectionId);
-        this.context.addEvent({ level: "success", eventType: "zalo_chatbot.listener_started", title: "Chatbot is listening", detail: `${bot.name} \xB7 m\u1ECDi chat c\u1EE7a t\xE0i kho\u1EA3n \u0111\u01B0\u1EE3c l\u01B0u v\xE0 hi\u1EC7n trong H\u1ED9i tho\u1EA1i; AI ch\u1EC9 tr\u1EA3 l\u1EDDi h\u1ED9i tho\u1EA1i b\u1EA1n b\u1EADt` });
+        this.context.addEvent({ level: "success", eventType: "zalo_chatbot.listener_started", title: "Chatbot \u0111ang nh\u1EADn tin Zalo", detail: `${bot.name} \xB7 m\u1ECDi chat c\u1EE7a t\xE0i kho\u1EA3n \u0111\u01B0\u1EE3c l\u01B0u v\xE0 hi\u1EC7n trong H\u1ED9i tho\u1EA1i; AI ch\u1EC9 tr\u1EA3 l\u1EDDi h\u1ED9i tho\u1EA1i b\u1EA1n b\u1EADt` });
       } catch (error) {
         if (mine()) this.listeners.delete(bot.connectionId);
         this.listenerFailures.set(bot.connectionId, Date.now());
         this.noteListenerProblem(bot, listenerFailureReason(error), String(error instanceof Error ? error.message : error), true);
         this.scheduleListenerRetry(LISTENER_RETRY_MS);
-        report("zalo_chatbot.listener_failed", "Zalo Chatbot could not start", error);
+        if (failedAt === void 0) report("zalo_chatbot.listener_failed", "Chatbot ch\u01B0a b\u1EAFt \u0111\u1EA7u nh\u1EADn tin Zalo \u0111\u01B0\u1EE3c", error);
       }
     }
   }
@@ -4913,14 +5079,14 @@ var ZaloChatbotService = class {
   }
   async discoverFriends(chatbotId) {
     const bot = this.repository.getChatbot(chatbotId);
-    if (!bot || bot.archivedAt) throw new Error("Zalo Chatbot not found");
+    if (!bot || bot.archivedAt) throw new Error("Chatbot not found");
     const scan = await this.transport.discoverCustomers(bot.connectionId, bot.accountId);
     const existing = new Map(this.context.listCrmZaloIdentities(bot.accountId).map((item) => [item.userId, item]));
     return scan.items.map((item) => ({ userId: item.userId, displayName: item.displayName, zaloName: "", avatar: item.avatar, labels: item.labels, customerId: existing.get(item.userId)?.customerId, customerArchived: existing.get(item.userId)?.archived }));
   }
   async createTarget(input) {
     const bot = this.repository.getChatbot(String(input.chatbotId ?? ""));
-    if (!bot || bot.archivedAt) throw new Error("Zalo Chatbot not found");
+    if (!bot || bot.archivedAt) throw new Error("Chatbot not found");
     if (this.repository.listTargets({ chatbotId: bot.id }).some((target2) => target2.zaloUserId === input.zaloUserId && (target2.threadKind || "user") === (input.threadKind || "user"))) throw new Error("Li\xEAn h\u1EC7 ho\u1EB7c nh\xF3m n\xE0y \u0111\xE3 c\xF3 trong chatbot.");
     if (input.threadKind === "group") {
       const connection2 = this.context.getConnection(bot.connectionId);
@@ -4948,7 +5114,7 @@ var ZaloChatbotService = class {
       const reason = String(error instanceof Error ? error.message : error);
       const conversation = this.repository.listConversations({ limit: 500 }).find((item) => item.targetId === target.id);
       if (!conversation) throw error;
-      this.context.addEvent({ level: "warning", eventType: "zalo_chatbot.contact_sync_failed", title: "Allowed Zalo contact added; sync needs attention", detail: `${target.displayName} \xB7 ${reason}` });
+      this.context.addEvent({ level: "warning", eventType: "zalo_chatbot.contact_sync_failed", title: "\u0110\xE3 th\xEAm li\xEAn h\u1EC7 Zalo nh\u01B0ng ch\u01B0a t\u1EA3i \u0111\u01B0\u1EE3c tin g\u1EA7n \u0111\xE2y", detail: `${target.displayName} \xB7 ${reason}` });
       return {
         target,
         conversation: this.repository.getConversation(conversation.id),
@@ -4963,7 +5129,7 @@ var ZaloChatbotService = class {
     if (!current || current.archivedAt) throw new Error("Allowed contact not found");
     if (current.threadKind === "group") return this.repository.updateTarget(id, { ...input, customerId: null }, revision);
     const bot = this.repository.getChatbot(current.chatbotId);
-    if (!bot || bot.archivedAt) throw new Error("Zalo Chatbot not found");
+    if (!bot || bot.archivedAt) throw new Error("Chatbot not found");
     if (bot.provider !== "zalo-zca") return this.repository.updateTarget(id, { ...input, customerId: null }, revision);
     const known = this.context.listCrmZaloIdentities(bot.accountId).find((item) => item.userId === current.zaloUserId);
     const identity = known ?? { accountId: bot.accountId, userId: current.zaloUserId, displayName: current.displayName, avatar: current.avatar, labels: [] };
@@ -4990,7 +5156,7 @@ var ZaloChatbotService = class {
     if (input.mode !== "create" && input.mode !== "existing") throw new Error("Ch\u1ECDn \u201CL\u01B0u v\xE0o Mini CRM\u201D ho\u1EB7c m\u1ED9t kh\xE1ch c\xF3 s\u1EB5n.");
     if (input.mode === "existing" && (typeof input.customerId !== "string" || !input.customerId.trim())) throw new Error("Ch\u1ECDn kh\xE1ch trong Mini CRM.");
     const bot = this.repository.getChatbot(current.chatbotId);
-    if (!bot || bot.archivedAt) throw new Error("Zalo Chatbot not found");
+    if (!bot || bot.archivedAt) throw new Error("Chatbot not found");
     if (bot.provider !== "zalo-zca") throw new Error("Mini CRM ch\u01B0a li\xEAn k\u1EBFt \u0111\u01B0\u1EE3c kh\xE1ch Facebook Page hay Zalo OA; s\u1EBD c\xF3 \u1EDF b\u1EA3n sau.");
     const known = this.context.listCrmZaloIdentities(bot.accountId).find((item) => item.userId === current.zaloUserId);
     const identity = known ?? { accountId: bot.accountId, userId: current.zaloUserId, displayName: current.displayName, avatar: current.avatar, labels: [] };
@@ -5011,19 +5177,19 @@ var ZaloChatbotService = class {
     const target = this.repository.getTarget(targetId);
     if (!target || target.archivedAt) throw new Error("Allowed contact not found");
     const chatbot = this.repository.getChatbot(target.chatbotId);
-    if (!chatbot || chatbot.archivedAt) throw new Error("Zalo Chatbot not found");
+    if (!chatbot || chatbot.archivedAt) throw new Error("Chatbot not found");
     const snapshot = await this.transport.syncContact(chatbot.connectionId, chatbot.accountId, target.zaloUserId, target.threadKind || "user");
     const result = this.repository.syncTarget(target.id, snapshot);
     if (result.conversation.threadKind === "group" && result.conversation.chatbotEnabled) {
       const refreshedKeys = new Set(snapshot.messages.map((message) => message.eventKey));
       for (const message of result.conversation.messages.filter((m) => m.direction === "incoming" && refreshedKeys.has(m.eventKey))) this.recordSeen(result.conversation, message, chatbot);
     }
-    this.context.addEvent({ level: snapshot.warning ? "warning" : "success", eventType: "zalo_chatbot.contact_synced", title: "Allowed Zalo contact refreshed", detail: `${result.target.displayName} \xB7 ${result.importedMessageCount} recent messages imported` });
+    this.context.addEvent({ level: snapshot.warning ? "warning" : "success", eventType: "zalo_chatbot.contact_synced", title: "\u0110\xE3 t\u1EA3i l\u1EA1i li\xEAn h\u1EC7 Zalo", detail: `${result.target.displayName} \xB7 ${result.importedMessageCount} tin g\u1EA7n \u0111\xE2y` });
     return { ...result, syncedAt: (/* @__PURE__ */ new Date()).toISOString(), warning: snapshot.warning };
   }
   async discoverGroups(chatbotId) {
     const bot = this.repository.getChatbot(chatbotId);
-    if (!bot || bot.archivedAt) throw new Error("Zalo Chatbot not found");
+    if (!bot || bot.archivedAt) throw new Error("Chatbot not found");
     if (!this.transport.discoverGroups) throw new Error("K\u1EBFt n\u1ED1i ch\u01B0a h\u1ED7 tr\u1EE3 t\u1EA3i nh\xF3m Zalo.");
     return this.transport.discoverGroups(bot.connectionId, bot.accountId);
   }
@@ -5094,7 +5260,7 @@ var ZaloChatbotService = class {
     if (!event.historical && message && message.direction === "incoming" && conversation.threadKind === "group") this.answering.get(`${conversation.id}:${message.senderId}`)?.abort();
     if (event.historical || !message || message.direction !== "incoming" || !conversation.chatbotEnabled) return result;
     this.recordSeen(conversation, message, bot);
-    this.context.addEvent({ level: "success", eventType: "zalo_chatbot.message_received", title: "Zalo message received", detail: conversation.displayName });
+    this.context.addEvent({ level: "success", eventType: "zalo_chatbot.message_received", title: "C\xF3 tin nh\u1EAFn Zalo m\u1EDBi", detail: conversation.displayName });
     if (conversation.humanDecisionRequired) {
       const holding = this.repository.queueHoldingReply(conversation.id, message.id);
       if (holding) this.context.addEvent({ level: "success", eventType: "zalo_chatbot.holding_reply_queued", title: "\u0110\xE3 x\u1EBFp tin nh\u1EAFn ch\u1EDD cho kh\xE1ch", detail: `${conversation.displayName} \xB7 ${holding.text}` });
@@ -5194,12 +5360,12 @@ var ZaloChatbotService = class {
   }
   updateConversationPolicy(id, policy, revision) {
     const item = this.repository.updateConversationPolicy(id, policy, revision);
-    this.context.addEvent({ level: "success", eventType: "zalo_chatbot.policy_updated", title: "Conversation chatbot settings saved", detail: `${item.displayName} \xB7 ${item.chatbotEnabled ? item.replyMode : "disabled"} \xB7 revision ${item.revision}` });
+    this.context.addEvent({ level: "success", eventType: "zalo_chatbot.policy_updated", title: "\u0110\xE3 l\u01B0u c\xE1ch Chatbot tr\u1EA3 l\u1EDDi h\u1ED9i tho\u1EA1i", detail: `${item.displayName} \xB7 ${item.chatbotEnabled ? item.replyMode === "auto" ? "t\u1EF1 g\u1EEDi" : "ch\u1EDD duy\u1EC7t" : "t\u1EAFt AI"} \xB7 b\u1EA3n ${item.revision}` });
     return item;
   }
   sendManualMessage(id, body, revision) {
     const result = this.repository.queueManualMessage(id, body, revision);
-    this.context.addEvent({ level: "success", eventType: "zalo_chatbot.manual_queued", title: "Human message queued", detail: `${id} \xB7 ${result.delivery?.id}` });
+    this.context.addEvent({ level: "success", eventType: "zalo_chatbot.manual_queued", title: "\u0110\xE3 x\u1EBFp tin b\u1EA1n g\u1EEDi v\xE0o h\xE0ng ch\u1EDD", detail: `${id} \xB7 ${result.delivery?.id}` });
     return result;
   }
   /**
@@ -5300,7 +5466,7 @@ var ZaloChatbotService = class {
         } catch (error) {
           const reason = String(error instanceof Error ? error.message : error);
           this.repository.markAnalysis(conversationId, sourceId, "blocked", reason);
-          this.context.addEvent({ level: "warning", eventType: "zalo_chatbot.auto_reply_blocked", title: "Automatic reply needs review", detail: reason });
+          this.context.addEvent({ level: "warning", eventType: "zalo_chatbot.auto_reply_blocked", title: "C\xE2u tr\u1EA3 l\u1EDDi t\u1EF1 \u0111\u1ED9ng c\u1EA7n b\u1EA1n duy\u1EC7t", detail: reason });
         }
       }
       try {
@@ -5314,7 +5480,7 @@ var ZaloChatbotService = class {
       if (controller.signal.aborted) return null;
       const reason = String(error instanceof Error ? error.message : error);
       if (sourceId) this.repository.markAnalysis(conversationId, sourceId, "failed", reason);
-      this.context.addEvent({ level: "failed", eventType: "zalo_chatbot.draft_failed", title: "Zalo reply draft failed", detail: reason });
+      this.context.addEvent({ level: "failed", eventType: "zalo_chatbot.draft_failed", title: "Chatbot ch\u01B0a so\u1EA1n \u0111\u01B0\u1EE3c c\xE2u tr\u1EA3 l\u1EDDi", detail: reason });
       throw error;
     } finally {
       typing?.stop(!autoSent);
@@ -5398,7 +5564,7 @@ var ZaloChatbotService = class {
         } catch (error) {
           const reason = String(error instanceof Error ? error.message : error);
           this.repository.setAnalysisStates(conversationId, [lastId], "blocked", reason);
-          this.context.addEvent({ level: "warning", eventType: "zalo_chatbot.auto_reply_blocked", title: "Automatic reply needs review", detail: reason });
+          this.context.addEvent({ level: "warning", eventType: "zalo_chatbot.auto_reply_blocked", title: "C\xE2u tr\u1EA3 l\u1EDDi t\u1EF1 \u0111\u1ED9ng c\u1EA7n b\u1EA1n duy\u1EC7t", detail: reason });
         }
       }
       try {
@@ -5415,7 +5581,7 @@ var ZaloChatbotService = class {
       }
       const reason = String(error instanceof Error ? error.message : error);
       this.repository.setAnalysisStates(conversationId, ids, "failed", reason, "running");
-      this.context.addEvent({ level: "failed", eventType: "zalo_chatbot.draft_failed", title: "Zalo reply draft failed", detail: reason });
+      this.context.addEvent({ level: "failed", eventType: "zalo_chatbot.draft_failed", title: "Chatbot ch\u01B0a so\u1EA1n \u0111\u01B0\u1EE3c c\xE2u tr\u1EA3 l\u1EDDi", detail: reason });
       throw error;
     } finally {
       this.drafting.delete(key);
@@ -5593,7 +5759,7 @@ var ZaloChatbotService = class {
       const receipt = await (this.transport.sendReply ? this.transport.sendReply(...args, delivery.mention, { deliveryId: delivery.id }) : delivery.mention ? this.transport.sendText(...args, delivery.mention) : this.transport.sendText(...args));
       this.repository.finishDelivery(delivery.id, { status: "sent", receipt });
       if (conversation) this.notifySend(conversation, delivery, { sent: true });
-      this.context.addEvent({ level: "success", eventType: "zalo_chatbot.message_sent", title: "Approved Zalo reply sent", detail: `${conversation?.displayName ?? delivery.targetUserId} \xB7 ${receipt.evidence}` });
+      this.context.addEvent({ level: "success", eventType: "zalo_chatbot.message_sent", title: "\u0110\xE3 g\u1EEDi c\xE2u tr\u1EA3 l\u1EDDi b\u1EA1n duy\u1EC7t", detail: `${conversation?.displayName ?? delivery.targetUserId} \xB7 ${receipt.evidence}` });
       const proposal = conversation?.proposals.find((item) => item.id === delivery.proposalId);
       const source = conversation?.messages.find((item) => item.id === delivery.expectedSourceMessageId);
       if (delivery.origin === "automatic" && proposal && source) {
@@ -5649,7 +5815,7 @@ var server_default = defineMiniApp({
       previewCleanup: (customerId) => service.previewCrmCleanup(customerId)
     };
     return {
-      router: createZaloChatbotRouter(service, sdk.router(), { channels, facebook: facebook2, zaloOa, appOrigin: `http://127.0.0.1:${sdk.port}`, list: () => channelList(sdk.connections, channels) }),
+      router: createZaloChatbotRouter(service, sdk.router(), { channels, facebook: facebook2, zaloOa, appOrigin: `http://127.0.0.1:${sdk.port}`, list: () => channelList(sdk.connections, channels), kernel: sdk.connections }),
       // Own Pages/OAs move to the kernel first (once), so the listeners start on the shared accounts.
       start: async () => {
         await adoptOwnChannels({ db: sdk.db, channels, secrets: sdk.secrets, adopt: sdk.connections.adopt, log: (title, detail) => sdk.events.addEvent({ level: "success", eventType: "zalo_chatbot.channel_adopted", title, detail }) }).catch((error) => console.error("Chatbot channel adoption failed", error));

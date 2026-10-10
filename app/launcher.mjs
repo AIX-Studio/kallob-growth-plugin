@@ -20,7 +20,7 @@ var port = Number(process.env.PORT ?? (pluginBundle ? 8795 : 8790));
 var production = pluginBundle || process.env.KGS_MODE === "production";
 var devEntitlementsOpen = !production && process.env.KGS_DEV_ENTITLEMENTS === "all";
 var mcpServerName = pluginBundle ? "kallob-growth" : "kallob-growth-dev";
-var buildId = true ? "4c625a1-mv25vzmo" : "source";
+var buildId = true ? "c99b4f9-mv2a3ofp" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/plugin/app-versions.ts
@@ -360,8 +360,6 @@ async function callTool(name, args, meta) {
   }
   if (name === "growth_studio_open") {
     const server = await ensureServer();
-    const threadId = callingThreadId(meta);
-    if (threadId) await studioPost("/api/codex/origin", { threadId }).catch(() => void 0);
     const url = new URL(origin);
     const miniApp = MINI_APP_ID.test(String(args.mini_app ?? "")) ? String(args.mini_app) : null;
     const view = typeof args.view === "string" && VIEWS.includes(args.view) ? args.view : "overview";

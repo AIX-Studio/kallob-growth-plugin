@@ -26,12 +26,13 @@ function defineMiniApp(module) {
 // src/mini-apps/personal-brand/manifest.ts
 var manifest = {
   id: "personal-brand",
-  version: "1.12.0",
-  // Shared Facebook Pages and publishing through external actions (core 2.14.0, spec 047); prompts that take in other prompts (core 2.22.0, ADR 0007).
-  requiresCore: ">=2.22.0 <3",
+  version: "1.13.0",
+  // Shared Facebook Pages and publishing through external actions (core 2.14.0, spec 047); prompts that take in other prompts (core 2.22.0, ADR 0007);
+  // scheduled posts: a Page's through Facebook, the personal profile's held in the queue (core 2.25.0).
+  requiresCore: ">=2.25.0 <3",
   entitlement: "personal-branding",
-  // "Đăng lên Facebook Page": lists the platform's Pages and queues posts; never messages (spec 047).
-  connections: { "facebook-page": { range: "^1.0", operations: ["list", "post"] } },
+  // "Đăng": lists the platform's Pages and the founder's own profile (core 2.25.0) and queues posts; never messages (spec 047).
+  connections: { "facebook-page": { range: "^1.0", operations: ["list", "post"] }, "facebook-profile": { range: "^1.0", operations: ["list", "post"] } },
   // The shared Library (spec 047 phase 5): adds approved articles and the founder's photos, reads the post picture.
   uses: { "library.assets": { range: "^1.0", operations: ["read", "write"] } },
   // The Library shows the approved articles it references by reading them live here (no copy in the Library).
@@ -40,6 +41,11 @@ var manifest = {
 
 // src/mini-apps/personal-brand/release-notes.json
 var release_notes_default = [
+  {
+    version: "1.13.0",
+    vi: "N\xFAt \u0110\u0103ng tr\xEAn b\xE0i \u0111\xE3 duy\u1EC7t: ch\u1ECDn \u0111\u0103ng l\xEAn Page \u0111\xE3 k\u1EBFt n\u1ED1i ho\u1EB7c Facebook c\xE1 nh\xE2n, r\u1ED3i \u0111\u0103ng ngay ho\u1EB7c \u0111\u1EB7t l\u1ECBch. Page \u0111\u0103ng qua API c\u1EE7a Facebook (\u0111\u1EB7t l\u1ECBch th\xEC Facebook t\u1EF1 \u0111\u0103ng \u0111\xFAng gi\u1EDD). Facebook c\xE1 nh\xE2n do m\u1ED9t task Codex \u0111\u0103ng trong tr\xECnh duy\u1EC7t c\u1EE7a Codex, ch\u1EC9 c\xF3 ch\u1EEF; \u0111\u1EB7t l\u1ECBch th\xEC \u0111\u1EBFn gi\u1EDD Growth Studio m\u1EDBi m\u1EDF task, n\xEAn l\xFAc \u0111\xF3 m\xE1y v\xE0 app Codex c\u1EA7n \u0111ang m\u1EDF. C\u1EA7n Growth Studio 0.46.0.",
+    en: "The Post button on an approved article: post to a connected Page or your personal Facebook, now or scheduled. Pages post through Facebook's API (a scheduled post is published by Facebook on time). Your personal profile is posted by a Codex task in Codex's browser, text only; when scheduled, Growth Studio opens the task at that time, so the Mac and the Codex app must be on then. Needs Growth Studio 0.46.0."
+  },
   {
     version: "1.12.0",
     vi: "C\xE1ch vi\u1EBFt trao gi\xE1 tr\u1ECB (lo\u1EA1i gi\xE1 tr\u1ECB, g\xF3c nh\xECn, c\u1EA5u tr\xFAc, ch\u1ECDn \xFD t\u01B0\u1EDFng) v\xE0 c\xE1ch \u0111\xE1nh gi\xE1 \u0111\u1ECBnh v\u1ECB chuy\xEAn gia gi\u1EDD l\xE0 prompt c\u1EE7a Personal Brand, g\u1EEDi k\xE8m cho Codex m\u1ED7i l\u1EA7n. C\u1EA7n Growth Studio 0.43.0.",
@@ -191,7 +197,7 @@ var release_notes_default = [
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 
-// node_modules/zod/v3/external.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/external.js
 var external_exports = {};
 __export(external_exports, {
   BRAND: () => BRAND,
@@ -303,7 +309,7 @@ __export(external_exports, {
   void: () => voidType
 });
 
-// node_modules/zod/v3/helpers/util.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_) => {
@@ -437,7 +443,7 @@ var getParsedType = (data) => {
   }
 };
 
-// node_modules/zod/v3/ZodError.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -555,7 +561,7 @@ ZodError.create = (issues) => {
   return error;
 };
 
-// node_modules/zod/v3/locales/en.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/locales/en.js
 var errorMap = (issue, _ctx) => {
   let message;
   switch (issue.code) {
@@ -658,7 +664,7 @@ var errorMap = (issue, _ctx) => {
 };
 var en_default = errorMap;
 
-// node_modules/zod/v3/errors.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function setErrorMap(map) {
   overrideErrorMap = map;
@@ -667,7 +673,7 @@ function getErrorMap() {
   return overrideErrorMap;
 }
 
-// node_modules/zod/v3/helpers/parseUtil.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path: path7, errorMaps, issueData } = params;
   const fullPath = [...path7, ...issueData.path || []];
@@ -777,14 +783,14 @@ var isDirty = (x) => x.status === "dirty";
 var isValid = (x) => x.status === "valid";
 var isAsync = (x) => typeof Promise !== "undefined" && x instanceof Promise;
 
-// node_modules/zod/v3/helpers/errorUtil.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// node_modules/zod/v3/types.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path7, key) {
     this._cachedPath = [];
@@ -7054,11 +7060,18 @@ var publicationOf = (action) => ({
   text: action.payload.text ?? "",
   withImage: action.payload.providerCall?.tool === "page_photo",
   articleRevision: action.recordRevision,
+  scheduledAt: action.payload.scheduledAt ?? null,
   permalink: action.permalink,
   failureReason: action.failureReason,
   createdAt: action.createdAt,
   finishedAt: action.finishedAt
 });
+function scheduleOf(value) {
+  if (value === void 0 || value === null || value === "") return null;
+  const time = Date.parse(String(value));
+  if (!Number.isFinite(time)) throw new Error("Th\u1EDDi gian \u0111\u1EB7t l\u1ECBch kh\xF4ng h\u1EE3p l\u1EC7.");
+  return new Date(time).toISOString();
+}
 var PersonalBrandPublishing = class {
   constructor(store, sdk, scratchRoot, library = null) {
     this.store = store;
@@ -7084,7 +7097,7 @@ var PersonalBrandPublishing = class {
       isStillApproved: (action) => this.approvalCheck(action),
       onChanged: (action) => {
         if (action.recordType !== ARTICLE_RECORD || !["sent", "failed", "uncertain", "cancelled"].includes(action.state)) return;
-        this.store.addEvent({ level: action.state === "sent" ? "success" : "warning", eventType: `personal_brand.article_post_${action.state}`, title: action.state === "sent" ? "Article posted to a Facebook Page" : `Article post ${action.state}`, detail: `${action.payload.expectedIdentity ?? ""} \xB7 ${action.permalink ?? action.failureReason ?? ""}`.slice(0, 500) });
+        this.store.addEvent({ level: action.state === "sent" ? "success" : "warning", eventType: `personal_brand.article_post_${action.state}`, title: action.state === "sent" ? "Article posted to Facebook" : `Article post ${action.state}`, detail: `${action.payload.expectedIdentity ?? ""} \xB7 ${action.permalink ?? action.failureReason ?? ""}`.slice(0, 500) });
       }
     });
   }
@@ -7131,15 +7144,20 @@ var PersonalBrandPublishing = class {
     const link = typeof input.link === "string" && input.link.trim() ? input.link.trim() : null;
     return { image, content: { text: articlePostText(article.body), link, imagePaths: image.path ? [image.path] : [] } };
   }
+  /**
+   * Where an article can go: the platform's Facebook Pages and the founder's
+   * own profile. Both are shared accounts; the kernel decides how each one
+   * posts and schedules, so this app only previews and queues.
+   */
   async accounts() {
-    return this.sdk.connections.list("facebook-page");
+    return [...await this.sdk.connections.list("facebook-page"), ...await this.sdk.connections.list("facebook-profile")];
   }
   async preview(articleId, input) {
     const article = this.article(articleId);
     const accountId = String(input.accountId ?? "");
-    if (!accountId) throw new Error("Ch\u1ECDn Facebook Page \u0111\u1EC3 \u0111\u0103ng.");
+    if (!accountId) throw new Error("Ch\u1ECDn n\u01A1i \u0111\u0103ng b\xE0i.");
     const { image, content } = await this.content(article, input);
-    const preview = await this.sdk.connections.publishing.preview(accountId, content);
+    const preview = await this.sdk.connections.publishing.preview(accountId, { ...content, scheduledAt: scheduleOf(input.scheduledAt) });
     const paused = this.sdk.externalActions.pausedReason(preview.account.connectionId);
     return {
       articleId: article.id,
@@ -7148,23 +7166,25 @@ var PersonalBrandPublishing = class {
       text: preview.text,
       link: preview.link,
       image: preview.image ? { title: image.title ?? "\u1EA2nh", bytes: preview.image.bytes, url: image.url } : null,
-      imageNote: image.note,
+      imageNote: image.note ?? preview.notes[0] ?? null,
+      scheduledAt: preview.scheduledAt,
       ready: preview.ready && !paused,
       reason: preview.reason ?? (paused ? `H\xE0nh \u0111\u1ED9ng b\xEAn ngo\xE0i \u0111ang t\u1EA1m d\u1EEBng (${paused}). B\u1EADt l\u1EA1i trong Thi\u1EBFt l\u1EADp \u2192 Gi\u1EDBi h\u1EA1n h\xE0nh \u0111\u1ED9ng b\xEAn ngo\xE0i.` : null),
       previewHash: preview.previewHash
     };
   }
-  /** The founder confirmed the preview: one post is queued (the kernel releases it under its budgets). */
+  /** The founder confirmed the preview: one post is queued (the kernel releases it under its budgets, at its time). */
   async publish(articleId, input) {
     const article = this.article(articleId, input.revision);
     const accountId = String(input.accountId ?? "");
-    if (!accountId) throw new Error("Ch\u1ECDn Facebook Page \u0111\u1EC3 \u0111\u0103ng.");
+    if (!accountId) throw new Error("Ch\u1ECDn n\u01A1i \u0111\u0103ng b\xE0i.");
     if (typeof input.previewHash !== "string" || !input.previewHash) throw new Error("H\xE3y xem tr\u01B0\u1EDBc b\xE0i \u0111\u0103ng tr\u01B0\u1EDBc khi x\xE1c nh\u1EADn.");
     const open = this.sdk.externalActions.list({ recordType: ARTICLE_RECORD, recordId: article.id, states: ["queued", "dispatched", "claimed"] });
-    if (open.some((action2) => action2.connectionId && accountId.startsWith(`${action2.connectionId}:`))) throw new Error("B\xE0i n\xE0y \u0111ang ch\u1EDD \u0111\u0103ng l\xEAn Page \u0111\xF3.");
+    if (open.some((action2) => action2.connectionId && accountId.startsWith(`${action2.connectionId}:`))) throw new Error("B\xE0i n\xE0y \u0111ang ch\u1EDD \u0111\u0103ng l\xEAn t\xE0i kho\u1EA3n \u0111\xF3.");
+    const scheduledAt = scheduleOf(input.scheduledAt);
     const { content } = await this.content(article, input);
-    const action = await this.sdk.connections.publishing.post(accountId, content, { recordType: ARTICLE_RECORD, recordId: article.id, recordRevision: article.revision, expectedPreviewHash: input.previewHash });
-    this.store.addEvent({ level: "success", eventType: "personal_brand.article_post_queued", title: "Article queued for a Facebook Page", detail: `${article.title} \xB7 ${action.payload.expectedIdentity ?? ""}` });
+    const action = await this.sdk.connections.publishing.post(accountId, { ...content, scheduledAt }, { recordType: ARTICLE_RECORD, recordId: article.id, recordRevision: article.revision, expectedPreviewHash: input.previewHash });
+    this.store.addEvent({ level: "success", eventType: "personal_brand.article_post_queued", title: scheduledAt ? "Article post scheduled" : "Article post queued", detail: `${article.title} \xB7 ${action.payload.expectedIdentity ?? ""}${scheduledAt ? ` \xB7 ${scheduledAt}` : ""}` });
     return publicationOf(action);
   }
   publications(articleId) {
@@ -7176,7 +7196,7 @@ var PersonalBrandPublishing = class {
   /** The founder looked at the Page after an uncertain post. */
   reconcile(actionId, input) {
     const outcome = input.outcome === "sent" ? "sent" : input.outcome === "not_sent" ? "not_sent" : null;
-    if (!outcome) throw new Error("Ch\u1ECDn: b\xE0i \u0111\xE3 l\xEAn Page hay ch\u01B0a.");
+    if (!outcome) throw new Error("Ch\u1ECDn: b\xE0i \u0111\xE3 l\xEAn Facebook hay ch\u01B0a.");
     const permalink = typeof input.permalink === "string" && input.permalink.trim() ? input.permalink.trim() : null;
     return publicationOf(this.sdk.externalActions.reconcile(actionId, { outcome, permalink }));
   }

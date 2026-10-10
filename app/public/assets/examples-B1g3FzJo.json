@@ -1,0 +1,656 @@
+{
+  "about-shop": {
+    "before": [
+      "about-shop-before-1.webp"
+    ],
+    "after": "about-shop.webp",
+    "values": {
+      "promise": "Thành phần lành, tư vấn tận tâm"
+    }
+  },
+  "ad": {
+    "before": [
+      "ad-before-1.webp"
+    ],
+    "after": "ad.webp",
+    "values": {
+      "benefit": "Da sáng đều màu sau 2 tuần",
+      "cta": "Nhắn tin để đặt hàng"
+    }
+  },
+  "ao-dai": {
+    "before": [
+      "ao-dai-before-1.webp"
+    ],
+    "after": "ao-dai.webp",
+    "values": {}
+  },
+  "ask-review": {
+    "before": [
+      "ask-review-before-1.webp"
+    ],
+    "after": "ask-review.webp",
+    "values": {
+      "ask": "Bạn ưng thì cho shop xin 5 sao nhé!",
+      "reward": "Tặng mã giảm 10% khi đánh giá kèm ảnh"
+    }
+  },
+  "at-work": {
+    "before": [
+      "at-work-before-1.webp"
+    ],
+    "after": "at-work.webp",
+    "values": {
+      "work": "Đóng gói đơn hàng"
+    }
+  },
+  "before-after": {
+    "before": [
+      "before-after-before-1.webp",
+      "before-after-before-2.webp"
+    ],
+    "after": "before-after.webp",
+    "values": {
+      "time": "Sau 2 tuần"
+    }
+  },
+  "behind-scenes": {
+    "before": [
+      "behind-scenes-before-1.webp"
+    ],
+    "after": "behind-scenes.webp",
+    "values": {
+      "caption": "Đóng gói cẩn thận từng đơn"
+    }
+  },
+  "birthday": {
+    "before": [
+      "birthday-before-1.webp"
+    ],
+    "after": "birthday.webp",
+    "values": {
+      "greeting": "Chào tuổi mới"
+    }
+  },
+  "black-friday": {
+    "before": [
+      "black-friday-before-1.webp"
+    ],
+    "after": "black-friday.webp",
+    "values": {
+      "headline": "BLACK FRIDAY",
+      "offer": "Giảm đến 70%"
+    }
+  },
+  "bogo": {
+    "before": [
+      "bogo-before-1.webp",
+      "bogo-before-2.webp"
+    ],
+    "after": "bogo.webp",
+    "values": {
+      "offer": "Mua sữa tắm tặng xà phòng",
+      "until": "Đến hết Chủ nhật này"
+    }
+  },
+  "bw-portrait": {
+    "before": [
+      "bw-portrait-before-1.webp"
+    ],
+    "after": "bw-portrait.webp",
+    "values": {}
+  },
+  "certificate": {
+    "before": [
+      "certificate-before-1.webp"
+    ],
+    "after": "certificate.webp",
+    "values": {}
+  },
+  "children-day": {
+    "before": [
+      "children-day-before-1.webp"
+    ],
+    "after": "children-day.webp",
+    "values": {
+      "greeting": "Chúc mừng Quốc tế Thiếu nhi 1/6",
+      "offer": "Giảm 20% sữa tắm cho bé"
+    }
+  },
+  "christmas": {
+    "before": [
+      "christmas-before-1.webp"
+    ],
+    "after": "christmas.webp",
+    "values": {
+      "greeting": "Giáng Sinh An Lành",
+      "offer": "Giảm 25% mùa Noel"
+    }
+  },
+  "compare": {
+    "before": [
+      "compare-before-1.webp",
+      "compare-before-2.webp"
+    ],
+    "after": "compare.webp",
+    "values": {
+      "table": "Sản phẩm | Serum Dưỡng Ẩm | Serum Vitamin C\nHợp với | Da khô, thiếu ẩm | Da xỉn màu, thâm\nThành phần chính | B5 + Trà xanh | Vitamin C 20%\nDùng khi | Sáng và tối | Buổi tối\nGiá 30ml | 289000 | 349000"
+    }
+  },
+  "customer-birthday": {
+    "before": [],
+    "after": "customer-birthday.webp",
+    "values": {
+      "greeting": "Chúc mừng sinh nhật bạn!",
+      "gift": "Tặng bạn mã giảm 20% trong tháng sinh nhật"
+    }
+  },
+  "customer-photo": {
+    "before": [
+      "customer-photo-before-1.webp"
+    ],
+    "after": "customer-photo.webp",
+    "values": {
+      "customerName": "Ngọc Anh, Đà Nẵng"
+    }
+  },
+  "double-day": {
+    "before": [
+      "double-day-before-1.webp"
+    ],
+    "after": "double-day.webp",
+    "values": {
+      "day": "11.11",
+      "offer": "Giảm đến 50%"
+    }
+  },
+  "event": {
+    "before": [
+      "event-before-1.webp"
+    ],
+    "after": "event.webp",
+    "values": {
+      "topic": "Skincare tối giản cho da nhạy cảm",
+      "time": "19h30 thứ Bảy 18/10",
+      "place": "Online qua Zoom"
+    }
+  },
+  "faq": {
+    "before": [
+      "faq-before-1.webp"
+    ],
+    "after": "faq.webp",
+    "values": {
+      "question": "Da đầu nhạy cảm dùng được không?",
+      "answer": "Được ạ, dầu gội MỘC không sulfate, chiết xuất bồ kết và vỏ bưởi nên rất dịu."
+    }
+  },
+  "fb-cover": {
+    "before": [
+      "fb-cover-before-1.webp"
+    ],
+    "after": "fb-cover.webp",
+    "values": {
+      "name": "An · MỘC",
+      "tagline": "Chăm da lành từ thiên nhiên"
+    }
+  },
+  "figure-3d": {
+    "before": [
+      "figure-3d-before-1.webp"
+    ],
+    "after": "figure-3d.webp",
+    "values": {
+      "props": "Sản phẩm của shop"
+    }
+  },
+  "freeship": {
+    "before": [
+      "freeship-before-1.webp"
+    ],
+    "after": "freeship.webp",
+    "values": {
+      "minOrder": "299000",
+      "period": "Cả tuần này"
+    }
+  },
+  "giveaway": {
+    "before": [
+      "giveaway-before-1.webp"
+    ],
+    "after": "giveaway.webp",
+    "values": {
+      "prize": "Set quà 3 món MỘC",
+      "how": "Like + bình luận + chia sẻ",
+      "endDate": "2026-10-20"
+    }
+  },
+  "grand-opening": {
+    "before": [
+      "grand-opening-before-1.webp"
+    ],
+    "after": "grand-opening.webp",
+    "values": {
+      "date": "2026-11-15",
+      "address": "45 Nguyễn Trãi, Q.5",
+      "offer": "Giảm 20% ba ngày đầu"
+    }
+  },
+  "highlights": {
+    "before": [
+      "highlights-before-1.webp"
+    ],
+    "after": "highlights.webp",
+    "values": {
+      "points": "Chống nắng SPF 50+ PA++++\nMỏng nhẹ, không bết, không vệt trắng\nChiết xuất trà xanh dịu da nhạy cảm"
+    }
+  },
+  "hiring": {
+    "before": [
+      "hiring-before-1.webp"
+    ],
+    "after": "hiring.webp",
+    "values": {
+      "role": "Tư vấn viên skincare",
+      "pay": "Lương thoả thuận"
+    }
+  },
+  "holiday-hours": {
+    "before": [
+      "holiday-hours-before-1.webp"
+    ],
+    "after": "holiday-hours.webp",
+    "values": {
+      "from": "2026-04-30",
+      "to": "2026-05-03",
+      "reason": "Nghỉ lễ 30/4 – 1/5"
+    }
+  },
+  "how-to-order": {
+    "before": [],
+    "after": "how-to-order.webp",
+    "values": {
+      "steps": "1. Chọn sản phẩm, nhắn Zalo cho shop\n2. Shop tư vấn và chốt đơn\n3. Nhận hàng, kiểm tra rồi thanh toán"
+    }
+  },
+  "how-to-use": {
+    "before": [
+      "how-to-use-before-1.webp"
+    ],
+    "after": "how-to-use.webp",
+    "values": {
+      "steps": "1. Rửa mặt sạch, lau khô\n2. Thấm toner ra bông, vỗ nhẹ khắp mặt\n3. Dùng sáng và tối, tránh vùng mắt",
+      "heading": "HƯỚNG DẪN SỬ DỤNG"
+    }
+  },
+  "korean-studio": {
+    "before": [
+      "korean-studio-before-1.webp"
+    ],
+    "after": "korean-studio.webp",
+    "values": {
+      "backdrop": "Xanh bơ"
+    }
+  },
+  "livestream": {
+    "before": [
+      "livestream-before-1.webp"
+    ],
+    "after": "livestream.webp",
+    "values": {
+      "time": "20h tối nay",
+      "highlight": "Tặng quà cho người xem"
+    }
+  },
+  "long-holiday": {
+    "before": [
+      "long-holiday-before-1.webp"
+    ],
+    "after": "long-holiday.webp",
+    "values": {
+      "greeting": "Kỳ Nghỉ Lễ Vui Vẻ",
+      "offer": "Giảm 30% suốt kỳ nghỉ lễ"
+    }
+  },
+  "low-stock": {
+    "before": [
+      "low-stock-before-1.webp"
+    ],
+    "after": "low-stock.webp",
+    "values": {
+      "left": "Chỉ còn 5 sản phẩm"
+    }
+  },
+  "loyalty": {
+    "before": [],
+    "after": "loyalty.webp",
+    "values": {
+      "tier": "Thành viên Vàng",
+      "benefit": "Giảm 10% mọi đơn hàng"
+    }
+  },
+  "luxury": {
+    "before": [
+      "luxury-before-1.webp"
+    ],
+    "after": "luxury.webp",
+    "values": {
+      "setting": "Sảnh khách sạn 5 sao"
+    }
+  },
+  "magazine-cover": {
+    "before": [
+      "magazine-cover-before-1.webp"
+    ],
+    "after": "magazine-cover.webp",
+    "values": {
+      "name": "An Nguyễn",
+      "headline": "Từ đam mê thành thương hiệu"
+    }
+  },
+  "mid-autumn": {
+    "before": [
+      "mid-autumn-before-1.webp"
+    ],
+    "after": "mid-autumn.webp",
+    "values": {
+      "greeting": "Trung Thu Đoàn Viên",
+      "offer": "Tặng túi quà Trung thu cho đơn từ 300K"
+    }
+  },
+  "milestone": {
+    "before": [
+      "milestone-before-1.webp"
+    ],
+    "after": "milestone.webp",
+    "values": {
+      "milestone": "1.000 đơn hàng",
+      "thanks": "Cảm ơn bạn đã đồng hành"
+    }
+  },
+  "model-ad": {
+    "before": [
+      "model-ad-before-1.webp",
+      "model-ad-before-2.webp"
+    ],
+    "after": "model-ad.webp",
+    "values": {
+      "look": "Tạp chí cao cấp",
+      "slogan": "Rạng rỡ mỗi sáng với Vitamin C",
+      "cta": "Nhắn tin để đặt hàng"
+    }
+  },
+  "new-arrival": {
+    "before": [
+      "new-arrival-before-1.webp"
+    ],
+    "after": "new-arrival.webp",
+    "values": {
+      "productName": "Nước hoa mini Hoa Nhài 10ml"
+    }
+  },
+  "notice": {
+    "before": [],
+    "after": "notice.webp",
+    "values": {
+      "reason": "Đơn hàng sẽ giao chậm vài ngày",
+      "makeGood": "Tặng bạn mã giảm 10% đơn sau"
+    }
+  },
+  "outdoor": {
+    "before": [
+      "outdoor-before-1.webp"
+    ],
+    "after": "outdoor.webp",
+    "values": {
+      "setting": "Bờ sông"
+    }
+  },
+  "polaroid": {
+    "before": [
+      "polaroid-before-1.webp",
+      "polaroid-before-2.webp"
+    ],
+    "after": "polaroid.webp",
+    "values": {}
+  },
+  "poll": {
+    "before": [
+      "poll-before-1.webp",
+      "poll-before-2.webp"
+    ],
+    "after": "poll.webp",
+    "values": {
+      "question": "Bạn chọn mẫu nào?"
+    }
+  },
+  "pre-order": {
+    "before": [
+      "pre-order-before-1.webp"
+    ],
+    "after": "pre-order.webp",
+    "values": {
+      "arrival": "2026-10-25",
+      "perk": "Giảm 10% khi đặt trước"
+    }
+  },
+  "price-list": {
+    "before": [
+      "price-list-before-1.webp"
+    ],
+    "after": "price-list.webp",
+    "values": {
+      "heading": "BẢNG GIÁ",
+      "items": "Serum Dưỡng Ẩm 30ml | 289000\nSerum Vitamin C 30ml | 349000\nToner Diếp Cá 150ml | 219000\nKem Chống Nắng SPF50+ | 259000\nSet Quà 3 Món | 499000"
+    }
+  },
+  "pro-avatar": {
+    "before": [
+      "pro-avatar-before-1.webp"
+    ],
+    "after": "pro-avatar.webp",
+    "values": {}
+  },
+  "product-photo": {
+    "before": [
+      "product-photo-before-1.webp"
+    ],
+    "after": "product-photo.webp",
+    "values": {
+      "backdrop": "Nền trắng sạch kiểu sàn TMĐT"
+    }
+  },
+  "proof-number": {
+    "before": [
+      "proof-number-before-1.webp"
+    ],
+    "after": "proof-number.webp",
+    "values": {
+      "number": "2.000+",
+      "meaning": "khách hàng đã tin chọn"
+    }
+  },
+  "quote": {
+    "before": [
+      "quote-before-1.webp"
+    ],
+    "after": "quote.webp",
+    "values": {
+      "quote": "Da đẹp không cần vội. Chăm đều mỗi ngày, làn da sẽ tự nói thay bạn.",
+      "author": "An · MỘC"
+    }
+  },
+  "referral": {
+    "before": [
+      "referral-before-1.webp"
+    ],
+    "after": "referral.webp",
+    "values": {
+      "reward": "Giảm 50.000đ đơn sau",
+      "friendReward": "Giảm 10% đơn đầu"
+    }
+  },
+  "reorder": {
+    "before": [
+      "reorder-before-1.webp"
+    ],
+    "after": "reorder.webp",
+    "values": {
+      "reminder": "Sắp hết rồi phải không bạn?",
+      "perk": "Giảm 10% khi mua lại"
+    }
+  },
+  "reseller": {
+    "before": [
+      "reseller-before-1.webp"
+    ],
+    "after": "reseller.webp",
+    "values": {
+      "benefit": "Chiết khấu đến 30%",
+      "contact": "Inbox fanpage MỘC"
+    }
+  },
+  "retro": {
+    "before": [
+      "retro-before-1.webp"
+    ],
+    "after": "retro.webp",
+    "values": {
+      "era": "Sài Gòn thập niên 60"
+    }
+  },
+  "return-policy": {
+    "before": [],
+    "after": "return-policy.webp",
+    "values": {
+      "policy": "Được mở hộp kiểm hàng trước khi trả tiền\nĐổi sản phẩm trong 7 ngày nếu kích ứng\nLỗi do shop: hoàn tiền 100%\nTư vấn da miễn phí qua Zalo"
+    }
+  },
+  "sale": {
+    "before": [
+      "sale-before-1.webp"
+    ],
+    "after": "sale.webp",
+    "values": {
+      "oldPrice": "259000",
+      "newPrice": "199000",
+      "window": "20h–22h tối nay"
+    }
+  },
+  "share-reward": {
+    "before": [
+      "share-reward-before-1.webp"
+    ],
+    "after": "share-reward.webp",
+    "values": {
+      "how": "Đăng ảnh lên Facebook, tag shop",
+      "gift": "Voucher 50.000đ"
+    }
+  },
+  "shop-banner": {
+    "before": [
+      "shop-banner-before-1.webp",
+      "shop-banner-before-2.webp",
+      "shop-banner-before-3.webp"
+    ],
+    "after": "shop-banner.webp",
+    "values": {
+      "slogan": "Da khoẻ tự nhiên mỗi ngày"
+    }
+  },
+  "size-chart": {
+    "before": [
+      "size-chart-before-1.webp"
+    ],
+    "after": "size-chart.webp",
+    "values": {
+      "heading": "BẢNG PHÂN LOẠI",
+      "rows": "Dung tích | Dùng được | Giá\n30ml | 1 tháng | 289000\n50ml | 2 tháng | 429000\n100ml | 4 tháng | 790000"
+    }
+  },
+  "speaker": {
+    "before": [
+      "speaker-before-1.webp"
+    ],
+    "after": "speaker.webp",
+    "values": {
+      "setting": "Sân khấu hội thảo"
+    }
+  },
+  "teachers-day": {
+    "before": [
+      "teachers-day-before-1.webp"
+    ],
+    "after": "teachers-day.webp",
+    "values": {
+      "greeting": "Tri ân thầy cô 20/11",
+      "offer": "Giảm 20% quà tặng thầy cô"
+    }
+  },
+  "testimonial": {
+    "before": [
+      "testimonial-before-1.webp"
+    ],
+    "after": "testimonial.webp",
+    "values": {}
+  },
+  "tet": {
+    "before": [
+      "tet-before-1.webp"
+    ],
+    "after": "tet.webp",
+    "values": {
+      "greeting": "Chúc Mừng Năm Mới",
+      "offer": "Lì xì 10% cho đơn đầu năm"
+    }
+  },
+  "thank-you": {
+    "before": [
+      "thank-you-before-1.webp"
+    ],
+    "after": "thank-you.webp",
+    "values": {
+      "message": "Mong bạn sẽ thích món đồ này",
+      "perk": "Giảm 10% cho đơn sau"
+    }
+  },
+  "valentine": {
+    "before": [
+      "valentine-before-1.webp"
+    ],
+    "after": "valentine.webp",
+    "values": {
+      "greeting": "Valentine Ngọt Ngào",
+      "offer": "Tặng thiệp và gói quà miễn phí"
+    }
+  },
+  "voucher": {
+    "before": [],
+    "after": "voucher.webp",
+    "values": {
+      "code": "MOC50K",
+      "value": "Giảm 50K",
+      "expiry": "Dùng trong 7 ngày"
+    }
+  },
+  "win-back": {
+    "before": [
+      "win-back-before-1.webp"
+    ],
+    "after": "win-back.webp",
+    "values": {
+      "line": "Lâu rồi không gặp, shop nhớ bạn!",
+      "perk": "Nhập mã QUAYLAI giảm 15%"
+    }
+  },
+  "women-day": {
+    "before": [
+      "women-day-before-1.webp"
+    ],
+    "after": "women-day.webp",
+    "values": {
+      "greeting": "Chúc mừng ngày Phụ nữ Việt Nam 20/10",
+      "offer": "Giảm 20% cho phái đẹp"
+    }
+  }
+}

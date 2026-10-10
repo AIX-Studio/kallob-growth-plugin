@@ -49,7 +49,7 @@ function defineMiniApp(module) {
 // src/mini-apps/community-outreach/manifest.ts
 var manifest = {
   id: "community-outreach",
-  version: "1.2.0",
+  version: "1.2.1",
   // Policies, external actions, Codex results through the SDK (core 2.13.0, spec 046).
   // Conditional sections and package messages (core 2.18.0, ADR 0006); prompts that take in other prompts (core 2.22.0, ADR 0007).
   requiresCore: ">=2.22.0 <3",
@@ -58,6 +58,11 @@ var manifest = {
 
 // src/mini-apps/community-outreach/release-notes.json
 var release_notes_default = [
+  {
+    version: "1.2.1",
+    vi: "Khi chuy\u1EC3n m\u1ED9t ng\u01B0\u1EDDi cho Mini CRM, l\u1EF1a ch\u1ECDn Zalo ghi \u0111\xFAng t\xEAn Chatbot.",
+    en: "When handing a person to Mini CRM, the Zalo option names the Chatbot correctly."
+  },
   {
     version: "1.2.0",
     vi: "Tr\u1EA3 l\u1EDDi v\xE0 b\xE0i \u0111\xF3ng g\xF3p d\xF9ng c\xE1ch vi\u1EBFt trao gi\xE1 tr\u1ECB l\xE0 m\u1ED9t prompt c\u1EE7a Community Outreach. M\u1ED7i b\u1EA3n nh\xE1p, \u0111\xE1nh gi\xE1 v\xE0 t\xF3m t\u1EAFt quy t\u1EAFc ghi prompt n\xE0o \u0111\xE3 t\u1EA1o ra n\xF3 (ngu\u1ED3n hi\u1EC7n l\xE0 AI); d\u1EEF li\u1EC7u c\u0169 \u0111\u01B0\u1EE3c chuy\u1EC3n sang. C\u1EA7n Growth Studio 0.43.0.",
@@ -281,7 +286,7 @@ function policyHash(limits) {
   return textHash(JSON.stringify(sorted));
 }
 
-// node_modules/zod/v3/external.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/external.js
 var external_exports = {};
 __export(external_exports, {
   BRAND: () => BRAND,
@@ -393,7 +398,7 @@ __export(external_exports, {
   void: () => voidType
 });
 
-// node_modules/zod/v3/helpers/util.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_) => {
@@ -527,7 +532,7 @@ var getParsedType = (data) => {
   }
 };
 
-// node_modules/zod/v3/ZodError.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -645,7 +650,7 @@ ZodError.create = (issues) => {
   return error;
 };
 
-// node_modules/zod/v3/locales/en.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/locales/en.js
 var errorMap = (issue, _ctx) => {
   let message;
   switch (issue.code) {
@@ -748,7 +753,7 @@ var errorMap = (issue, _ctx) => {
 };
 var en_default = errorMap;
 
-// node_modules/zod/v3/errors.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function setErrorMap(map) {
   overrideErrorMap = map;
@@ -757,7 +762,7 @@ function getErrorMap() {
   return overrideErrorMap;
 }
 
-// node_modules/zod/v3/helpers/parseUtil.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path, errorMaps, issueData } = params;
   const fullPath = [...path, ...issueData.path || []];
@@ -867,14 +872,14 @@ var isDirty = (x) => x.status === "dirty";
 var isValid = (x) => x.status === "valid";
 var isAsync = (x) => typeof Promise !== "undefined" && x instanceof Promise;
 
-// node_modules/zod/v3/helpers/errorUtil.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// node_modules/zod/v3/types.js
+// ../../kallob/kallob-growth-studio/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path, key) {
     this._cachedPath = [];
@@ -4443,7 +4448,7 @@ function pinnedWarmthHolds(deps, lead, factId, at = /* @__PURE__ */ new Date()) 
 // src/mini-apps/community-outreach/server/connect-pins.ts
 var hashOf = (value) => value === null ? null : textHash(value);
 function handoffBlock(deps, lead) {
-  if (lead.handoffId && lead.suggestedNextAction === "zalo_chat") return "Mini CRM (Zalo Chatbot route) owns the next step for this person";
+  if (lead.handoffId && lead.suggestedNextAction === "zalo_chat") return "Mini CRM (Chatbot route) owns the next step for this person";
   if (!deps.leadLimits(lead.communityId).requireCrmHandoffBeforeConnect) return null;
   const status = lead.handoffId ? deps.context.crm.handoff()?.status(lead.handoffId)?.status : null;
   return status === "accepted" || status === "merged" ? null : "The policy requires Mini CRM to accept this person before any connect";

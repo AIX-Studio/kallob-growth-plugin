@@ -1,7 +1,7 @@
 {
   "id": "community-outreach",
-  "version": "1.2.0",
-  "buildId": "4c625a1-mv260u4r",
+  "version": "1.2.1",
+  "buildId": "c99b4f9-mv2a8gcn",
   "requiresCore": ">=2.22.0 <3",
   "exports": {},
   "requires": {},
