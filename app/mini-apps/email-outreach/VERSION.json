@@ -1,0 +1,24 @@
+{
+  "id": "email-outreach",
+  "version": "1.4.0",
+  "buildId": "3ff2211-mvg9ukas",
+  "requiresCore": ">=2.30.0 <3",
+  "exports": {},
+  "requires": {
+    "offers.catalog": "^1.1"
+  },
+  "connections": {
+    "gmail": {
+      "range": "^1.2",
+      "operations": [
+        "list",
+        "send-email",
+        "read-replies"
+      ]
+    }
+  },
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

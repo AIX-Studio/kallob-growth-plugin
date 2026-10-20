@@ -25,6 +25,16 @@
     "after": "ao-dai.webp",
     "values": {}
   },
+  "appointment-reminder": {
+    "before": [],
+    "after": "appointment-reminder.webp",
+    "values": {
+      "service": "Tư vấn chọn quà",
+      "time": "10h · 18/10",
+      "place": "Tại MỘC"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "ask-review": {
     "before": [
       "ask-review-before-1.webp"
@@ -43,6 +53,26 @@
     "values": {
       "work": "Đóng gói đơn hàng"
     }
+  },
+  "back-in-stock": {
+    "before": [
+      "back-in-stock-before-1.webp"
+    ],
+    "after": "back-in-stock.webp",
+    "values": {
+      "product": "Serum Vitamin C MỘC",
+      "cta": "Nhắn MỘC để đặt"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "back-to-school": {
+    "before": [],
+    "after": "back-to-school.webp",
+    "values": {
+      "title": "Sẵn sàng ngày mới",
+      "message": "Một góc gọn gàng cho năm học mới"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "before-after": {
     "before": [
@@ -93,12 +123,58 @@
       "until": "Đến hết Chủ nhật này"
     }
   },
+  "brand-ambassador": {
+    "before": [
+      "brand-ambassador-before-1.webp"
+    ],
+    "after": "brand-ambassador.webp",
+    "values": {
+      "headline": "Đồng hành cùng MỘC",
+      "criteria": "Yêu thích chia sẻ trải nghiệm thật",
+      "cta": "Nhắn MỘC để tìm hiểu"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "bw-portrait": {
     "before": [
       "bw-portrait-before-1.webp"
     ],
     "after": "bw-portrait.webp",
     "values": {}
+  },
+  "care-checklist": {
+    "before": [
+      "care-checklist-before-1.webp"
+    ],
+    "after": "care-checklist.webp",
+    "values": {
+      "title": "Bảo quản sản phẩm MỘC",
+      "items": "Đậy kín nắp sau khi dùng\nĐể nơi khô ráo\nTránh ánh nắng trực tiếp"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "carousel-cover": {
+    "before": [
+      "carousel-cover-before-1.webp"
+    ],
+    "after": "carousel-cover.webp",
+    "values": {
+      "title": "3 bước chọn bộ quà tặng",
+      "subtitle": "Lưu lại khi bạn cần"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "case-study": {
+    "before": [
+      "case-study-before-1.webp"
+    ],
+    "after": "case-study.webp",
+    "values": {
+      "situation": "Minh hoạ: khách cần quà tặng cho bạn",
+      "approach": "Chọn ba món theo sở thích",
+      "result": "Hoàn thiện set quà"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "certificate": {
     "before": [
@@ -127,6 +203,40 @@
       "offer": "Giảm 25% mùa Noel"
     }
   },
+  "cinematic-portrait": {
+    "before": [
+      "cinematic-portrait-before-1.webp"
+    ],
+    "after": "cinematic-portrait.webp",
+    "values": {
+      "scene": "Phố đêm sau mưa"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "community-challenge": {
+    "before": [
+      "community-challenge-before-1.webp"
+    ],
+    "after": "community-challenge.webp",
+    "values": {
+      "title": "Góc nhỏ cho mình",
+      "action": "Chụp góc chăm sóc bản thân",
+      "share": "Đăng ảnh với #GocNhoMOC"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "community-invite": {
+    "before": [
+      "community-invite-before-1.webp"
+    ],
+    "after": "community-invite.webp",
+    "values": {
+      "name": "Bạn yêu MỘC",
+      "topic": "Chọn quà và chăm sóc bản thân",
+      "cta": "Nhắn MỘC để nhận lời mời"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "compare": {
     "before": [
       "compare-before-1.webp",
@@ -145,6 +255,16 @@
       "gift": "Tặng bạn mã giảm 20% trong tháng sinh nhật"
     }
   },
+  "customer-onboarding": {
+    "before": [],
+    "after": "customer-onboarding.webp",
+    "values": {
+      "title": "Bắt đầu cùng MỘC",
+      "steps": "Mở tài liệu hướng dẫn\nLưu checklist để dùng lại\nNhắn shop khi cần hỗ trợ",
+      "support": "Nhắn MỘC qua Zalo"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "customer-photo": {
     "before": [
       "customer-photo-before-1.webp"
@@ -153,6 +273,37 @@
     "values": {
       "customerName": "Ngọc Anh, Đà Nẵng"
     }
+  },
+  "cv-headshot": {
+    "before": [
+      "cv-headshot-before-1.webp"
+    ],
+    "after": "cv-headshot.webp",
+    "values": {
+      "outfit": "Blazer màu be"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "delivery-update": {
+    "before": [
+      "delivery-update-before-1.webp"
+    ],
+    "after": "delivery-update.webp",
+    "values": {
+      "status": "Đơn hàng đã được đóng gói",
+      "details": "MỘC sẽ gửi mã vận đơn qua tin nhắn"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "digital-product": {
+    "before": [],
+    "after": "digital-product.webp",
+    "values": {
+      "title": "Sổ tay chọn quà",
+      "includes": "Checklist và mẫu lời chúc",
+      "price": "99000"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "double-day": {
     "before": [
@@ -175,6 +326,18 @@
       "place": "Online qua Zoom"
     }
   },
+  "expert-profile": {
+    "before": [
+      "expert-profile-before-1.webp"
+    ],
+    "after": "expert-profile.webp",
+    "values": {
+      "name": "An",
+      "role": "Người sáng lập MỘC",
+      "focus": "Tư vấn chọn quà"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "faq": {
     "before": [
       "faq-before-1.webp"
@@ -184,6 +347,16 @@
       "question": "Da đầu nhạy cảm dùng được không?",
       "answer": "Được ạ, dầu gội MỘC không sulfate, chiết xuất bồ kết và vỏ bưởi nên rất dịu."
     }
+  },
+  "fashion-editorial": {
+    "before": [
+      "fashion-editorial-before-1.webp"
+    ],
+    "after": "fashion-editorial.webp",
+    "values": {
+      "style": "Linen tối giản"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "fb-cover": {
     "before": [
@@ -204,6 +377,27 @@
       "props": "Sản phẩm của shop"
     }
   },
+  "flat-lay": {
+    "before": [
+      "flat-lay-before-1.webp",
+      "flat-lay-before-2.webp"
+    ],
+    "after": "flat-lay.webp",
+    "values": {
+      "surface": "Vải linen màu kem"
+    },
+    "note": ""
+  },
+  "founder-portrait": {
+    "before": [
+      "founder-portrait-before-1.webp"
+    ],
+    "after": "founder-portrait.webp",
+    "values": {
+      "setting": "Góc làm việc của tiệm mỹ phẩm MỘC"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "freeship": {
     "before": [
       "freeship-before-1.webp"
@@ -213,6 +407,18 @@
       "minOrder": "299000",
       "period": "Cả tuần này"
     }
+  },
+  "gift-set": {
+    "before": [
+      "gift-set-before-1.webp"
+    ],
+    "after": "gift-set.webp",
+    "values": {
+      "title": "Set quà MỘC 3 món",
+      "price": "390000",
+      "message": "Một lời quan tâm dịu dàng"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "giveaway": {
     "before": [
@@ -235,6 +441,16 @@
       "address": "45 Nguyễn Trãi, Q.5",
       "offer": "Giảm 20% ba ngày đầu"
     }
+  },
+  "halloween": {
+    "before": [
+      "halloween-before-1.webp"
+    ],
+    "after": "halloween.webp",
+    "values": {
+      "greeting": "Halloween vui vẻ"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "highlights": {
     "before": [
@@ -283,6 +499,36 @@
       "heading": "HƯỚNG DẪN SỬ DỤNG"
     }
   },
+  "ingredient-card": {
+    "before": [
+      "ingredient-card-before-1.webp"
+    ],
+    "after": "ingredient-card.webp",
+    "values": {
+      "title": "Serum Vitamin C MỘC",
+      "items": "Vitamin C 20%\nDung tích 30 ml"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "interior-photo": {
+    "before": [
+      "interior-photo-before-1.webp"
+    ],
+    "after": "interior-photo.webp",
+    "values": {
+      "light": "Ánh sáng ban ngày tự nhiên"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "knowledge-infographic": {
+    "before": [],
+    "after": "knowledge-infographic.webp",
+    "values": {
+      "title": "Chọn quà theo người nhận",
+      "points": "Sở thích của người nhận\nThói quen sử dụng\nNgân sách phù hợp"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "korean-studio": {
     "before": [
       "korean-studio-before-1.webp"
@@ -291,6 +537,16 @@
     "values": {
       "backdrop": "Xanh bơ"
     }
+  },
+  "lead-magnet-cover": {
+    "before": [],
+    "after": "lead-magnet-cover.webp",
+    "values": {
+      "title": "Checklist chăm sóc da hằng ngày",
+      "subtitle": "Một trang để lưu và dùng lại",
+      "cta": "Nhắn MỘC để nhận bản miễn phí"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "livestream": {
     "before": [
@@ -348,6 +604,16 @@
       "headline": "Từ đam mê thành thương hiệu"
     }
   },
+  "membership-card": {
+    "before": [],
+    "after": "membership-card.webp",
+    "values": {
+      "program": "Bạn thân của MỘC",
+      "tier": "Thành viên",
+      "benefit": "Được báo trước khi có bộ quà mới"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "mid-autumn": {
     "before": [
       "mid-autumn-before-1.webp"
@@ -380,6 +646,14 @@
       "cta": "Nhắn tin để đặt hàng"
     }
   },
+  "national-day": {
+    "before": [],
+    "after": "national-day.webp",
+    "values": {
+      "greeting": "Mừng Quốc khánh 2/9"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "new-arrival": {
     "before": [
       "new-arrival-before-1.webp"
@@ -388,6 +662,17 @@
     "values": {
       "productName": "Nước hoa mini Hoa Nhài 10ml"
     }
+  },
+  "new-year": {
+    "before": [
+      "new-year-before-1.webp"
+    ],
+    "after": "new-year.webp",
+    "values": {
+      "greeting": "Chúc một năm mới an lành",
+      "year": "2027"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "notice": {
     "before": [],
@@ -405,6 +690,38 @@
     "values": {
       "setting": "Bờ sông"
     }
+  },
+  "packaging-scene": {
+    "before": [
+      "packaging-scene-before-1.webp"
+    ],
+    "after": "packaging-scene.webp",
+    "values": {
+      "mood": "Ấm áp, tự nhiên"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "partner-announcement": {
+    "before": [
+      "partner-announcement-before-1.webp"
+    ],
+    "after": "partner-announcement.webp",
+    "values": {
+      "partners": "MỘC × Tiệm Hoa · ví dụ minh hoạ",
+      "project": "Set quà và hoa theo lời nhắn",
+      "time": "Tháng 10"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "podcast-portrait": {
+    "before": [
+      "podcast-portrait-before-1.webp"
+    ],
+    "after": "podcast-portrait.webp",
+    "values": {
+      "mood": "Ấm áp, trò chuyện gần gũi"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "polaroid": {
     "before": [
@@ -450,6 +767,26 @@
     ],
     "after": "pro-avatar.webp",
     "values": {}
+  },
+  "product-detail": {
+    "before": [
+      "product-detail-before-1.webp"
+    ],
+    "after": "product-detail.webp",
+    "values": {
+      "detail": "Nắp nhỏ giọt và thân chai thuỷ tinh"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "product-lifestyle": {
+    "before": [
+      "product-lifestyle-before-1.webp"
+    ],
+    "after": "product-lifestyle.webp",
+    "values": {
+      "setting": "Trong túi đi du lịch"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "product-photo": {
     "before": [
@@ -537,6 +874,29 @@
       "window": "20h–22h tối nay"
     }
   },
+  "service-booking": {
+    "before": [
+      "service-booking-before-1.webp"
+    ],
+    "after": "service-booking.webp",
+    "values": {
+      "service": "Tư vấn chọn quà",
+      "time": "9h–18h mỗi ngày",
+      "cta": "Nhắn MỘC để hẹn giờ"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
+  "service-process": {
+    "before": [
+      "service-process-before-1.webp"
+    ],
+    "after": "service-process.webp",
+    "values": {
+      "title": "Tư vấn chọn quà tại MỘC",
+      "steps": "Trao đổi người nhận và ngân sách\nChọn các món phù hợp\nĐóng gói và ghi lời chúc"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "share-reward": {
     "before": [
       "share-reward-before-1.webp"
@@ -577,6 +937,17 @@
       "setting": "Sân khấu hội thảo"
     }
   },
+  "story-teaser": {
+    "before": [
+      "story-teaser-before-1.webp"
+    ],
+    "after": "story-teaser.webp",
+    "values": {
+      "headline": "Một món quà nhỏ đang tới",
+      "time": "20h thứ Sáu"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "teachers-day": {
     "before": [
       "teachers-day-before-1.webp"
@@ -586,6 +957,17 @@
       "greeting": "Tri ân thầy cô 20/11",
       "offer": "Giảm 20% quà tặng thầy cô"
     }
+  },
+  "team-photo": {
+    "before": [
+      "team-photo-before-1.webp"
+    ],
+    "after": "team-photo.webp",
+    "values": {
+      "setting": "Góc tư vấn của cửa hàng MỘC",
+      "caption": "An · Đồng hành cùng bạn"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "testimonial": {
     "before": [
@@ -614,6 +996,18 @@
       "perk": "Giảm 10% cho đơn sau"
     }
   },
+  "trial-offer": {
+    "before": [
+      "trial-offer-before-1.webp"
+    ],
+    "after": "trial-offer.webp",
+    "values": {
+      "title": "Gói thử chống nắng",
+      "price": "99000",
+      "terms": "Ví dụ minh hoạ · áp dụng cho lần mua đầu"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "valentine": {
     "before": [
       "valentine-before-1.webp"
@@ -624,6 +1018,18 @@
       "offer": "Tặng thiệp và gói quà miễn phí"
     }
   },
+  "video-thumbnail": {
+    "before": [
+      "video-thumbnail-before-1.webp",
+      "video-thumbnail-before-2.webp"
+    ],
+    "after": "video-thumbnail.webp",
+    "values": {
+      "title": "Chọn chống nắng thế nào?",
+      "style": "Gần gũi, sáng rõ"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
+  },
   "voucher": {
     "before": [],
     "after": "voucher.webp",
@@ -632,6 +1038,16 @@
       "value": "Giảm 50K",
       "expiry": "Dùng trong 7 ngày"
     }
+  },
+  "wedding-invitation": {
+    "before": [],
+    "after": "wedding-invitation.webp",
+    "values": {
+      "names": "An & Minh",
+      "time": "18h · 20/12",
+      "place": "Trân trọng mời bạn chung vui"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "win-back": {
     "before": [
@@ -642,6 +1058,18 @@
       "line": "Lâu rồi không gặp, shop nhớ bạn!",
       "perk": "Nhập mã QUAYLAI giảm 15%"
     }
+  },
+  "winner-announcement": {
+    "before": [
+      "winner-announcement-before-1.webp"
+    ],
+    "after": "winner-announcement.webp",
+    "values": {
+      "event": "Góc nhỏ cho mình · ví dụ minh hoạ",
+      "winner": "Người nhận quà mẫu",
+      "prize": "Set quà MỘC 3 món"
+    },
+    "note": "Ví dụ minh hoạ cho tiệm MỘC. Dùng tên MỘC và nhận diện từ ảnh gốc; không dùng tên hoặc logo Mộc An Bakery trong hồ sơ thử nghiệm của workspace. Giữ đúng bố cục và dữ liệu của mẫu."
   },
   "women-day": {
     "before": [

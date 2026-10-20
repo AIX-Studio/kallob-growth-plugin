@@ -296,6 +296,16 @@ p { margin: 0; }
 .ds-drawer-demo aside h3 { margin-top: 6px; }
 .ds-drawer-demo aside small { color: var(--muted-foreground); line-height: var(--leading-compact); }
 .ds-drawer-header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+/* Original-file tools (markus-dev 5abf52e): identity/download row, then grouped page/zoom controls. */
+.ds-file-preview-toolbar, .ds-file-preview-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px 16px; margin-top: 16px; min-width: 0; }
+.ds-file-preview-toolbar { padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.ds-file-identity { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.ds-file-identity > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ds-file-format { display: grid; place-items: center; flex: 0 0 36px; color: var(--muted-foreground); }
+.ds-file-format small { font-size: var(--type-micro-size); line-height: var(--leading-compact); font-weight: 700; color: var(--primary); }
+.ds-file-preview-controls { flex-wrap: wrap; }
+.ds-file-preview-controls label { display: flex; align-items: center; gap: 8px; }
+.ds-file-page { width: 64px; height: 40px; padding: 0 8px; border: 1px solid var(--border); border-radius: var(--radius-control); background: var(--background); color: var(--foreground); font: inherit; text-align: center; }
 .ds-inline-progress { display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); color: var(--muted-foreground); font-size: var(--type-caption-size); line-height: 16px; }
 .ds-inline-progress > span:first-child { color: var(--primary); }
 .ds-drawer-icons { display: flex; gap: 6px; }
@@ -350,7 +360,8 @@ p { margin: 0; }
 .status-chip.success { border-color: color-mix(in srgb, var(--success) 30%, var(--border)); background: var(--success-soft); color: var(--success); }
 
 .form-demo { display: grid; gap: 0; }
-.form-row { display: grid; grid-template-columns: minmax(150px, .34fr) minmax(0, 1fr); align-items: start; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.form-labels-bounded { --form-label-column: 180px; }
+.form-row { display: grid; grid-template-columns: var(--form-label-column, minmax(150px, 34%)) minmax(0, 1fr); align-items: start; gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .form-row > label { padding-top: 11px; color: var(--muted-foreground); font-size: var(--type-label-size); line-height: var(--leading-compact); font-weight: 650; }
 .form-row input, .form-row textarea, .select-demo, .search-demo { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); color: var(--foreground); font-size: var(--type-control-size); line-height: var(--leading-control); }
 .form-row textarea { min-height: 82px; resize: vertical; }

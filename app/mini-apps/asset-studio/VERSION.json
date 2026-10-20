@@ -1,9 +1,11 @@
 {
   "id": "asset-studio",
-  "version": "0.3.0",
-  "buildId": "62a55dd-mv2feugf",
-  "requiresCore": ">=2.22.0 <3",
-  "exports": {},
+  "version": "0.6.0",
+  "buildId": "3ff2211-mvg9a1zj",
+  "requiresCore": ">=2.31.0 <3",
+  "exports": {
+    "asset-studio.material-sources": "1.0"
+  },
   "requires": {},
   "client": {
     "script": "client.js",

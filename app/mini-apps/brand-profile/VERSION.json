@@ -1,8 +1,8 @@
 {
   "id": "brand-profile",
-  "version": "1.6.0",
-  "buildId": "62a55dd-mv2fbp1i",
-  "requiresCore": ">=2.8.0 <3",
+  "version": "1.7.0",
+  "buildId": "3ff2211-mvg97dv3",
+  "requiresCore": ">=2.31.0 <3",
   "exports": {
     "brand-profile.context": "1.6"
   },

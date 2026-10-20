@@ -44,7 +44,7 @@
           </section>
 
           <section class="ds-section">
-            <div class="ds-section-heading"><div><span>Forms</span><h2>Field anatomy</h2></div><p>Desktop: mỗi field một hàng, label 34% bên trái và control co giãn bên phải; màn hẹp mới xếp label lên trên.</p></div>
+            <div class="ds-section-heading"><div><span>Forms</span><h2>Field anatomy</h2></div><p>Desktop: mỗi field một hàng. Form ngắn có thể dùng nhãn 34%; nội dung dài dùng form-labels-bounded để giữ nhãn 180px trong cả xem và sửa, gap 18px. Màn hẹp vẫn xếp nhãn lên trên.</p></div>
             <div class="ds-form-demo">
               <div class="ds-form-group-heading"><span>Customer Voice</span><h3>Tóm tắt</h3></div>
               <label class="ds-field full">
@@ -66,6 +66,14 @@
                 <input aria-invalid="true" value="kallob" />
                 <small>Nhập URL đầy đủ, bắt đầu bằng https://</small>
               </label>
+            </div>
+          </section>
+
+          <section class="ds-section">
+            <div class="ds-section-heading"><div><span>Long-form records</span><h2>Nhãn gọn, nội dung co giãn</h2></div><p>Không dành một phần ba trang cho nhãn ngắn. Preset form-labels-bounded giữ cùng cột 180px cho trang đọc và drawer chỉnh sửa.</p></div>
+            <div class="form-demo form-labels-bounded">
+              <div class="form-row"><label>Định hướng</label><p>Giúp người đọc hiểu nguyên lý, nhận ra các lựa chọn và biết cách bắt đầu thực hành trong bối cảnh của họ. Nội dung dài nhận phần chiều rộng còn lại khi workspace mở rộng; cột nhãn không giãn theo trang.</p></div>
+              <div class="form-row"><label for="bounded-scope">Phạm vi nội dung</label><textarea id="bounded-scope">Cùng một preset cho chế độ sửa. Giữ cấu trúc nhãn/nội dung, khoảng cách 18px và cơ chế xếp hàng trên màn hẹp có sẵn.</textarea></div>
             </div>
           </section>
 

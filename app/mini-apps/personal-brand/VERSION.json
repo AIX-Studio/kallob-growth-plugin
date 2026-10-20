@@ -1,10 +1,11 @@
 {
   "id": "personal-brand",
-  "version": "1.13.0",
-  "buildId": "62a55dd-mv2faw09",
-  "requiresCore": ">=2.25.0 <3",
+  "version": "1.16.0",
+  "buildId": "3ff2211-mvg95xqf",
+  "requiresCore": ">=2.32.0 <3",
   "exports": {
-    "personal-brand.library-source": "1.0"
+    "personal-brand.library-source": "1.0",
+    "personal-brand.personas": "1.0"
   },
   "requires": {},
   "connections": {
@@ -29,6 +30,20 @@
       "operations": [
         "read",
         "write"
+      ]
+    },
+    "crm.measurement": {
+      "range": "^1.0",
+      "operations": [
+        "list",
+        "read"
+      ]
+    },
+    "funnel-studio.measurement": {
+      "range": "^1.0",
+      "operations": [
+        "list",
+        "read"
       ]
     }
   },

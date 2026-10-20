@@ -1,0 +1,12 @@
+{
+  "id": "ads-studio",
+  "version": "0.1.0",
+  "buildId": "3ff2211-mvg9afaw",
+  "requiresCore": ">=2.31.0 <3",
+  "exports": {},
+  "requires": {},
+  "client": {
+    "script": "client.js",
+    "style": "client.css"
+  }
+}

@@ -9,13 +9,19 @@ function defineMiniApp(module) {
 // src/mini-apps/brand-profile/manifest.ts
 var manifest = {
   id: "brand-profile",
-  version: "1.6.0",
-  requiresCore: ">=2.8.0 <3",
+  version: "1.7.0",
+  // The sidebar brand picker and the editing lock (core 2.31.0, spec 050).
+  requiresCore: ">=2.31.0 <3",
   exports: { "brand-profile.context": "1.6" }
 };
 
 // src/mini-apps/brand-profile/release-notes.json
 var release_notes_default = [
+  {
+    version: "1.7.0",
+    vi: "Brand Profile th\xE0nh Brand Studio: qu\u1EA3n l\xFD nhi\u1EC1u th\u01B0\u01A1ng hi\u1EC7u (c\xF4ng ty, s\u1EA3n ph\u1EA9m, d\u1ECBch v\u1EE5, th\u01B0\u01A1ng hi\u1EC7u con) trong Brand Portfolio, ch\u1ECDn th\u01B0\u01A1ng hi\u1EC7u \u0111ang l\xE0m \u1EDF \u0111\u1EA7u thanh b\xEAn. M\u1ED7i th\u01B0\u01A1ng hi\u1EC7u c\xF3 \u0111\u1ECBnh v\u1ECB, nh\u1EADn di\u1EC7n, gi\u1ECDng, kh\xE1ch h\xE0ng, th\u1ECB tr\u01B0\u1EDDng, tuy\xEAn b\u1ED1 v\xE0 b\u1ED1i c\u1EA3nh ri\xEAng; th\xEAm m\u1EE5c ti\xEAu, h\xECnh \u1EA3nh mong mu\u1ED1n v\xE0 gi\xE1 tr\u1ECB trao \u0111i trong ph\u1EA7n \u0111\u1ECBnh v\u1ECB. M\u1ECDi d\u1EEF li\u1EC7u c\u0169 thu\u1ED9c th\u01B0\u01A1ng hi\u1EC7u doanh nghi\u1EC7p \u0111\u1EA7u ti\xEAn, v\xE0 c\xE1c mini-app kh\xE1c v\u1EABn \u0111\u1ECDc th\u01B0\u01A1ng hi\u1EC7u \u0111\xF3 nh\u01B0 tr\u01B0\u1EDBc. C\u1EA7n Growth Studio c\xF3 kernel 2.31.0.",
+    en: "Brand Profile becomes Brand Studio: manage several brands (company, product, service, sub-brand) in a Brand Portfolio and pick the one you work on at the top of the sidebar. Each brand has its own positioning, identity, voice, customers, market, claims and context, with goals, desired image and value offered added to positioning. Everything you had belongs to the first company brand, which other mini-apps keep reading as before. Needs Growth Studio with kernel 2.31.0."
+  },
   {
     version: "1.6.0",
     vi: "S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5 chuy\u1EC3n sang Mini CRM (Mini CRM \u2192 S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5): Brand Profile kh\xF4ng c\xF2n trang n\xE0y v\xE0 m\u1EE9c s\u1EB5n s\xE0ng (c\xF9ng hai c\u1ED5ng Nghi\xEAn c\u1EE9u, Xu\u1EA5t b\u1EA3n) kh\xF4ng c\xF2n \u0111\xF2i ph\u1EA3i c\xF3 s\u1EA3n ph\u1EA9m. D\u1EEF li\u1EC7u s\u1EA3n ph\u1EA9m v\xE0 \u1EA3nh v\u1EABn gi\u1EEF nguy\xEAn, v\u1EABn ch\u1ECDn \u0111\u01B0\u1EE3c v\xE0o Brand Context; Mini CRM, Websites v\xE0 c\xE1c mini-app kh\xE1c c\xF9ng d\xF9ng m\u1ED9t ngu\u1ED3n.",
@@ -245,11 +251,157 @@ var personalMediaRole = {
   }
 };
 
+// src/mini-apps/brand-profile/server/migrations/0003-brand-studio.ts
+var DEFAULT_BRAND_NAME = "Th\u01B0\u01A1ng hi\u1EC7u doanh nghi\u1EC7p";
+var brandStudio = {
+  id: "0003-brand-studio",
+  transaction: false,
+  up(db) {
+    withForeignKeysOff(db, ["brands", "brand_versions", "brand_profiles", "brand_profile_versions", "brand_records", "brand_claims", "brand_assets", "brand_studio_guidelines", "brand_studio_guideline_versions"], () => {
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS brands (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          type TEXT NOT NULL CHECK (type IN ('company', 'product', 'service', 'sub_brand')),
+          summary TEXT NOT NULL DEFAULT '',
+          parent_brand_id TEXT REFERENCES brands(id),
+          relationship TEXT NOT NULL CHECK (relationship IN ('independent', 'sub_brand_of', 'product_brand_of', 'service_brand_of', 'endorsed_by', 'powered_by')),
+          linked_entity_type TEXT CHECK (linked_entity_type IS NULL OR linked_entity_type IN ('product', 'service')),
+          linked_entity_id TEXT,
+          status TEXT NOT NULL CHECK (status IN ('draft', 'active')),
+          revision INTEGER NOT NULL DEFAULT 1,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL,
+          archived_at TEXT
+        );
+        CREATE INDEX IF NOT EXISTS brands_listing_idx ON brands(archived_at, status, type, updated_at DESC);
+        CREATE INDEX IF NOT EXISTS brands_parent_idx ON brands(parent_brand_id, archived_at, updated_at DESC);
+        CREATE TABLE IF NOT EXISTS brand_versions (
+          brand_id TEXT NOT NULL REFERENCES brands(id) ON DELETE CASCADE,
+          revision INTEGER NOT NULL,
+          payload_json TEXT NOT NULL,
+          status TEXT NOT NULL,
+          action TEXT NOT NULL,
+          created_at TEXT NOT NULL,
+          PRIMARY KEY(brand_id, revision)
+        );
+        CREATE TABLE IF NOT EXISTS brand_studio_guidelines (
+          brand_id TEXT NOT NULL REFERENCES brands(id) ON DELETE CASCADE,
+          kind TEXT NOT NULL CHECK (kind IN ('identity', 'voice')),
+          payload_json TEXT NOT NULL,
+          revision INTEGER NOT NULL DEFAULT 1,
+          active_revision INTEGER,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL,
+          PRIMARY KEY(brand_id, kind)
+        );
+        CREATE TABLE IF NOT EXISTS brand_studio_guideline_versions (
+          brand_id TEXT NOT NULL,
+          kind TEXT NOT NULL,
+          revision INTEGER NOT NULL,
+          payload_json TEXT NOT NULL,
+          action TEXT NOT NULL CHECK (action IN ('create', 'update', 'restore')),
+          activated_at TEXT,
+          created_at TEXT NOT NULL,
+          PRIMARY KEY(brand_id, kind, revision),
+          FOREIGN KEY(brand_id, kind) REFERENCES brand_studio_guidelines(brand_id, kind) ON DELETE CASCADE
+        );
+      `);
+      const profileSql = String(db.prepare("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'brand_profiles'").get()?.sql ?? "");
+      if (profileSql.includes("CHECK (id = 'default')")) {
+        db.exec(`
+          CREATE TABLE brand_profiles__rebuild (
+            id TEXT PRIMARY KEY,
+            payload_json TEXT NOT NULL,
+            revision INTEGER NOT NULL DEFAULT 1,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+          );
+          INSERT INTO brand_profiles__rebuild SELECT id, payload_json, revision, created_at, updated_at FROM brand_profiles;
+          CREATE TABLE brand_profile_versions__rebuild (
+            profile_id TEXT NOT NULL REFERENCES brand_profiles__rebuild(id) ON DELETE CASCADE,
+            revision INTEGER NOT NULL,
+            payload_json TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            PRIMARY KEY(profile_id, revision)
+          );
+          INSERT INTO brand_profile_versions__rebuild SELECT profile_id, revision, payload_json, created_at FROM brand_profile_versions;
+          DROP TABLE brand_profile_versions;
+          DROP TABLE brand_profiles;
+          ALTER TABLE brand_profiles__rebuild RENAME TO brand_profiles;
+          ALTER TABLE brand_profile_versions__rebuild RENAME TO brand_profile_versions;
+        `);
+      }
+      const columns = (table) => new Set(db.prepare(`PRAGMA table_info(${table})`).all().map((column) => column.name));
+      if (!columns("brand_records").has("brand_id")) db.exec("ALTER TABLE brand_records ADD COLUMN brand_id TEXT NOT NULL DEFAULT 'default'");
+      db.exec("DROP INDEX IF EXISTS brand_records_listing_idx; CREATE INDEX brand_records_listing_idx ON brand_records(brand_id, kind, archived_at, status, updated_at DESC)");
+      if (!columns("brand_claims").has("brand_id")) db.exec("ALTER TABLE brand_claims ADD COLUMN brand_id TEXT NOT NULL DEFAULT 'default'");
+      db.exec("DROP INDEX IF EXISTS brand_claims_listing_idx; CREATE INDEX brand_claims_listing_idx ON brand_claims(brand_id, archived_at, status, updated_at DESC)");
+      if (!columns("brand_assets").has("brand_id")) {
+        db.exec(`
+          DROP INDEX IF EXISTS brand_assets_listing_idx;
+          DROP INDEX IF EXISTS brand_assets_dedupe_idx;
+          CREATE TABLE brand_assets__rebuild (
+            id TEXT PRIMARY KEY,
+            brand_id TEXT NOT NULL DEFAULT 'default',
+            role TEXT NOT NULL CHECK (role IN ('logo', 'visual_reference', 'product_media', 'competitor_logo', 'personal_media')),
+            record_id TEXT REFERENCES brand_records(id),
+            filename TEXT NOT NULL,
+            mime_type TEXT NOT NULL,
+            byte_size INTEGER NOT NULL,
+            sha256 TEXT NOT NULL,
+            data BLOB NOT NULL,
+            created_at TEXT NOT NULL,
+            archived_at TEXT,
+            UNIQUE(brand_id, role, record_id, sha256)
+          );
+          INSERT INTO brand_assets__rebuild (id, brand_id, role, record_id, filename, mime_type, byte_size, sha256, data, created_at, archived_at)
+            SELECT id, 'default', role, record_id, filename, mime_type, byte_size, sha256, data, created_at, archived_at FROM brand_assets;
+          DROP TABLE brand_assets;
+          ALTER TABLE brand_assets__rebuild RENAME TO brand_assets;
+        `);
+      }
+      db.exec(`
+        DROP INDEX IF EXISTS brand_assets_listing_idx;
+        DROP INDEX IF EXISTS brand_assets_dedupe_idx;
+        CREATE INDEX brand_assets_listing_idx ON brand_assets(brand_id, role, record_id, archived_at, created_at DESC);
+        CREATE UNIQUE INDEX brand_assets_dedupe_idx ON brand_assets(brand_id, role, IFNULL(record_id, ''), sha256);
+      `);
+      const profile = db.prepare("SELECT payload_json, created_at, updated_at FROM brand_profiles WHERE id = 'default'").get();
+      const hasData = Boolean(profile) || Boolean(db.prepare("SELECT 1 FROM brand_records WHERE brand_id = 'default' LIMIT 1").get()) || Boolean(db.prepare("SELECT 1 FROM brand_claims WHERE brand_id = 'default' LIMIT 1").get()) || Boolean(db.prepare("SELECT 1 FROM brand_guidelines LIMIT 1").get()) || Boolean(db.prepare("SELECT 1 FROM brand_assets WHERE brand_id = 'default' AND role != 'personal_media' LIMIT 1").get());
+      if (hasData && !db.prepare("SELECT 1 FROM brands WHERE id = 'default'").get()) {
+        let name = DEFAULT_BRAND_NAME;
+        let summary = "";
+        try {
+          const payload = profile ? JSON.parse(profile.payload_json) : null;
+          if (typeof payload?.name === "string" && payload.name.trim()) name = payload.name.trim().slice(0, 200);
+          if (typeof payload?.summary === "string") summary = payload.summary.trim().slice(0, 4e3);
+        } catch {
+        }
+        const createdAt = profile?.created_at ?? (/* @__PURE__ */ new Date()).toISOString();
+        const updatedAt = profile?.updated_at ?? createdAt;
+        const status = profile ? "active" : "draft";
+        const brand = { name, type: "company", summary, parentBrandId: null, relationship: "independent", linkedEntityType: null, linkedEntityId: null };
+        db.prepare("INSERT INTO brands (id, name, type, summary, parent_brand_id, relationship, linked_entity_type, linked_entity_id, status, revision, created_at, updated_at) VALUES ('default', ?, 'company', ?, NULL, 'independent', NULL, NULL, ?, 1, ?, ?)").run(name, summary, status, createdAt, updatedAt);
+        db.prepare("INSERT INTO brand_versions (brand_id, revision, payload_json, status, action, created_at) VALUES ('default', 1, ?, ?, 'migrate', ?)").run(JSON.stringify(brand), status, updatedAt);
+      }
+      if (db.prepare("SELECT 1 FROM brands WHERE id = 'default'").get()) {
+        db.exec(`
+          INSERT OR IGNORE INTO brand_studio_guidelines (brand_id, kind, payload_json, revision, active_revision, created_at, updated_at)
+            SELECT 'default', kind, payload_json, revision, active_revision, created_at, updated_at FROM brand_guidelines;
+          INSERT OR IGNORE INTO brand_studio_guideline_versions (brand_id, kind, revision, payload_json, action, activated_at, created_at)
+            SELECT 'default', kind, revision, payload_json, action, activated_at, created_at FROM brand_guideline_versions;
+        `);
+      }
+    });
+  }
+};
+
 // src/mini-apps/brand-profile/server/migrations/index.ts
 var schema = {
   id: manifest.id,
   dependsOn: ["kernel"],
-  migrations: [baseline, personalMediaRole]
+  migrations: [baseline, personalMediaRole, brandStudio]
 };
 
 // src/mini-apps/brand-profile/server/store.ts
@@ -258,6 +410,9 @@ function now() {
   return (/* @__PURE__ */ new Date()).toISOString();
 }
 var brandProfileTextLimits = {
+  goals: 8e3,
+  desiredImage: 8e3,
+  valueOffers: 12e3,
   name: 200,
   tagline: 300,
   summary: 4e3,
@@ -424,6 +579,31 @@ function brandGuidelineGaps(payload) {
   if (payload.sources.some((source) => source.basis === "observed" && (!source.url || !source.checkedAt))) gaps.push("URL v\xE0 ng\xE0y \u0111\u1ED1i chi\u1EBFu cho ngu\u1ED3n quan s\xE1t");
   return gaps;
 }
+var brandTypes = /* @__PURE__ */ new Set(["company", "product", "service", "sub_brand"]);
+var brandStatuses = /* @__PURE__ */ new Set(["draft", "active"]);
+var brandRelationships = /* @__PURE__ */ new Set(["independent", "sub_brand_of", "product_brand_of", "service_brand_of", "endorsed_by", "powered_by"]);
+function normalizeBrandInput(input) {
+  if (!brandTypes.has(input.type)) throw new Error("Unsupported Brand type");
+  const type = input.type;
+  const parentBrandId = boundedText(input.parentBrandId ?? void 0, "Parent Brand ID", 100) || null;
+  const relationship = input.relationship || (parentBrandId ? "sub_brand_of" : "independent");
+  if (!brandRelationships.has(relationship)) throw new Error("Unsupported Brand relationship");
+  if (parentBrandId && relationship === "independent") throw new Error("A Brand with a parent must define its relationship");
+  if (!parentBrandId && relationship !== "independent") throw new Error("An independent Brand cannot define a parent relationship");
+  const linkedEntityType = input.linkedEntityType === void 0 || input.linkedEntityType === null ? null : input.linkedEntityType;
+  if (linkedEntityType !== null && !["product", "service"].includes(linkedEntityType)) throw new Error("Unsupported linked business entity type");
+  const linkedEntityId = boundedText(input.linkedEntityId ?? void 0, "Linked business entity ID", 100) || null;
+  if (Boolean(linkedEntityType) !== Boolean(linkedEntityId)) throw new Error("Linked business entity type and ID must be provided together");
+  return {
+    name: boundedText(input.name, "Brand name", 200, true),
+    type,
+    summary: boundedText(input.summary, "Brand summary", 4e3),
+    parentBrandId,
+    relationship,
+    linkedEntityType,
+    linkedEntityId
+  };
+}
 function normalizeBrandProfileInput(input) {
   const normalized = {};
   for (const [field, limit] of Object.entries(brandProfileTextLimits)) {
@@ -527,20 +707,211 @@ var BrandProfileStore = class {
     this.db = db;
   }
   db;
-  getBrandProfile(revision) {
-    const current = this.db.prepare("SELECT * FROM brand_profiles WHERE id = 'default'").get();
+  brandPayload(row) {
+    return normalizeBrandInput({
+      name: row.name,
+      type: row.type,
+      summary: row.summary,
+      parentBrandId: row.parent_brand_id,
+      relationship: row.relationship,
+      linkedEntityType: row.linked_entity_type,
+      linkedEntityId: row.linked_entity_id
+    });
+  }
+  ensureBrandScope(brandId, input = {}) {
+    if (this.getBrand(brandId)) return;
+    if (brandId !== "default") throw new Error("Brand not found");
+    const timestamp = now();
+    const payload = normalizeBrandInput({ name: input.name || "Th\u01B0\u01A1ng hi\u1EC7u doanh nghi\u1EC7p", type: "company", summary: input.summary || "", parentBrandId: null, relationship: "independent", linkedEntityType: null, linkedEntityId: null });
+    this.db.prepare("INSERT INTO brands (id, name, type, summary, parent_brand_id, relationship, linked_entity_type, linked_entity_id, status, revision, created_at, updated_at) VALUES ('default', ?, 'company', ?, NULL, 'independent', NULL, NULL, 'draft', 1, ?, ?)").run(payload.name, payload.summary, timestamp, timestamp);
+    this.db.prepare("INSERT INTO brand_versions (brand_id, revision, payload_json, status, action, created_at) VALUES ('default', 1, ?, 'draft', 'create', ?)").run(JSON.stringify(payload), timestamp);
+  }
+  toBrandSummary(row, payload = this.brandPayload(row), status = row.status, revision = Number(row.revision), updatedAt = row.updated_at) {
+    const childCount = Number(this.db.prepare("SELECT count(*) AS total FROM brands WHERE parent_brand_id = ? AND archived_at IS NULL").get(row.id).total);
+    return {
+      ...payload,
+      id: row.id,
+      status,
+      revision,
+      childCount,
+      hasProfile: Boolean(this.db.prepare("SELECT 1 FROM brand_profiles WHERE id = ?").get(row.id)),
+      createdAt: row.created_at,
+      updatedAt,
+      archivedAt: row.archived_at
+    };
+  }
+  listBrands(input = {}) {
+    const where = [input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL"];
+    const values = [];
+    if (input.type) {
+      if (!brandTypes.has(input.type)) throw new Error("Unsupported Brand type");
+      where.push("type = ?");
+      values.push(input.type);
+    }
+    if (input.status) {
+      if (!brandStatuses.has(input.status)) throw new Error("Unsupported Brand status");
+      where.push("status = ?");
+      values.push(input.status);
+    }
+    if (input.query?.trim()) {
+      const pattern = `%${input.query.trim()}%`;
+      where.push("(name LIKE ? OR summary LIKE ?)");
+      values.push(pattern, pattern);
+    }
+    const limit = Math.max(1, Math.min(Number(input.limit ?? 200), 500));
+    const rows = this.db.prepare(`SELECT * FROM brands WHERE ${where.join(" AND ")} ORDER BY updated_at DESC, id LIMIT ?`).all(...values, limit);
+    const facets = {
+      types: { company: 0, product: 0, service: 0, sub_brand: 0 },
+      statuses: { draft: 0, active: 0 }
+    };
+    const scope = input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL";
+    for (const row of this.db.prepare(`SELECT type, count(*) AS total FROM brands WHERE ${scope} GROUP BY type`).all()) facets.types[row.type] = Number(row.total);
+    for (const row of this.db.prepare(`SELECT status, count(*) AS total FROM brands WHERE ${scope} GROUP BY status`).all()) facets.statuses[row.status] = Number(row.total);
+    return { items: rows.map((row) => this.toBrandSummary(row)), total: rows.length, facets };
+  }
+  getBrand(id, revision) {
+    const current = this.db.prepare("SELECT * FROM brands WHERE id = ?").get(id);
+    if (!current) return null;
+    let payload = this.brandPayload(current);
+    let status = current.status;
+    let selectedRevision = Number(current.revision);
+    let selectedAt = current.updated_at;
+    if (revision !== void 0) {
+      const version = this.db.prepare("SELECT revision, payload_json, status, action, created_at FROM brand_versions WHERE brand_id = ? AND revision = ?").get(id, revision);
+      if (!version) throw new Error("Brand revision not found");
+      payload = normalizeBrandInput(JSON.parse(version.payload_json));
+      status = version.status;
+      selectedRevision = Number(version.revision);
+      selectedAt = version.created_at;
+    }
+    const versions = this.db.prepare("SELECT revision, status, action, created_at FROM brand_versions WHERE brand_id = ? ORDER BY revision DESC").all(id).map((version) => ({
+      revision: Number(version.revision),
+      status: version.status,
+      action: version.action ?? "",
+      createdAt: version.created_at
+    }));
+    return {
+      ...this.toBrandSummary(current, payload, status, selectedRevision, selectedAt),
+      currentRevision: Number(current.revision),
+      isHistorical: selectedRevision !== Number(current.revision),
+      versions
+    };
+  }
+  assertBrandRelationships(input, currentId) {
+    if (input.parentBrandId) {
+      if (input.parentBrandId === currentId) throw new Error("A Brand cannot be its own parent");
+      const parent = this.getBrand(input.parentBrandId);
+      const retainedParent = currentId ? this.getBrand(currentId)?.parentBrandId === input.parentBrandId : false;
+      if (!parent || parent.archivedAt && !retainedParent) throw new Error("Parent Brand is unavailable");
+      let ancestorId = parent.parentBrandId;
+      const visited = /* @__PURE__ */ new Set([input.parentBrandId]);
+      while (ancestorId) {
+        if (ancestorId === currentId) throw new Error("Brand relationships cannot form a cycle");
+        if (visited.has(ancestorId)) throw new Error("Brand relationships cannot form a cycle");
+        visited.add(ancestorId);
+        ancestorId = this.db.prepare("SELECT parent_brand_id FROM brands WHERE id = ?").get(ancestorId)?.parent_brand_id ?? null;
+      }
+    }
+    if (input.linkedEntityId) {
+      const linked = this.getBrandRecord(input.linkedEntityId);
+      if (!linked || linked.kind !== "offering" || linked.archivedAt) throw new Error("Linked Product or Service is unavailable");
+    }
+    const duplicate = this.db.prepare(`SELECT id FROM brands WHERE lower(name) = lower(?) AND parent_brand_id IS ? AND archived_at IS NULL ${currentId ? "AND id != ?" : ""}`).get(input.name, input.parentBrandId, ...currentId ? [currentId] : []);
+    if (duplicate) throw new Error("A Brand with this name already exists at the same level");
+  }
+  createBrand(input) {
+    const payload = normalizeBrandInput(input);
+    this.assertBrandRelationships(payload);
+    const id = randomUUID();
+    const timestamp = now();
+    const profile = normalizeBrandProfileInput({ name: payload.name, summary: payload.summary });
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      this.db.prepare("INSERT INTO brands (id, name, type, summary, parent_brand_id, relationship, linked_entity_type, linked_entity_id, status, revision, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'draft', 1, ?, ?)").run(id, payload.name, payload.type, payload.summary, payload.parentBrandId, payload.relationship, payload.linkedEntityType, payload.linkedEntityId, timestamp, timestamp);
+      this.db.prepare("INSERT INTO brand_versions (brand_id, revision, payload_json, status, action, created_at) VALUES (?, 1, ?, 'draft', 'create', ?)").run(id, JSON.stringify(payload), timestamp);
+      this.db.prepare("INSERT INTO brand_profiles (id, payload_json, revision, created_at, updated_at) VALUES (?, ?, 1, ?, ?)").run(id, JSON.stringify(profile), timestamp, timestamp);
+      this.db.prepare("INSERT INTO brand_profile_versions (profile_id, revision, payload_json, created_at) VALUES (?, 1, ?, ?)").run(id, JSON.stringify(profile), timestamp);
+      this.db.exec("COMMIT");
+    } catch (error) {
+      this.db.exec("ROLLBACK");
+      throw error;
+    }
+    return this.getBrand(id);
+  }
+  updateBrand(id, input, expectedRevision) {
+    const current = this.getBrand(id);
+    if (!current) throw new Error("Brand not found");
+    if (current.archivedAt) throw new Error("Archived Brands must be restored before editing");
+    if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand changed since it was opened");
+    const payload = normalizeBrandInput(input);
+    this.assertBrandRelationships(payload, id);
+    const revision = current.currentRevision + 1;
+    const timestamp = now();
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const changed = this.db.prepare("UPDATE brands SET name = ?, type = ?, summary = ?, parent_brand_id = ?, relationship = ?, linked_entity_type = ?, linked_entity_id = ?, revision = ?, updated_at = ? WHERE id = ? AND revision = ? AND archived_at IS NULL").run(payload.name, payload.type, payload.summary, payload.parentBrandId, payload.relationship, payload.linkedEntityType, payload.linkedEntityId, revision, timestamp, id, expectedRevision);
+      if (!changed.changes) throw new Error("Brand changed since it was opened");
+      this.db.prepare("INSERT INTO brand_versions (brand_id, revision, payload_json, status, action, created_at) VALUES (?, ?, ?, ?, 'update', ?)").run(id, revision, JSON.stringify(payload), current.status, timestamp);
+      const foundation = this.getBrandProfile(void 0, id);
+      if (foundation && (foundation.name !== payload.name || foundation.summary !== payload.summary)) {
+        const updated = normalizeBrandProfileInput({ ...foundation, name: payload.name, summary: payload.summary });
+        const profileRevision = foundation.currentRevision + 1;
+        this.db.prepare("UPDATE brand_profiles SET payload_json = ?, revision = ?, updated_at = ? WHERE id = ?").run(JSON.stringify(updated), profileRevision, timestamp, id);
+        this.db.prepare("INSERT INTO brand_profile_versions (profile_id, revision, payload_json, created_at) VALUES (?, ?, ?, ?)").run(id, profileRevision, JSON.stringify(updated), timestamp);
+      }
+      this.db.exec("COMMIT");
+    } catch (error) {
+      this.db.exec("ROLLBACK");
+      throw error;
+    }
+    return this.getBrand(id);
+  }
+  transitionBrand(id, status, expectedRevision) {
+    if (!brandStatuses.has(status)) throw new Error("Unsupported Brand status");
+    const current = this.getBrand(id);
+    if (!current) throw new Error("Brand not found");
+    if (current.archivedAt) throw new Error("Archived Brands must be restored before activation");
+    if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand changed since it was opened");
+    if (current.status === status) throw new Error(`Brand is already ${status}`);
+    return this.reviseBrandState(current, status, null, `transition:${status}`);
+  }
+  archiveBrand(id, expectedRevision, restore = false) {
+    const current = this.getBrand(id);
+    if (!current) throw new Error("Brand not found");
+    if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand changed since it was opened");
+    if (restore ? !current.archivedAt : Boolean(current.archivedAt)) throw new Error("Brand archive state changed since it was opened");
+    return this.reviseBrandState(current, restore ? "draft" : current.status, restore ? null : now(), restore ? "restore" : "archive");
+  }
+  reviseBrandState(current, status, archivedAt, action) {
+    const revision = current.currentRevision + 1;
+    const timestamp = now();
+    const payload = normalizeBrandInput(current);
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const changed = this.db.prepare("UPDATE brands SET status = ?, archived_at = ?, revision = ?, updated_at = ? WHERE id = ? AND revision = ?").run(status, archivedAt, revision, timestamp, current.id, current.currentRevision);
+      if (!changed.changes) throw new Error("Brand changed since it was opened");
+      this.db.prepare("INSERT INTO brand_versions (brand_id, revision, payload_json, status, action, created_at) VALUES (?, ?, ?, ?, ?, ?)").run(current.id, revision, JSON.stringify(payload), status, action, timestamp);
+      this.db.exec("COMMIT");
+    } catch (error) {
+      this.db.exec("ROLLBACK");
+      throw error;
+    }
+    return this.getBrand(current.id);
+  }
+  getBrandProfile(revision, brandId = "default") {
+    const current = this.db.prepare("SELECT * FROM brand_profiles WHERE id = ?").get(brandId);
     if (!current) return null;
     let payload = normalizeBrandProfileInput(JSON.parse(current.payload_json));
     let selectedRevision = current.revision;
     let selectedAt = current.updated_at;
     if (revision !== void 0) {
-      const version = this.db.prepare("SELECT revision, payload_json, created_at FROM brand_profile_versions WHERE profile_id = 'default' AND revision = ?").get(revision);
+      const version = this.db.prepare("SELECT revision, payload_json, created_at FROM brand_profile_versions WHERE profile_id = ? AND revision = ?").get(brandId, revision);
       if (!version) throw new Error("Brand Profile revision not found");
       payload = normalizeBrandProfileInput(JSON.parse(version.payload_json));
       selectedRevision = Number(version.revision);
       selectedAt = version.created_at;
     }
-    const versions = this.db.prepare("SELECT revision, created_at FROM brand_profile_versions WHERE profile_id = 'default' ORDER BY revision DESC").all().map((version) => ({
+    const versions = this.db.prepare("SELECT revision, created_at FROM brand_profile_versions WHERE profile_id = ? ORDER BY revision DESC").all(brandId).map((version) => ({
       revision: Number(version.revision),
       createdAt: version.created_at
     }));
@@ -555,52 +926,65 @@ var BrandProfileStore = class {
       updatedAt: selectedAt
     };
   }
-  saveBrandProfile(input, expectedRevision) {
-    const payload = normalizeBrandProfileInput(input);
-    const current = this.getBrandProfile();
+  saveBrandProfile(input, expectedRevision, brandId = "default") {
+    const current = this.getBrandProfile(void 0, brandId);
+    const payload = normalizeBrandProfileInput({ ...input, goals: input.goals ?? current?.goals, desiredImage: input.desiredImage ?? current?.desiredImage, valueOffers: input.valueOffers ?? current?.valueOffers });
+    this.ensureBrandScope(brandId, { name: payload.name, summary: payload.summary });
     const timestamp = now();
     if (!current) {
       if (expectedRevision !== void 0) throw new Error("Brand Profile does not exist yet");
       this.db.exec("BEGIN IMMEDIATE");
       try {
-        this.db.prepare("INSERT INTO brand_profiles (id, payload_json, revision, created_at, updated_at) VALUES ('default', ?, 1, ?, ?)").run(JSON.stringify(payload), timestamp, timestamp);
-        this.db.prepare("INSERT INTO brand_profile_versions (profile_id, revision, payload_json, created_at) VALUES ('default', 1, ?, ?)").run(JSON.stringify(payload), timestamp);
+        this.db.prepare("INSERT INTO brand_profiles (id, payload_json, revision, created_at, updated_at) VALUES (?, ?, 1, ?, ?)").run(brandId, JSON.stringify(payload), timestamp, timestamp);
+        this.db.prepare("INSERT INTO brand_profile_versions (profile_id, revision, payload_json, created_at) VALUES (?, 1, ?, ?)").run(brandId, JSON.stringify(payload), timestamp);
+        this.syncBrandIdentity(brandId, payload, timestamp);
         this.db.exec("COMMIT");
       } catch (error) {
         this.db.exec("ROLLBACK");
         throw error;
       }
-      return this.getBrandProfile();
+      return this.getBrandProfile(void 0, brandId);
     }
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand Profile changed since it was opened");
     const revision = current.currentRevision + 1;
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      const changed = this.db.prepare("UPDATE brand_profiles SET payload_json = ?, revision = ?, updated_at = ? WHERE id = 'default' AND revision = ?").run(JSON.stringify(payload), revision, timestamp, expectedRevision);
+      const changed = this.db.prepare("UPDATE brand_profiles SET payload_json = ?, revision = ?, updated_at = ? WHERE id = ? AND revision = ?").run(JSON.stringify(payload), revision, timestamp, brandId, expectedRevision);
       if (!changed.changes) throw new Error("Brand Profile changed since it was opened");
-      this.db.prepare("INSERT INTO brand_profile_versions (profile_id, revision, payload_json, created_at) VALUES ('default', ?, ?, ?)").run(revision, JSON.stringify(payload), timestamp);
+      this.db.prepare("INSERT INTO brand_profile_versions (profile_id, revision, payload_json, created_at) VALUES (?, ?, ?, ?)").run(brandId, revision, JSON.stringify(payload), timestamp);
+      this.syncBrandIdentity(brandId, payload, timestamp);
       this.db.exec("COMMIT");
     } catch (error) {
       this.db.exec("ROLLBACK");
       throw error;
     }
-    return this.getBrandProfile();
+    return this.getBrandProfile(void 0, brandId);
   }
-  getBrandGuideline(kind, revision) {
+  syncBrandIdentity(brandId, profile, timestamp) {
+    const current = this.getBrand(brandId);
+    if (current.name === profile.name && current.summary === profile.summary) return;
+    const duplicate = this.db.prepare("SELECT id FROM brands WHERE lower(name) = lower(?) AND parent_brand_id IS ? AND archived_at IS NULL AND id != ?").get(profile.name, current.parentBrandId, brandId);
+    if (duplicate) throw new Error("A Brand with this name already exists at the same level");
+    const payload = normalizeBrandInput({ ...current, name: profile.name, summary: profile.summary });
+    const revision = current.currentRevision + 1;
+    this.db.prepare("UPDATE brands SET name = ?, summary = ?, revision = ?, updated_at = ? WHERE id = ?").run(payload.name, payload.summary, revision, timestamp, brandId);
+    this.db.prepare("INSERT INTO brand_versions (brand_id, revision, payload_json, status, action, created_at) VALUES (?, ?, ?, ?, 'update:foundation', ?)").run(brandId, revision, JSON.stringify(payload), current.status, timestamp);
+  }
+  getBrandGuideline(kind, revision, brandId = "default") {
     if (!["identity", "voice"].includes(kind)) throw new Error("Unsupported Brand guideline kind");
-    const current = this.db.prepare("SELECT * FROM brand_guidelines WHERE kind = ?").get(kind);
+    const current = this.db.prepare("SELECT * FROM brand_studio_guidelines WHERE brand_id = ? AND kind = ?").get(brandId, kind);
     if (!current) return null;
     let payload = normalizeBrandGuidelineInput(kind, JSON.parse(current.payload_json));
     let selectedRevision = Number(current.revision);
     let selectedAt = current.updated_at;
     if (revision !== void 0) {
-      const version = this.db.prepare("SELECT * FROM brand_guideline_versions WHERE kind = ? AND revision = ?").get(kind, revision);
+      const version = this.db.prepare("SELECT * FROM brand_studio_guideline_versions WHERE brand_id = ? AND kind = ? AND revision = ?").get(brandId, kind, revision);
       if (!version) throw new Error("Brand guideline revision not found");
       payload = normalizeBrandGuidelineInput(kind, JSON.parse(version.payload_json));
       selectedRevision = Number(version.revision);
       selectedAt = version.created_at;
     }
-    const versions = this.db.prepare("SELECT revision, action, activated_at, created_at FROM brand_guideline_versions WHERE kind = ? ORDER BY revision DESC").all(kind).map((version) => ({
+    const versions = this.db.prepare("SELECT revision, action, activated_at, created_at FROM brand_studio_guideline_versions WHERE brand_id = ? AND kind = ? ORDER BY revision DESC").all(brandId, kind).map((version) => ({
       revision: Number(version.revision),
       action: version.action,
       activatedAt: version.activated_at,
@@ -620,49 +1004,49 @@ var BrandProfileStore = class {
       updatedAt: selectedAt
     };
   }
-  getActiveBrandGuideline(kind) {
-    const row = this.db.prepare("SELECT active_revision FROM brand_guidelines WHERE kind = ?").get(kind);
-    return row?.active_revision ? this.getBrandGuideline(kind, Number(row.active_revision)) : null;
+  getActiveBrandGuideline(kind, brandId = "default") {
+    const row = this.db.prepare("SELECT active_revision FROM brand_studio_guidelines WHERE brand_id = ? AND kind = ?").get(brandId, kind);
+    return row?.active_revision ? this.getBrandGuideline(kind, Number(row.active_revision), brandId) : null;
   }
-  saveBrandGuideline(kind, input, expectedRevision) {
-    if (!this.getBrandProfile()) throw new Error("Create Brand Profile before adding brand guidelines");
+  saveBrandGuideline(kind, input, expectedRevision, brandId = "default") {
+    if (!this.getBrandProfile(void 0, brandId)) throw new Error("Create Brand Profile before adding brand guidelines");
     const payload = normalizeBrandGuidelineInput(kind, input);
-    const current = this.getBrandGuideline(kind);
+    const current = this.getBrandGuideline(kind, void 0, brandId);
     const timestamp = now();
     if (!current) {
       if (expectedRevision !== void 0) throw new Error("Brand guideline does not exist yet");
       this.db.exec("BEGIN IMMEDIATE");
       try {
-        this.db.prepare("INSERT INTO brand_guidelines (kind, payload_json, revision, active_revision, created_at, updated_at) VALUES (?, ?, 1, NULL, ?, ?)").run(kind, JSON.stringify(payload), timestamp, timestamp);
-        this.db.prepare("INSERT INTO brand_guideline_versions (kind, revision, payload_json, action, activated_at, created_at) VALUES (?, 1, ?, 'create', NULL, ?)").run(kind, JSON.stringify(payload), timestamp);
+        this.db.prepare("INSERT INTO brand_studio_guidelines (brand_id, kind, payload_json, revision, active_revision, created_at, updated_at) VALUES (?, ?, ?, 1, NULL, ?, ?)").run(brandId, kind, JSON.stringify(payload), timestamp, timestamp);
+        this.db.prepare("INSERT INTO brand_studio_guideline_versions (brand_id, kind, revision, payload_json, action, activated_at, created_at) VALUES (?, ?, 1, ?, 'create', NULL, ?)").run(brandId, kind, JSON.stringify(payload), timestamp);
         this.db.exec("COMMIT");
       } catch (error) {
         this.db.exec("ROLLBACK");
         throw error;
       }
-      return this.getBrandGuideline(kind);
+      return this.getBrandGuideline(kind, void 0, brandId);
     }
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand guideline changed since it was opened");
     const revision = current.currentRevision + 1;
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      const changed = this.db.prepare("UPDATE brand_guidelines SET payload_json = ?, revision = ?, updated_at = ? WHERE kind = ? AND revision = ?").run(JSON.stringify(payload), revision, timestamp, kind, expectedRevision);
+      const changed = this.db.prepare("UPDATE brand_studio_guidelines SET payload_json = ?, revision = ?, updated_at = ? WHERE brand_id = ? AND kind = ? AND revision = ?").run(JSON.stringify(payload), revision, timestamp, brandId, kind, expectedRevision);
       if (!changed.changes) throw new Error("Brand guideline changed since it was opened");
-      this.db.prepare("INSERT INTO brand_guideline_versions (kind, revision, payload_json, action, activated_at, created_at) VALUES (?, ?, ?, 'update', NULL, ?)").run(kind, revision, JSON.stringify(payload), timestamp);
+      this.db.prepare("INSERT INTO brand_studio_guideline_versions (brand_id, kind, revision, payload_json, action, activated_at, created_at) VALUES (?, ?, ?, ?, 'update', NULL, ?)").run(brandId, kind, revision, JSON.stringify(payload), timestamp);
       this.db.exec("COMMIT");
     } catch (error) {
       this.db.exec("ROLLBACK");
       throw error;
     }
-    return this.getBrandGuideline(kind);
+    return this.getBrandGuideline(kind, void 0, brandId);
   }
-  activateBrandGuideline(kind, expectedRevision) {
-    const current = this.getBrandGuideline(kind);
+  activateBrandGuideline(kind, expectedRevision, brandId = "default") {
+    const current = this.getBrandGuideline(kind, void 0, brandId);
     if (!current) throw new Error("Create a brand guideline draft before activating it");
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand guideline changed since it was opened");
     if (current.gaps.length) throw new Error(`Complete the guideline before activating it: ${current.gaps.join(", ")}`);
     if (current.kind === "identity") {
-      const assets = this.listBrandAssets();
+      const assets = this.listBrandAssets({ brandId });
       if (!assets.some((asset) => asset.id === current.logoAssetId && asset.role === "logo")) throw new Error("The selected logo is unavailable");
       if (current.visualAssetIds.some((id) => !assets.some((asset) => asset.id === id && asset.role === "visual_reference"))) throw new Error("A selected visual reference is unavailable");
     }
@@ -670,36 +1054,36 @@ var BrandProfileStore = class {
     const timestamp = now();
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      const changed = this.db.prepare("UPDATE brand_guidelines SET active_revision = ?, updated_at = ? WHERE kind = ? AND revision = ?").run(current.currentRevision, timestamp, kind, expectedRevision);
+      const changed = this.db.prepare("UPDATE brand_studio_guidelines SET active_revision = ?, updated_at = ? WHERE brand_id = ? AND kind = ? AND revision = ?").run(current.currentRevision, timestamp, brandId, kind, expectedRevision);
       if (!changed.changes) throw new Error("Brand guideline changed since it was opened");
-      this.db.prepare("UPDATE brand_guideline_versions SET activated_at = ? WHERE kind = ? AND revision = ?").run(timestamp, kind, current.currentRevision);
+      this.db.prepare("UPDATE brand_studio_guideline_versions SET activated_at = ? WHERE brand_id = ? AND kind = ? AND revision = ?").run(timestamp, brandId, kind, current.currentRevision);
       this.db.exec("COMMIT");
     } catch (error) {
       this.db.exec("ROLLBACK");
       throw error;
     }
-    return this.getBrandGuideline(kind);
+    return this.getBrandGuideline(kind, void 0, brandId);
   }
-  restoreBrandGuideline(kind, sourceRevision, expectedRevision) {
-    const current = this.getBrandGuideline(kind);
+  restoreBrandGuideline(kind, sourceRevision, expectedRevision, brandId = "default") {
+    const current = this.getBrandGuideline(kind, void 0, brandId);
     if (!current) throw new Error("Brand guideline does not exist");
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand guideline changed since it was opened");
-    const source = this.db.prepare("SELECT payload_json FROM brand_guideline_versions WHERE kind = ? AND revision = ?").get(kind, sourceRevision);
+    const source = this.db.prepare("SELECT payload_json FROM brand_studio_guideline_versions WHERE brand_id = ? AND kind = ? AND revision = ?").get(brandId, kind, sourceRevision);
     if (!source) throw new Error("Brand guideline revision not found");
     const payload = normalizeBrandGuidelineInput(kind, JSON.parse(source.payload_json));
     const revision = current.currentRevision + 1;
     const timestamp = now();
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      const changed = this.db.prepare("UPDATE brand_guidelines SET payload_json = ?, revision = ?, updated_at = ? WHERE kind = ? AND revision = ?").run(JSON.stringify(payload), revision, timestamp, kind, expectedRevision);
+      const changed = this.db.prepare("UPDATE brand_studio_guidelines SET payload_json = ?, revision = ?, updated_at = ? WHERE brand_id = ? AND kind = ? AND revision = ?").run(JSON.stringify(payload), revision, timestamp, brandId, kind, expectedRevision);
       if (!changed.changes) throw new Error("Brand guideline changed since it was opened");
-      this.db.prepare("INSERT INTO brand_guideline_versions (kind, revision, payload_json, action, activated_at, created_at) VALUES (?, ?, ?, 'restore', NULL, ?)").run(kind, revision, JSON.stringify(payload), timestamp);
+      this.db.prepare("INSERT INTO brand_studio_guideline_versions (brand_id, kind, revision, payload_json, action, activated_at, created_at) VALUES (?, ?, ?, ?, 'restore', NULL, ?)").run(brandId, kind, revision, JSON.stringify(payload), timestamp);
       this.db.exec("COMMIT");
     } catch (error) {
       this.db.exec("ROLLBACK");
       throw error;
     }
-    return this.getBrandGuideline(kind);
+    return this.getBrandGuideline(kind, void 0, brandId);
   }
   toBrandRecordSummary(row, payload) {
     return {
@@ -712,16 +1096,17 @@ var BrandProfileStore = class {
       archivedAt: row.archived_at
     };
   }
-  assertBrandRecordReferences(payload) {
+  assertBrandRecordReferences(payload, brandId = "default") {
     if (payload.kind !== "offering" || !payload.segmentIds?.length) return;
     const placeholders = payload.segmentIds.map(() => "?").join(", ");
-    const rows = this.db.prepare(`SELECT id, kind FROM brand_records WHERE id IN (${placeholders})`).all(...payload.segmentIds);
+    const rows = this.db.prepare(`SELECT id, kind FROM brand_records WHERE brand_id = ? AND id IN (${placeholders})`).all(brandId, ...payload.segmentIds);
     const validSegmentIds = new Set(rows.filter((row) => row.kind === "segment").map((row) => row.id));
     if (payload.segmentIds.some((id) => !validSegmentIds.has(id))) throw new Error("Offering segment links must reference existing customer segments");
   }
   listBrandRecords(input = {}) {
-    const where = [input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL"];
-    const values = [];
+    const brandId = input.brandId ?? "default";
+    const where = ["brand_id = ?", input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL"];
+    const values = [brandId];
     if (input.kind) {
       if (!brandRecordKinds.has(input.kind)) throw new Error("Unsupported Brand Profile record kind");
       where.push("kind = ?");
@@ -745,15 +1130,15 @@ var BrandProfileStore = class {
       offering: 0,
       competitor: 0
     };
-    for (const row of this.db.prepare("SELECT kind, count(*) AS total FROM brand_records WHERE archived_at IS NULL GROUP BY kind").all()) facets[row.kind] = Number(row.total);
+    for (const row of this.db.prepare("SELECT kind, count(*) AS total FROM brand_records WHERE brand_id = ? AND archived_at IS NULL GROUP BY kind").all(brandId)) facets[row.kind] = Number(row.total);
     return {
       items: rows.map((row) => this.toBrandRecordSummary(row)),
       total: rows.length,
       facets
     };
   }
-  getBrandRecord(id, revision) {
-    const current = this.db.prepare("SELECT * FROM brand_records WHERE id = ?").get(id);
+  getBrandRecord(id, revision, brandId) {
+    const current = this.db.prepare(`SELECT * FROM brand_records WHERE id = ?${brandId ? " AND brand_id = ?" : ""}`).get(id, ...brandId ? [brandId] : []);
     if (!current) return null;
     let payload = normalizeBrandRecordInput(JSON.parse(current.payload_json));
     let status = current.status;
@@ -786,15 +1171,16 @@ var BrandProfileStore = class {
       archivedAt: current.archived_at
     };
   }
-  createBrandRecord(input) {
+  createBrandRecord(input, brandId = "default") {
+    this.ensureBrandScope(brandId);
     const payload = normalizeBrandRecordInput(input);
-    this.assertBrandRecordReferences(payload);
+    this.assertBrandRecordReferences(payload, brandId);
     const id = randomUUID();
     const timestamp = now();
     const encoded = JSON.stringify(payload);
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      this.db.prepare("INSERT INTO brand_records (id, kind, name, payload_json, status, revision, created_at, updated_at) VALUES (?, ?, ?, ?, 'active', 1, ?, ?)").run(id, payload.kind, payload.name, encoded, timestamp, timestamp);
+      this.db.prepare("INSERT INTO brand_records (id, brand_id, kind, name, payload_json, status, revision, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'active', 1, ?, ?)").run(id, brandId, payload.kind, payload.name, encoded, timestamp, timestamp);
       this.db.prepare("INSERT INTO brand_record_versions (record_id, revision, payload_json, status, action, created_at) VALUES (?, 1, ?, 'active', 'create', ?)").run(id, encoded, timestamp);
       this.db.exec("COMMIT");
     } catch (error) {
@@ -803,14 +1189,15 @@ var BrandProfileStore = class {
     }
     return this.getBrandRecord(id);
   }
-  updateBrandRecord(id, input, expectedRevision) {
-    const current = this.getBrandRecord(id);
+  updateBrandRecord(id, input, expectedRevision, brandId) {
+    const current = this.getBrandRecord(id, void 0, brandId);
     if (!current) throw new Error("Brand Profile record not found");
     if (current.archivedAt) throw new Error("Archived Brand Profile records must be restored before editing");
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand Profile record changed since it was opened");
     const payload = normalizeBrandRecordInput(input);
     if (payload.kind !== current.kind) throw new Error("Brand Profile record kind cannot change");
-    this.assertBrandRecordReferences(payload);
+    const ownerBrandId = brandId ?? this.db.prepare("SELECT brand_id FROM brand_records WHERE id = ?").get(id).brand_id;
+    this.assertBrandRecordReferences(payload, ownerBrandId);
     const revision = current.currentRevision + 1;
     const timestamp = now();
     const encoded = JSON.stringify(payload);
@@ -826,17 +1213,17 @@ var BrandProfileStore = class {
     }
     return this.getBrandRecord(id);
   }
-  transitionBrandRecord(id, status, expectedRevision) {
+  transitionBrandRecord(id, status, expectedRevision, brandId) {
     if (!["active", "disabled"].includes(status)) throw new Error("Unsupported Brand Profile record status");
-    const current = this.getBrandRecord(id);
+    const current = this.getBrandRecord(id, void 0, brandId);
     if (!current) throw new Error("Brand Profile record not found");
     if (current.archivedAt) throw new Error("Archived Brand Profile records must be restored before changing status");
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand Profile record changed since it was opened");
     if (current.status === status) throw new Error(`Brand Profile record is already ${status}`);
     return this.reviseBrandRecordState(current, status, null, `transition:${status}`);
   }
-  archiveBrandRecord(id, expectedRevision, restore = false) {
-    const current = this.getBrandRecord(id);
+  archiveBrandRecord(id, expectedRevision, restore = false, brandId) {
+    const current = this.getBrandRecord(id, void 0, brandId);
     if (!current) throw new Error("Brand Profile record not found");
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand Profile record changed since it was opened");
     if (restore ? !current.archivedAt : Boolean(current.archivedAt)) throw new Error("Brand Profile record archive state changed since it was opened");
@@ -869,8 +1256,9 @@ var BrandProfileStore = class {
     };
   }
   listBrandClaims(input = {}) {
-    const where = [input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL"];
-    const values = [];
+    const brandId = input.brandId ?? "default";
+    const where = ["brand_id = ?", input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL"];
+    const values = [brandId];
     if (input.status) {
       if (!["draft", "approved"].includes(input.status)) throw new Error("Unsupported Brand Claim status");
       where.push("status = ?");
@@ -884,15 +1272,15 @@ var BrandProfileStore = class {
     const limit = Math.max(1, Math.min(Number(input.limit ?? 200), 500));
     const rows = this.db.prepare(`SELECT * FROM brand_claims WHERE ${where.join(" AND ")} ORDER BY updated_at DESC, id LIMIT ?`).all(...values, limit);
     const facets = { draft: 0, approved: 0 };
-    for (const row of this.db.prepare("SELECT status, count(*) AS total FROM brand_claims WHERE archived_at IS NULL GROUP BY status").all()) facets[row.status] = Number(row.total);
+    for (const row of this.db.prepare("SELECT status, count(*) AS total FROM brand_claims WHERE brand_id = ? AND archived_at IS NULL GROUP BY status").all(brandId)) facets[row.status] = Number(row.total);
     return {
       items: rows.map((row) => this.toBrandClaimSummary(row)),
       total: rows.length,
       facets
     };
   }
-  getBrandClaim(id, revision) {
-    const current = this.db.prepare("SELECT * FROM brand_claims WHERE id = ?").get(id);
+  getBrandClaim(id, revision, brandId) {
+    const current = this.db.prepare(`SELECT * FROM brand_claims WHERE id = ?${brandId ? " AND brand_id = ?" : ""}`).get(id, ...brandId ? [brandId] : []);
     if (!current) return null;
     let payload = normalizeBrandClaimInput(JSON.parse(current.payload_json));
     let status = current.status;
@@ -925,14 +1313,15 @@ var BrandProfileStore = class {
       archivedAt: current.archived_at
     };
   }
-  createBrandClaim(input) {
+  createBrandClaim(input, brandId = "default") {
+    this.ensureBrandScope(brandId);
     const payload = normalizeBrandClaimInput(input);
     const id = randomUUID();
     const timestamp = now();
     const encoded = JSON.stringify(payload);
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      this.db.prepare("INSERT INTO brand_claims (id, claim, payload_json, status, revision, created_at, updated_at) VALUES (?, ?, ?, 'draft', 1, ?, ?)").run(id, payload.claim, encoded, timestamp, timestamp);
+      this.db.prepare("INSERT INTO brand_claims (id, brand_id, claim, payload_json, status, revision, created_at, updated_at) VALUES (?, ?, ?, ?, 'draft', 1, ?, ?)").run(id, brandId, payload.claim, encoded, timestamp, timestamp);
       this.db.prepare("INSERT INTO brand_claim_versions (claim_id, revision, payload_json, status, action, created_at) VALUES (?, 1, ?, 'draft', 'create', ?)").run(id, encoded, timestamp);
       this.db.exec("COMMIT");
     } catch (error) {
@@ -941,8 +1330,8 @@ var BrandProfileStore = class {
     }
     return this.getBrandClaim(id);
   }
-  updateBrandClaim(id, input, expectedRevision) {
-    const current = this.getBrandClaim(id);
+  updateBrandClaim(id, input, expectedRevision, brandId) {
+    const current = this.getBrandClaim(id, void 0, brandId);
     if (!current) throw new Error("Brand Claim not found");
     if (current.archivedAt) throw new Error("Archived Brand Claims must be restored before editing");
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand Claim changed since it was opened");
@@ -962,9 +1351,9 @@ var BrandProfileStore = class {
     }
     return this.getBrandClaim(id);
   }
-  transitionBrandClaim(id, status, expectedRevision) {
+  transitionBrandClaim(id, status, expectedRevision, brandId) {
     if (!["draft", "approved"].includes(status)) throw new Error("Unsupported Brand Claim status");
-    const current = this.getBrandClaim(id);
+    const current = this.getBrandClaim(id, void 0, brandId);
     if (!current) throw new Error("Brand Claim not found");
     if (current.archivedAt) throw new Error("Archived Brand Claims must be restored before approval");
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand Claim changed since it was opened");
@@ -972,8 +1361,8 @@ var BrandProfileStore = class {
     if (status === "approved" && !current.proof.length) throw new Error("Brand Claim needs proof before approval");
     return this.reviseBrandClaimState(current, status, null, `transition:${status}`);
   }
-  archiveBrandClaim(id, expectedRevision, restore = false) {
-    const current = this.getBrandClaim(id);
+  archiveBrandClaim(id, expectedRevision, restore = false, brandId) {
+    const current = this.getBrandClaim(id, void 0, brandId);
     if (!current) throw new Error("Brand Claim not found");
     if (expectedRevision === void 0 || current.currentRevision !== expectedRevision) throw new Error("Brand Claim changed since it was opened");
     if (restore ? !current.archivedAt : Boolean(current.archivedAt)) throw new Error("Brand Claim archive state changed since it was opened");
@@ -1010,8 +1399,9 @@ var BrandProfileStore = class {
     };
   }
   listBrandAssets(input = {}) {
-    const where = [input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL"];
-    const values = [];
+    const brandId = input.brandId ?? "default";
+    const where = ["brand_id = ?", input.archived ? "archived_at IS NOT NULL" : "archived_at IS NULL"];
+    const values = [brandId];
     if (input.role) {
       if (!["logo", "visual_reference", "product_media", "competitor_logo", "personal_media"].includes(input.role)) throw new Error("Unsupported Brand asset role");
       where.push("role = ?");
@@ -1021,30 +1411,31 @@ var BrandProfileStore = class {
       where.push("record_id = ?");
       values.push(input.recordId);
     }
-    return this.db.prepare(`SELECT id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE ${where.join(" AND ")} ORDER BY created_at DESC, id`).all(...values).map((row) => this.toBrandAsset(row));
+    return this.db.prepare(`SELECT id, brand_id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE ${where.join(" AND ")} ORDER BY created_at DESC, id`).all(...values).map((row) => this.toBrandAsset(row));
   }
-  createBrandAsset(input) {
+  createBrandAsset(input, brandId = "default") {
     if (!["logo", "visual_reference", "product_media", "competitor_logo", "personal_media"].includes(input.role)) throw new Error("Unsupported Brand asset role");
+    if (input.role !== "personal_media") this.ensureBrandScope(brandId);
     const bytes = Buffer.from(input.data);
     if (!bytes.length || bytes.length > 8e6) throw new Error("Brand assets must be between 1 byte and 8 MB");
     const detected = detectImageAsset(bytes);
     const sha256 = createHash("sha256").update(bytes).digest("hex");
     const recordId = input.recordId || null;
     if (input.role === "product_media") {
-      const record = recordId ? this.getBrandRecord(recordId) : null;
+      const record = recordId ? this.getBrandRecord(recordId, void 0, brandId) : null;
       if (!record || record.kind !== "offering" || record.archivedAt) throw new Error("Product media requires an active Product/Service record");
     } else if (input.role === "competitor_logo") {
-      const record = recordId ? this.getBrandRecord(recordId) : null;
+      const record = recordId ? this.getBrandRecord(recordId, void 0, brandId) : null;
       if (!record || record.kind !== "competitor" || record.archivedAt) throw new Error("Competitor logos require an active Competitor record");
     } else if (recordId) throw new Error("Only product media and competitor logos may be linked to a Brand Profile record");
-    const existing = this.db.prepare("SELECT id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE role = ? AND record_id IS ? AND sha256 = ?").get(input.role, recordId, sha256);
+    const existing = this.db.prepare("SELECT id, brand_id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE brand_id = ? AND role = ? AND record_id IS ? AND sha256 = ?").get(brandId, input.role, recordId, sha256);
     const timestamp = now();
     this.db.exec("BEGIN IMMEDIATE");
     try {
-      if (input.role === "logo") this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE role = 'logo' AND archived_at IS NULL AND sha256 != ?").run(timestamp, sha256);
-      if (input.role === "competitor_logo") this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE role = 'competitor_logo' AND record_id = ? AND archived_at IS NULL AND sha256 != ?").run(timestamp, recordId, sha256);
+      if (input.role === "logo") this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE brand_id = ? AND role = 'logo' AND archived_at IS NULL AND sha256 != ?").run(timestamp, brandId, sha256);
+      if (input.role === "competitor_logo") this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE brand_id = ? AND role = 'competitor_logo' AND record_id = ? AND archived_at IS NULL AND sha256 != ?").run(timestamp, brandId, recordId, sha256);
       if (existing) this.db.prepare("UPDATE brand_assets SET archived_at = NULL WHERE id = ?").run(existing.id);
-      else this.db.prepare("INSERT INTO brand_assets (id, role, record_id, filename, mime_type, byte_size, sha256, data, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)").run(randomUUID(), input.role, recordId, boundedText(input.filename, "Asset filename", 300, true), detected.mimeType, bytes.length, sha256, bytes, timestamp);
+      else this.db.prepare("INSERT INTO brand_assets (id, brand_id, role, record_id, filename, mime_type, byte_size, sha256, data, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(randomUUID(), brandId, input.role, recordId, boundedText(input.filename, "Asset filename", 300, true), detected.mimeType, bytes.length, sha256, bytes, timestamp);
       this.db.exec("COMMIT");
     } catch (error) {
       this.db.exec("ROLLBACK");
@@ -1052,7 +1443,8 @@ var BrandProfileStore = class {
     }
     return this.listBrandAssets({
       role: input.role,
-      recordId: recordId ?? void 0
+      recordId: recordId ?? void 0,
+      brandId
     }).find((asset) => asset.sha256 === sha256);
   }
   getBrandAssetData(id) {
@@ -1060,17 +1452,17 @@ var BrandProfileStore = class {
     return row ? { asset: this.toBrandAsset(row), data: row.data } : null;
   }
   archiveBrandAsset(id, restore = false) {
-    const row = this.db.prepare("SELECT id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE id = ?").get(id);
+    const row = this.db.prepare("SELECT id, brand_id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE id = ?").get(id);
     if (!row) throw new Error("Brand asset not found");
     if (restore ? !row.archived_at : Boolean(row.archived_at)) throw new Error("Brand asset archive state changed");
-    if (restore && row.role === "logo") this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE role = 'logo' AND archived_at IS NULL").run(now());
-    if (restore && row.role === "competitor_logo") this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE role = 'competitor_logo' AND record_id = ? AND archived_at IS NULL").run(now(), row.record_id);
+    if (restore && row.role === "logo") this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE brand_id = ? AND role = 'logo' AND archived_at IS NULL").run(now(), row.brand_id);
+    if (restore && row.role === "competitor_logo") this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE brand_id = ? AND role = 'competitor_logo' AND record_id = ? AND archived_at IS NULL").run(now(), row.brand_id, row.record_id);
     this.db.prepare("UPDATE brand_assets SET archived_at = ? WHERE id = ?").run(restore ? null : now(), id);
-    const result = this.db.prepare("SELECT id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE id = ?").get(id);
+    const result = this.db.prepare("SELECT id, brand_id, role, record_id, filename, mime_type, byte_size, sha256, created_at, archived_at FROM brand_assets WHERE id = ?").get(id);
     return this.toBrandAsset(result);
   }
-  brandProfileOverview() {
-    const profile = this.getBrandProfile();
+  brandProfileOverview(brandId = "default") {
+    const profile = this.getBrandProfile(void 0, brandId);
     const counts = {
       segment: 0,
       persona: 0,
@@ -1079,14 +1471,14 @@ var BrandProfileStore = class {
       approvedClaims: 0,
       visualAssets: 0
     };
-    for (const row of this.db.prepare("SELECT kind, count(*) total FROM brand_records WHERE archived_at IS NULL AND status = 'active' GROUP BY kind").all()) counts[row.kind] = Number(row.total);
-    counts.approvedClaims = Number(this.db.prepare("SELECT count(*) total FROM brand_claims WHERE archived_at IS NULL AND status = 'approved'").get().total);
-    const assets = this.listBrandAssets();
+    for (const row of this.db.prepare("SELECT kind, count(*) total FROM brand_records WHERE brand_id = ? AND archived_at IS NULL AND status = 'active' GROUP BY kind").all(brandId)) counts[row.kind] = Number(row.total);
+    counts.approvedClaims = Number(this.db.prepare("SELECT count(*) total FROM brand_claims WHERE brand_id = ? AND archived_at IS NULL AND status = 'approved'").get(brandId).total);
+    const assets = this.listBrandAssets({ brandId });
     counts.visualAssets = assets.filter((asset) => asset.role === "visual_reference").length;
-    const identity = this.getActiveBrandGuideline("identity");
-    const voice = this.getActiveBrandGuideline("voice");
+    const identity = this.getActiveBrandGuideline("identity", brandId);
+    const voice = this.getActiveBrandGuideline("voice", brandId);
     const guidelineDetail = (kind, active) => {
-      const current = this.getBrandGuideline(kind);
+      const current = this.getBrandGuideline(kind, void 0, brandId);
       if (!active) return current ? `Draft v${current.currentRevision} ch\u01B0a k\xEDch ho\u1EA1t` : "Ch\u01B0a t\u1EA1o quy chu\u1EA9n";
       return current && current.currentRevision !== active.revision ? `Active v${active.revision} \xB7 Draft v${current.currentRevision}` : `Active v${active.revision}`;
     };
@@ -1153,16 +1545,18 @@ var BrandProfileStore = class {
       assets
     };
   }
-  createBrandContextSnapshot(input = {}) {
-    const profile = this.getBrandProfile();
+  createBrandContextSnapshot(input = {}, brandId = "default") {
+    const profile = this.getBrandProfile(void 0, brandId);
     if (!profile) throw new Error("Create Brand Profile before generating context");
     const eligibleRecords = this.listBrandRecords({
       status: "active",
-      limit: 500
+      limit: 500,
+      brandId
     }).items;
     const eligibleClaims = this.listBrandClaims({
       status: "approved",
-      limit: 500
+      limit: 500,
+      brandId
     }).items;
     const gaps = [];
     const defaultRecords = [];
@@ -1183,13 +1577,13 @@ var BrandProfileStore = class {
     );
     if (input.claimIds === void 0 && eligibleClaims.length > 1) gaps.push(`Ch\u1ECDn claim ph\xF9 h\u1EE3p; kh\xF4ng t\u1EF1 \u0111\u01B0a c\u1EA3 ${eligibleClaims.length} claim v\xE0o context.`);
     const allowedRecordIds = new Set(selectedRecords.map((record) => record.id));
-    const identity = this.getActiveBrandGuideline("identity");
-    const voice = this.getActiveBrandGuideline("voice");
+    const identity = this.getActiveBrandGuideline("identity", brandId);
+    const voice = this.getActiveBrandGuideline("voice", brandId);
     if (!identity) gaps.push("Ch\u01B0a c\xF3 Quy chu\u1EA9n nh\u1EADn di\u1EC7n Active.");
     if (!voice) gaps.push("Ch\u01B0a c\xF3 Quy chu\u1EA9n gi\u1ECDng th\u01B0\u01A1ng hi\u1EC7u Active.");
     const guidelineAssetIds = new Set(identity?.kind === "identity" ? [identity.logoAssetId, ...identity.visualAssetIds].filter(Boolean) : []);
-    const currentAssets = this.listBrandAssets();
-    const allAssets = [...currentAssets, ...this.listBrandAssets({ archived: true })];
+    const currentAssets = this.listBrandAssets({ brandId });
+    const allAssets = [...currentAssets, ...this.listBrandAssets({ archived: true, brandId })];
     const assets = allAssets.filter((asset) => guidelineAssetIds.has(asset.id) || !asset.archivedAt && asset.role === "product_media" && asset.recordId && allowedRecordIds.has(asset.recordId));
     const profilePayload = normalizeBrandProfileInput(profile);
     const guidelines = {};
@@ -1372,9 +1766,69 @@ function brandProfileContext(store) {
 
 // src/mini-apps/brand-profile/server/routes.ts
 function createBrandProfileRouter(store, router) {
+  const scopedBrandId = (request) => String(request.query.brandId ?? "default").trim() || "default";
+  router.get("/api/brands", (request, response, next) => {
+    try {
+      response.json(store.listBrands({
+        query: String(request.query.q ?? ""),
+        type: String(request.query.type ?? ""),
+        status: String(request.query.status ?? ""),
+        archived: request.query.archived === "1",
+        limit: Number(request.query.limit ?? 200)
+      }));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/brands", (request, response, next) => {
+    try {
+      response.status(201).json(store.createBrand(request.body ?? {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.get("/api/brands/:id", (request, response, next) => {
+    try {
+      const revision = request.query.revision === void 0 ? void 0 : Number(request.query.revision);
+      const brand = store.getBrand(request.params.id, revision);
+      if (!brand) return response.status(404).json({ error: "Brand not found" });
+      response.json(brand);
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.patch("/api/brands/:id", (request, response, next) => {
+    try {
+      const { revision, ...input } = request.body ?? {};
+      response.json(store.updateBrand(request.params.id, input, revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/brands/:id/transition", (request, response, next) => {
+    try {
+      response.json(store.transitionBrand(request.params.id, request.body?.status, request.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/brands/:id/archive", (request, response, next) => {
+    try {
+      response.json(store.archiveBrand(request.params.id, request.body?.revision));
+    } catch (error) {
+      next(error);
+    }
+  });
+  router.post("/api/brands/:id/restore", (request, response, next) => {
+    try {
+      response.json(store.archiveBrand(request.params.id, request.body?.revision, true));
+    } catch (error) {
+      next(error);
+    }
+  });
   router.get("/api/brand-profile/overview", (_request, response, next) => {
     try {
-      response.json(store.brandProfileOverview());
+      response.json(store.brandProfileOverview(scopedBrandId(_request)));
     } catch (error) {
       next(error);
     }
@@ -1383,7 +1837,7 @@ function createBrandProfileRouter(store, router) {
     try {
       const revision = request.query.revision === void 0 ? void 0 : Number(request.query.revision);
       if (revision !== void 0 && (!Number.isInteger(revision) || revision < 1)) throw new Error("Brand Profile revision must be a positive integer");
-      const profile = store.getBrandProfile(revision);
+      const profile = store.getBrandProfile(revision, scopedBrandId(request));
       if (!profile) return response.status(404).json({ error: "Brand Profile not found" });
       response.json(profile);
     } catch (error) {
@@ -1393,7 +1847,7 @@ function createBrandProfileRouter(store, router) {
   router.put("/api/brand-profile", (request, response, next) => {
     try {
       const { revision, ...input } = request.body ?? {};
-      response.json(store.saveBrandProfile(input, revision));
+      response.json(store.saveBrandProfile(input, revision, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
@@ -1401,7 +1855,7 @@ function createBrandProfileRouter(store, router) {
   router.get("/api/brand-guidelines/:kind", (request, response, next) => {
     try {
       const revision = request.query.revision === void 0 ? void 0 : Number(request.query.revision);
-      const guideline = store.getBrandGuideline(request.params.kind, revision);
+      const guideline = store.getBrandGuideline(request.params.kind, revision, scopedBrandId(request));
       if (!guideline) return response.status(404).json({ error: "Brand guideline not found" });
       response.json(guideline);
     } catch (error) {
@@ -1411,21 +1865,21 @@ function createBrandProfileRouter(store, router) {
   router.put("/api/brand-guidelines/:kind", (request, response, next) => {
     try {
       const { revision, ...input } = request.body ?? {};
-      response.json(store.saveBrandGuideline(request.params.kind, input, revision));
+      response.json(store.saveBrandGuideline(request.params.kind, input, revision, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
   });
   router.post("/api/brand-guidelines/:kind/activate", (request, response, next) => {
     try {
-      response.json(store.activateBrandGuideline(request.params.kind, request.body?.revision));
+      response.json(store.activateBrandGuideline(request.params.kind, request.body?.revision, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
   });
   router.post("/api/brand-guidelines/:kind/restore", (request, response, next) => {
     try {
-      response.json(store.restoreBrandGuideline(request.params.kind, request.body?.sourceRevision, request.body?.revision));
+      response.json(store.restoreBrandGuideline(request.params.kind, request.body?.sourceRevision, request.body?.revision, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
@@ -1438,7 +1892,8 @@ function createBrandProfileRouter(store, router) {
           kind: String(request.query.kind ?? ""),
           status: String(request.query.status ?? ""),
           archived: request.query.archived === "1",
-          limit: Number(request.query.limit ?? 200)
+          limit: Number(request.query.limit ?? 200),
+          brandId: scopedBrandId(request)
         })
       );
     } catch (error) {
@@ -1447,7 +1902,7 @@ function createBrandProfileRouter(store, router) {
   });
   router.post("/api/brand-records", (request, response, next) => {
     try {
-      response.status(201).json(store.createBrandRecord(request.body ?? {}));
+      response.status(201).json(store.createBrandRecord(request.body ?? {}, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
@@ -1455,7 +1910,7 @@ function createBrandProfileRouter(store, router) {
   router.get("/api/brand-records/:id", (request, response, next) => {
     try {
       const revision = request.query.revision === void 0 ? void 0 : Number(request.query.revision);
-      const record = store.getBrandRecord(request.params.id, revision);
+      const record = store.getBrandRecord(request.params.id, revision, scopedBrandId(request));
       if (!record) return response.status(404).json({ error: "Brand Profile record not found" });
       response.json(record);
     } catch (error) {
@@ -1465,28 +1920,28 @@ function createBrandProfileRouter(store, router) {
   router.patch("/api/brand-records/:id", (request, response, next) => {
     try {
       const { revision, ...input } = request.body ?? {};
-      response.json(store.updateBrandRecord(request.params.id, input, revision));
+      response.json(store.updateBrandRecord(request.params.id, input, revision, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
   });
   router.post("/api/brand-records/:id/transition", (request, response, next) => {
     try {
-      response.json(store.transitionBrandRecord(request.params.id, request.body?.status, request.body?.revision));
+      response.json(store.transitionBrandRecord(request.params.id, request.body?.status, request.body?.revision, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
   });
   router.post("/api/brand-records/:id/archive", (request, response, next) => {
     try {
-      response.json(store.archiveBrandRecord(request.params.id, request.body?.revision));
+      response.json(store.archiveBrandRecord(request.params.id, request.body?.revision, false, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
   });
   router.post("/api/brand-records/:id/restore", (request, response, next) => {
     try {
-      response.json(store.archiveBrandRecord(request.params.id, request.body?.revision, true));
+      response.json(store.archiveBrandRecord(request.params.id, request.body?.revision, true, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
@@ -1498,7 +1953,8 @@ function createBrandProfileRouter(store, router) {
           query: String(request.query.q ?? ""),
           status: String(request.query.status ?? ""),
           archived: request.query.archived === "1",
-          limit: Number(request.query.limit ?? 200)
+          limit: Number(request.query.limit ?? 200),
+          brandId: scopedBrandId(request)
         })
       );
     } catch (error) {
@@ -1507,7 +1963,7 @@ function createBrandProfileRouter(store, router) {
   });
   router.post("/api/brand-claims", (request, response, next) => {
     try {
-      response.status(201).json(store.createBrandClaim(request.body ?? {}));
+      response.status(201).json(store.createBrandClaim(request.body ?? {}, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
@@ -1515,7 +1971,7 @@ function createBrandProfileRouter(store, router) {
   router.get("/api/brand-claims/:id", (request, response, next) => {
     try {
       const revision = request.query.revision === void 0 ? void 0 : Number(request.query.revision);
-      const claim = store.getBrandClaim(request.params.id, revision);
+      const claim = store.getBrandClaim(request.params.id, revision, scopedBrandId(request));
       if (!claim) return response.status(404).json({ error: "Brand Claim not found" });
       response.json(claim);
     } catch (error) {
@@ -1525,28 +1981,28 @@ function createBrandProfileRouter(store, router) {
   router.patch("/api/brand-claims/:id", (request, response, next) => {
     try {
       const { revision, ...input } = request.body ?? {};
-      response.json(store.updateBrandClaim(request.params.id, input, revision));
+      response.json(store.updateBrandClaim(request.params.id, input, revision, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
   });
   router.post("/api/brand-claims/:id/transition", (request, response, next) => {
     try {
-      response.json(store.transitionBrandClaim(request.params.id, request.body?.status, request.body?.revision));
+      response.json(store.transitionBrandClaim(request.params.id, request.body?.status, request.body?.revision, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
   });
   router.post("/api/brand-claims/:id/archive", (request, response, next) => {
     try {
-      response.json(store.archiveBrandClaim(request.params.id, request.body?.revision));
+      response.json(store.archiveBrandClaim(request.params.id, request.body?.revision, false, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
   });
   router.post("/api/brand-claims/:id/restore", (request, response, next) => {
     try {
-      response.json(store.archiveBrandClaim(request.params.id, request.body?.revision, true));
+      response.json(store.archiveBrandClaim(request.params.id, request.body?.revision, true, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
@@ -1557,7 +2013,8 @@ function createBrandProfileRouter(store, router) {
         store.listBrandAssets({
           role: request.query.role ? String(request.query.role) : void 0,
           recordId: request.query.recordId ? String(request.query.recordId) : void 0,
-          archived: request.query.archived === "1"
+          archived: request.query.archived === "1",
+          brandId: scopedBrandId(request)
         })
       );
     } catch (error) {
@@ -1574,7 +2031,7 @@ function createBrandProfileRouter(store, router) {
           recordId: request.body?.recordId,
           filename: String(request.body?.filename ?? ""),
           data: Buffer.from(dataBase64, "base64")
-        })
+        }, scopedBrandId(request))
       );
     } catch (error) {
       next(error);
@@ -1605,7 +2062,7 @@ function createBrandProfileRouter(store, router) {
   });
   router.post("/api/brand-context-snapshots", (request, response, next) => {
     try {
-      response.status(201).json(store.createBrandContextSnapshot(request.body ?? {}));
+      response.status(201).json(store.createBrandContextSnapshot(request.body ?? {}, scopedBrandId(request)));
     } catch (error) {
       next(error);
     }
