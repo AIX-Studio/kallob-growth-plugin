@@ -1,14 +1,14 @@
 {
   "id": "crm",
-  "version": "2.1.0",
-  "buildId": "3ff2211-mvg94dn2",
+  "version": "2.4.1",
+  "buildId": "f98b878-mvi7n4i8",
   "requiresCore": ">=2.28.0 <3",
   "exports": {
     "crm.customers": "1.4",
     "crm.chat": "1.0",
     "crm.handoffs": "1.0",
     "crm.catalog": "1.0",
-    "crm.selling": "2.0",
+    "crm.selling": "2.1",
     "offers.catalog": "1.1",
     "crm.measurement": "1.0"
   },

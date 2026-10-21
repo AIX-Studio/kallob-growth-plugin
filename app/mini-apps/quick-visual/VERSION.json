@@ -1,7 +1,7 @@
 {
   "id": "quick-visual",
   "version": "1.6.1",
-  "buildId": "3ff2211-mvg94wat",
+  "buildId": "f98b878-mvi7nhxx",
   "requiresCore": ">=2.22.0 <3",
   "exports": {
     "quick-visual.images": "1.0"

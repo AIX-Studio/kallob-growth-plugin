@@ -14,7 +14,7 @@ function defineMiniApp(module) {
 // src/mini-apps/funnel-studio/manifest.ts
 var manifest = {
   id: "funnel-studio",
-  version: "2.5.0",
+  version: "2.7.0",
   // 2.0.0: one short form → one page on this Studio, copy by the structured Codex runner (no task card); the brand
   // from Brand Profile (`brand-profile.context`) and a sales page's Offer from Mini CRM (`offers.catalog`), both
   // optional. ChatGPT Sites, the five-minute sync, gift emails and journeys are gone (hosting comes later).
@@ -31,11 +31,25 @@ var manifest = {
   entitlement: "funnel-studio",
   // `funnel-studio.measurement` 1.0 (markus-dev 21571b1): real lifetime counters for Personal Brand's measurement cycles.
   exports: { "funnel-studio.funnels": "1.0", "funnel-studio.measurement": "1.0" },
-  publishes: { "crm.ingest": "^1.2" }
+  publishes: { "crm.ingest": "^1.2" },
+  // 2.6.0: an order marked paid or cancelled in Mini CRM is marked so here too.
+  // 2.7.0: the bank, COD and shipping fee come from Mini CRM (`crm.selling` 2.1 `delivery`); the old Cài đặt values
+  // are handed to it once (`adoptShopSettings`). With an older Mini CRM the default rule applies.
+  subscribes: { "crm.changes": "^1.0" }
 };
 
 // src/mini-apps/funnel-studio/release-notes.json
 var release_notes_default = [
+  {
+    version: "2.7.0",
+    vi: "T\xE0i kho\u1EA3n nh\u1EADn ti\u1EC1n, COD v\xE0 ph\xED giao gi\u1EDD l\u1EA5y t\u1EEB Mini CRM \u203A Thanh to\xE1n & giao h\xE0ng, c\xF9ng n\u01A1i Chatbot \u0111\u1ECDc; m\u1EE5c Thanh to\xE1n \u1EDF C\xE0i \u0111\u1EB7t ch\u1EC9 c\xF2n hi\u1EC3n th\u1ECB v\xE0 c\xF3 n\xFAt s\u1EEDa \u1EDF Mini CRM. Nh\u1EEFng g\xEC b\u1EA1n \u0111\xE3 nh\u1EADp \u1EDF \u0111\xE2y \u0111\u01B0\u1EE3c chuy\u1EC3n sang Mini CRM m\u1ED9t l\u1EA7n (n\u1EBFu b\xEAn \u0111\xF3 ch\u01B0a \u0111i\u1EC1n). Shop nh\u1EADn ti\u1EC1n b\u1EB1ng \u1EA3nh m\xE3 QR \u1EDF Mini CRM th\xEC trang \u0111\u01A1n hi\u1EC7n \u0111\xFAng \u1EA3nh \u0111\xF3 c\xF9ng s\u1ED1 ti\u1EC1n v\xE0 m\xE3 \u0111\u01A1n.",
+    en: "The receiving account, COD and shipping fee now come from Mini CRM \u203A Payment & delivery, where the Chatbot reads them too; the Payment section of Settings only shows them, with a link to edit in Mini CRM. What you entered here moves to Mini CRM once (where nothing was filled in there). A shop paid by its QR picture in Mini CRM shows that picture on the order page with the amount and the order code."
+  },
+  {
+    version: "2.6.0",
+    vi: 'B\u1EA5m "\u0110\xE3 nh\u1EADn ti\u1EC1n" hay "Hu\u1EF7" m\u1ED9t \u0111\u01A1n trong Mini CRM th\xEC \u0111\u01A1n \u0111\xF3 trong Funnel Studio c\u0169ng \u0111\u1ED5i theo, v\xE0 trang \u0111\u01A1n c\u1EE7a kh\xE1ch b\xE1o \u0111\xFAng "Shop \u0111\xE3 nh\u1EADn ti\u1EC1n". Kh\xF4ng c\xF2n hai n\u01A1i n\xF3i hai tr\u1EA1ng th\xE1i kh\xE1c nhau.',
+    en: "Marking an order paid or cancelled in Mini CRM now marks it so in Funnel Studio too, and the customer's order page says the shop received the money. The two apps no longer disagree."
+  },
   {
     version: "2.5.0",
     vi: "R\xE0 l\u1EA1i m\u1ECDi trang theo checklist c\u1EE7a b\u1ED9 rule. Ngu\u1ED3n qu\u1EA3ng c\xE1o (utm, fbclid, ttclid) \u0111\u01B0\u1EE3c gi\u1EEF su\u1ED1t ph\u1EC5u v\xE0 l\u01B0u c\xF9ng kh\xE1ch, \u0111\u01A1n, file CSV. Pixel b\u1EAFn \u0111\xFAng s\u1EF1 ki\u1EC7n chu\u1EA9n (Lead, CompleteRegistration, Schedule, InitiateCheckout, Purchase m\u1ED9t l\u1EA7n m\u1ED7i \u0111\u01A1n). M\u1ECDi trang c\xF3 link Ch\xEDnh s\xE1ch d\u1EEF li\u1EC7u, ngay c\u1EA1nh \xF4 \u0111\u1ED3ng \xFD; ch\u01B0a vi\u1EBFt th\xEC d\xF9ng b\u1EA3n m\u1EABu c\xF3 t\xEAn shop. Ch\u1EC9 nh\u1EADn s\u1ED1 di \u0111\u1ED9ng Vi\u1EC7t Nam 10 s\u1ED1. Ch\u1EEF lu\xF4n l\u01B0u d\u1EA1ng chu\u1EA9n NFC. Video YouTube ch\u1EC9 t\u1EA3i khi kh\xE1ch b\u1EA5m. \u0110\u1EBFm l\u01B0\u1EE3t b\u1EA5m Zalo t\u1EEBng trang. Trang \u0111\u0103ng k\xFD s\u1EF1 ki\u1EC7n t\u1EF1 \u0111\xF3ng khi bu\u1ED5i \u0111\xE3 qua v\xE0 d\u1EABn sang b\u1EA3n ghi. Ch\xE2n trang c\xF3 email c\u1EE7a shop. Tab C\xE1c b\u01B0\u1EDBc b\xE1o tr\u01B0\u1EDBc nh\u1EEFng g\xEC c\xF2n thi\u1EBFu (ch\u01B0a c\xF3 c\xE1ch thanh to\xE1n, s\u1EA3n ph\u1EA9m ch\u01B0a c\xF3 gi\xE1, ch\u01B0a c\xF3 link ph\xF2ng\u2026) k\xE8m n\xFAt s\u1EEDa; Th\xF4ng tin c\u1EE7a quiz c\xF3 b\u1EA3ng \u0111\xE1p \xE1n \u2192 k\u1EBFt qu\u1EA3. S\u1EEDa t\u01B0\u01A1ng ph\u1EA3n ch\u1EEF v\u1EDBi m\u1ECDi m\xE0u th\u01B0\u01A1ng hi\u1EC7u, trang k\u1EBFt qu\u1EA3 quiz b\u1ECB tr\xE0n ngang, avatar ng\u01B0\u1EDDi t\u01B0 v\u1EA5n. Studio kh\xF4ng c\xF2n t\u1EAFt khi Codex app d\u1EEBng gi\u1EEFa ch\u1EEBng.",
@@ -688,7 +702,11 @@ function createFunnelStudioRouter(service, router, settings2 = service.settings)
     }));
   });
   router.get("/api/funnel-studio/settings", (_request, response) => {
+    service.handOverPayment();
     response.json(settings2.get());
+  });
+  router.get("/api/funnel-studio/shop-payment", (_request, response) => {
+    response.json(service.shopPayment());
   });
   router.put("/api/funnel-studio/settings", (request, response, next) => {
     try {
@@ -827,9 +845,9 @@ function createFunnelStudioRouter(service, router, settings2 = service.settings)
     send(response, service.legalPage(request.params.slug, request.params.key));
   });
   router.get("/funnel-studio/f/:slug/don/:orderId/qr.png", (request, response) => {
-    const png = service.orderQr(request.params.slug, request.params.orderId);
-    if (!png) return response.status(404).end();
-    response.set("cache-control", "no-store").type("image/png").send(png);
+    const picture = service.orderQr(request.params.slug, request.params.orderId);
+    if (!picture) return response.status(404).end();
+    response.set("cache-control", "no-store").type(picture.type).send(Buffer.from(picture.bytes));
   });
   router.get("/funnel-studio/f/:slug/don/:orderId", (request, response) => {
     send(response, service.publicStep(request.params.slug, "don", request.query.preview === "1", query(request), request.params.orderId));
@@ -5729,11 +5747,14 @@ ${open ? dock(chips[0]?.value ?? page3.offerTitle, page3.cta, "#dang-ky") : ""}`
     script: open ? `${leadFormScript("lead-form", submitUrl(context), extraBody, kind === "event" ? "CompleteRegistration" : kind === "booking" ? "Schedule" : "Lead")};${dockScript([".hero-cta", "#dang-ky"])}` : ""
   });
 }
-var payChips = (context) => [
-  context.settings.payment.cod ? "Thanh to\xE1n khi nh\u1EADn h\xE0ng" : "",
-  context.bank ? "Chuy\u1EC3n kho\u1EA3n VietQR" : "",
-  context.settings.payment.shippingFee.trim() ? `Ph\xED giao: ${context.settings.payment.shippingFee.trim()}` : ""
-].filter(Boolean);
+var payChips = (context) => {
+  const { fee, freeFrom, cod } = context.delivery;
+  return [
+    cod ? "Thanh to\xE1n khi nh\u1EADn h\xE0ng" : "",
+    context.bank ? context.bank.picture ? "Chuy\u1EC3n kho\u1EA3n" : "Chuy\u1EC3n kho\u1EA3n VietQR" : "",
+    fee === 0 ? "Mi\u1EC5n ph\xED giao h\xE0ng" : fee ? `Ph\xED giao: ${money(fee)}${freeFrom !== null ? `, mi\u1EC5n ph\xED t\u1EEB ${money(freeFrom)}` : ""}` : ""
+  ].filter(Boolean);
+};
 function renderSales(context, page3) {
   const product = context.product;
   const brief = context.funnel.brief;
@@ -5874,17 +5895,12 @@ function shippingRule(text5) {
   const freeFrom = free ? amounts[amounts.length - 1] ?? null : null;
   return { fee: amounts[0] && amounts[0] !== freeFrom ? amounts[0] : 0, freeFrom, known: amounts.length > 0 };
 }
-var shippingFor = (subtotal, text5) => {
-  const rule = shippingRule(text5);
-  return rule.freeFrom !== null && subtotal >= rule.freeFrom ? 0 : rule.fee;
-};
 function renderOrderForm(context) {
   const product = context.product;
   const brief = context.funnel.brief;
   const digital = brief.kind === "sales" && brief.delivery === "digital";
-  const payment = context.settings.payment;
   const canTransfer = Boolean(context.bank);
-  const canCod = payment.cod && !digital;
+  const canCod = context.delivery.cod && !digital;
   const title = "\u0110\u1EB7t h\xE0ng";
   if (!product || !product.price) {
     const body2 = `<main class="narrow page-narrow"><div class="card center"><h1>Ch\u01B0a \u0111\u1EB7t h\xE0ng \u0111\u01B0\u1EE3c</h1><p class="lead">S\u1EA3n ph\u1EA9m n\xE0y ch\u01B0a c\xF3 gi\xE1 \u0111\u1EC3 \u0111\u1EB7t tr\xEAn trang. B\u1EA1n nh\u1EAFn shop \u0111\u1EC3 \u0111\u01B0\u1EE3c b\xE1o gi\xE1 nh\xE9.</p>${context.brand.zaloUrl ? `<div class="actions"><a class="button zalo-button wide" href="${t(context.brand.zaloUrl)}" target="_blank" rel="noopener">${icon("chat", 18)}Nh\u1EAFn Zalo cho shop</a></div>` : ""}</div></main>`;
@@ -5894,11 +5910,11 @@ function renderOrderForm(context) {
     const body2 = `<main class="narrow page-narrow"><div class="card center"><h1>Shop ch\u01B0a m\u1EDF nh\u1EADn \u0111\u01A1n</h1><p class="lead">Shop ch\u01B0a thi\u1EBFt l\u1EADp c\xE1ch thanh to\xE1n. B\u1EA1n nh\u1EAFn shop \u0111\u1EC3 \u0111\u1EB7t h\xE0ng nh\xE9.</p></div></main>`;
     return shell({ type: "order-form", title, description: title, theme: context.funnel.theme, brand: context.brand, settings: context.settings, slug: context.funnel.slug, preview: context.preview, index: false, zalo: true, body: body2 });
   }
-  const rule = shippingRule(payment.shippingFee);
+  const rule = { fee: context.delivery.fee ?? 0, freeFrom: context.delivery.fee ? context.delivery.freeFrom : null, known: context.delivery.fee !== null };
   const lead = context.lead;
   const address = digital ? "" : `<div class="field-row"><label class="field"><span>T\u1EC9nh / th\xE0nh ph\u1ED1</span><select name="province" required autocomplete="address-level1"><option value="">Ch\u1ECDn t\u1EC9nh, th\xE0nh</option>${provinces.map((name) => `<option>${t(name)}</option>`).join("")}</select></label><label class="field"><span>Ph\u01B0\u1EDDng / x\xE3</span><input type="text" name="ward" required maxlength="120" placeholder="T\xEAn m\u1EDBi ho\u1EB7c c\u0169 \u0111\u1EC1u \u0111\u01B0\u1EE3c" autocomplete="address-level3"></label></div>
 <label class="field"><span>S\u1ED1 nh\xE0, t\xEAn \u0111\u01B0\u1EDDng</span><input type="text" name="street" required maxlength="240" autocomplete="street-address"></label>`;
-  const methods = `<div class="pay">${canCod ? `<label><input type="radio" name="payment" value="cod"${canTransfer ? "" : " checked"}><span><strong>Tr\u1EA3 ti\u1EC1n khi nh\u1EADn h\xE0ng (COD)</strong><small>B\u1EA1n tr\u1EA3 cho ng\u01B0\u1EDDi giao h\xE0ng${context.settings.legal.returnPolicy ? ", \u0111\u01B0\u1EE3c xem h\xE0ng tr\u01B0\u1EDBc khi tr\u1EA3" : ""}.</small></span></label>` : ""}${canTransfer ? `<label><input type="radio" name="payment" value="transfer" checked><span><strong>Chuy\u1EC3n kho\u1EA3n VietQR</strong><small>Qu\xE9t m\xE3 \u1EDF b\u01B0\u1EDBc sau, ${t(context.bank.bankName)}.</small></span></label>` : ""}</div>`;
+  const methods = `<div class="pay">${canCod ? `<label><input type="radio" name="payment" value="cod"${canTransfer ? "" : " checked"}><span><strong>Tr\u1EA3 ti\u1EC1n khi nh\u1EADn h\xE0ng (COD)</strong><small>B\u1EA1n tr\u1EA3 cho ng\u01B0\u1EDDi giao h\xE0ng${context.settings.legal.returnPolicy ? ", \u0111\u01B0\u1EE3c xem h\xE0ng tr\u01B0\u1EDBc khi tr\u1EA3" : ""}.</small></span></label>` : ""}${canTransfer ? `<label><input type="radio" name="payment" value="transfer" checked><span><strong>${context.bank?.picture ? "Chuy\u1EC3n kho\u1EA3n" : "Chuy\u1EC3n kho\u1EA3n VietQR"}</strong><small>${context.bank?.picture ? "Qu\xE9t m\xE3 QR c\u1EE7a shop \u1EDF b\u01B0\u1EDBc sau." : `Qu\xE9t m\xE3 \u1EDF b\u01B0\u1EDBc sau, ${t(context.bank.bankName)}.`}</small></span></label>` : ""}</div>`;
   const body = `<main class="narrow page-narrow"><form id="order-form" class="card" novalidate><span class="eyebrow">${icon("truck", 14)} ${digital ? "\u0110\u1EB7t mua" : "Giao t\u1EADn n\u01A1i"}</span><h1>${t(title)}</h1>
 <div class="line-item mt-6"><div><strong>${t(product.name)}</strong>${product.option ? `<small>${t(product.option)}</small>` : ""}<small>${money(product.price)} / s\u1EA3n ph\u1EA9m</small></div><div class="qty"><button type="button" data-step="-1" aria-label="B\u1EDBt">${icon("minus", 16)}</button><output name="qty">1</output><button type="button" data-step="1" aria-label="Th\xEAm">${icon("plus", 16)}</button></div></div>
 <label class="field"><span>H\u1ECD v\xE0 t\xEAn ng\u01B0\u1EDDi nh\u1EADn</span><input type="text" name="name" required maxlength="120" autocomplete="name" value="${t(lead?.name ?? "")}"></label>
@@ -5944,8 +5960,8 @@ function renderOrderConfirmation(context) {
   const qrUrl = `${context.base}/don/${encodeURIComponent(order.id)}/qr.png`;
   const row = (label, value, copy = value) => `<div><div><dt>${t(label)}</dt><dd>${t(value)}</dd></div><button type="button" data-copy="${t(copy)}">${icon("copy", 14)}Ch\xE9p</button></div>`;
   const status = order.status === "paid" ? `<div class="status-line ok">${icon("circleCheck", 16)}Shop \u0111\xE3 nh\u1EADn ti\u1EC1n. \u0110\u01A1n \u0111ang \u0111\u01B0\u1EE3c chu\u1EA9n b\u1ECB.</div>` : order.status === "cancelled" ? `<div class="status-line">${icon("x", 16)}\u0110\u01A1n \u0111\xE3 hu\u1EF7.</div>` : transfer ? `<div class="status-line">${icon("clock", 16)}\u0110\u01A1n \u0111ang ch\u1EDD b\u1EA1n chuy\u1EC3n kho\u1EA3n. Shop gi\u1EEF \u0111\u01A1n trong 24 gi\u1EDD.</div>` : `<div class="status-line ok">${icon("phone", 16)}Shop s\u1EBD g\u1ECDi ${t(order.phone.slice(0, 4))} \u2022\u2022\u2022 ${t(order.phone.slice(-3))} \u0111\u1EC3 x\xE1c nh\u1EADn \u0111\u01A1n${context.settings.brand.workingHours ? ` (${t(context.settings.brand.workingHours)})` : ""}.</div>`;
-  const pay = transfer && order.status === "open" ? `<h2 class="mt-6">Chuy\u1EC3n kho\u1EA3n</h2><div class="qr-card mt-4"><img src="${t(qrUrl)}" alt="M\xE3 VietQR chuy\u1EC3n ${money(order.total)} cho ${t(bank.accountName)}" width="260" height="260"><a class="button small" href="${t(qrUrl)}" download="vietqr-${t(order.code)}.png">${icon("download", 16)}L\u01B0u \u1EA3nh m\xE3 QR</a><p class="hint center">M\u1EDF app ng\xE2n h\xE0ng \u2192 Qu\xE9t QR \u2192 ch\u1ECDn \u1EA3nh v\u1EEBa l\u01B0u. Ho\u1EB7c ch\xE9p t\u1EEBng d\xF2ng b\xEAn d\u01B0\u1EDBi.</p>
-<dl class="transfer">${row("Ng\xE2n h\xE0ng", bank.bankName)}${row("S\u1ED1 t\xE0i kho\u1EA3n", bank.accountNumber)}${row("Ch\u1EE7 t\xE0i kho\u1EA3n", bank.accountName)}${row("S\u1ED1 ti\u1EC1n", money(order.total), String(order.total))}${row("N\u1ED9i dung", order.code)}</dl></div>` : order.payment === "cod" && order.status === "open" ? `<p class="lead mt-6">B\u1EA1n tr\u1EA3 <strong>${money(order.total)}</strong> khi nh\u1EADn h\xE0ng.</p>` : "";
+  const pay = transfer && order.status === "open" ? `<h2 class="mt-6">Chuy\u1EC3n kho\u1EA3n</h2><div class="qr-card mt-4"><img src="${t(qrUrl)}" alt="${bank.picture ? "M\xE3 QR nh\u1EADn ti\u1EC1n c\u1EE7a shop" : `M\xE3 VietQR chuy\u1EC3n ${money(order.total)} cho ${t(bank.accountName)}`}" width="260" height="260"><a class="button small" href="${t(qrUrl)}" download="qr-${t(order.code)}">${icon("download", 16)}L\u01B0u \u1EA3nh m\xE3 QR</a><p class="hint center">${bank.picture ? "M\u1EDF app ng\xE2n h\xE0ng \u2192 Qu\xE9t QR \u2192 ch\u1ECDn \u1EA3nh v\u1EEBa l\u01B0u, r\u1ED3i nh\u1EADp \u0111\xFAng s\u1ED1 ti\u1EC1n v\xE0 n\u1ED9i dung b\xEAn d\u01B0\u1EDBi." : "M\u1EDF app ng\xE2n h\xE0ng \u2192 Qu\xE9t QR \u2192 ch\u1ECDn \u1EA3nh v\u1EEBa l\u01B0u. Ho\u1EB7c ch\xE9p t\u1EEBng d\xF2ng b\xEAn d\u01B0\u1EDBi."}</p>
+<dl class="transfer">${bank.picture ? "" : `${row("Ng\xE2n h\xE0ng", bank.bankName)}${row("S\u1ED1 t\xE0i kho\u1EA3n", bank.accountNumber)}${row("Ch\u1EE7 t\xE0i kho\u1EA3n", bank.accountName)}`}${row("S\u1ED1 ti\u1EC1n", money(order.total), String(order.total))}${row("N\u1ED9i dung", order.code)}</dl></div>` : order.payment === "cod" && order.status === "open" ? `<p class="lead mt-6">B\u1EA1n tr\u1EA3 <strong>${money(order.total)}</strong> khi nh\u1EADn h\xE0ng.</p>` : "";
   const body = `<main class="narrow page-narrow"><div class="card"><div class="ok-badge">${icon("circleCheck", 30)}</div><h1>C\u1EA3m \u01A1n ${t(firstName(order.name))}, \u0111\u01A1n ${t(order.code)} \u0111\xE3 \u0111\u01B0\u1EE3c ghi nh\u1EADn</h1><div class="mt-4">${status}</div>${pay}
 <h2 class="mt-6">\u0110\u01A1n c\u1EE7a b\u1EA1n</h2><div class="summary mt-4">${order.items.map((item) => `<div class="summary-row"><span>${t(item.name)}${item.option ? ` (${t(item.option)})` : ""} \xD7 ${item.quantity}</span><span>${money(item.price * item.quantity)}</span></div>`).join("")}${order.shipping ? `<div class="summary-row"><span>Ph\xED giao h\xE0ng</span><span>${money(order.shipping)}</span></div>` : ""}<div class="summary-total"><span>T\u1ED5ng c\u1ED9ng</span><span>${money(order.total)}</span></div></div>
 ${order.province ? `<div class="facts">${`<div>${icon("truck", 16)}<span><strong>Giao \u0111\u1EBFn:</strong> ${t([order.street, order.ward, order.province].filter(Boolean).join(", "))}</span></div>`}</div>` : ""}
@@ -6016,7 +6032,7 @@ var defaultSettings = () => ({
   tracking: { facebookPixelId: "", tiktokPixelId: "", googleAnalyticsId: "", googleTagManagerId: "", keepUtm: true },
   form: { consentText: "T\xF4i \u0111\u1ED3ng \xFD \u0111\u1EC3 ch\u1EE7 trang li\xEAn h\u1EC7 qua \u0111i\u1EC7n tho\u1EA1i, Zalo ho\u1EB7c email v\u1EC1 n\u1ED9i dung c\u1EE7a trang n\xE0y.", blockRepeatHours: 24, mergeSamePhone: true, sendToCrm: false, googleSheetsUrl: "", webhookUrl: "" },
   notifications: { studioBell: true, email: "", zalo: false, dailySummary: false },
-  payment: { bankName: "", accountNumber: "", accountName: "", transferNote: "", cod: true, shippingFee: "" },
+  payment: { bankName: "", accountNumber: "", accountName: "", transferNote: "", cod: true, shippingFee: "", handedOverAt: "" },
   legal: { privacyPolicy: "", terms: "", returnPolicy: "" }
 });
 var text3 = (value, field2, max) => {
@@ -6070,7 +6086,7 @@ function validateSettings(raw, current) {
     },
     form: { consentText: text3(f.consentText, "C\xE2u \u0111\u1ED3ng \xFD", 500) || defaultSettings().form.consentText, blockRepeatHours: hours, mergeSamePhone: flag(f.mergeSamePhone, true), sendToCrm: flag(f.sendToCrm, false), googleSheetsUrl: url(f.googleSheetsUrl, "Google Sheets"), webhookUrl: url(f.webhookUrl, "Webhook") },
     notifications: { studioBell: flag(n.studioBell, true), email, zalo: flag(n.zalo, false), dailySummary: flag(n.dailySummary, false) },
-    payment: { bankName: text3(pay.bankName, "Ng\xE2n h\xE0ng", 80), accountNumber: account, accountName: text3(pay.accountName, "Ch\u1EE7 t\xE0i kho\u1EA3n", 80).toUpperCase(), transferNote: text3(pay.transferNote, "N\u1ED9i dung chuy\u1EC3n kho\u1EA3n", 60), cod: flag(pay.cod, true), shippingFee: text3(pay.shippingFee, "Ph\xED giao h\xE0ng", 80) },
+    payment: { bankName: text3(pay.bankName, "Ng\xE2n h\xE0ng", 80), accountNumber: account, accountName: text3(pay.accountName, "Ch\u1EE7 t\xE0i kho\u1EA3n", 80).toUpperCase(), transferNote: text3(pay.transferNote, "N\u1ED9i dung chuy\u1EC3n kho\u1EA3n", 60), cod: flag(pay.cod, true), shippingFee: text3(pay.shippingFee, "Ph\xED giao h\xE0ng", 80), handedOverAt: current.payment.handedOverAt ?? "" },
     legal: { privacyPolicy: text3(l.privacyPolicy, "Ch\xEDnh s\xE1ch b\u1EA3o m\u1EADt", 2e4), terms: text3(l.terms, "\u0110i\u1EC1u kho\u1EA3n", 2e4), returnPolicy: text3(l.returnPolicy, "Ch\xEDnh s\xE1ch \u0111\u1ED5i tr\u1EA3", 2e4) }
   };
 }
@@ -6086,6 +6102,14 @@ var FunnelSettingsStore = class {
     const base = defaultSettings();
     const settings2 = Object.fromEntries(Object.entries(base).map(([key, value]) => [key, { ...value, ...saved[key] ?? {} }]));
     return { settings: settings2, revision: row.revision, updatedAt: row.updated_at };
+  }
+  /** The old Thanh toán reached Mini CRM (2.7.0): stamped without a new revision, so an open Cài đặt still saves. */
+  markPaymentHandedOver(at = (/* @__PURE__ */ new Date()).toISOString()) {
+    const { settings: settings2, revision, updatedAt } = this.get();
+    const next = { ...settings2, payment: { ...settings2.payment, handedOverAt: at } };
+    this.db.prepare(
+      "INSERT INTO funnel_studio_settings (id, settings_json, revision, updated_at) VALUES ('default', ?, ?, ?) ON CONFLICT(id) DO UPDATE SET settings_json = excluded.settings_json"
+    ).run(JSON.stringify(next), Math.max(revision, 0), updatedAt ?? at);
   }
   save(raw, revision) {
     const current = this.get();
@@ -6359,6 +6383,35 @@ function qrPng(text5, scale = 8) {
   return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk("IHDR", header), chunk("IDAT", deflateSync(Buffer.concat(rows))), chunk("IEND", Buffer.alloc(0))]);
 }
 
+// src/mini-apps/sdk/delivery.ts
+var defaultDelivery = () => ({ fee: null, freeFrom: null, cod: true, note: "" });
+function shippingFee(subtotal, delivery) {
+  if (delivery.fee === null) return null;
+  if (delivery.freeFrom !== null && subtotal >= delivery.freeFrom) return 0;
+  return delivery.fee;
+}
+var money2 = (amount) => `${String(Math.round(amount)).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}\u0111`;
+function shippingSummary(delivery) {
+  return delivery.fee === null ? "Ph\xED giao: shop b\xE1o khi x\xE1c nh\u1EADn \u0111\u01A1n" : delivery.fee === 0 ? "Mi\u1EC5n ph\xED giao h\xE0ng" : `Ph\xED giao ${money2(delivery.fee)}${delivery.freeFrom !== null ? `, mi\u1EC5n ph\xED cho \u0111\u01A1n t\u1EEB ${money2(delivery.freeFrom)}` : ""}`;
+}
+
+// src/mini-apps/sdk/orders.ts
+var orderStatuses = [
+  { value: "open", label: "Ch\u1EDD ti\u1EC1n" },
+  { value: "paid", label: "\u0110\xE3 nh\u1EADn ti\u1EC1n" },
+  { value: "cancelled", label: "\u0110\xE3 hu\u1EF7" }
+];
+var orderStatusValues = orderStatuses.map((item) => item.value);
+function parsePrice(value) {
+  const text5 = value.trim().toLowerCase().replace(/\s+/g, "");
+  const match = /^(\d[\d.,]*)(k|nghìn|ngàn|tr|triệu|đ|vnd|vnđ|d)?$/.exec(text5);
+  if (!match) return 0;
+  const unit = match[2] ?? "";
+  if (unit === "tr" || unit === "tri\u1EC7u") return Math.round(Number(match[1].replace(",", ".")) * 1e6);
+  const number = Number(match[1].replace(/[.,]/g, ""));
+  return unit === "k" || unit === "ngh\xECn" || unit === "ng\xE0n" ? number * 1e3 : number;
+}
+
 // src/mini-apps/funnel-studio/server/service.ts
 function localToday(at = /* @__PURE__ */ new Date()) {
   const pad = (value) => String(value).padStart(2, "0");
@@ -6406,15 +6459,6 @@ function defaultPrivacyPolicy(shop, contact) {
     "Th\xF4ng tin \u0111\u01B0\u1EE3c l\u01B0u t\u1EDBi khi b\u1EA1n y\xEAu c\u1EA7u xo\xE1. \xD4 \u0111\u1ED3ng \xFD tr\xEAn form kh\xF4ng bao gi\u1EDD \u0111\u01B0\u1EE3c t\xEDch s\u1EB5n; b\u1EA1n c\xF3 th\u1EC3 r\xFAt l\u1EA1i s\u1EF1 \u0111\u1ED3ng \xFD b\u1EA5t c\u1EE9 l\xFAc n\xE0o.",
     `Mu\u1ED1n xem, s\u1EEDa, xo\xE1 th\xF4ng tin ho\u1EB7c ng\u1EEBng nh\u1EADn li\xEAn h\u1EC7, b\u1EA1n nh\u1EAFn "HU\u1EF6" qua Zalo${contact ? ` ho\u1EB7c li\xEAn h\u1EC7 ${contact}` : ""}. Ch\xFAng t\xF4i x\u1EED l\xFD trong 15 ng\xE0y.`
   ].join("\n\n");
-}
-function parsePrice(value) {
-  const text5 = value.trim().toLowerCase().replace(/\s+/g, "");
-  const match = /^(\d[\d.,]*)(k|nghìn|ngàn|tr|triệu|đ|vnd|vnđ|d)?$/.exec(text5);
-  if (!match) return 0;
-  const unit = match[2] ?? "";
-  if (unit === "tr" || unit === "tri\u1EC7u") return Math.round(Number(match[1].replace(",", ".")) * 1e6);
-  const number = Number(match[1].replace(/[.,]/g, ""));
-  return unit === "k" || unit === "ngh\xECn" || unit === "ng\xE0n" ? number * 1e3 : number;
 }
 var giftMaxBytes = 20 * 1024 * 1024;
 var time = (date) => new Intl.DateTimeFormat("vi-VN", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Ho_Chi_Minh" }).format(date);
@@ -6673,7 +6717,7 @@ var FunnelStudioService = class {
             type,
             funnelKind: funnel.kind,
             brief: { ...brief, ...funnel.brief.kind === "booking" ? { mode: bookingModeLabels[funnel.brief.mode] } : {}, ...type === "quiz-result" && quiz?.content ? { quizResults: quiz.content.results } : {} },
-            facts: Object.fromEntries(pageFacts(funnel.brief).map((fact2) => [fact2.label, fact2.value])),
+            facts: { ...Object.fromEntries(pageFacts(funnel.brief).map((fact2) => [fact2.label, fact2.value])), ...this.sellingFacts(funnel) },
             brand,
             product: product ? { name: product.name, option: product.option, price: product.price ? `${new Intl.NumberFormat("vi-VN").format(product.price)}\u0111` : "ch\u01B0a c\xF3 gi\xE1" } : null,
             chain: funnel.steps.filter((step) => step.kind === "page" && step.type !== type && step.content).map((step) => ({ type: pageLabels[step.type], headline: String(step.content.headline ?? step.content.beforeHeadline ?? "") })).filter((page3) => page3.headline),
@@ -6772,12 +6816,65 @@ var FunnelStudioService = class {
   offers() {
     return (this.deps.offers?.listOffers({ status: "active", audience: "customer", limit: 200 }).items ?? []).map((offer) => ({ id: offer.id, name: offer.name, summary: offer.summary }));
   }
-  /** The shop's transfer account from Cài đặt, with its NAPAS BIN; null until bank and account are set. */
+  /**
+   * How the shop takes a transfer, from Mini CRM's "Thanh toán & giao hàng" (2.7.0): its account (each order gets a
+   * VietQR with the amount and code) or its own QR picture (`picture`); null while neither is filled in or Mini CRM
+   * is not running.
+   */
   bank() {
-    const payment = this.settings.get().settings.payment;
-    const bin = bankBin(payment.bankName);
-    if (!bin || !payment.accountNumber) return null;
-    return { bin, bankName: VIET_BANKS.find((bank) => bank.bin === bin)?.name ?? payment.bankName, accountNumber: payment.accountNumber, accountName: payment.accountName };
+    this.handOverPayment();
+    const payment = this.deps.selling?.()?.payment() ?? null;
+    if (!payment) return null;
+    if (payment.method === "qr") return { bin: "", bankName: "", accountNumber: "", accountName: "", picture: true };
+    if (!payment.bankBin || !payment.accountNumber) return null;
+    return { bin: payment.bankBin, bankName: payment.bankName, accountNumber: payment.accountNumber, accountName: payment.accountName, picture: false };
+  }
+  /** The shipping fee, free-shipping threshold and COD, from Mini CRM (2.7.0); its default while Mini CRM is not running. */
+  delivery() {
+    this.handOverPayment();
+    const rule = this.deps.selling?.()?.delivery?.();
+    return rule ? { fee: rule.fee, freeFrom: rule.freeFrom, cod: rule.cod, note: rule.note } : defaultDelivery();
+  }
+  /** For the writers of a funnel that takes orders (2.7.0): how the shop ships and is paid, from Mini CRM, so its FAQ answers it. */
+  sellingFacts(funnel) {
+    if (!funnel.steps.some((step) => step.kind === "page" && step.type === "order-form")) return {};
+    const digital = funnel.brief.kind === "sales" && funnel.brief.delivery === "digital";
+    const bank = this.bank();
+    const delivery = this.delivery();
+    const pay = [bank ? bank.picture ? "chuy\u1EC3n kho\u1EA3n b\u1EB1ng m\xE3 QR c\u1EE7a shop" : `chuy\u1EC3n kho\u1EA3n VietQR (${bank.bankName})` : "", delivery.cod && !digital ? "tr\u1EA3 ti\u1EC1n khi nh\u1EADn h\xE0ng (COD)" : ""].filter(Boolean).join(", ");
+    return {
+      ...digital ? {} : { "Giao h\xE0ng": [shippingSummary(delivery), delivery.note].filter(Boolean).join(". ") },
+      "Thanh to\xE1n": pay || "shop b\xE1o khi x\xE1c nh\u1EADn \u0111\u01A1n"
+    };
+  }
+  /** What Cài đặt › Thanh toán shows (2.7.0): Mini CRM's transfer and delivery rule; `crm`: Mini CRM is running. */
+  shopPayment() {
+    const crm = Boolean(this.deps.selling?.());
+    return { crm, bank: this.bank(), delivery: this.delivery(), deliverySet: Boolean(this.deps.selling?.()?.delivery?.().set) };
+  }
+  /** Whether the old Cài đặt › Thanh toán reached Mini CRM (or had nothing to hand over) in this process. */
+  handedOver = false;
+  /**
+   * Funnel Studio up to 2.6 kept its own bank, COD and shipping fee; 2.7 hands them to Mini CRM once, where Mini
+   * CRM's are not filled in, and from then on reads Mini CRM only. Tried again later while Mini CRM is not running.
+   */
+  handOverPayment() {
+    if (this.handedOver) return;
+    const record = this.settings.get();
+    const old = record.settings.payment;
+    const rule = shippingRule(old.shippingFee);
+    const delivery = old.shippingFee.trim() || !old.cod ? { fee: rule.known ? rule.fee : null, freeFrom: rule.freeFrom, cod: old.cod, note: "" } : void 0;
+    const bin = bankBin(old.bankName);
+    const account = bin && old.accountNumber ? { bankBin: bin, accountNumber: old.accountNumber, accountName: old.accountName } : void 0;
+    if (old.handedOverAt || !delivery && !account) {
+      this.handedOver = true;
+      return;
+    }
+    const selling = this.deps.selling?.();
+    if (!selling?.adoptShopSettings) return;
+    selling.adoptShopSettings({ delivery, account });
+    this.settings.markPaymentHandedOver();
+    this.handedOver = true;
   }
   /** Every product a funnel may sell: its main product, the one after the gift or event, each quiz result's, the upsell. */
   funnelProducts(funnel) {
@@ -6825,6 +6922,7 @@ var FunnelStudioService = class {
       product,
       products,
       bank: this.bank(),
+      delivery: this.delivery(),
       query,
       giftUrl,
       images: brief.kind === "bridge" ? brief.images.map((image) => `${base}/anh/${image.id}`) : []
@@ -6965,13 +7063,14 @@ var FunnelStudioService = class {
     const ward = digital ? "" : required(raw.ward, "ph\u01B0\u1EDDng, x\xE3", 120);
     const street = digital ? "" : required(raw.street, "s\u1ED1 nh\xE0, t\xEAn \u0111\u01B0\u1EDDng", 240);
     const payment = raw.payment;
-    if (payment === "cod" && (!settings2.payment.cod || digital)) throw new Error("Shop kh\xF4ng nh\u1EADn thanh to\xE1n khi giao h\xE0ng.");
+    const delivery = this.delivery();
+    if (payment === "cod" && (!delivery.cod || digital)) throw new Error("Shop kh\xF4ng nh\u1EADn thanh to\xE1n khi giao h\xE0ng.");
     if (payment === "transfer" && !this.bank()) throw new Error("Shop ch\u01B0a c\xF3 t\xE0i kho\u1EA3n nh\u1EADn chuy\u1EC3n kho\u1EA3n.");
     if (payment !== "cod" && payment !== "transfer") throw new Error("H\xE3y ch\u1ECDn c\xE1ch thanh to\xE1n.");
     const idempotencyKey = String(raw.idempotencyKey ?? "").trim();
     if (idempotencyKey.length < 8 || idempotencyKey.length > 200) throw new Error("H\xE3y t\u1EA3i l\u1EA1i trang r\u1ED3i \u0111\u1EB7t l\u1EA1i.");
     const subtotal = product.price * quantity;
-    const shipping = digital ? 0 : shippingFor(subtotal, settings2.payment.shippingFee);
+    const shipping = digital ? 0 : shippingFee(subtotal, delivery) ?? 0;
     const leadId = optional(raw.leadId, 80);
     const lead = leadId ? this.repository.getLead(leadId) : null;
     const hasUpsell = funnel.steps.some((step) => step.kind === "page" && step.type === "upsell") && Boolean(this.productFor(funnel, "upsell")?.price);
@@ -7047,14 +7146,32 @@ var FunnelStudioService = class {
     }
     return updated;
   }
-  /** The VietQR of an open transfer order, as a PNG a phone can save. */
+  /**
+   * Mini CRM broadcast an order paid or cancelled (`crm.changes`, ADR 0008; synchronous, in the event's savepoint).
+   * For an order one of these pages took, the founder pressed it in Mini CRM: the order here follows, so both apps
+   * and the customer's order page say the same. Nothing is sent back (Mini CRM already has it).
+   */
+  crmChanged(body) {
+    const change = body;
+    const conversationId = change?.order?.source?.app === "funnel-studio" ? change.order.source.conversationId ?? "" : "";
+    if (!conversationId.startsWith("order:")) return;
+    const order = this.repository.getOrder(conversationId.slice("order:".length));
+    if (!order || order.status !== "open") return;
+    const status = change.type === "order.paid" ? "paid" : change.type === "order.cancelled" ? "cancelled" : null;
+    if (status) this.repository.updateOrder(order.id, { status });
+  }
+  /** The VietQR of an open transfer order as a PNG a phone can save, or the shop's own QR picture from Mini CRM. */
   orderQr(slug, orderId) {
     const funnel = this.repository.getBySlug(slug);
     const bank = this.bank();
     const product = funnel ? this.funnelProducts(funnel)[0] ?? null : null;
     const order = orderId === "xem-truoc" && funnel ? this.sampleOrder(funnel, product, false) : this.repository.getOrder(orderId);
     if (!funnel || !order || order.funnelId !== funnel.id || order.payment !== "transfer" || !bank) return null;
-    return qrPng(vietQrPayload({ bin: bank.bin, accountNumber: bank.accountNumber, amount: order.total, note: order.code }));
+    if (bank.picture) {
+      const picture = this.deps.selling?.()?.paymentQr() ?? null;
+      return picture ? { bytes: picture.bytes, type: picture.mimeType } : null;
+    }
+    return { bytes: qrPng(vietQrPayload({ bin: bank.bin, accountNumber: bank.accountNumber, amount: order.total, note: order.code })), type: "image/png" };
   }
   /** The click out of a bridge page: counted (not in a preview), then the destination. */
   bridgeClick(slug, preview) {
@@ -7094,10 +7211,10 @@ var FunnelStudioService = class {
     const checks = [];
     if (has("order-form")) {
       const digital = funnel.brief.kind === "sales" && funnel.brief.delivery === "digital";
-      if (!this.bank() && !(settings2.payment.cod && !digital))
-        checks.push({ level: "warning", text: "Ph\u1EC5u n\xE0y nh\u1EADn \u0111\u01A1n nh\u01B0ng ch\u01B0a c\xF3 c\xE1ch thanh to\xE1n: th\xEAm t\xE0i kho\u1EA3n ng\xE2n h\xE0ng (VietQR) ho\u1EB7c b\u1EADt COD trong C\xE0i \u0111\u1EB7t \u2192 Thanh to\xE1n.", fix: "settings-payment" });
+      if (!this.bank() && !(this.delivery().cod && !digital))
+        checks.push({ level: "warning", text: "Ph\u1EC5u n\xE0y nh\u1EADn \u0111\u01A1n nh\u01B0ng ch\u01B0a c\xF3 c\xE1ch thanh to\xE1n: th\xEAm t\xE0i kho\u1EA3n ng\xE2n h\xE0ng ho\u1EB7c b\u1EADt COD trong Mini CRM \u2192 Thanh to\xE1n & giao h\xE0ng.", fix: "crm-payment" });
       else if (!this.bank())
-        checks.push({ level: "info", text: "Kh\xE1ch ch\u1EC9 tr\u1EA3 \u0111\u01B0\u1EE3c khi nh\u1EADn h\xE0ng (COD). Th\xEAm t\xE0i kho\u1EA3n ng\xE2n h\xE0ng trong C\xE0i \u0111\u1EB7t \u0111\u1EC3 nh\u1EADn chuy\u1EC3n kho\u1EA3n VietQR.", fix: "settings-payment" });
+        checks.push({ level: "info", text: "Kh\xE1ch ch\u1EC9 tr\u1EA3 \u0111\u01B0\u1EE3c khi nh\u1EADn h\xE0ng (COD). Th\xEAm t\xE0i kho\u1EA3n ng\xE2n h\xE0ng trong Mini CRM \u2192 Thanh to\xE1n & giao h\xE0ng \u0111\u1EC3 nh\u1EADn chuy\u1EC3n kho\u1EA3n VietQR.", fix: "crm-payment" });
       const unpriced = this.funnelProducts(funnel).filter((product) => !product.price).map((product) => product.name);
       if (unpriced.length) checks.push({ level: "warning", text: `Ch\u01B0a \u0111\u1EB7t h\xE0ng \u0111\u01B0\u1EE3c v\xEC s\u1EA3n ph\u1EA9m ch\u01B0a c\xF3 gi\xE1: ${unpriced.join(", ")}. Th\xEAm gi\xE1 trong Mini CRM \u2192 S\u1EA3n ph\u1EA9m & d\u1ECBch v\u1EE5.`, fix: "crm-products" });
       if (!settings2.legal.returnPolicy.trim() && !digital) checks.push({ level: "info", text: "Trang \u0111\u1EB7t h\xE0ng n\xEAn c\xF3 ch\xEDnh s\xE1ch \u0111\u1ED5i tr\u1EA3. Th\xEAm trong C\xE0i \u0111\u1EB7t \u2192 Trang ph\xE1p l\xFD.", fix: "settings-legal" });
@@ -7507,11 +7624,17 @@ var server_default = defineMiniApp({
     const funnels = {
       list: () => app.service.repository.all().map(({ id, name, slug, kind, status, visits, conversions }) => ({ id, name, slug, kind, status, visits, conversions }))
     };
-    return { router: app.router, start: app.start, exports: {
-      "funnel-studio.funnels": funnels,
-      // Real (never simulated) lifetime counters another app may measure (markus-dev 21571b1: Personal Brand's cycles).
-      "funnel-studio.measurement": funnelMeasurement(app.service.repository)
-    } };
+    return {
+      // An order paid or cancelled in Mini CRM (ADR 0008): the order a page took follows (2.6.0).
+      subscribes: { "crm.changes": (event) => app.service.crmChanged(event.body) },
+      router: app.router,
+      start: app.start,
+      exports: {
+        "funnel-studio.funnels": funnels,
+        // Real (never simulated) lifetime counters another app may measure (markus-dev 21571b1: Personal Brand's cycles).
+        "funnel-studio.measurement": funnelMeasurement(app.service.repository)
+      }
+    };
   }
 });
 

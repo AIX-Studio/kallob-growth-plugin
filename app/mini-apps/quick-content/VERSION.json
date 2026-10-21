@@ -1,7 +1,7 @@
 {
   "id": "quick-content",
   "version": "1.5.0",
-  "buildId": "3ff2211-mvg95ftn",
+  "buildId": "f98b878-mvi7nvkw",
   "requiresCore": ">=2.22.0 <3",
   "exports": {
     "quick-content.drafts": "1.0"

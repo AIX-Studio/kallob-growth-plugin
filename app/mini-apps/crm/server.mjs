@@ -9,7 +9,10 @@ function defineMiniApp(module) {
 // src/mini-apps/crm/manifest.ts
 var manifest = {
   id: "crm",
-  version: "2.1.0",
+  version: "2.4.1",
+  // 2.4.0 (GĐ0): sold on its own, once, with Chatbot included (Kallob's `chatbot` entitlement bundles `crm`); its AI
+  // needs the `crm` entitlement, its data and pages stay local.
+  entitlement: "crm",
   // Core 2.19.0: events between mini-apps (`sdk.topics`, ADR 0004). Package prompts since core 2.18.0 (ADR 0006).
   // The Zalo label scan goes through the shared personal Zalo (`messaging.discoverCustomers`, contract 1.1 under
   // `message`; core 2.17.0, spec 047 phase 3).
@@ -17,15 +20,37 @@ var manifest = {
   // `crm.changes` 1.1 (merge, consent, erase), `crm.customers` 1.3 (lifecycle, activity); no new core.
   // 1.12.0: an Offer says who it is for, customer or partner (`offers.catalog` 1.1). 1.13.0: Orders apart from customers.
   // `crm.measurement` 1.0 (markus-dev 21571b1): a product's opportunities and orders as counts, for Personal Brand's cycles.
+  // 2.2.0: "Tạo đơn" by hand (POST /api/crm/orders), an order per page conversation (not one per customer), one way
+  // to write a phone (migration 0016); no new contract.
   requiresCore: ">=2.28.0 <3",
   connections: { "zalo-personal": { range: "^1.1", operations: ["list", "message"] } },
-  exports: { "crm.customers": "1.4", "crm.chat": "1.0", "crm.handoffs": "1.0", "crm.catalog": "1.0", "crm.selling": "2.0", "offers.catalog": "1.1", "crm.measurement": "1.0" },
+  exports: { "crm.customers": "1.4", "crm.chat": "1.0", "crm.handoffs": "1.0", "crm.catalog": "1.0", "crm.selling": "2.1", "offers.catalog": "1.1", "crm.measurement": "1.0" },
   consumes: { "crm.ingest": "1.2" },
   broadcasts: { "crm.changes": "1.1" }
 };
 
 // src/mini-apps/crm/release-notes.json
 var release_notes_default = [
+  {
+    version: "2.4.1",
+    vi: 'S\u1EEDa l\u1ED7i Mini CRM \u0111\u1EE9ng m\xE3i \u1EDF m\xE0n "\u0110ang m\u1EDF mini-app\u2026": gi\u1EDD m\u1EDF \u0111\u01B0\u1EE3c b\xECnh th\u01B0\u1EDDng.',
+    en: 'Fixes Mini CRM hanging on "Opening the mini-app\u2026": it opens normally again.'
+  },
+  {
+    version: "2.4.0",
+    vi: "Mini CRM gi\u1EDD l\xE0 mini-app tr\u1EA3 ph\xED: mua m\u1ED9t l\u1EA7n l\xE0 d\xF9ng m\xE3i, k\xE8m 12 th\xE1ng c\u1EADp nh\u1EADt, v\xE0 t\u1EB7ng k\xE8m Chatbot. Ph\u1EA7n AI c\u1EE7a Mini CRM ch\u1EA1y khi t\xE0i kho\u1EA3n Kallob c\u1EE7a b\u1EA1n \u0111\xE3 mua ho\u1EB7c \u0111ang d\xF9ng th\u1EED b\u1EB1ng m\xE3; kh\xE1ch h\xE0ng, \u0111\u01A1n h\xE0ng v\xE0 m\u1ECDi d\u1EEF li\u1EC7u b\u1EA1n \u0111\xE3 c\xF3 v\u1EABn n\u1EB1m nguy\xEAn tr\xEAn m\xE1y.",
+    en: "Mini CRM is now a paid mini-app: buy it once and keep it, with 12 months of updates and Chatbot included. Mini CRM's AI runs while your Kallob account has bought it or is trying it with a code; your customers, orders and all your data stay on this computer."
+  },
+  {
+    version: "2.3.0",
+    vi: 'Trang Thanh to\xE1n th\xE0nh "Thanh to\xE1n & giao h\xE0ng": ph\xED giao, m\u1EE9c mi\u1EC5n ph\xED giao (t\xEDnh tr\xEAn ti\u1EC1n h\xE0ng), c\xF3 nh\u1EADn COD hay kh\xF4ng v\xE0 ghi ch\xFA giao h\xE0ng, \u0111\u1EB7t m\u1ED9t l\u1EA7n cho m\u1ECDi k\xEAnh b\xE1n. Chatbot b\xE1o ph\xED giao theo \u0111\xE2y v\xE0 trang \u0111\u1EB7t h\xE0ng c\u1EE7a Funnel Studio t\xEDnh ph\xED theo \u0111\xE2y, n\xEAn gi\xE1 b\xE1o trong chat kh\u1EDBp v\u1EDBi gi\xE1 tr\xEAn trang. T\xE0i kho\u1EA3n, COD v\xE0 ph\xED giao b\u1EA1n t\u1EEBng nh\u1EADp \u1EDF C\xE0i \u0111\u1EB7t c\u1EE7a Funnel Studio \u0111\u01B0\u1EE3c chuy\u1EC3n sang \u0111\xE2y m\u1ED9t l\u1EA7n, n\u1EBFu \u1EDF \u0111\xE2y ch\u01B0a \u0111i\u1EC1n.',
+    en: 'The Payment page becomes "Payment & delivery": the shipping fee, the free-shipping threshold (on the goods), whether COD is taken and a delivery note, set once for every selling channel. The Chatbot quotes shipping from here and Funnel Studio order pages charge it from here, so a price quoted in chat matches the page. The account, COD and shipping fee you entered in Funnel Studio settings are moved here once, where nothing was filled in yet.'
+  },
+  {
+    version: "2.2.0",
+    vi: 'N\xFAt "T\u1EA1o \u0111\u01A1n" tr\xEAn trang \u0110\u01A1n h\xE0ng v\xE0 trong tab Mua h\xE0ng c\u1EE7a kh\xE1ch: ghi \u0111\u01A1n b\u1EA1n t\u1EF1 ch\u1ED1t qua \u0111i\u1EC7n tho\u1EA1i, t\u1EA1i c\u1EEDa h\xE0ng hay b\u1EA5t c\u1EE9 \u0111\xE2u. Ch\u1ECDn kh\xE1ch, ch\u1ECDn m\xF3n t\u1EEB S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5, t\u1ED5ng ti\u1EC1n t\u1EF1 c\u1ED9ng theo gi\xE1 (s\u1EEDa \u0111\u01B0\u1EE3c n\u1EBFu c\xF3 ph\xED giao hay gi\u1EA3m gi\xE1), c\xE1ch nh\u1EADn h\xE0ng; \u0111\u01A1n m\u1EDF \u1EDF Ch\u1EDD ti\u1EC1n nh\u01B0 m\u1ECDi \u0111\u01A1n. Kh\xE1ch \u0111\u1EB7t th\xEAm m\u1ED9t \u0111\u01A1n qua trang b\xE1n h\xE0ng khi \u0111\u01A1n tr\u01B0\u1EDBc ch\u01B0a tr\u1EA3 ti\u1EC1n gi\u1EDD l\xE0 \u0111\u01A1n ri\xEAng, kh\xF4ng c\xF2n ghi \u0111\xE8 m\xF3n c\u1EE7a \u0111\u01A1n tr\u01B0\u1EDBc. S\u1ED1 \u0111i\u1EC7n tho\u1EA1i \u0111\u01B0\u1EE3c l\u01B0u m\u1ED9t ki\u1EC3u ("0912 345 678", "+84 912 345 678" \u0111\u1EC1u th\xE0nh 0912345678), n\xEAn th\xEAm kh\xE1ch b\u1EB1ng tay v\xE0 kh\xE1ch \u0111\u1EB7t qua trang \u0111\u01B0\u1EE3c nh\u1EADn l\xE0 m\u1ED9t ng\u01B0\u1EDDi; th\xEAm tr\xF9ng s\u1ED1 th\xEC Mini CRM n\xF3i r\xF5 kh\xE1ch n\xE0o \u0111\xE3 c\xF3 s\u1ED1 \u0111\xF3. C\xE1c nh\xE3n c\xF2n ti\u1EBFng Anh tr\xEAn T\u1ED5ng quan, S\u1EA3n ph\u1EA9m, Offers v\xE0 H\u01B0\u1EDBng d\u1EABn h\u1ED9i tho\u1EA1i \u0111\xE3 l\xE0 ti\u1EBFng Vi\u1EC7t.',
+    en: `"New order" on Orders and on a customer's Purchases tab: record an order you took yourself, by phone, in the shop or anywhere. Pick the customer, the items from Products & Services, a total added up from the prices (editable for delivery fees or discounts) and how it is received; it opens awaiting payment like any order. A customer who orders again on a sales page while an earlier order is unpaid now gets a second order instead of rewriting the first one's items. Phones are stored one way ("0912 345 678" and "+84 912 345 678" both become 0912345678), so a customer added by hand and the same person ordering on a page are one; adding a duplicate number names the customer who has it. The remaining English labels on Overview, Products, Offers and Conversation guides are in Vietnamese.`
+  },
   {
     version: "2.1.0",
     vi: "Personal Brand \u0111\u1ECDc \u0111\u01B0\u1EE3c s\u1ED1 li\u1EC7u theo s\u1EA3n ph\u1EA9m t\u1EEB Mini CRM cho k\u1EF3 \u0111\xE1nh gi\xE1: s\u1ED1 kh\xE1ch b\u1EAFt \u0111\u1EA7u v\u1EDBi s\u1EA3n ph\u1EA9m trong k\u1EF3 theo giai \u0111o\u1EA1n hi\u1EC7n t\u1EA1i, v\xE0 s\u1ED1 \u0111\u01A1n \u0111ang m\u1EDF, \u0111\xE3 thanh to\xE1n, \u0111\xE3 hu\u1EF7. Ch\u1EC9 l\xE0 s\u1ED1 \u0111\u1EBFm; kh\xF4ng c\xF3 th\xF4ng tin kh\xE1ch hay s\u1ED1 ti\u1EC1n n\xE0o r\u1EDDi Mini CRM.",
@@ -1081,11 +1106,47 @@ var journeys = {
   }
 };
 
+// src/mini-apps/crm/phone.ts
+function normalizeCrmPhone(value) {
+  const typed = String(value ?? "").trim();
+  const compact = typed.replace(/[\s.\-()]/g, "");
+  const local = /^\+84\d{8,10}$/.test(compact) ? `0${compact.slice(3)}` : /^84\d{9,10}$/.test(compact) ? `0${compact.slice(2)}` : compact;
+  return /^0\d{8,10}$/.test(local) ? local : typed;
+}
+
+// src/mini-apps/crm/server/migrations/0016-phones.ts
+var phones = {
+  id: "0016-phones",
+  up(db) {
+    const rows = db.prepare("SELECT id, payload_json FROM crm_customers WHERE json_extract(payload_json, '$.phone') != ''").all();
+    const save = db.prepare("UPDATE crm_customers SET payload_json = ? WHERE id = ?");
+    for (const row of rows) {
+      const payload = JSON.parse(row.payload_json);
+      const phone = normalizeCrmPhone(payload.phone);
+      if (phone !== payload.phone) save.run(JSON.stringify({ ...payload, phone }), row.id);
+    }
+  }
+};
+
+// src/mini-apps/crm/server/migrations/0017-delivery.ts
+var delivery = {
+  id: "0017-delivery",
+  up(db) {
+    db.exec(`
+      ALTER TABLE crm_payment ADD COLUMN shipping_fee INTEGER;
+      ALTER TABLE crm_payment ADD COLUMN free_shipping_from INTEGER;
+      ALTER TABLE crm_payment ADD COLUMN cod INTEGER NOT NULL DEFAULT 1;
+      ALTER TABLE crm_payment ADD COLUMN delivery_note TEXT NOT NULL DEFAULT '';
+      ALTER TABLE crm_payment ADD COLUMN delivery_set_at TEXT;
+    `);
+  }
+};
+
 // src/mini-apps/crm/server/migrations/index.ts
 var schema = {
   id: manifest.id,
   dependsOn: ["kernel"],
-  migrations: [baseline, softCrossAppReferences, conversationGuidesAndZalo, chatRecords, handoffs, ingest, selling, sellingCustomers, offers, hub, insights, portraits, seller, journeys]
+  migrations: [baseline, softCrossAppReferences, conversationGuidesAndZalo, chatRecords, handoffs, ingest, selling, sellingCustomers, offers, hub, insights, portraits, seller, journeys, phones, delivery]
 };
 
 // src/mini-apps/crm/server/offers/repository.ts
@@ -1705,7 +1766,7 @@ function normalizeCrmCustomerInput(input) {
     kind,
     name: boundedText(input.name, "CRM customer name", 200, true),
     companyName: kind === "business" ? boundedText(input.companyName ?? legacy.contactName, "CRM company name", 200) : "",
-    phone: boundedText(input.phone, "CRM customer phone", 80),
+    phone: normalizeCrmPhone(boundedText(input.phone, "CRM customer phone", 80)),
     email,
     preferredChannel,
     source: boundedText(input.source, "CRM customer source", 200),
@@ -1891,13 +1952,13 @@ var CrmStore = class {
   assertCrmCustomerDuplicate(input, excludeId) {
     if (!input.email && !input.phone) return;
     const duplicate = this.db.prepare(`
-      SELECT id FROM crm_customers
+      SELECT name, (? != '' AND json_extract(payload_json, '$.phone') = ?) AS same_phone FROM crm_customers
       WHERE archived_at IS NULL AND id != ? AND (
         (? != '' AND lower(json_extract(payload_json, '$.email')) = lower(?)) OR
         (? != '' AND json_extract(payload_json, '$.phone') = ?)
       ) LIMIT 1
-    `).get(excludeId ?? "", input.email, input.email, input.phone, input.phone);
-    if (duplicate) throw new Error("A CRM customer with this email or phone already exists");
+    `).get(input.phone, input.phone, excludeId ?? "", input.email, input.email, input.phone, input.phone);
+    if (duplicate) throw new Error(`\u0110\xE3 c\xF3 kh\xE1ch \u201C${duplicate.name}\u201D d\xF9ng ${duplicate.same_phone ? "s\u1ED1 \u0111i\u1EC7n tho\u1EA1i" : "email"} n\xE0y. M\u1EDF kh\xE1ch \u0111\xF3 trong Kh\xE1ch h\xE0ng thay v\xEC t\u1EA1o m\u1EDBi.`);
   }
   listCrmZaloIdentities(accountId) {
     return this.db.prepare("SELECT z.payload_json, z.customer_id, c.archived_at FROM crm_zalo_identities z JOIN crm_customers c ON c.id = z.customer_id WHERE z.account_id = ?").all(accountId).map((row) => ({ ...JSON.parse(row.payload_json), customerId: row.customer_id, archived: Boolean(row.archived_at) }));
@@ -3007,7 +3068,7 @@ function checkCrmIngestEvent(body) {
 }
 
 // src/mini-apps/crm/server/selling-customers.ts
-import { randomUUID as randomUUID5 } from "node:crypto";
+import { randomInt, randomUUID as randomUUID5 } from "node:crypto";
 
 // src/mini-apps/sdk/orders.ts
 var orderStatuses = [
@@ -3075,6 +3136,7 @@ var fulfillmentOf = (value) => ({
   time: text2(value?.time, 120),
   note: text2(value?.note, 600)
 });
+var CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 var quantityOf = (value) => Math.min(MAX_ORDER_QUANTITY, Math.max(1, Math.round(Number(value) || 1)));
 var card = (pair) => ({
   productId: pair.productId,
@@ -3134,6 +3196,18 @@ var CrmSellingCustomers = class {
   }
   openOrder(customerId) {
     const row = this.db.prepare("SELECT * FROM crm_orders WHERE customer_id = ? AND status = 'open' ORDER BY number DESC LIMIT 1").get(customerId);
+    return row ? order(row) : null;
+  }
+  /**
+   * The open order a selling conversation is making (2.2.0): the one with the code it gave, else the one its own
+   * conversation opened (a source without a conversation: the customer's). Each order page of a funnel is its own
+   * conversation, so a second purchase there is a second order, never a rewrite of the first.
+   */
+  makingOrder(customerId, code, source) {
+    const named = code ? this.order({ code }) : null;
+    if (named && named.customerId === customerId && isOpenOrder(named.status)) return named;
+    if (!source.conversationId) return this.openOrder(customerId);
+    const row = this.db.prepare(`SELECT * FROM crm_orders WHERE customer_id = ? AND status = 'open' AND json_extract(source_json, '$.app') IS ? AND json_extract(source_json, '$.conversationId') = ? ORDER BY number DESC LIMIT 1`).get(customerId, source.app ?? null, source.conversationId);
     return row ? order(row) : null;
   }
   order(ref) {
@@ -3247,7 +3321,7 @@ var CrmSellingCustomers = class {
    * cancelled order is never touched (a new purchase is a new order).
    */
   applyOrder(customerId, update, source, onSale2, running, refused) {
-    const current = this.openOrder(customerId);
+    const current = this.makingOrder(customerId, String(update.code ?? ""), source);
     if (update.action === "cancel") {
       if (!current) return null;
       if (current.reportedAt) {
@@ -3321,6 +3395,35 @@ var CrmSellingCustomers = class {
     for (const productId of new Set(order2.items.map((item) => item.productId))) this.journeys.back(order2.customerId, productId, "buy", "consider", by);
     return order2;
   }
+  /**
+   * "Tạo đơn" (2.2.0): an order the founder took themselves, by phone, in the shop, anywhere no app recorded it. Any
+   * product of the catalog (on sale or not), the total they agreed with the customer, how it is received. It opens
+   * waiting for the money like any order; its products are at Buy.
+   */
+  createByOperator(input) {
+    const customerId = text2(input.customerId, 100);
+    if (!this.customer(customerId)) throw new Error("Ch\u1ECDn kh\xE1ch c\u1EE7a \u0111\u01A1n.");
+    const items = [];
+    for (const raw of (Array.isArray(input.items) ? input.items : []).slice(0, MAX_ORDER_ITEMS)) {
+      const product = this.selling.product(text2(raw?.productId, 100));
+      if (!product) throw new Error("M\u1ED9t m\xF3n c\u1EE7a \u0111\u01A1n kh\xF4ng c\xF2n trong S\u1EA3n ph\u1EA9m & D\u1ECBch v\u1EE5.");
+      const note = text2(raw.note, 300);
+      const existing = items.find((line) => line.productId === product.id && line.note === note);
+      if (existing) existing.quantity = quantityOf(existing.quantity + quantityOf(raw.quantity));
+      else items.push({ productId: product.id, name: product.name, quantity: quantityOf(raw.quantity), note });
+    }
+    if (!items.length) throw new Error("Th\xEAm \xEDt nh\u1EA5t m\u1ED9t m\xF3n v\xE0o \u0111\u01A1n.");
+    const total = Math.round(Number(input.total) || 0);
+    if (total <= 0) throw new Error("Nh\u1EADp t\u1ED5ng ti\u1EC1n c\u1EE7a \u0111\u01A1n.");
+    let code = "";
+    do
+      code = `DH${Array.from({ length: 6 }, () => CODE_ALPHABET[randomInt(CODE_ALPHABET.length)]).join("")}`;
+    while (this.order({ code }));
+    const created = this.create(customerId, code, { app: "crm", channel: "manual", accountId: "", conversationId: `manual:${randomUUID5()}` });
+    const saved = this.save(created, { items, total, fulfillment: fulfillmentOf(input.fulfillment), by: "operator", created: true, stamp: "confirmed_at" });
+    this.journeys.raise(customerId, items.map((item) => item.productId), "buy", "operator", `Ch\u1EE7 t\u1EA1o \u0111\u01A1n ${code}.`);
+    return saved;
+  }
   /** An `order.changed` event: how to pay went out, the customer said they paid, or an operator says paid / cancelled. */
   change(customerId, payload) {
     const found = this.order({ code: payload.code });
@@ -3385,18 +3488,18 @@ var CrmIngest = class {
   selling;
   hub;
   /** The kernel's handler for `crm.ingest` (synchronous, inside the event's savepoint). */
-  handle = (delivery) => {
-    const check = checkCrmIngestEvent(delivery.body);
+  handle = (delivery2) => {
+    const check = checkCrmIngestEvent(delivery2.body);
     if (!check.ok) {
       if (check.kind === "unsupported") throw new Error(`Mini CRM cannot read ${check.reason} yet; update Mini CRM`);
-      return this.reject(delivery, check.reason);
+      return this.reject(delivery2, check.reason);
     }
     const event = check.event;
-    if (event.source.app !== delivery.producer) return this.reject(delivery, `source.app ${event.source.app} is not the producer ${delivery.producer}`);
+    if (event.source.app !== delivery2.producer) return this.reject(delivery2, `source.app ${event.source.app} is not the producer ${delivery2.producer}`);
     try {
       this.apply(event);
     } catch (error) {
-      if (error instanceof Rejected) return this.reject(delivery, error.message);
+      if (error instanceof Rejected) return this.reject(delivery2, error.message);
       throw error;
     }
   };
@@ -3450,7 +3553,8 @@ var CrmIngest = class {
     }
     for (const identity of event.subject.identities) {
       if (identity.scheme !== "phone" && identity.scheme !== "email") continue;
-      const matches = this.db.prepare(`SELECT id FROM crm_customers WHERE archived_at IS NULL AND ${identity.scheme === "email" ? "lower(json_extract(payload_json, '$.email')) = lower(?)" : "json_extract(payload_json, '$.phone') = ?"} LIMIT 2`).all(identity.value.trim()).map((row) => String(row.id));
+      const value = identity.scheme === "phone" ? normalizeCrmPhone(identity.value) : identity.value.trim();
+      const matches = this.db.prepare(`SELECT id FROM crm_customers WHERE archived_at IS NULL AND ${identity.scheme === "email" ? "lower(json_extract(payload_json, '$.email')) = lower(?)" : "json_extract(payload_json, '$.phone') = ?"} LIMIT 2`).all(value).map((row) => String(row.id));
       if (matches.length > 1) {
         const who = `${event.subject.displayName || identity.value} (${event.source.channel})`;
         const field2 = identity.scheme === "email" ? "email" : "s\u1ED1 \u0111i\u1EC7n tho\u1EA1i";
@@ -3488,7 +3592,8 @@ var CrmIngest = class {
     }
     const channel = event.source.channel;
     const contact = (scheme) => {
-      const value = event.subject.identities.find((identity2) => identity2.scheme === scheme)?.value.trim() ?? "";
+      const given = event.subject.identities.find((identity2) => identity2.scheme === scheme)?.value.trim() ?? "";
+      const value = scheme === "phone" ? normalizeCrmPhone(given) : given;
       const taken = value && this.db.prepare(`SELECT 1 FROM crm_customers WHERE archived_at IS NULL AND ${scheme === "email" ? "lower(json_extract(payload_json, '$.email')) = lower(?)" : "json_extract(payload_json, '$.phone') = ?"} LIMIT 1`).get(value);
       return taken ? "" : value;
     };
@@ -3678,8 +3783,8 @@ var CrmIngest = class {
   ring(key, title, body, customerId) {
     this.sdk.attention.request({ key, kind: "problem", taskId: null, title, body, target: { miniApp: { id: "crm", section: "customers", ...customerId ? { item: customerId } : {} } } });
   }
-  reject(delivery, reason) {
-    this.sdk.events.addEvent({ level: "failed", eventType: "crm.ingest.rejected", title: "Mini CRM b\u1ECF qua m\u1ED9t s\u1EF1 ki\u1EC7n", detail: `${delivery.producer} \xB7 ${delivery.id}: ${reason}`.slice(0, 2e3) });
+  reject(delivery2, reason) {
+    this.sdk.events.addEvent({ level: "failed", eventType: "crm.ingest.rejected", title: "Mini CRM b\u1ECF qua m\u1ED9t s\u1EF1 ki\u1EC7n", detail: `${delivery2.producer} \xB7 ${delivery2.id}: ${reason}`.slice(0, 2e3) });
   }
 };
 var CUSTOMER_SCHEME = "crm:customer";
@@ -4344,7 +4449,7 @@ function createCrmHubRouter(router, store, hub2, db, profiles, calendar) {
 // src/mini-apps/crm/server/profile.ts
 var now6 = () => (/* @__PURE__ */ new Date()).toISOString();
 var clip2 = (value, max) => String(value ?? "").trim().slice(0, max);
-var money = (amount) => `${String(Math.round(amount)).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}\u0111`;
+var money = (amount2) => `${String(Math.round(amount2)).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}\u0111`;
 var dayMonth = (iso) => {
   const date = new Date(iso);
   return `${date.getDate()}/${date.getMonth() + 1}`;
@@ -4881,6 +4986,10 @@ var VIET_BANKS = [
 ];
 var bankName = (bin) => VIET_BANKS.find((bank) => bank.bin === bin)?.name ?? "";
 
+// src/mini-apps/sdk/delivery.ts
+var defaultDelivery = () => ({ fee: null, freeFrom: null, cod: true, note: "" });
+var MAX_DELIVERY_AMOUNT = 1e8;
+
 // src/mini-apps/crm/server/selling.ts
 var now7 = () => (/* @__PURE__ */ new Date()).toISOString();
 var DAY4 = /^\d{4}-\d{2}-\d{2}$/;
@@ -4890,6 +4999,19 @@ function field(value, label, max, required = false) {
   if (required && !result) throw new Error(`H\xE3y \u0111i\u1EC1n ${label.toLocaleLowerCase("vi")}.`);
   if (result.length > max) throw new Error(`${label} d\xE0i qu\xE1 ${max} k\xFD t\u1EF1.`);
   return result;
+}
+function amount(value, label, min) {
+  if (value === null || value === void 0 || value === "") return null;
+  const result = typeof value === "number" ? value : Number.NaN;
+  if (!Number.isInteger(result) || result < min || result > MAX_DELIVERY_AMOUNT) throw new Error(`${label} ph\u1EA3i l\xE0 s\u1ED1 ti\u1EC1n t\u1EEB ${min.toLocaleString("vi-VN")}\u0111 \u0111\u1EBFn 100.000.000\u0111.`);
+  return result;
+}
+function deliveryRule(value, current) {
+  const next = { ...current, ...value };
+  const fee = amount(next.fee, "Ph\xED giao", 0);
+  const freeFrom = fee ? amount(next.freeFrom, "M\u1EE9c mi\u1EC5n ph\xED giao", 1) : null;
+  if (typeof next.cod !== "boolean") throw new Error("Ch\u1ECDn c\xF3 nh\u1EADn COD hay kh\xF4ng.");
+  return { fee, freeFrom, cod: next.cod, note: field(next.note, "Ghi ch\xFA giao h\xE0ng", 300) };
 }
 function day2(value, label) {
   const result = field(value, label, 10);
@@ -5042,13 +5164,16 @@ var CrmSelling = class {
   // Payment ------------------------------------------------------------------
   getPayment() {
     const row = this.db.prepare("SELECT * FROM crm_payment WHERE id = 'main'").get();
-    return { method: row?.method === "qr" ? "qr" : "account", bankBin: String(row?.bank_bin || ""), accountNumber: String(row?.account_number || ""), accountName: String(row?.account_name || ""), note: String(row?.note || ""), qrImage: String(row?.qr_image || ""), revision: Number(row?.revision ?? 0), updatedAt: row?.updated_at ? String(row.updated_at) : null };
+    const set = row?.delivery_set_at ? String(row.delivery_set_at) : null;
+    const delivery2 = set ? { fee: row.shipping_fee === null ? null : Number(row.shipping_fee), freeFrom: row.free_shipping_from === null ? null : Number(row.free_shipping_from), cod: Boolean(row.cod), note: String(row.delivery_note || "") } : defaultDelivery();
+    return { method: row?.method === "qr" ? "qr" : "account", bankBin: String(row?.bank_bin || ""), accountNumber: String(row?.account_number || ""), accountName: String(row?.account_name || ""), note: String(row?.note || ""), qrImage: String(row?.qr_image || ""), delivery: delivery2, deliverySetAt: set, revision: Number(row?.revision ?? 0), updatedAt: row?.updated_at ? String(row.updated_at) : null };
   }
   /**
    * Saves it over the revision the founder saw. One way is used: an account
    * (a known bank, an account of digits, a holder) a seller writes out, or the
    * bank's QR picture (PNG or JPEG under 2 MB) a seller sends; the other way's
-   * details are kept for switching back. A note goes with either.
+   * details are kept for switching back. A note goes with either. The
+   * delivery rule (2.3.0) is saved when the input has one.
    */
   savePayment(input, revision) {
     const current = this.getPayment();
@@ -5064,10 +5189,43 @@ var CrmSelling = class {
     const note = field(input.note ?? current.note, "Ghi ch\xFA thanh to\xE1n", 500);
     const qrImage = String(input.qrImage ?? current.qrImage);
     if (qrImage && (!/^data:image\/(png|jpeg);base64,[A-Za-z0-9+/=]+$/.test(qrImage) || qrImage.length > 28e5)) throw new Error("\u1EA2nh QR ph\u1EA3i l\xE0 PNG ho\u1EB7c JPEG, d\u01B0\u1EDBi 2 MB.");
+    if (input.delivery !== void 0 && (typeof input.delivery !== "object" || input.delivery === null)) throw new Error("Quy \u0111\u1ECBnh giao h\xE0ng kh\xF4ng h\u1EE3p l\u1EC7.");
+    const delivery2 = input.delivery ? deliveryRule(input.delivery, current.delivery) : current.delivery;
     const at = now7();
-    this.db.prepare(`INSERT INTO crm_payment (id, method, bank_bin, account_number, account_name, note, qr_image, revision, updated_at) VALUES ('main', ?, ?, ?, ?, ?, ?, 1, ?)
-      ON CONFLICT(id) DO UPDATE SET method = excluded.method, bank_bin = excluded.bank_bin, account_number = excluded.account_number, account_name = excluded.account_name, note = excluded.note, qr_image = excluded.qr_image, revision = crm_payment.revision + 1, updated_at = excluded.updated_at`).run(method, bankBin, accountNumber, accountName.toLocaleUpperCase("vi"), note, qrImage, at);
+    const deliverySetAt = input.delivery ? at : current.deliverySetAt;
+    this.db.prepare(`INSERT INTO crm_payment (id, method, bank_bin, account_number, account_name, note, qr_image, shipping_fee, free_shipping_from, cod, delivery_note, delivery_set_at, revision, updated_at) VALUES ('main', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
+      ON CONFLICT(id) DO UPDATE SET method = excluded.method, bank_bin = excluded.bank_bin, account_number = excluded.account_number, account_name = excluded.account_name, note = excluded.note, qr_image = excluded.qr_image,
+        shipping_fee = excluded.shipping_fee, free_shipping_from = excluded.free_shipping_from, cod = excluded.cod, delivery_note = excluded.delivery_note, delivery_set_at = excluded.delivery_set_at, revision = crm_payment.revision + 1, updated_at = excluded.updated_at`).run(method, bankBin, accountNumber, accountName.toLocaleUpperCase("vi"), note, qrImage, delivery2.fee, delivery2.freeFrom, delivery2.cod ? 1 : 0, delivery2.note, deliverySetAt, at);
     return this.getPayment();
+  }
+  /**
+   * An older Funnel Studio's own payment and delivery (2.3.0), taken once:
+   * the delivery rule only while Mini CRM's was never saved, the account only
+   * while no way to be paid is filled in. Anything invalid is left out.
+   */
+  adoptShopSettings(input) {
+    const current = this.getPayment();
+    const taken = { delivery: false, account: false };
+    const next = {};
+    if (input.delivery && !current.deliverySetAt) {
+      try {
+        next.delivery = deliveryRule(input.delivery, current.delivery);
+        taken.delivery = true;
+      } catch {
+      }
+    }
+    const account = input.account;
+    if (account && !this.paymentReady(current) && account.accountNumber && VIET_BANKS.some((bank) => bank.bin === account.bankBin)) {
+      Object.assign(next, { method: "account", bankBin: account.bankBin, accountNumber: account.accountNumber, accountName: account.accountName });
+      taken.account = true;
+    }
+    if (!taken.delivery && !taken.account) return taken;
+    try {
+      this.savePayment(next, current.revision);
+    } catch {
+      return { delivery: false, account: false };
+    }
+    return taken;
   }
   /** Whether the way the shop chose to be paid is filled in. */
   paymentReady(payment = this.getPayment()) {
@@ -5129,6 +5287,11 @@ var CrmSelling = class {
         if (!this.paymentReady(settings)) return null;
         return settings.method === "qr" ? { method: "qr", bankBin: "", bankName: "", accountNumber: "", accountName: "", note: settings.note } : { method: "account", bankBin: settings.bankBin, bankName: bankName(settings.bankBin), accountNumber: settings.accountNumber, accountName: settings.accountName, note: settings.note };
       },
+      delivery: () => {
+        const settings = this.getPayment();
+        return { ...settings.delivery, set: Boolean(settings.deliverySetAt) };
+      },
+      adoptShopSettings: (input) => this.adoptShopSettings(input),
       paymentQr: () => {
         const settings = this.getPayment();
         const match = settings.method === "qr" ? /^data:image\/(png|jpeg);base64,(.+)$/.exec(settings.qrImage) : null;
@@ -5198,6 +5361,7 @@ function createCrmSellingRouter(selling2, router, customers) {
         next(error);
       }
     });
+    router.post("/api/crm/orders", send((request) => customers.createByOperator(request.body ?? {}), 201));
     router.post("/api/crm/orders/:id/paid", send((request) => customers.markPaid(String(request.params.id), optionalRevision(request))));
     router.post("/api/crm/orders/:id/cancel", send((request) => customers.cancel(String(request.params.id), optionalRevision(request))));
   }

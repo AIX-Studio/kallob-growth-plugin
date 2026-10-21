@@ -1,7 +1,7 @@
 {
   "id": "image-studio",
   "version": "1.9.0",
-  "buildId": "3ff2211-mvg93xim",
+  "buildId": "f98b878-mvi7mr0o",
   "requiresCore": ">=2.22.0 <3",
   "exports": {
     "image-studio.requests": "1.1"
