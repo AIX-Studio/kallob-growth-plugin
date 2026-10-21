@@ -1,7 +1,7 @@
 {
   "id": "library",
   "version": "1.0.0",
-  "buildId": "f98b878-mvi7sqkp",
+  "buildId": "87e3a75-mvi8d2fz",
   "requiresCore": ">=2.8.0 <3",
   "exports": {
     "library.assets": "1.0"

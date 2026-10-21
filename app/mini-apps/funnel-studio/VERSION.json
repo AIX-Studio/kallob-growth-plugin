@@ -1,7 +1,7 @@
 {
   "id": "funnel-studio",
   "version": "2.7.0",
-  "buildId": "f98b878-mvi7rgpy",
+  "buildId": "87e3a75-mvi8bkwq",
   "requiresCore": ">=2.28.0 <3",
   "exports": {
     "funnel-studio.funnels": "1.0",

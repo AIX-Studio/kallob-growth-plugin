@@ -82035,8 +82035,8 @@ var DEV_REQUIRED_ENV = ["PORT", "KGS_ROOT", "KALLOB_CLOUD_API_ORIGIN"];
 function missingDevEnvironment(env = process.env) {
   return pluginBundle ? [] : DEV_REQUIRED_ENV.filter((name3) => !env[name3]?.trim());
 }
-var buildId = true ? "f98b878-mvi7mo0u" : "source";
-var studioVersion = true ? "0.58.2" : "source";
+var buildId = true ? "87e3a75-mvi866d9" : "source";
+var studioVersion = true ? "0.58.3" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/server/integrations/keychain.ts
@@ -99579,7 +99579,7 @@ init_define_KGS_CORE_CONTENT();
 
 // src/server/kernel/manifest.ts
 init_define_KGS_CORE_CONTENT();
-var kernelManifest = { id: "kernel", version: "2.36.2" };
+var kernelManifest = { id: "kernel", version: "2.36.3" };
 
 // src/server/kernel/migrations/0001-baseline.ts
 init_define_KGS_CORE_CONTENT();
@@ -101103,7 +101103,8 @@ import path13 from "node:path";
 init_define_KGS_CORE_CONTENT();
 var ALWAYS_OPEN_APPS = ["brand-profile", "library"];
 function appAccess(listing, id2, allOpen = false, now3 = Date.now()) {
-  if (allOpen || ALWAYS_OPEN_APPS.includes(id2) || !listing) return "open";
+  if (allOpen || ALWAYS_OPEN_APPS.includes(id2)) return "open";
+  if (!listing) return "not_connected";
   const app3 = listing.find((candidate) => candidate.id === id2);
   if (!app3) return "not_listed";
   if (app3.status === "coming_soon") return "coming_soon";
@@ -101112,6 +101113,7 @@ function appAccess(listing, id2, allOpen = false, now3 = Date.now()) {
   return "open";
 }
 function appRefusal(access) {
+  if (access === "not_connected") return { code: "not_connected", error: "K\u1EBFt n\u1ED1i Kallob \u0111\u1EC3 d\xF9ng mini-app n\xE0y: v\xE0o Thi\u1EBFt l\u1EADp \u2192 K\u1EBFt n\u1ED1i Kallob. D\u1EEF li\u1EC7u c\u0169 c\u1EE7a b\u1EA1n v\u1EABn c\xF2n nguy\xEAn." };
   if (access === "coming_soon") return { code: "coming_soon", error: "Mini-app n\xE0y s\u1EAFp ra m\u1EAFt, ch\u01B0a d\xF9ng \u0111\u01B0\u1EE3c. D\u1EEF li\u1EC7u c\u0169 c\u1EE7a b\u1EA1n v\u1EABn c\xF2n nguy\xEAn." };
   if (access === "locked") return { code: "locked", error: "Mini-app n\xE0y ch\u01B0a m\u1EDF cho t\xE0i kho\u1EA3n c\u1EE7a b\u1EA1n: v\xE0o Mini-apps \u0111\u1EC3 mua ho\u1EB7c nh\u1EADp m\xE3 d\xF9ng th\u1EED. D\u1EEF li\u1EC7u c\u0169 c\u1EE7a b\u1EA1n v\u1EABn c\xF2n nguy\xEAn." };
   return { code: "not_open", error: "Mini-app n\xE0y ch\u01B0a m\u1EDF tr\xEAn Kallob. D\u1EEF li\u1EC7u c\u0169 c\u1EE7a b\u1EA1n v\u1EABn c\xF2n nguy\xEAn." };
@@ -129198,6 +129200,11 @@ function scopedSecrets(store3, id2) {
 
 // src/server/release-notes.json
 var release_notes_default = [
+  {
+    version: "0.58.3",
+    vi: "Ch\u01B0a k\u1EBFt n\u1ED1i Kallob th\xEC mini-app ch\u01B0a m\u1EDF: trang Mini-apps v\xE0 t\u1EEBng mini-app hi\u1EC7n n\xFAt K\u1EBFt n\u1ED1i Kallob ngay t\u1EA1i ch\u1ED7 (Brand Profile v\xE0 Th\u01B0 vi\u1EC7n v\u1EABn m\u1EDF). Growth Studio lu\xF4n m\u1EDF b\u1EB1ng ti\u1EBFng Vi\u1EC7t, tr\u1EEB khi b\u1EA1n t\u1EF1 ch\u1ECDn ti\u1EBFng Anh.",
+    en: "Mini-apps open once Kallob is connected: Mini-apps and each mini-app show Connect Kallob right there (Brand Profile and the Library stay open). Growth Studio opens in Vietnamese unless you pick English."
+  },
   {
     version: "0.58.2",
     vi: 'Windows k\u1EBFt n\u1ED1i \u0111\u01B0\u1EE3c Kallob: th\xF4ng tin \u0111\u0103ng nh\u1EADp \u0111\u01B0\u1EE3c kho\xE1 b\u1EB1ng Windows, kh\xF4ng c\xF2n b\xE1o "ch\u1EC9 c\xF3 tr\xEAn macOS". L\u1EA7n \u0111\u1EA7u m\u1EDF Growth Studio hi\u1EC7n ti\u1EBFng Vi\u1EC7t.',
