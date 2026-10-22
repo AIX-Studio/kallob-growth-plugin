@@ -20,7 +20,7 @@ var port = Number(process.env.PORT ?? (pluginBundle ? 8795 : 8790));
 var production = pluginBundle || process.env.KGS_MODE === "production";
 var devEntitlementsOpen = !production && process.env.KGS_DEV_ENTITLEMENTS === "all";
 var mcpServerName = pluginBundle ? "kallob-growth" : "kallob-growth-dev";
-var buildId = true ? "87e3a75-mvi866d9" : "source";
+var buildId = true ? "3f60db9-mvjaj06d" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/plugin/app-versions.ts

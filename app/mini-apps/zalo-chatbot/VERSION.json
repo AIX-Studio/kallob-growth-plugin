@@ -1,7 +1,7 @@
 {
   "id": "zalo-chatbot",
   "version": "2.4.1",
-  "buildId": "87e3a75-mvi891xi",
+  "buildId": "3f60db9-mvjalq17",
   "requiresCore": ">=2.28.0 <3",
   "exports": {
     "zalo-chatbot.crm-history": "1.0"

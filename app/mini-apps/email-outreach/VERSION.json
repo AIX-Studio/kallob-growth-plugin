@@ -1,7 +1,7 @@
 {
   "id": "email-outreach",
   "version": "1.4.0",
-  "buildId": "87e3a75-mvi8dk5i",
+  "buildId": "3f60db9-mvjap39q",
   "requiresCore": ">=2.30.0 <3",
   "exports": {},
   "requires": {

@@ -1,7 +1,7 @@
 {
   "id": "asset-studio",
   "version": "0.6.0",
-  "buildId": "87e3a75-mvi8c3kg",
+  "buildId": "3f60db9-mvjanz31",
   "requiresCore": ">=2.31.0 <3",
   "exports": {
     "asset-studio.material-sources": "1.0"

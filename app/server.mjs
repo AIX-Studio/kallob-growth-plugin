@@ -82035,8 +82035,8 @@ var DEV_REQUIRED_ENV = ["PORT", "KGS_ROOT", "KALLOB_CLOUD_API_ORIGIN"];
 function missingDevEnvironment(env = process.env) {
   return pluginBundle ? [] : DEV_REQUIRED_ENV.filter((name3) => !env[name3]?.trim());
 }
-var buildId = true ? "87e3a75-mvi866d9" : "source";
-var studioVersion = true ? "0.58.3" : "source";
+var buildId = true ? "3f60db9-mvjaj06d" : "source";
+var studioVersion = true ? "0.58.4" : "source";
 var cloudApiOrigin = new URL(process.env.KALLOB_CLOUD_API_ORIGIN ?? "https://api.kallob.net").origin;
 
 // src/server/integrations/keychain.ts
@@ -83227,6 +83227,10 @@ function studioSection(sections, savedId, name3) {
   return sections.find((section) => section.name.trim() === name3)?.id ?? null;
 }
 var ANALYSIS_STEPS = ["knowledge", "kgs", "internet", "synthesis"];
+function codexOpenCommand(link, options) {
+  if (options.platform === "win32") return ["powershell.exe", ["-NoProfile", "-NonInteractive", "-Command", `Start-Process '${link.replaceAll("'", "''")}'`]];
+  return [options.openBinary, [...options.background ? ["-g"] : [], "-b", options.bundleId, link]];
+}
 function isCodexProcess(pid) {
   if (!pid) return false;
   try {
@@ -83595,6 +83599,9 @@ var CodexDesktopBridge = class {
   bootstrapTimeoutMs;
   bundleId;
   openBinary;
+  /** A test's own `openBinary`: used on every platform. */
+  customOpen;
+  platform;
   configOverrides;
   enableSearch;
   mcpServer;
@@ -83611,6 +83618,8 @@ var CodexDesktopBridge = class {
     this.bootstrapTimeoutMs = options.bootstrapTimeoutMs ?? 18e4;
     this.bundleId = options.bundleId ?? "com.openai.codex";
     this.openBinary = options.openBinary ?? "open";
+    this.customOpen = options.openBinary !== void 0;
+    this.platform = options.platform ?? process.platform;
     this.configOverrides = options.configOverrides ?? [];
     this.enableSearch = options.enableSearch ?? false;
     this.mcpServer = options.mcpServer ?? "kallob-growth";
@@ -83869,7 +83878,7 @@ var CodexDesktopBridge = class {
     const opener = options.returnFocus ? await this.returnThread(validId) : null;
     const before = opener && opener !== validId ? options.sinceTurnId !== void 0 ? { turnId: options.sinceTurnId } : await this.latestTurn(validId) : null;
     if (options.returnFocus) console.info(`Codex task ${validId}: opened by Studio; front app ${previous ?? "unknown"}; returns to ${opener ?? "no known conversation"} once it starts`);
-    const completed = await runProcess(this.openBinary, [...options.bringToFront ? [] : ["-g"], "-b", this.bundleId, deepLink.toString()], { timeoutMs: this.timeoutMs });
+    const completed = await this.openDeepLink(deepLink.toString(), { background: !options.bringToFront });
     if (completed.exitCode !== 0) throw new CodexDesktopError("\u0110\xE3 g\u1EEDi vi\u1EC7c cho Codex nh\u01B0ng ch\u01B0a m\u1EDF \u0111\u01B0\u1EE3c \u1EE9ng d\u1EE5ng ChatGPT (Codex). M\u1EDF \u1EE9ng d\u1EE5ng \u0111\u1EC3 xem.");
     if (previous && previous !== this.bundleId && this.focusRestore) {
       await new Promise((resolve3) => setTimeout(resolve3, this.focusRestore.delayMs));
@@ -83877,6 +83886,16 @@ var CodexDesktopBridge = class {
     }
     if (opener && opener !== validId) void this.returnToOpener(validId, opener, before?.turnId ?? null).catch(() => void 0);
     return true;
+  }
+  /**
+   * Hands a `codex://` link to the Codex app. macOS: `open -b <bundle>` (`-g`
+   * without activating). Windows has no `open` (21/10: every Codex task
+   * failed there with "chưa mở được ứng dụng"): PowerShell `Start-Process`
+   * hands it to the app registered for `codex://`, and fails when none is.
+   */
+  openDeepLink(link, options) {
+    const [command2, args] = codexOpenCommand(link, { ...options, platform: this.customOpen ? "darwin" : this.platform, openBinary: this.openBinary, bundleId: this.bundleId });
+    return runProcess(command2, args, { timeoutMs: this.timeoutMs });
   }
   /**
    * Remembers the Codex conversation the founder opened Studio from (the
@@ -83927,7 +83946,7 @@ var CodexDesktopBridge = class {
       await new Promise((resolve3) => setTimeout(resolve3, this.returnWatch.pollMs));
       const turn = await this.latestTurn(taskThreadId);
       if (turn && turn.turnId !== beforeTurnId && turn.itemCount > 0) {
-        await runProcess(this.openBinary, ["-g", "-b", this.bundleId, `codex://threads/${opener}`], { timeoutMs: this.timeoutMs });
+        await this.openDeepLink(`codex://threads/${opener}`, { background: true });
         console.info(`Codex task ${taskThreadId} started; brought back conversation ${opener}`);
         return true;
       }
@@ -99579,7 +99598,7 @@ init_define_KGS_CORE_CONTENT();
 
 // src/server/kernel/manifest.ts
 init_define_KGS_CORE_CONTENT();
-var kernelManifest = { id: "kernel", version: "2.36.3" };
+var kernelManifest = { id: "kernel", version: "2.36.4" };
 
 // src/server/kernel/migrations/0001-baseline.ts
 init_define_KGS_CORE_CONTENT();
@@ -129201,6 +129220,11 @@ function scopedSecrets(store3, id2) {
 // src/server/release-notes.json
 var release_notes_default = [
   {
+    version: "0.58.4",
+    vi: "Ch\u01B0a k\u1EBFt n\u1ED1i Kallob th\xEC m\u1ECDi trang \u0111\u1EC1u c\xF3 n\xFAt K\u1EBFt n\u1ED1i Kallob; trang Mini-apps m\u1EDF \u0111\u1EA7u b\u1EB1ng ph\u1EA7n k\u1EBFt n\u1ED1i. K\u1EBFt n\u1ED1i xong, Studio \u0111\u01B0a b\u1EA1n v\u1EC1 Mini-apps. Tr\xEAn Windows, Studio m\u1EDF \u0111\u01B0\u1EE3c vi\u1EC7c c\u1EE7a Codex (v\xED d\u1EE5 k\u1EBFt n\u1ED1i Facebook Page). N\xFAt B\xE1o l\u1ED7i d\u1EABn \u0111\xFAng trang h\u1ED7 tr\u1EE3.",
+    en: "Without a Kallob connection every page offers Connect Kallob, and Mini-apps starts with it; once connected Studio takes you to Mini-apps. On Windows, Studio can open Codex tasks (e.g. connecting a Facebook Page). Report a problem links to the right support page."
+  },
+  {
     version: "0.58.3",
     vi: "Ch\u01B0a k\u1EBFt n\u1ED1i Kallob th\xEC mini-app ch\u01B0a m\u1EDF: trang Mini-apps v\xE0 t\u1EEBng mini-app hi\u1EC7n n\xFAt K\u1EBFt n\u1ED1i Kallob ngay t\u1EA1i ch\u1ED7 (Brand Profile v\xE0 Th\u01B0 vi\u1EC7n v\u1EABn m\u1EDF). Growth Studio lu\xF4n m\u1EDF b\u1EB1ng ti\u1EBFng Vi\u1EC7t, tr\u1EEB khi b\u1EA1n t\u1EF1 ch\u1ECDn ti\u1EBFng Anh.",
     en: "Mini-apps open once Kallob is connected: Mini-apps and each mini-app show Connect Kallob right there (Brand Profile and the Library stay open). Growth Studio opens in Vietnamese unless you pick English."
@@ -129771,7 +129795,7 @@ app2.post("/api/kallob-cloud/connect", (_request, response, next) => {
 app2.get("/api/kallob-cloud/callback", (request2, response) => {
   const code = String(request2.query.code ?? "");
   const state = String(request2.query.state ?? "");
-  const done = (outcome) => response.redirect(`/?view=settings&kallob=${outcome}`);
+  const done = (outcome) => response.redirect(`/?view=mini-apps&kallob=${outcome}`);
   if (request2.query.error || !code || !state) return done("cancelled");
   kallobCloud.completeConnect(code, state).then(() => {
     methodPrompts.clear();
